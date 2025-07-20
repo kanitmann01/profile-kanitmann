@@ -29,7 +29,7 @@ export default function CaseStudies() {
       href: "/case-studies/titanic",
       status: "Live",
       github: "https://github.com/kanitmann01/titanic_survivor_web_app",
-      demo: "https://titanic-survival-predictor.herokuapp.com",
+      demo: "https://web-production-db6b.up.railway.app/",
     },
     {
       title: "The Echo Effect: WTO Accession Impact Analysis",
