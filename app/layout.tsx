@@ -13,7 +13,6 @@ import "@/public/favicon-32x32.png"
 import "@/public/apple-touch-icon.png"
 import "@/public/android-chrome-192x192.png"
 import "@/public/android-chrome-512x512.png"
-import "@/public/site.webmanifest"
 
 const inter = Inter({ subsets: ["latin"] })
 

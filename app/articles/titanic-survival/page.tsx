@@ -82,8 +82,8 @@ export default function TitanicArticle() {
           }}
         />
       </Head>
-      <div className="min-h-screen bg-background py-20 px-6">
-        <div className="container mx-auto max-w-4xl">
+      <div className="min-h-screen bg-background py-8 px-2 sm:py-12 sm:px-6">
+        <div className="container mx-auto max-w-4xl w-full">
         {/* Header */}
         <FadeIn className="mb-16">
           <header>
@@ -94,8 +94,8 @@ export default function TitanicArticle() {
               <Clock className="h-4 w-4" />
               <span>8 min read</span>
             </div>
-            <h1 className="text-5xl font-bold text-foreground mb-6">Would You Have Survived the Titanic?</h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">Would You Have Survived the Titanic?</h1>
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
               What this historic disaster reveals about inequality, decision-making, and leadership under pressure.
             </p>
           </header>
@@ -122,7 +122,7 @@ export default function TitanicArticle() {
 
         {/* Data Visualization Section */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Demographics Trumped Decisions</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">Demographics Trumped Decisions</h2>
           <p className="text-muted-foreground mb-8">
             The data reveals clear patterns in survival rates based on passenger demographics. Using machine learning analysis, 
             we can see how gender, class, and age significantly influenced who survived the Titanic disaster.
@@ -130,10 +130,57 @@ export default function TitanicArticle() {
 
           {/* Gender Chart */}
           <SlideIn direction="left" className="mb-12">
-            <h3 className="text-xl font-semibold mb-4">Titanic Survival by Gender</h3>
-            <ScaleOnHover>
-              <Card>
-                <CardContent className="pt-6">
+            <h3 className="text-lg sm:text-xl font-semibold mb-4">Titanic Survival by Gender</h3>
+            <div className="w-full max-w-full overflow-x-auto">
+              <ScaleOnHover>
+                <Card className="w-full max-w-full">
+                  <CardContent className="pt-6 w-full max-w-full">
+                    <ChartContainer
+                      config={{
+                        survived: {
+                          label: "Survived",
+                          color: "hsl(142, 76%, 36%)",
+                        },
+                        died: {
+                          label: "Died",
+                          color: "hsl(0, 84%, 60%)",
+                        },
+                      }}
+                      className="h-[300px] sm:h-[350px] min-w-[320px] w-full max-w-full"
+                    >
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={genderData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis 
+                            dataKey="category" 
+                            angle={-45}
+                            textAnchor="end"
+                            height={80}
+                            tick={{ fontSize: 12 }}
+                          />
+                          <YAxis tick={{ fontSize: 12 }} />
+                          <ChartTooltip content={<ChartTooltipContent />} />
+                          <Legend wrapperStyle={{ paddingTop: 20 }} />
+                          <Bar dataKey="survived" fill="var(--color-survived)" name="Survived" />
+                          <Bar dataKey="died" fill="var(--color-died)" name="Died" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Women had a 74.2% survival rate compared to just 18.9% for men
+                    </p>
+                  </CardContent>
+                </Card>
+              </ScaleOnHover>
+            </div>
+          </SlideIn>
+
+          {/* Class Chart */}
+          <div className="mb-12">
+            <h3 className="text-lg sm:text-xl font-semibold mb-4">Titanic Survival by Passenger Class</h3>
+            <div className="w-full max-w-full overflow-x-auto">
+              <Card className="w-full max-w-full">
+                <CardContent className="pt-6 w-full max-w-full">
                   <ChartContainer
                     config={{
                       survived: {
@@ -145,100 +192,77 @@ export default function TitanicArticle() {
                         color: "hsl(0, 84%, 60%)",
                       },
                     }}
-                    className="h-[300px]"
+                    className="h-[300px] sm:h-[350px] min-w-[320px] w-full max-w-full"
                   >
                     <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={genderData}>
+                      <BarChart data={classData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="category" />
-                        <YAxis />
+                        <XAxis 
+                          dataKey="category" 
+                          angle={-45}
+                          textAnchor="end"
+                          height={80}
+                          tick={{ fontSize: 12 }}
+                        />
+                        <YAxis tick={{ fontSize: 12 }} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend />
+                        <Legend wrapperStyle={{ paddingTop: 20 }} />
                         <Bar dataKey="survived" fill="var(--color-survived)" name="Survived" />
                         <Bar dataKey="died" fill="var(--color-died)" name="Died" />
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Women had a 74.2% survival rate compared to just 18.9% for men
+                    First-class passengers had a 63% survival rate, while third-class had only 24.2%
                   </p>
                 </CardContent>
               </Card>
-            </ScaleOnHover>
-          </SlideIn>
-
-          {/* Class Chart */}
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold mb-4">Titanic Survival by Passenger Class</h3>
-            <Card>
-              <CardContent className="pt-6">
-                <ChartContainer
-                  config={{
-                    survived: {
-                      label: "Survived",
-                      color: "hsl(142, 76%, 36%)",
-                    },
-                    died: {
-                      label: "Died",
-                      color: "hsl(0, 84%, 60%)",
-                    },
-                  }}
-                  className="h-[300px]"
-                >
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={classData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="category" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Legend />
-                      <Bar dataKey="survived" fill="var(--color-survived)" name="Survived" />
-                      <Bar dataKey="died" fill="var(--color-died)" name="Died" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-                <p className="text-sm text-muted-foreground mt-2">
-                  First-class passengers had a 63% survival rate, while third-class had only 24.2%
-                </p>
-              </CardContent>
-            </Card>
+            </div>
           </div>
 
           {/* Age Chart */}
           <div className="mb-12">
-            <h3 className="text-xl font-semibold mb-4">Titanic Survival by Age Group</h3>
-            <Card>
-              <CardContent className="pt-6">
-                <ChartContainer
-                  config={{
-                    survived: {
-                      label: "Survived",
-                      color: "hsl(142, 76%, 36%)",
-                    },
-                    died: {
-                      label: "Died",
-                      color: "hsl(0, 84%, 60%)",
-                    },
-                  }}
-                  className="h-[300px]"
-                >
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={ageData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="category" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Legend />
-                      <Bar dataKey="survived" fill="var(--color-survived)" name="Survived" />
-                      <Bar dataKey="died" fill="var(--color-died)" name="Died" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Children had the highest survival rate at 42.2%, while elderly passengers had only 14.3%
-                </p>
-              </CardContent>
-            </Card>
+            <h3 className="text-lg sm:text-xl font-semibold mb-4">Titanic Survival by Age Group</h3>
+            <div className="w-full max-w-full overflow-x-auto">
+              <Card className="w-full max-w-full">
+                <CardContent className="pt-6 w-full max-w-full">
+                  <ChartContainer
+                    config={{
+                      survived: {
+                        label: "Survived",
+                        color: "hsl(142, 76%, 36%)",
+                      },
+                      died: {
+                        label: "Died",
+                        color: "hsl(0, 84%, 60%)",
+                      },
+                    }}
+                    className="h-[300px] sm:h-[350px] min-w-[320px] w-full max-w-full"
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={ageData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis 
+                          dataKey="category" 
+                          angle={-45}
+                          textAnchor="end"
+                          height={80}
+                          tick={{ fontSize: 12 }}
+                        />
+                        <YAxis tick={{ fontSize: 12 }} />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Legend wrapperStyle={{ paddingTop: 20 }} />
+                        <Bar dataKey="survived" fill="var(--color-survived)" name="Survived" />
+                        <Bar dataKey="died" fill="var(--color-died)" name="Died" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Children had the highest survival rate at 42.2%, while elderly passengers had only 14.3%
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </section>
 
