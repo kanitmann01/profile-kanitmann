@@ -24,11 +24,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "Live":
-        return "bg-green-500"
+        return "bg-green-600"
       case "In Progress":
-        return "bg-yellow-500"
+        return "bg-yellow-600"
+      case "Completed":
+        return "bg-blue-600"
       default:
-        return "bg-blue-500"
+        return "bg-gray-600"
     }
   }
 
@@ -46,7 +48,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.status && (
             <div className="absolute top-3 right-3">
               <Badge 
-                className={`${getStatusBadgeColor(project.status)} bg-background/80 backdrop-blur-sm`}
+                className={`${getStatusBadgeColor(project.status)} text-white font-medium px-2 py-1 text-xs`}
               >
                 {project.status}
               </Badge>

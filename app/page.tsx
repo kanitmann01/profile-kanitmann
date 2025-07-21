@@ -76,6 +76,7 @@ export default function Home() {
       href: "/projects/voicebridge",
       github: "https://github.com/kanitmann01/hackaz_team_wildhackers",
       live: false,
+      status: "Completed",
     },
     {
       title: "Titanic Survival Predictor Web App",
@@ -87,6 +88,7 @@ export default function Home() {
       github: "https://github.com/kanitmann01/titanic_survivor_web_app",
       live: true,
       demo: "https://titanic-survival-predictor.herokuapp.com",
+      status: "Live",
     },
     {
       title: "The Echo Effect: WTO Accession Impact Analysis",
