@@ -266,9 +266,9 @@ export default function EchoEffectCaseStudy() {
           <FadeIn>
             <div className="mb-8">
               <Button variant="ghost" asChild className="mb-6">
-                <Link href="/case-studies">
+                <Link href="/projects">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Case Studies
+                  Back to Projects
                 </Link>
               </Button>
               

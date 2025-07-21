@@ -72,7 +72,7 @@ export default function Home() {
         "Break language barriers with real-time speech translation using cutting-edge AI models for speech recognition, translation, and speech synthesis.",
       image: "/images/case-studies/voicebridge.jpeg",
       tags: ["Python", "Flask", "PyTorch", "Socket.IO"],
-      href: "/case-studies/voicebridge",
+      href: "/projects/voicebridge",
       github: "https://github.com/kanitmann01/hackaz_team_wildhackers",
       live: false,
     },
@@ -82,7 +82,7 @@ export default function Home() {
         "A fun and interactive web application that predicts whether you would have survived the Titanic disaster based on your passenger profile.",
       image: "/images/case-studies/titanic.jpeg",
       tags: ["Python", "Flask", "Scikit-learn", "Bootstrap"],
-      href: "/case-studies/titanic",
+      href: "/projects/titanic",
       github: "https://github.com/kanitmann01/titanic_survivor_web_app",
       live: true,
       demo: "https://titanic-survival-predictor.herokuapp.com",
@@ -93,7 +93,7 @@ export default function Home() {
         "Research project using Synthetic Control Method to analyze the causal impact of World Trade Organization accession on national economies.",
       image: "/images/case-studies/echoeffect.jpg",
       tags: ["Python", "Synthetic Control", "Economics", "Research"],
-      href: "/case-studies/echo-effect",
+      href: "/projects/echo-effect",
       github: "https://github.com/kanitmann01/The-Echo-Effect",
       live: false,
       status: "In Progress",
@@ -194,8 +194,8 @@ export default function Home() {
               <FadeIn delay={0.9}>
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                   <Button size="lg" className="text-sm sm:text-base" asChild>
-                    <Link href="/case-studies">
-                      View Case Studies <ArrowRight className="ml-2 h-4 w-4" />
+                    <Link href="/projects">
+                      View Projects <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
                   <Button size="lg" variant="outline" className="text-sm sm:text-base" asChild>
@@ -282,12 +282,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Case Studies */}
+      {/* Featured Projects */}
       <section className="py-20 px-6 bg-muted/30">
         <div className="container mx-auto max-w-6xl">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-foreground mb-4">Featured Case Studies</h2>
+              <h2 className="text-4xl font-bold text-foreground mb-4">Featured Projects</h2>
               <p className="text-lg text-muted-foreground">
                 Deep dives into projects that showcase technical expertise and business impact
               </p>
@@ -325,7 +325,7 @@ export default function Home() {
                       <div className="flex flex-col sm:flex-row gap-2 mb-4">
                         <Button asChild className="flex-1">
                           <Link href={study.href}>
-                            Read Case Study <ArrowRight className="ml-2 h-4 w-4" />
+                            Read Project <ArrowRight className="ml-2 h-4 w-4" />
                           </Link>
                         </Button>
                         <Button variant="outline" size="sm" asChild>

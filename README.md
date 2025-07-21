@@ -34,7 +34,7 @@ kanitmann-portfolio/
 ├── app/                    # Next.js app directory
 │   ├── about/             # About page
 │   ├── articles/          # Blog articles
-│   ├── case-studies/      # Project case studies
+│   ├── projects/          # Project case studies
 │   ├── contact/           # Contact page
 │   ├── globals.css        # Global styles
 │   ├── layout.tsx         # Root layout
@@ -97,10 +97,10 @@ npm start
 
 ## 📝 Content Management
 
-### Adding New Case Studies
+### Adding New Projects
 
-1. Create a new file in `app/case-studies/[project-name]/page.tsx`
-2. Add project data to the case studies array in `app/page.tsx` and `app/case-studies/page.tsx`
+1. Create a new file in `app/projects/[project-name]/page.tsx`
+2. Add project data to the projects array in `app/page.tsx` and `app/projects/page.tsx`
 3. Add images to `public/images/case-studies/`
 
 ### Adding New Articles
