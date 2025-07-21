@@ -8,34 +8,35 @@ import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import { CompactExperienceTimeline } from "@/components/experience-timeline"
+import { ProjectCard } from "@/components/project-card"
 
 export default function Home() {
   const experiences = [
     {
-      id: "aws",
-      company: "Amazon Web Services",
-      position: "Cloud Support Engineer",
+      id: "ericsson-engineer",
+      company: "Ericsson",
+      position: "Engineer, Cloud and Infra",
       type: "Full-time" as const,
-      location: "Seattle, WA",
-      startDate: "Jul 2022",
-      endDate: "Dec 2023",
-      duration: "1 yr 6 mos",
+      location: "Noida, Uttar Pradesh, India",
+      startDate: "Sep 2023",
+      endDate: "Dec 2024",
+      duration: "1 yr 4 mos",
       workMode: "Hybrid" as const,
-      description: "Provided technical support for AWS services including EC2, S3, Lambda, and CloudFormation. Resolved complex infrastructure issues and helped customers optimize their cloud deployments. Collaborated with engineering teams to improve service reliability and customer experience.",
-      skills: ["AWS", "Cloud Infrastructure", "Troubleshooting", "Customer Support", "Python"]
+      description: "Led deployment and optimization of Citrix virtual infrastructure across regional data centers, improving resource utilization and reducing system latency. Played a key role in Ericsson's strategic hybrid cloud initiative by contributing to the migration of approximately 2,000 servers from on-premises infrastructure to Google Cloud Platform (GCP), one of the company's largest public cloud migrations. Successfully maintained application functionality and service continuity throughout the transition period, ensuring minimal disruption to business operations. Implemented automated database management workflows that decreased maintenance time significantly. Collaborated with network security teams to enhance cloud infrastructure resilience, achieving high uptime for mission-critical applications.",
+      skills: ["Citrix Workspace", "Citrix Virtual Apps", "Google Cloud Platform", "Cloud Migration", "Database Management"]
     },
     {
-      id: "aws-intern",
-      company: "Amazon Web Services",
-      position: "Cloud Support Engineer Intern",
+      id: "ericsson-intern",
+      company: "Ericsson",
+      position: "Cloud and Infrastructure Intern",
       type: "Internship" as const,
-      location: "Seattle, WA",
-      startDate: "May 2022",
-      endDate: "Jul 2022",
-      duration: "3 mos",
+      location: "Noida, Uttar Pradesh, India",
+      startDate: "Feb 2023",
+      endDate: "Sep 2023",
+      duration: "8 mos",
       workMode: "On-site" as const,
-      description: "Supported AWS customers with technical issues and infrastructure optimization. Gained hands-on experience with cloud services and customer support processes.",
-      skills: ["AWS", "Cloud Computing", "Customer Service", "Problem Solving"]
+      description: "As a Cloud & Infra Ops Intern at Ericsson Global, I manage and maintain cloud and infrastructure systems, ensuring they meet high standards for reliability, security, and performance.",
+      skills: ["Citrix Workspace", "Citrix Virtual Apps", "Cloud Infrastructure"]
     },
     {
       id: "trikon",
@@ -65,7 +66,7 @@ export default function Home() {
     }
   ]
 
-  const featuredCaseStudies = [
+  const featuredProjects = [
     {
       title: "VoiceBridge - Real-Time P2P Translation",
       description:
@@ -297,55 +298,9 @@ export default function Home() {
           </FadeIn>
 
           <StaggerContainer className="grid md:grid-cols-2 gap-8">
-            {featuredCaseStudies.map((study, index) => (
+            {featuredProjects.map((study, index) => (
               <StaggerItem key={index}>
-                <ScaleOnHover>
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                                      <div className="relative h-48 overflow-hidden">
-                    <Image src={study.image} alt={study.title} width={400} height={200} className="w-full h-full object-cover" />
-                    {/* Status badge for in-progress projects */}
-                    {study.status && (
-                      <div className="absolute top-3 right-3">
-                        <Badge variant="outline" className="bg-background/80 backdrop-blur-sm">
-                          {study.status}
-                        </Badge>
-                      </div>
-                    )}
-                  </div>
-                    <CardHeader>
-                      <CardTitle className="text-xl">{study.title}</CardTitle>
-                      <CardDescription className="text-base">{study.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {study.tags.map((tag) => (
-                          <Badge key={tag} variant="secondary">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-2 mb-4">
-                        <Button asChild className="flex-1">
-                          <Link href={study.href}>
-                            Read Project <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button variant="outline" size="sm" asChild>
-                          <Link href={study.github} target="_blank">
-                            <Github className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        {study.live && study.demo && (
-                          <Button variant="outline" size="sm" asChild>
-                            <Link href={study.demo} target="_blank">
-                              Live Demo
-                            </Link>
-                          </Button>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </ScaleOnHover>
+                <ProjectCard project={study} />
               </StaggerItem>
             ))}
           </StaggerContainer>
@@ -412,7 +367,7 @@ export default function Home() {
               "Data Science",
               "Machine Learning",
               "Python",
-              "AWS",
+              "GCP",
               "Cloud Infrastructure",
               "Statistical Analysis",
               "Data Visualization"

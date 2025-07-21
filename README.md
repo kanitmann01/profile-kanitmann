@@ -101,7 +101,7 @@ npm start
 
 1. Create a new file in `app/projects/[project-name]/page.tsx`
 2. Add project data to the projects array in `app/page.tsx` and `app/projects/page.tsx`
-3. Add images to `public/images/case-studies/`
+3. Add images to `public/images/case-studies/` (note: directory name unchanged for existing images)
 
 ### Adding New Articles
 

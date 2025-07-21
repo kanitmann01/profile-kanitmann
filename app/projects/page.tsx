@@ -1,15 +1,9 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Github, ExternalLink } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
-import { ScaleOnHover } from "@/components/animations/scale-on-hover"
+import { ProjectCard } from "@/components/project-card"
 
 export default function Projects() {
-  const caseStudies = [
+  const projects = [
     {
       title: "VoiceBridge - Real-Time P2P Translation",
       description:
@@ -56,60 +50,9 @@ export default function Projects() {
         </FadeIn>
 
         <StaggerContainer className="grid md:grid-cols-2 gap-8">
-          {caseStudies.map((study, index) => (
+          {projects.map((study, index) => (
             <StaggerItem key={index}>
-              <ScaleOnHover>
-                <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="relative h-48 overflow-hidden">
-                    <Image src={study.image} alt={study.title} fill className="object-cover" />
-                    <Badge 
-                      className={`absolute top-4 right-4 ${
-                        study.status === "Live" 
-                          ? "bg-green-500" 
-                          : study.status === "In Progress" 
-                          ? "bg-yellow-500" 
-                          : "bg-blue-500"
-                      }`}
-                    >
-                      {study.status}
-                    </Badge>
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="text-xl">{study.title}</CardTitle>
-                    <CardDescription className="text-base">{study.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {study.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <Button asChild className="flex-1">
-                        <Link href={study.href}>
-                          Read Project <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                      {study.github && (
-                        <Button variant="outline" size="sm" asChild>
-                          <Link href={study.github} target="_blank">
-                            <Github className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                      )}
-                      {study.demo && (
-                        <Button variant="outline" size="sm" asChild>
-                          <Link href={study.demo} target="_blank">
-                            <ExternalLink className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </ScaleOnHover>
+              <ProjectCard project={study} />
             </StaggerItem>
           ))}
         </StaggerContainer>
