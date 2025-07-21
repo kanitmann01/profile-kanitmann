@@ -112,11 +112,13 @@ export default function Home() {
 
   const techStack = [
     { name: "Python", icon: "/images/tech/python.svg" },
-    { name: "AWS", icon: "/images/tech/aws.svg" },
-    { name: "TensorFlow", icon: "/images/tech/tensorflow.svg" },
+    { name: "GCP", icon: "/images/tech/gcp.svg" },
+    { name: "Scikit-learn", icon: "/images/tech/scikit-learn.svg" },
     { name: "Docker", icon: "/images/tech/docker.svg" },
     { name: "SQL", icon: "/images/tech/sql.svg" },
     { name: "GitHub", icon: "/images/tech/github.svg" },
+    { name: "NumPy", icon: "/images/tech/numpy.svg" },
+    { name: "Seaborn", icon: "/images/tech/seaborn.svg" },
   ]
 
   return (
