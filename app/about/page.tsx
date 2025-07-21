@@ -13,7 +13,7 @@ export default function About() {
     {
       id: "ericsson-engineer",
       company: "Ericsson",
-      position: "Engineer",
+      position: "Engineer, Cloud and Infra",
       type: "Full-time" as const,
       location: "Noida, Uttar Pradesh, India",
       startDate: "Sep 2023",
@@ -139,7 +139,7 @@ export default function About() {
                   that the best solutions come from understanding both the technical possibilities and the human needs.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  My time at Ericsson as a Cloud Engineer, where my team managed the migration of over 2,000 servers to GCP,
+                  My time at Ericsson as an Engineer, Cloud and Infra, where my team managed the migration of over 2,000 servers to GCP,
                   taught me how to work with complex, large-scale systems. I learned that successful technology
                   implementations require not just technical expertise, but also careful planning, stakeholder
                   communication, and a deep understanding of business requirements.
