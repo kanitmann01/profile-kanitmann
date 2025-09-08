@@ -106,6 +106,38 @@ export default function RootLayout({
             gtag('config', 'G-0FJ18KCCQ3');
           `}
         </Script>
+        {/* Structured Data: WebSite */}
+        <Script id="ld-website" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Kanit Mann",
+            "url": "https://kanit.codes",
+            "publisher": {
+              "@type": "Person",
+              "name": "Kanit Mann"
+            },
+            "inLanguage": "en-US"
+          })}
+        </Script>
+        {/* Structured Data: Site Navigation */}
+        <Script id="ld-sitenav" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": [
+              { "@type": "SiteNavigationElement", "position": 1, "name": "Home", "url": "https://kanit.codes/" },
+              { "@type": "SiteNavigationElement", "position": 2, "name": "Projects", "url": "https://kanit.codes/projects" },
+              { "@type": "SiteNavigationElement", "position": 3, "name": "Articles", "url": "https://kanit.codes/articles" },
+              { "@type": "SiteNavigationElement", "position": 4, "name": "About", "url": "https://kanit.codes/about" },
+              { "@type": "SiteNavigationElement", "position": 5, "name": "Contact", "url": "https://kanit.codes/contact" },
+              { "@type": "SiteNavigationElement", "position": 6, "name": "Resume", "url": "https://kanit.codes/Kanit%20Mann%20-%20Resume.pdf" }
+            ]
+          })}
+        </Script>
+        {/* Feed discovery */}
+        <link rel="alternate" type="application/rss+xml" title="Kanit Mann - RSS" href="/rss.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Kanit Mann - Atom" href="/atom.xml" />
       </head>
       <body className={inter.className}>
         <ThemeProvider

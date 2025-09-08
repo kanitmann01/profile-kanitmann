@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ExternalLink, Github, Mic, Globe, Smartphone } from "lucide-react"
+import type { Metadata } from "next"
+import Script from "next/script"
 import Image from "next/image"
 
 export default function VoicebridgeCaseStudy() {
@@ -9,6 +11,18 @@ export default function VoicebridgeCaseStudy() {
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
+      {/* Breadcrumb JSON-LD */}
+      <Script id="ld-breadcrumb-voicebridge" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kanit.codes/"},
+            {"@type": "ListItem", "position": 2, "name": "Projects", "item": "https://kanit.codes/projects"},
+            {"@type": "ListItem", "position": 3, "name": "VoiceBridge", "item": "https://kanit.codes/projects/voicebridge"}
+          ]
+        })}
+      </Script>
       <div className="container mx-auto max-w-4xl">
         {/* Header */}
         <div className="text-center mb-16">
@@ -205,3 +219,24 @@ export default function VoicebridgeCaseStudy() {
     </div>
   )
 } 
+
+export const metadata: Metadata = {
+  title: "VoiceBridge - Real-Time P2P Translation | Kanit Mann",
+  description: "Real-time speech translation using Whisper, NLLB-200, and MMS-TTS with privacy-first on-device processing.",
+  alternates: { canonical: "/projects/voicebridge" },
+  openGraph: {
+    title: "VoiceBridge - Real-Time P2P Translation | Kanit Mann",
+    description: "Real-time speech translation using Whisper, NLLB-200, and MMS-TTS with privacy-first on-device processing.",
+    url: "https://kanit.codes/projects/voicebridge",
+    images: [
+      { url: "https://kanit.codes/images/case-studies/voicebridge.jpeg" }
+    ],
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VoiceBridge - Real-Time P2P Translation | Kanit Mann",
+    description: "Real-time speech translation using Whisper, NLLB-200, and MMS-TTS with privacy-first on-device processing.",
+    images: ["https://kanit.codes/images/case-studies/voicebridge.jpeg"],
+  },
+}

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Calendar } from "lucide-react"
 import Link from "next/link"
@@ -15,6 +16,15 @@ export default function Articles() {
       tags: ["Data Science", "Machine Learning", "Social Analysis"],
       href: "/articles/titanic-survival",
     },
+    {
+      title: "Technical Blog 1: BIOS Issues and Ubuntu",
+      description:
+        "Troubleshooting BIOS/UEFI, Secure Boot, and firmware issues on Ubuntu, notes from a community thread and a practical checklist.",
+      readTime: "5 min read",
+      date: "September 8, 2025",
+      tags: ["Linux", "Ubuntu", "Firmware", "UEFI"],
+      href: "/articles/bios-issues-ubuntu",
+    },
   ]
 
   return (
@@ -28,7 +38,9 @@ export default function Articles() {
         </div>
 
         <div className="space-y-8">
-          {articles.map((article, index) => (
+          {[...articles]
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            .map((article, index) => (
             <Card key={index} className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
@@ -60,4 +72,21 @@ export default function Articles() {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: "Articles - Kanit Mann",
+  description: "Articles and insights by Kanit Mann on data science, technology, and analytics.",
+  alternates: { canonical: "/articles" },
+  openGraph: {
+    title: "Articles - Kanit Mann",
+    description: "Articles and insights by Kanit Mann on data science, technology, and analytics.",
+    url: "https://kanit.codes/articles",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Articles - Kanit Mann",
+    description: "Articles and insights by Kanit Mann on data science, technology, and analytics.",
+  },
 }

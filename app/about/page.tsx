@@ -1,4 +1,5 @@
 import Image from "next/image"
+import type { Metadata } from "next"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { FadeIn } from "@/components/animations/fade-in"
@@ -249,4 +250,21 @@ export default function About() {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: "About - Kanit Mann",
+  description: "About Kanit Mann: Data Scientist & Product Builder with experience in cloud infrastructure and a passion for building intelligent applications.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About - Kanit Mann",
+    description: "About Kanit Mann: Data Scientist & Product Builder with experience in cloud infrastructure and a passion for building intelligent applications.",
+    url: "https://kanit.codes/about",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About - Kanit Mann",
+    description: "About Kanit Mann: Data Scientist & Product Builder with experience in cloud infrastructure and a passion for building intelligent applications.",
+  },
 }

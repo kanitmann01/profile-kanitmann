@@ -218,7 +218,7 @@ export default function Home() {
                     </Link>
                   </Button>
                   <Button variant="ghost" size="sm" asChild>
-                    <Link href="https://github.com/kanitmann" target="_blank">
+                    <Link href="https://github.com/kanitmann01" target="_blank">
                       <Github className="h-4 w-4" />
                     </Link>
                   </Button>
@@ -362,7 +362,7 @@ export default function Home() {
             "image": "https://kanit.codes/images/profile/kanit-mann.png",
             "email": "kanitmann01@gmail.com",
             "sameAs": [
-              "https://github.com/kanitmann",
+              "https://github.com/kanitmann01",
               "https://linkedin.com/in/kanitmann"
             ],
             "knowsAbout": [

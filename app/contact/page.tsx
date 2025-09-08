@@ -8,6 +8,7 @@ import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
+import type { Metadata } from "next"
 
 export default function Contact() {
   return (
@@ -181,4 +182,21 @@ export default function Contact() {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: "Contact - Kanit Mann",
+  description: "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact - Kanit Mann",
+    description: "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+    url: "https://kanit.codes/contact",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact - Kanit Mann",
+    description: "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+  },
 }

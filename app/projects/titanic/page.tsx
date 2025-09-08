@@ -3,12 +3,26 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ExternalLink, Github, BarChart3, Brain, Database } from "lucide-react"
 import Image from "next/image"
+import type { Metadata } from "next"
+import Script from "next/script"
 
 export default function TitanicCaseStudy() {
   const techStack = ["Python", "Flask", "Scikit-learn", "Pandas", "Bootstrap", "Chart.js", "NumPy"]
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
+      {/* Breadcrumb JSON-LD */}
+      <Script id="ld-breadcrumb-titanic" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kanit.codes/"},
+            {"@type": "ListItem", "position": 2, "name": "Projects", "item": "https://kanit.codes/projects"},
+            {"@type": "ListItem", "position": 3, "name": "Titanic Survival Predictor", "item": "https://kanit.codes/projects/titanic"}
+          ]
+        })}
+      </Script>
       <div className="container mx-auto max-w-4xl">
         {/* Header */}
         <div className="text-center mb-16">
@@ -209,4 +223,25 @@ export default function TitanicCaseStudy() {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: "Titanic Survival Predictor Web App - Project | Kanit Mann",
+  description: "Interactive Flask app predicting Titanic survival with an optimized Random Forest model and educational visualizations.",
+  alternates: { canonical: "/projects/titanic" },
+  openGraph: {
+    title: "Titanic Survival Predictor Web App - Project | Kanit Mann",
+    description: "Interactive Flask app predicting Titanic survival with an optimized Random Forest model and educational visualizations.",
+    url: "https://kanit.codes/projects/titanic",
+    images: [
+      { url: "https://kanit.codes/images/case-studies/titanic.jpeg" }
+    ],
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Titanic Survival Predictor Web App - Project | Kanit Mann",
+    description: "Interactive Flask app predicting Titanic survival with an optimized Random Forest model and educational visualizations.",
+    images: ["https://kanit.codes/images/case-studies/titanic.jpeg"],
+  },
 }

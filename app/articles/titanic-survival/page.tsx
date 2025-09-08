@@ -10,6 +10,7 @@ import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import Head from "next/head"
+import Script from "next/script"
 
 export default function TitanicArticle() {
   const genderData = [
@@ -34,6 +35,18 @@ export default function TitanicArticle() {
 
   return (
     <>
+      {/* Breadcrumb JSON-LD for Article */}
+      <Script id="ld-breadcrumb-article-titanic" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kanit.codes/"},
+            {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://kanit.codes/articles"},
+            {"@type": "ListItem", "position": 3, "name": "Would You Have Survived the Titanic?", "item": "https://kanit.codes/articles/titanic-survival"}
+          ]
+        })}
+      </Script>
       <Head>
         <title>Would You Have Survived the Titanic? Data Analysis & Survival Predictions</title>
         <meta name="description" content="Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns by gender, class, and age with interactive data visualizations and historical insights." />

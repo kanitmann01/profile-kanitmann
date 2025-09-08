@@ -1,6 +1,7 @@
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ProjectCard } from "@/components/project-card"
+import type { Metadata } from "next"
 
 export default function Projects() {
   const projects = [
@@ -59,4 +60,21 @@ export default function Projects() {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: "Projects - Kanit Mann",
+  description: "Featured projects by Kanit Mann showcasing AI, ML, and data-driven applications.",
+  alternates: { canonical: "/projects" },
+  openGraph: {
+    title: "Projects - Kanit Mann",
+    description: "Featured projects by Kanit Mann showcasing AI, ML, and data-driven applications.",
+    url: "https://kanit.codes/projects",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Projects - Kanit Mann",
+    description: "Featured projects by Kanit Mann showcasing AI, ML, and data-driven applications.",
+  },
 }

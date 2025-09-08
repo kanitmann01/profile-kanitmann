@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft, Calendar, Users, Target, TrendingUp, Database, BarChart3, Globe, BookOpen, AlertTriangle, CheckCircle, Clock, FileText, Code, ChartBar } from "lucide-react"
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
+import type { Metadata } from "next"
+import Script from "next/script"
 
 export default function EchoEffectCaseStudy() {
   const methodologies = [
@@ -260,6 +262,18 @@ export default function EchoEffectCaseStudy() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Breadcrumb JSON-LD */}
+      <Script id="ld-breadcrumb-echoeffect" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kanit.codes/"},
+            {"@type": "ListItem", "position": 2, "name": "Projects", "item": "https://kanit.codes/projects"},
+            {"@type": "ListItem", "position": 3, "name": "Echo Effect", "item": "https://kanit.codes/projects/echo-effect"}
+          ]
+        })}
+      </Script>
       {/* Header */}
       <section className="py-12 px-6">
         <div className="container mx-auto max-w-4xl">
@@ -789,3 +803,24 @@ export default function EchoEffectCaseStudy() {
     </div>
   )
 } 
+
+export const metadata: Metadata = {
+  title: "The Echo Effect: WTO Accession Impact Analysis | Kanit Mann",
+  description: "Research using Synthetic Control Method to analyze the causal impact of WTO accession on national economies.",
+  alternates: { canonical: "/projects/echo-effect" },
+  openGraph: {
+    title: "The Echo Effect: WTO Accession Impact Analysis | Kanit Mann",
+    description: "Research using Synthetic Control Method to analyze the causal impact of WTO accession on national economies.",
+    url: "https://kanit.codes/projects/echo-effect",
+    images: [
+      { url: "https://kanit.codes/images/case-studies/echoeffect.jpg" }
+    ],
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Echo Effect: WTO Accession Impact Analysis | Kanit Mann",
+    description: "Research using Synthetic Control Method to analyze the causal impact of WTO accession on national economies.",
+    images: ["https://kanit.codes/images/case-studies/echoeffect.jpg"],
+  },
+}
