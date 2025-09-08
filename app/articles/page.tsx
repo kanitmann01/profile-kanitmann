@@ -8,6 +8,15 @@ import Link from "next/link"
 export default function Articles() {
   const articles = [
     {
+      title: "CCRB Allegations Analysis (Ongoing)",
+      description:
+        "Multi-week data analysis project on CCRB allegations; Week 1 lays the baseline and embeds the first report.",
+      readTime: "7 min read",
+      date: "September 8, 2025",
+      tags: ["Data Analysis", "CCRB", "NYC"],
+      href: "/articles/ccrb-allegations-analysis",
+    },
+    {
       title: "Would you have survived the Titanic?",
       description:
         "What this historic disaster reveals about inequality, decision-making, and leadership under pressure.",

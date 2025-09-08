@@ -10,6 +10,13 @@ type ArticleItem = {
 function getArticles(): ArticleItem[] {
   return [
     {
+      title: "CCRB Allegations Analysis (Ongoing)",
+      description:
+        "Multi-week data analysis project on CCRB allegations; Week 1 lays the baseline and links the first report.",
+      url: `${siteUrl}/articles/ccrb-allegations-analysis`,
+      date: "2025-09-08",
+    },
+    {
       title: "Would you have survived the Titanic?",
       description:
         "What this historic disaster reveals about inequality, decision-making, and leadership under pressure.",
@@ -19,7 +26,7 @@ function getArticles(): ArticleItem[] {
     {
       title: "Technical Blog 1: BIOS Issues and Ubuntu",
       description:
-        "Troubleshooting BIOS/UEFI, Secure Boot, and firmware issues on Ubuntu, notes from a community thread and a practical checklist.",
+        "Troubleshooting BIOS/UEFI, Secure Boot, and firmware issues on Ubuntu—notes from a community thread and a practical checklist.",
       url: `${siteUrl}/articles/bios-issues-ubuntu`,
       date: "2025-09-08",
     },

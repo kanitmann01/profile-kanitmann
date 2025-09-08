@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/articles",
     "/articles/titanic-survival",
     "/articles/bios-issues-ubuntu",
+    "/articles/ccrb-allegations-analysis",
     "/contact",
   ]
 
