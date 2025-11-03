@@ -4,37 +4,67 @@ import { ProjectCard } from "@/components/project-card"
 import type { Metadata } from "next"
 
 export default function Projects() {
-  const projects = [
+  const projectGroups = [
     {
-      title: "VoiceBridge - Real-Time P2P Translation",
-      description:
-        "Break language barriers with real-time speech translation using cutting-edge AI models for speech recognition, translation, and speech synthesis.",
-      image: "/images/case-studies/voicebridge.jpeg",
-      tags: ["Python", "Flask", "PyTorch", "Socket.IO"],
-      href: "/projects/voicebridge",
-      status: "Completed",
-      github: "https://github.com/kanitmann01/hackaz_team_wildhackers",
+      period: "September 2025",
+      projects: [
+        {
+          title: "College Major Selection & Shift Analysis",
+          description:
+            "Longitudinal analysis of IPUMS USA microdata to understand how wage trends influence shifts in U.S. college major popularity from 2009–2023.",
+          image: "/major-img.png",
+          tags: ["Python", "Pandas", "Seaborn", "Data Storytelling"],
+          href: "/projects/college-major-shift-analysis",
+          status: "Completed",
+          github: "https://github.com/kanitmann01/college-major-shift-analysis",
+        },
+      ],
     },
     {
-      title: "Titanic Survival Predictor Web App",
-      description:
-        "A fun and interactive web application that predicts whether you would have survived the Titanic disaster based on your passenger profile.",
-      image: "/images/case-studies/titanic.jpeg",
-      tags: ["Python", "Flask", "Scikit-learn", "Bootstrap"],
-      href: "/projects/titanic",
-      status: "Live",
-      github: "https://github.com/kanitmann01/titanic_survivor_web_app",
-      demo: "https://web-production-db6b.up.railway.app/",
+      period: "July 2025",
+      projects: [
+        {
+          title: "The Echo Effect: WTO Accession Impact Analysis",
+          description:
+            "Research project using Synthetic Control Method to analyze the causal impact of World Trade Organization accession on national economies.",
+          image: "/images/case-studies/echoeffect.jpg",
+          tags: ["Python", "Synthetic Control", "Economics", "Research"],
+          href: "/projects/echo-effect",
+          status: "In Progress",
+          github: "https://github.com/kanitmann01/The-Echo-Effect",
+        },
+      ],
     },
     {
-      title: "The Echo Effect: WTO Accession Impact Analysis",
-      description:
-        "Research project using Synthetic Control Method to analyze the causal impact of World Trade Organization accession on national economies.",
-      image: "/images/case-studies/echoeffect.jpg",
-      tags: ["Python", "Synthetic Control", "Economics", "Research"],
-      href: "/projects/echo-effect",
-      status: "In Progress",
-      github: "https://github.com/kanitmann01/The-Echo-Effect",
+      period: "March 2025",
+      projects: [
+        {
+          title: "Titanic Survival Predictor Web App",
+          description:
+            "A fun and interactive web application that predicts whether you would have survived the Titanic disaster based on your passenger profile.",
+          image: "/images/case-studies/titanic.jpeg",
+          tags: ["Python", "Flask", "Scikit-learn", "Bootstrap"],
+          href: "/projects/titanic",
+          status: "Live",
+          github: "https://github.com/kanitmann01/titanic_survivor_web_app",
+          demo: "https://web-production-db6b.up.railway.app/",
+        },
+      ],
+    },
+    {
+      period: "February 2025",
+      projects: [
+        {
+          title: "VoiceBridge - Real-Time P2P Translation",
+          description:
+            "Break language barriers with real-time speech translation using cutting-edge AI models for speech recognition, translation, and speech synthesis.",
+          image: "/images/case-studies/voicebridge.jpeg",
+          tags: ["Python", "Flask", "PyTorch", "Socket.IO"],
+          href: "/projects/voicebridge",
+          status: "Completed",
+          github: "https://github.com/kanitmann01/hackaz_team_wildhackers",
+        },
+      ],
     },
   ]
 
@@ -50,13 +80,24 @@ export default function Projects() {
           </div>
         </FadeIn>
 
-        <StaggerContainer className="grid md:grid-cols-2 gap-8">
-          {projects.map((study, index) => (
-            <StaggerItem key={index}>
-              <ProjectCard project={study} />
-            </StaggerItem>
+        <div className="space-y-16">
+          {projectGroups.map((group) => (
+            <div key={group.period} className="space-y-6">
+              <FadeIn>
+                <div className="text-left">
+                  <h2 className="text-3xl font-semibold text-foreground">{group.period}</h2>
+                </div>
+              </FadeIn>
+              <StaggerContainer className="grid md:grid-cols-2 gap-8">
+                {group.projects.map((project) => (
+                  <StaggerItem key={project.title}>
+                    <ProjectCard project={project} />
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+            </div>
           ))}
-        </StaggerContainer>
+        </div>
       </div>
     </div>
   )
