@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Calendar, Clock, FileText, Layers, LineChart } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, FileText, Layers, LineChart } from "lucide-react"
 import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
@@ -11,6 +11,7 @@ import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import { PdfReportSection } from "@/components/pdf-report-section"
 import Head from "next/head"
 import Script from "next/script"
+import Link from "next/link"
 
 export default function CCRBAllegationsAnalysis() {
   const publishedDate = "September 8, 2025"
@@ -113,6 +114,15 @@ export default function CCRBAllegationsAnalysis() {
 
       <div className="min-h-screen bg-background py-8 px-2 sm:py-12 sm:px-6">
         <div className="container mx-auto max-w-4xl w-full">
+          <div className="mb-8">
+            <Button variant="ghost" size="sm" asChild className="gap-2">
+              <Link href="/articles">
+                <ArrowLeft className="h-4 w-4" />
+                Back to Articles
+              </Link>
+            </Button>
+          </div>
+
           {/* Header */}
           <FadeIn className="mb-16">
             <header>

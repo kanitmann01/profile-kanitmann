@@ -1,8 +1,9 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Calendar, Clock, TreePine } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, TreePine } from "lucide-react"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Legend } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { FadeIn } from "@/components/animations/fade-in"
@@ -11,6 +12,7 @@ import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-c
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import Head from "next/head"
 import Script from "next/script"
+import Link from "next/link"
 
 export default function TitanicArticle() {
   const genderData = [
@@ -97,9 +99,18 @@ export default function TitanicArticle() {
       </Head>
       <div className="min-h-screen bg-background py-8 px-2 sm:py-12 sm:px-6">
         <div className="container mx-auto max-w-4xl w-full">
-        {/* Header */}
-        <FadeIn className="mb-16">
-          <header>
+          <div className="mb-8">
+            <Button variant="ghost" size="sm" asChild className="gap-2">
+              <Link href="/articles">
+                <ArrowLeft className="h-4 w-4" />
+                Back to Articles
+              </Link>
+            </Button>
+          </div>
+
+          {/* Header */}
+          <FadeIn className="mb-16">
+            <header>
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <Calendar className="h-4 w-4" />
               <time dateTime="2025-03-15">March 15, 2025</time>
@@ -111,8 +122,8 @@ export default function TitanicArticle() {
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
               What this historic disaster reveals about inequality, decision-making, and leadership under pressure.
             </p>
-          </header>
-        </FadeIn>
+            </header>
+          </FadeIn>
 
         {/* Introduction */}
         <section className="mb-16">
