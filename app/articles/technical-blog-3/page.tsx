@@ -1,9 +1,10 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, Cog, Keyboard, MousePointer2, Wrench } from "lucide-react"
+import { ArrowLeft, Cog, Keyboard, MousePointer2, Wrench } from "lucide-react"
 import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
+import { ArticleHeader } from "@/components/article-header"
 import Link from "next/link"
 import Script from "next/script"
 import type { Metadata } from "next"
@@ -37,14 +38,6 @@ export const metadata: Metadata = {
     images: heroImageUrl ? [heroImageUrl] : undefined,
   },
 }
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-})
-
-const publishedDateLabel = dateFormatter.format(new Date(article.publishedAt))
 
 const articleSchema = {
   "@context": "https://schema.org",
@@ -89,35 +82,27 @@ export default function TechnicalBlog3() {
           <div className="mb-8">
             <Button variant="ghost" size="sm" asChild className="gap-2">
               <Link href="/articles">
-                <ArrowLeftIcon />
+                <ArrowLeft className="h-4 w-4" />
                 Back to Articles
               </Link>
             </Button>
           </div>
 
           <FadeIn className="mb-16">
-            <header>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                <Calendar className="h-4 w-4" />
-                <time dateTime={article.publishedAt}>{publishedDateLabel}</time>
-                <span>•</span>
-                <Clock className="h-4 w-4" />
-                <span>{article.readTime}</span>
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">
-                {article.title}
-              </h1>
-              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                {article.summary}
-              </p>
-            </header>
+            <ArticleHeader
+              articleSlug={article.slug}
+              title={article.title}
+              description={article.summary}
+              publishedAt={article.publishedAt}
+              readTime={article.readTime}
+            />
           </FadeIn>
 
           <section className="mb-16">
             <SlideIn direction="left">
               <div className="prose prose-lg max-w-none">
                 <p className="text-muted-foreground leading-relaxed">
-                  Back in 2023 I was issued a corporate laptop with "setting locked" controls. The trackpad and mouse were painfully slow, and every Windows update reset whatever the IT team fixed. After enough tickets, I gave up on the pointing devices and leaned on keyboard shortcuts—an interesting experiment, but not efficient inside a GUI-first OS.
+                  Back in 2023 I was issued a corporate laptop with "setting locked" controls. The trackpad and mouse were painfully slow, and every Windows update reset whatever the IT team fixed. After enough tickets, I gave up on the pointing devices and leaned on keyboard shortcuts-an interesting experiment, but not efficient inside a GUI-first OS.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   A tip from Reddit pointed me toward the Windows Registry. If the UI is blocked but Registry access is available, you can edit the same settings at the source. The key for mouse speed lives at <code>HKEY_CURRENT_USER\Control Panel\Mouse</code>. One tweak and a reboot later, my pointer moved at human speed again.
@@ -172,7 +157,7 @@ export default function TechnicalBlog3() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground leading-relaxed">
-                    Locked-down environments aren’t malicious—they protect credentials and compliance. Understanding the rationale helps when searching for sanctioned workarounds.
+                    Locked-down environments aren’t malicious-they protect credentials and compliance. Understanding the rationale helps when searching for sanctioned workarounds.
                   </p>
                 </CardContent>
               </Card>
@@ -209,20 +194,4 @@ export default function TechnicalBlog3() {
   )
 }
 
-function ArrowLeftIcon() {
-  return (
-    <svg
-      className="h-4 w-4"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 12H5" />
-      <path d="M12 19l-7-7 7-7" />
-    </svg>
-  )
-}
 

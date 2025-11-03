@@ -1,9 +1,10 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, Command, Monitor, Users } from "lucide-react"
+import { ArrowLeft, Command, Monitor, Users } from "lucide-react"
 import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
+import { ArticleHeader } from "@/components/article-header"
 import Link from "next/link"
 import Script from "next/script"
 import type { Metadata } from "next"
@@ -63,14 +64,6 @@ export const metadata: Metadata = {
   },
 }
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-})
-
-const publishedDateLabel = dateFormatter.format(new Date(article.publishedAt))
-
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -114,35 +107,27 @@ export default function TechnicalBlog2() {
           <div className="mb-8">
             <Button variant="ghost" size="sm" asChild className="gap-2">
               <Link href="/articles">
-                <ArrowLeftIcon />
+                <ArrowLeft className="h-4 w-4" />
                 Back to Articles
               </Link>
             </Button>
           </div>
 
           <FadeIn className="mb-16">
-            <header>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                <Calendar className="h-4 w-4" />
-                <time dateTime={article.publishedAt}>{publishedDateLabel}</time>
-                <span>•</span>
-                <Clock className="h-4 w-4" />
-                <span>{article.readTime}</span>
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">
-                {article.title}
-              </h1>
-              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                {article.summary}
-              </p>
-            </header>
+            <ArticleHeader
+              articleSlug={article.slug}
+              title={article.title}
+              description={article.summary}
+              publishedAt={article.publishedAt}
+              readTime={article.readTime}
+            />
           </FadeIn>
 
           <section className="mb-16">
             <SlideIn direction="left">
               <div className="prose prose-lg max-w-none">
                 <p className="text-muted-foreground leading-relaxed">
-                  My own journey began with a CS engineering background and professional time spent deep in the terminal. The initial CLI learning curve felt manageable because file navigation, scripts, and automation were part of the job. For people new to computing, terminals can appear unforgiving, but that first exposure often ignites curiosity—either you fall in love with the power or run back to graphical menus.
+                  My own journey began with a CS engineering background and professional time spent deep in the terminal. The initial CLI learning curve felt manageable because file navigation, scripts, and automation were part of the job. For people new to computing, terminals can appear unforgiving, but that first exposure often ignites curiosity-either you fall in love with the power or run back to graphical menus.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   After bouncing between both worlds, I now favor a hybrid mode: terminals for reproducibility and automation; graphical interfaces for discovery, visualization, and creative flow. The key is knowing why you are reaching for one or the other.
@@ -250,20 +235,4 @@ function MeritList({ title, items, variant = "merit" }: MeritListProps) {
   )
 }
 
-function ArrowLeftIcon() {
-  return (
-    <svg
-      className="h-4 w-4"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 12H5" />
-      <path d="M12 19l-7-7 7-7" />
-    </svg>
-  )
-}
 

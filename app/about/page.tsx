@@ -146,36 +146,65 @@ export default function About() {
           <FadeIn>
             <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Leadership & Collaboration</h2>
           </FadeIn>
-          <ScaleOnHover>
-            <Card className="max-w-4xl mx-auto">
-              <CardContent className="p-8">
-                <div className="space-y-6 text-left">
-                  <div>
-                    <h3 className="text-2xl font-semibold text-primary">University of Arizona Campus Store</h3>
-                    <p className="text-muted-foreground">Student Lead & Keyholder · Oct 2025 – Present · Tucson, AZ</p>
+          <div className="space-y-6 max-w-4xl mx-auto">
+            <ScaleOnHover>
+              <Card>
+                <CardContent className="p-8">
+                  <div className="space-y-6 text-left">
+                    <div>
+                      <h3 className="text-2xl font-semibold text-primary">University of Arizona Campus Store</h3>
+                      <p className="text-muted-foreground">Student Lead & Keyholder · Oct 2025 – Present · Tucson, AZ</p>
+                    </div>
+                    <div className="prose prose-lg max-w-none">
+                      <ul className="text-muted-foreground leading-relaxed list-disc pl-5">
+                        <li>
+                          Design onboarding playbooks and mentor new hires, coupling shadowing rotations with clear accountability so
+                          student associates master essential store procedures quickly.
+                        </li>
+                        <li>
+                          Direct day-to-day floor operations-staff scheduling, inventory checks, and guest experience initiatives-to
+                          keep the team aligned on service standards and sales goals.
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="secondary">Team Leadership</Badge>
+                      <Badge variant="secondary">Training & Development</Badge>
+                      <Badge variant="secondary">Retail Operations</Badge>
+                      <Badge variant="secondary">Customer Experience</Badge>
+                    </div>
                   </div>
-                  <div className="prose prose-lg max-w-none">
-                    <ul className="text-muted-foreground leading-relaxed list-disc pl-5">
-                      <li>
-                        Design onboarding playbooks and mentor new hires, coupling shadowing rotations with clear accountability so
-                        student associates master essential store procedures quickly.
-                      </li>
-                      <li>
-                        Direct day-to-day floor operations—staff scheduling, inventory checks, and guest experience initiatives—to
-                        keep the team aligned on service standards and sales goals.
-                      </li>
-                    </ul>
+                </CardContent>
+              </Card>
+            </ScaleOnHover>
+
+            <ScaleOnHover>
+              <Card>
+                <CardContent className="p-8">
+                  <div className="space-y-6 text-left">
+                    <div>
+                      <h3 className="text-2xl font-semibold text-primary">Robovitics</h3>
+                      <p className="text-muted-foreground">Board Member</p>
+                    </div>
+                    <div className="prose prose-lg max-w-none">
+                      <p className="text-muted-foreground leading-relaxed">
+                        As a Board Member for Robovitics, I directed collaborations for the campus robotics club, impacting over 250 students. My role involved strategic planning, event coordination, and fostering partnerships that enhanced learning opportunities for our community.
+                      </p>
+                      <p className="text-muted-foreground leading-relaxed">
+                        I organized 10+ events and workshops, including a global MLH-partnered hackathon with 800+ registrations. These experiences taught me the importance of bringing people together around shared goals and creating environments where innovation can flourish.
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="secondary">Event Planning</Badge>
+                      <Badge variant="secondary">Team Leadership</Badge>
+                      <Badge variant="secondary">Partnership Development</Badge>
+                      <Badge variant="secondary">Community Building</Badge>
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary">Team Leadership</Badge>
-                    <Badge variant="secondary">Training & Development</Badge>
-                    <Badge variant="secondary">Retail Operations</Badge>
-                    <Badge variant="secondary">Customer Experience</Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </ScaleOnHover>
+                </CardContent>
+              </Card>
+            </ScaleOnHover>
+          </div>
         </section>
 
         {/* Call to Action */}
