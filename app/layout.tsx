@@ -99,18 +99,18 @@ export default function RootLayout({
         {/* Google Analytics */}
         {GA_ID ? (
           <>
-            <Script
+        <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
                 gtag('config', '${GA_ID}');
-              `}
-            </Script>
+          `}
+        </Script>
           </>
         ) : null}
         {/* Structured Data: WebSite */}
