@@ -5,9 +5,11 @@ import { ArrowRight, Github, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
+import { LikeButton } from "@/components/like-button"
 
 interface ProjectCardProps {
   project: {
+    slug?: string
     title: string
     description: string
     image: string
@@ -18,9 +20,11 @@ interface ProjectCardProps {
     status?: string
     live?: boolean
   }
+  likeCount?: number
+  onLikeCountChange?: (count: number) => void
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, likeCount = 0, onLikeCountChange }: ProjectCardProps) {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "Live":
@@ -36,7 +40,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <ScaleOnHover>
-      <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+      <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col">
         <div className="relative h-48 overflow-hidden">
           <Image 
             src={project.image} 
@@ -55,7 +59,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           )}
         </div>
-        <CardHeader>
+        <CardHeader className="flex-1">
           <CardTitle className="text-xl">{project.title}</CardTitle>
           <CardDescription className="text-base">{project.description}</CardDescription>
         </CardHeader>
@@ -67,7 +71,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </Badge>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 mb-3">
             <Button asChild className="flex-1">
               <Link href={project.href}>
                 Read Project <ArrowRight className="ml-2 h-4 w-4" />
@@ -88,6 +92,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </Button>
             )}
           </div>
+          {project.slug && (
+            <div className="flex justify-end">
+              <LikeButton
+                itemId={project.slug}
+                initialCount={likeCount}
+                onCountChange={onLikeCountChange}
+                variant="compact"
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
     </ScaleOnHover>

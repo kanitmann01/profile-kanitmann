@@ -1,10 +1,11 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Calendar, Clock, FileText, Palette, Table2 } from "lucide-react"
+import { ArrowLeft, FileText, Palette, Table2 } from "lucide-react"
 import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
+import { ArticleHeader } from "@/components/article-header"
 import Link from "next/link"
 import Script from "next/script"
 import type { Metadata } from "next"
@@ -40,14 +41,6 @@ export const metadata: Metadata = {
     images: heroImageUrl ? [heroImageUrl] : undefined,
   },
 }
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-})
-
-const publishedDateLabel = dateFormatter.format(new Date(article.publishedAt))
 
 const articleSchema = {
   "@context": "https://schema.org",
@@ -92,28 +85,20 @@ export default function DataVizPortfolioArticle() {
           <div className="mb-8">
             <Button variant="ghost" size="sm" asChild className="gap-2">
               <Link href="/articles">
-                <ArrowLeftIcon />
+                <ArrowLeft className="h-4 w-4" />
                 Back to Articles
               </Link>
             </Button>
           </div>
 
           <FadeIn className="mb-16">
-            <header>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                <Calendar className="h-4 w-4" />
-                <time dateTime={article.publishedAt}>{publishedDateLabel}</time>
-                <span>•</span>
-                <Clock className="h-4 w-4" />
-                <span>{article.readTime}</span>
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">
-                {article.title}
-              </h1>
-              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                {article.summary}
-              </p>
-            </header>
+            <ArticleHeader
+              articleSlug={article.slug}
+              title={article.title}
+              description={article.summary}
+              publishedAt={article.publishedAt}
+              readTime={article.readTime}
+            />
           </FadeIn>
 
           <section className="mb-16">
@@ -177,7 +162,7 @@ export default function DataVizPortfolioArticle() {
                 title="Visualization 1 - Executive-Ready Health Table"
                 focus="Global Health Metrics Comparison"
                 summary="A polished `gt` table compares life expectancy, infant mortality, and death rates for nine countries. Column spanners, aligned ranks, and color-coded performance finally match the expectations of an analyst briefing deck."
-                takeaway="Professional formatting is not a finishing touch—it is how data earns trust."
+                takeaway="Professional formatting is not a finishing touch-it is how data earns trust."
               />
               <VisualizationHighlight
                 title="Visualization 2 - COVID-19 Response Storyline"
@@ -200,7 +185,7 @@ export default function DataVizPortfolioArticle() {
               <VisualizationHighlight
                 title="Visualization 5 - Occupational Risk Facets"
                 focus="Facetted line charts across four hazardous industries"
-                summary="Breaking fatalities into top causes across time validates that “dangerous” is industry-specific—falls devastate construction, while violent acts dominate public safety roles."
+                summary="Breaking fatalities into top causes across time validates that “dangerous” is industry-specific-falls devastate construction, while violent acts dominate public safety roles."
                 takeaway="Faceting reduces cognitive overload when comparing trends that operate on different scales."
               />
             </div>

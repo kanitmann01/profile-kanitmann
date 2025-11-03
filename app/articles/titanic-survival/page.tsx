@@ -1,8 +1,9 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Calendar, Clock, TreePine } from "lucide-react"
+import { ArrowLeft, TreePine } from "lucide-react"
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
+import { ArticleHeader } from "@/components/article-header"
 import Script from "next/script"
 import Link from "next/link"
 import type { Metadata } from "next"
@@ -60,8 +61,6 @@ export default function TitanicArticle() {
 
   const techStack = ["Python", "pandas", "scikit-learn", "matplotlib", "seaborn", "jupyter"]
   const hashtags = ["#DataScience", "#MachineLearning", "#Titanic", "#SocialInequality", "#DecisionTrees", "#Python"]
-  const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" })
-  const publishedDateLabel = dateFormatter.format(new Date(article.publishedAt))
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -110,19 +109,13 @@ export default function TitanicArticle() {
 
           {/* Header */}
           <FadeIn className="mb-16">
-            <header>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-              <Calendar className="h-4 w-4" />
-              <time dateTime={article.publishedAt}>{publishedDateLabel}</time>
-              <span>•</span>
-              <Clock className="h-4 w-4" />
-              <span>{article.readTime}</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">Would You Have Survived the Titanic?</h1>
-            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-              What this historic disaster reveals about inequality, decision-making, and leadership under pressure.
-            </p>
-            </header>
+            <ArticleHeader
+              articleSlug={article.slug}
+              title="Would You Have Survived the Titanic?"
+              description="What this historic disaster reveals about inequality, decision-making, and leadership under pressure."
+              publishedAt={article.publishedAt}
+              readTime={article.readTime}
+            />
           </FadeIn>
 
         {/* Introduction */}
