@@ -110,7 +110,7 @@ export const articles: ArticleMeta[] = [
     summary:
       "Troubleshooting BIOS/UEFI, Secure Boot, and firmware issues on Ubuntu, notes from a community thread and a practical checklist.",
     canonicalPath: "/articles/bios-issues-ubuntu",
-    heroImage: "/images/articles/bios-ubuntu.svg",
+    heroImage: "/images/articles/bios-issues-ubuntu.svg",
     publishedAt: "2025-09-08",
     updatedAt: "2025-09-08",
     readTime: "5 min read",
