@@ -1,14 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Mail, Github, Send } from "lucide-react"
+import { Mail, Github } from "lucide-react"
 import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import type { Metadata } from "next"
+
+import { ContactForm } from "@/components/contact-form"
 
 export default function Contact() {
   return (
@@ -115,49 +114,11 @@ export default function Contact() {
                 <CardHeader>
                   <CardTitle>Send a Message</CardTitle>
                   <CardDescription>
-                    Fill out the form below and I'll get back to you as soon as possible.
+                    Fill out the form below and I&apos;ll get back to you as soon as possible.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" placeholder="John" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" placeholder="Doe" />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="your.email@example.com" />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="company">Company (Optional)</Label>
-                    <Input id="company" placeholder="Your Company" />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">Subject</Label>
-                    <Input id="subject" placeholder="Project collaboration opportunity" />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tell me about your project, idea, or how we might work together..."
-                      className="min-h-[120px]"
-                    />
-                  </div>
-
-                  <Button className="w-full" size="lg">
-                    <Send className="mr-2 h-4 w-4" />
-                    Send Message
-                  </Button>
+                  <ContactForm />
                 </CardContent>
               </Card>
             </ScaleOnHover>

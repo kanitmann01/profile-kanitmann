@@ -95,7 +95,6 @@ export default function TitanicArticle() {
 
   return (
     <>
-      {/* Structured Data */}
       <Script id="ld-article-titanic" type="application/ld+json" strategy="afterInteractive">
         {JSON.stringify(articleSchema)}
       </Script>
@@ -118,10 +117,10 @@ export default function TitanicArticle() {
             <header>
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <Calendar className="h-4 w-4" />
-              <time dateTime="2025-03-15">March 15, 2025</time>
+              <time dateTime={article.publishedAt}>{publishedDateLabel}</time>
               <span>•</span>
               <Clock className="h-4 w-4" />
-              <span>8 min read</span>
+              <span>{article.readTime}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">Would You Have Survived the Titanic?</h1>
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
