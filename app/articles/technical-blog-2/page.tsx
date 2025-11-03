@@ -157,7 +157,7 @@ export default function TechnicalBlog2() {
                   My own journey began with a CS engineering background and professional time spent deep in the
                   terminal. The initial CLI learning curve felt manageable because file navigation, scripts, and
                   automation were part of the job. For people new to computing, terminals can appear unforgiving, but
-                  that first exposure often ignites curiosity—either you fall in love with the power or run back to graphical menus.
+                  that first exposure often ignites curiosity-either you fall in love with the power or run back to graphical menus.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   After bouncing between both worlds, I now favor a hybrid mode: terminals for reproducibility and
@@ -233,7 +233,7 @@ export default function TechnicalBlog2() {
           <section className="mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">Why the Hybrid Approach Wins</h2>
             <p className="text-muted-foreground leading-relaxed">
-              My default workflow is CLI-first for anything that needs to be repeatable—deployments, server
+              My default workflow is CLI-first for anything that needs to be repeatable-deployments, server
               configuration, data pipelines. But when exploring data, storyboard-ing a presentation, or collaborating
               with teammates, a GUI keeps the conversation inclusive. Switching mental models is a skill worth
               practicing; it ensures tools serve the problem rather than the other way around.

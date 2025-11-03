@@ -119,7 +119,7 @@ export default function CollegeMajorShiftAnalysis() {
             <div className="border-l-4 border-primary pl-6">
               <h3 className="text-xl font-semibold mb-2">What broader socio-economic patterns emerge?</h3>
               <p className="text-muted-foreground">
-                Connected trends to cultural and policy factors—e.g., psychology and biology growth alongside increased
+                Connected trends to cultural and policy factors-e.g., psychology and biology growth alongside increased
                 focus on healthcare and mental health services.
               </p>
             </div>

@@ -188,7 +188,7 @@ export default function TechnicalBlog3() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground leading-relaxed">
-                    Locked-down environments aren’t malicious—they protect credentials and compliance. Understanding the
+                    Locked-down environments aren’t malicious-they protect credentials and compliance. Understanding the
                     rationale helps when searching for sanctioned workarounds.
                   </p>
                 </CardContent>
@@ -213,7 +213,7 @@ export default function TechnicalBlog3() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground leading-relaxed">
-                    Going keyboard-only wasn’t sustainable, but the detour reinforced how powerful shortcuts and scripting are—even in Windows’ GUI-centric ecosystem.
+                    Going keyboard-only wasn’t sustainable, but the detour reinforced how powerful shortcuts and scripting are-even in Windows’ GUI-centric ecosystem.
                   </p>
                 </CardContent>
               </Card>

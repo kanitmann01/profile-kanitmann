@@ -2,12 +2,13 @@ import { Mail } from "lucide-react"
 import Link from "next/link"
 
 export function Footer() {
+  const currentYear = new Date().getFullYear()
   return (
     <footer className="border-t bg-muted/30">
       <div className="container mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <p className="text-muted-foreground">© 2025 Kanit Mann. All rights reserved.</p>
+            <p className="text-muted-foreground">© {currentYear} Kanit Mann. All rights reserved.</p>
           </div>
           <div className="flex space-x-4">
             <Link href="mailto:kanitmann01@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">

@@ -30,7 +30,7 @@ export default function CCRBAllegationsAnalysis() {
   const weeklyReports = [
     {
       week: 1,
-      title: "Week 1 — Baseline Exploration and Data Familiarization",
+      title: "Week 1 - Baseline Exploration and Data Familiarization",
       date: "September 8, 2025",
       pdfPath: "/CCRB%20Allegations%20Analysis.pdf",
       summary:

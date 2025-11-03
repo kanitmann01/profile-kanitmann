@@ -4,64 +4,24 @@ import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Calendar } from "lucide-react"
 import Link from "next/link"
+import { articles as allArticles } from "@/data/articles"
 
 export default function Articles() {
-  const articles = [
-    {
-      title: "Data Visualization Portfolio Reflection",
-      description:
-        "Five portfolio visuals that track a semester’s growth in polish, accessibility, and narrative storytelling.",
-      readTime: "6 min read",
-      date: "November 3, 2025",
-      tags: ["Data Visualization", "Portfolio", "Storytelling"],
-      href: "/articles/data-viz-analysis",
-    },
-    {
-      title: "Technical Blog 3: The Wonderful World of Windows Registry",
-      description:
-        "How a locked-down corporate laptop sparked a registry deep dive, automation, and empathy for IT guardrails.",
-      readTime: "4 min read",
-      date: "September 21, 2025",
-      tags: ["Windows", "Automation", "Productivity"],
-      href: "/articles/technical-blog-3",
-    },
-    {
-      title: "Technical Blog 2: Command Line Interface vs Graphical User Interface",
-      description:
-        "A balanced look at when to lean on terminals, when to embrace GUIs, and why a blended workflow works best.",
-      readTime: "5 min read",
-      date: "September 14, 2025",
-      tags: ["CLI", "GUI", "Workflow"],
-      href: "/articles/technical-blog-2",
-    },
-    {
-      title: "CCRB Allegations Analysis (Ongoing)",
-      description:
-        "Multi-week data analysis project on CCRB allegations; Week 1 lays the baseline and embeds the first report.",
-      readTime: "7 min read",
-      date: "September 8, 2025",
-      tags: ["Data Analysis", "CCRB", "NYC"],
-      href: "/articles/ccrb-allegations-analysis",
-    },
-    {
-      title: "Would you have survived the Titanic?",
-      description:
-        "What this historic disaster reveals about inequality, decision-making, and leadership under pressure.",
-      readTime: "8 min read",
-      date: "March 15, 2025",
-      tags: ["Data Science", "Machine Learning", "Social Analysis"],
-      href: "/articles/titanic-survival",
-    },
-    {
-      title: "Technical Blog 1: BIOS Issues and Ubuntu",
-      description:
-        "Troubleshooting BIOS/UEFI, Secure Boot, and firmware issues on Ubuntu, notes from a community thread and a practical checklist.",
-      readTime: "5 min read",
-      date: "September 8, 2025",
-      tags: ["Linux", "Ubuntu", "Firmware", "UEFI"],
-      href: "/articles/bios-issues-ubuntu",
-    },
-  ]
+  const dateFormatter = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  })
+
+  const articles = allArticles.map((article) => ({
+    title: article.title,
+    description: article.summary,
+    readTime: article.readTime,
+    date: dateFormatter.format(new Date(article.publishedAt)),
+    publishedAt: article.publishedAt,
+    tags: article.tags,
+    href: article.canonicalPath,
+  }))
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
@@ -75,7 +35,7 @@ export default function Articles() {
 
         <div className="space-y-8">
           {[...articles]
-            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
             .map((article, index) => (
             <Card key={index} className="hover:shadow-md transition-shadow">
               <CardHeader>

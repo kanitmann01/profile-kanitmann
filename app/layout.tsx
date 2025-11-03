@@ -5,6 +5,7 @@ import "./globals.css"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 import Script from "next/script"
 
 // Favicon imports
@@ -85,6 +86,8 @@ export const metadata: Metadata = {
   },
 }
 
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID
+
 export default function RootLayout({
   children,
 }: {
@@ -94,18 +97,22 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-0FJ18KCCQ3"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-0FJ18KCCQ3');
-          `}
-        </Script>
+        {GA_ID ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}');
+              `}
+            </Script>
+          </>
+        ) : null}
         {/* Structured Data: WebSite */}
         <Script id="ld-website" type="application/ld+json" strategy="afterInteractive">
           {JSON.stringify({
@@ -149,6 +156,7 @@ export default function RootLayout({
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

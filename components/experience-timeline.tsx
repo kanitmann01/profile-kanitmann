@@ -1,25 +1,12 @@
 "use client"
 
+import { useState } from "react"
+import { Calendar, MapPin, Building2, Briefcase, ChevronDown, ChevronUp } from "lucide-react"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, MapPin, Building2, Briefcase, ChevronDown, ChevronUp } from "lucide-react"
-import { useState } from "react"
-
-interface Experience {
-  id: string
-  company: string
-  position: string
-  type: "Full-time" | "Part-time" | "Internship"
-  location: string
-  startDate: string
-  endDate: string
-  duration: string
-  workMode: "On-site" | "Hybrid" | "Remote"
-  description: string
-  skills: string[]
-  achievements?: string[]
-}
+import type { Experience } from "@/data/experiences"
 
 interface ExperienceTimelineProps {
   experiences: Experience[]
@@ -46,7 +33,7 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
 
   return (
     <div className="space-y-4">
-      {experiences.map((experience, index) => {
+      {experiences.map((experience) => {
         const isExpanded = expandedCards.has(experience.id)
         const shouldTruncate = experience.description.length > 200
         const displayDescription = isExpanded || !shouldTruncate 
@@ -164,7 +151,7 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
 export function CompactExperienceTimeline({ experiences }: { experiences: Experience[] }) {
   return (
     <div className="space-y-3">
-      {experiences.slice(0, 5).map((experience, index) => (
+      {experiences.slice(0, 5).map((experience) => (
         <div
           key={experience.id}
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"

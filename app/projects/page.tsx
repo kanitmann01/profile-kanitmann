@@ -1,72 +1,11 @@
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ProjectCard } from "@/components/project-card"
+import { groupProjectsByPeriod } from "@/data/projects"
 import type { Metadata } from "next"
 
 export default function Projects() {
-  const projectGroups = [
-    {
-      period: "September 2025",
-      projects: [
-        {
-          title: "College Major Selection & Shift Analysis",
-          description:
-            "Longitudinal analysis of IPUMS USA microdata to understand how wage trends influence shifts in U.S. college major popularity from 2009–2023.",
-          image: "/major-img.png",
-          tags: ["Python", "Pandas", "Seaborn", "Data Storytelling"],
-          href: "/projects/college-major-shift-analysis",
-          status: "Completed",
-          github: "https://github.com/kanitmann01/college-major-shift-analysis",
-        },
-      ],
-    },
-    {
-      period: "July 2025",
-      projects: [
-        {
-          title: "The Echo Effect: WTO Accession Impact Analysis",
-          description:
-            "Research project using Synthetic Control Method to analyze the causal impact of World Trade Organization accession on national economies.",
-          image: "/images/case-studies/echoeffect.jpg",
-          tags: ["Python", "Synthetic Control", "Economics", "Research"],
-          href: "/projects/echo-effect",
-          status: "In Progress",
-          github: "https://github.com/kanitmann01/The-Echo-Effect",
-        },
-      ],
-    },
-    {
-      period: "March 2025",
-      projects: [
-        {
-          title: "Titanic Survival Predictor Web App",
-          description:
-            "A fun and interactive web application that predicts whether you would have survived the Titanic disaster based on your passenger profile.",
-          image: "/images/case-studies/titanic.jpeg",
-          tags: ["Python", "Flask", "Scikit-learn", "Bootstrap"],
-          href: "/projects/titanic",
-          status: "Live",
-          github: "https://github.com/kanitmann01/titanic_survivor_web_app",
-          demo: "https://web-production-db6b.up.railway.app/",
-        },
-      ],
-    },
-    {
-      period: "February 2025",
-      projects: [
-        {
-          title: "VoiceBridge - Real-Time P2P Translation",
-          description:
-            "Break language barriers with real-time speech translation using cutting-edge AI models for speech recognition, translation, and speech synthesis.",
-          image: "/images/case-studies/voicebridge.jpeg",
-          tags: ["Python", "Flask", "PyTorch", "Socket.IO"],
-          href: "/projects/voicebridge",
-          status: "Completed",
-          github: "https://github.com/kanitmann01/hackaz_team_wildhackers",
-        },
-      ],
-    },
-  ]
+  const projectGroups = groupProjectsByPeriod()
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">

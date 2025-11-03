@@ -1,5 +1,3 @@
-"use client"
-
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -10,9 +8,41 @@ import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
-import Head from "next/head"
 import Script from "next/script"
 import Link from "next/link"
+import type { Metadata } from "next"
+
+import { getArticleBySlug } from "@/data/articles"
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kanit.codes"
+const article = getArticleBySlug("titanic-survival")
+const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString()
+const heroImageUrl = article.heroImage ? new URL(article.heroImage, siteUrl).toString() : undefined
+
+export const metadata: Metadata = {
+  title: article.title,
+  description: article.description,
+  keywords: article.keywords,
+  alternates: {
+    canonical: article.canonicalPath,
+  },
+  authors: [{ name: "Kanit Mann" }],
+  openGraph: {
+    title: article.title,
+    description: article.description,
+    url: canonicalUrl,
+    type: "article",
+    publishedTime: article.publishedAt,
+    modifiedTime: article.updatedAt,
+    images: heroImageUrl ? [{ url: heroImageUrl }] : undefined,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: article.title,
+    description: article.description,
+    images: heroImageUrl ? [heroImageUrl] : undefined,
+  },
+}
 
 export default function TitanicArticle() {
   const genderData = [
@@ -34,69 +64,44 @@ export default function TitanicArticle() {
 
   const techStack = ["Python", "pandas", "scikit-learn", "matplotlib", "seaborn", "jupyter"]
   const hashtags = ["#DataScience", "#MachineLearning", "#Titanic", "#SocialInequality", "#DecisionTrees", "#Python"]
+  const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" })
+  const publishedDateLabel = dateFormatter.format(new Date(article.publishedAt))
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.description,
+    image: heroImageUrl,
+    author: { "@type": "Person", name: "Kanit Mann" },
+    publisher: {
+      "@type": "Organization",
+      name: "Kanit Mann Portfolio",
+      logo: { "@type": "ImageObject", url: new URL("/images/profile/kanit-mann.png", siteUrl).toString() },
+    },
+    datePublished: article.publishedAt,
+    dateModified: article.updatedAt ?? article.publishedAt,
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+    keywords: article.keywords?.join(", "),
+  }
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Articles", item: `${siteUrl}/articles` },
+      { "@type": "ListItem", position: 3, name: article.title, item: canonicalUrl },
+    ],
+  }
 
   return (
     <>
-      {/* Breadcrumb JSON-LD for Article */}
-      <Script id="ld-breadcrumb-article-titanic" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kanit.codes/"},
-            {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://kanit.codes/articles"},
-            {"@type": "ListItem", "position": 3, "name": "Would You Have Survived the Titanic?", "item": "https://kanit.codes/articles/titanic-survival"}
-          ]
-        })}
+      {/* Structured Data */}
+      <Script id="ld-article-titanic" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(articleSchema)}
       </Script>
-      <Head>
-        <title>Would You Have Survived the Titanic? Data Analysis & Survival Predictions</title>
-        <meta name="description" content="Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns by gender, class, and age with interactive data visualizations and historical insights." />
-        <meta name="keywords" content="Titanic survival, machine learning, data analysis, survival prediction, RMS Titanic, passenger data, social inequality, decision trees, Python, data science" />
-        <meta name="author" content="Kanit Mann" />
-        <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Would You Have Survived the Titanic? Data Analysis & Survival Predictions" />
-        <meta property="og:description" content="Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns by gender, class, and age with interactive data visualizations." />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://kanit.codes/articles/titanic-survival" />
-        <meta property="og:image" content="https://kanit.codes/images/case-studies/titanic.jpeg" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Would You Have Survived the Titanic? Data Analysis & Survival Predictions" />
-        <meta name="twitter:description" content="Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns with interactive data visualizations." />
-        <meta name="twitter:image" content="https://kanit.codes/images/case-studies/titanic.jpeg" />
-        <link rel="canonical" href="https://kanit.codes/articles/titanic-survival" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Article",
-              "headline": "Would You Have Survived the Titanic? Data Analysis & Survival Predictions",
-              "description": "Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns by gender, class, and age with interactive data visualizations and historical insights.",
-              "image": "https://kanit.codes/images/case-studies/titanic.jpeg",
-              "author": {
-                "@type": "Person",
-                "name": "Kanit Mann"
-              },
-              "publisher": {
-                "@type": "Organization",
-                "name": "Kanit Mann Portfolio",
-                "logo": {
-                  "@type": "ImageObject",
-                  "url": "https://kanit.codes/images/profile/kanit-mann.png"
-                }
-              },
-              "datePublished": "2025-03-15",
-              "dateModified": "2025-03-15",
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://kanit.codes/articles/titanic-survival"
-              },
-              "keywords": "Titanic survival, machine learning, data analysis, survival prediction, RMS Titanic, passenger data, social inequality, decision trees, Python, data science"
-            })
-          }}
-        />
-      </Head>
+      <Script id="ld-breadcrumb-article-titanic" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(breadcrumbSchema)}
+      </Script>
       <div className="min-h-screen bg-background py-8 px-2 sm:py-12 sm:px-6">
         <div className="container mx-auto max-w-4xl w-full">
           <div className="mb-8">

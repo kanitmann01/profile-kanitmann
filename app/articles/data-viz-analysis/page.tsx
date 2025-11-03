@@ -186,33 +186,33 @@ export default function DataVizPortfolioArticle() {
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">Visualization Highlights</h2>
             <div className="space-y-10">
               <VisualizationHighlight
-                title="Visualization 1 — Executive-Ready Health Table"
+                title="Visualization 1 - Executive-Ready Health Table"
                 focus="Global Health Metrics Comparison"
                 summary="A polished `gt` table compares life expectancy, infant mortality, and death rates for nine countries. Column spanners, aligned ranks, and color-coded performance finally match the expectations of an analyst briefing deck."
-                takeaway="Professional formatting is not a finishing touch—it is how data earns trust."
+                takeaway="Professional formatting is not a finishing touch-it is how data earns trust."
               />
               <VisualizationHighlight
-                title="Visualization 2 — COVID-19 Response Storyline"
+                title="Visualization 2 - COVID-19 Response Storyline"
                 focus="Stacked line charts for New York, California, and Florida"
                 summary="Overlaying daily cases with the Oxford stringency index reveals how policy tightened as infections surged. The stacked view keeps timelines aligned while faceting ensures each state’s curve remains readable."
                 takeaway="Pairing outcomes with policy inputs helped audiences see causality, not just spikes."
               />
               <VisualizationHighlight
-                title="Visualization 3 — Apollo Asteroid Origins"
+                title="Visualization 3 - Apollo Asteroid Origins"
                 focus="Scatter plot of orbital inclination versus semimajor axis"
                 summary="Color-coding eccentricity and annotating the Main Asteroid Belt transform a dense point cloud into a readable map of origin stories. Choosing a dark theme improved contrast for the plasma palette."
                 takeaway="Context callouts, not just legends, explain why certain clusters matter."
               />
               <VisualizationHighlight
-                title="Visualization 4 — Western Flora Flows"
+                title="Visualization 4 - Western Flora Flows"
                 focus="Sankey diagram of plant families by state"
                 summary="The flow diagram surfaces how families like Asteraceae dominate Arizona and California, while grasses remain ubiquitous. Rewriting the caption around regional preferences kept the story audience-friendly."
                 takeaway="When distributions diverge, a flow chart can communicate imbalance better than bar charts."
               />
               <VisualizationHighlight
-                title="Visualization 5 — Occupational Risk Facets"
+                title="Visualization 5 - Occupational Risk Facets"
                 focus="Facetted line charts across four hazardous industries"
-                summary="Breaking fatalities into top causes across time validates that “dangerous” is industry-specific—falls devastate construction, while violent acts dominate public safety roles."
+                summary="Breaking fatalities into top causes across time validates that “dangerous” is industry-specific-falls devastate construction, while violent acts dominate public safety roles."
                 takeaway="Faceting reduces cognitive overload when comparing trends that operate on different scales."
               />
             </div>
