@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ExternalLink, Github, Mic, Globe, Smartphone } from "lucide-react"
+import { ArrowLeft, ExternalLink, Github, Mic, Globe, Smartphone } from "lucide-react"
 import type { Metadata } from "next"
 import Script from "next/script"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function VoicebridgeCaseStudy() {
   const techStack = ["Python", "Flask", "PyTorch", "Socket.IO", "Whisper", "NLLB-200", "MMS-TTS", "HTML5/CSS3/JavaScript"]
@@ -24,6 +25,14 @@ export default function VoicebridgeCaseStudy() {
         })}
       </Script>
       <div className="container mx-auto max-w-4xl">
+        <div className="mb-8">
+          <Button variant="ghost" size="sm" asChild className="gap-2">
+            <Link href="/projects">
+              <ArrowLeft className="h-4 w-4" />
+              Back to Projects
+            </Link>
+          </Button>
+        </div>
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-foreground mb-4">VoiceBridge - Real-Time P2P Translation</h1>

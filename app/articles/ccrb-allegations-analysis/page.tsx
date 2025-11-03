@@ -8,6 +8,7 @@ import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
+import { PdfReportSection } from "@/components/pdf-report-section"
 import Head from "next/head"
 import Script from "next/script"
 
@@ -180,33 +181,16 @@ export default function CCRBAllegationsAnalysis() {
           </section>
 
           {/* Embedded PDF (Week 1) */}
-          <section className="mb-16">
-            <FadeIn>
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Week 1 Report (PDF)</h2>
-              <p className="text-muted-foreground mb-4">
-                Embedded below. You can also download it to view offline.
-              </p>
-              <div className="mb-4">
-                <Button asChild>
-                  <a href={weeklyReports[0].pdfPath} target="_blank" rel="noopener noreferrer" download>
-                    Download Week 1 PDF
-                  </a>
-                </Button>
-              </div>
-              <div className="w-full aspect-[4/3] bg-muted/30 rounded-lg border overflow-hidden">
-                <object
-                  data={weeklyReports[0].pdfPath}
-                  type="application/pdf"
-                  className="w-full h-full"
-                >
-                  <p className="p-4 text-muted-foreground">
-                    Your browser cannot display PDFs. Please
-                    <a href={weeklyReports[0].pdfPath} className="text-primary hover:underline ml-1" target="_blank" rel="noopener noreferrer">download the file</a>.
-                  </p>
-                </object>
-              </div>
-            </FadeIn>
-          </section>
+        <section className="mb-16">
+          <FadeIn>
+            <PdfReportSection
+              title="Week 1 Report (PDF)"
+              description="Embedded below. You can also download it to view offline."
+              pdfUrl={weeklyReports[0].pdfPath}
+              downloadLabel="Download Week 1 PDF"
+            />
+          </FadeIn>
+        </section>
 
           {/* Weekly Updates List (expandable in future weeks) */}
           <section className="mb-16">
@@ -253,5 +237,6 @@ export default function CCRBAllegationsAnalysis() {
     </>
   )
 }
+
 
 
