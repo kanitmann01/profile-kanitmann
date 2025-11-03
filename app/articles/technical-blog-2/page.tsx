@@ -9,7 +9,6 @@ import { SlideIn } from "@/components/animations/slide-in"
 import Head from "next/head"
 import Link from "next/link"
 import Script from "next/script"
-import type { Metadata } from "next"
 
 const CLI_MERITS = [
   "Gives detailed control to the user",
@@ -289,26 +288,6 @@ function ArrowLeftIcon() {
       <path d="M12 19l-7-7 7-7" />
     </svg>
   )
-}
-
-export const metadata: Metadata = {
-  title: "Technical Blog 2: Command Line Interface vs Graphical User Interface",
-  description:
-    "A practitioner’s perspective on the CLI vs GUI debate: when to embrace the terminal, when to grab the mouse, and why a hybrid mindset wins.",
-  alternates: { canonical: "/articles/technical-blog-2" },
-  openGraph: {
-    title: "Technical Blog 2: Command Line Interface vs Graphical User Interface",
-    description:
-      "A practitioner’s perspective on the CLI vs GUI debate: when to embrace the terminal, when to grab the mouse, and why a hybrid mindset wins.",
-    url: "https://kanit.codes/articles/technical-blog-2",
-    type: "article",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Technical Blog 2: Command Line Interface vs Graphical User Interface",
-    description:
-      "A practitioner’s perspective on the CLI vs GUI debate: when to embrace the terminal, when to grab the mouse, and why a hybrid mindset wins.",
-  },
 }
 
 

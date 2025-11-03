@@ -9,7 +9,6 @@ import { SlideIn } from "@/components/animations/slide-in"
 import Head from "next/head"
 import Link from "next/link"
 import Script from "next/script"
-import type { Metadata } from "next"
 
 export default function TechnicalBlog3() {
   const publishedDate = "September 21, 2025"
@@ -254,26 +253,6 @@ function ArrowLeftIcon() {
       <path d="M12 19l-7-7 7-7" />
     </svg>
   )
-}
-
-export const metadata: Metadata = {
-  title: "Technical Blog 3: The Wonderful World of Windows Registry",
-  description:
-    "A firsthand story about wrestling with corporate device restrictions, discovering the Windows Registry, and automating the fixes.",
-  alternates: { canonical: "/articles/technical-blog-3" },
-  openGraph: {
-    title: "Technical Blog 3: The Wonderful World of Windows Registry",
-    description:
-      "A firsthand story about wrestling with corporate device restrictions, discovering the Windows Registry, and automating the fixes.",
-    url: "https://kanit.codes/articles/technical-blog-3",
-    type: "article",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Technical Blog 3: The Wonderful World of Windows Registry",
-    description:
-      "A firsthand story about wrestling with corporate device restrictions, discovering the Windows Registry, and automating the fixes.",
-  },
 }
 
 
