@@ -31,20 +31,21 @@ export function LikeButton({
   }, [itemId])
 
   const handleLike = async () => {
-    // Check if already liked
     const likedItems = JSON.parse(localStorage.getItem("likedItems") || "{}")
-    if (likedItems[itemId]) {
-      return
-    }
+    const isCurrentlyLiked = likedItems[itemId]
 
     // Optimistic update
-    const newCount = count + 1
+    const newCount = isCurrentlyLiked ? Math.max(0, count - 1) : count + 1
     setCount(newCount)
-    setHasLiked(true)
+    setHasLiked(!isCurrentlyLiked)
     setIsAnimating(true)
 
-    // Save to localStorage
-    likedItems[itemId] = true
+    // Update localStorage
+    if (isCurrentlyLiked) {
+      delete likedItems[itemId]
+    } else {
+      likedItems[itemId] = true
+    }
     localStorage.setItem("likedItems", JSON.stringify(likedItems))
 
     // Notify parent
@@ -59,11 +60,11 @@ export function LikeButton({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ itemId }),
+        body: JSON.stringify({ itemId, action: isCurrentlyLiked ? "unlike" : "like" }),
       })
 
       if (!response.ok) {
-        throw new Error("Failed to like")
+        throw new Error("Failed to update like")
       }
 
       const data = await response.json()
@@ -72,11 +73,15 @@ export function LikeButton({
         onCountChange(data.count)
       }
     } catch (error) {
-      console.error("Error liking item:", error)
+      console.error("Error updating like:", error)
       // Revert on error
       setCount(count)
-      setHasLiked(false)
-      delete likedItems[itemId]
+      setHasLiked(isCurrentlyLiked)
+      if (isCurrentlyLiked) {
+        likedItems[itemId] = true
+      } else {
+        delete likedItems[itemId]
+      }
       localStorage.setItem("likedItems", JSON.stringify(likedItems))
       if (onCountChange) {
         onCountChange(count)
@@ -90,13 +95,12 @@ export function LikeButton({
     return (
       <button
         onClick={handleLike}
-        disabled={hasLiked}
         className={cn(
-          "inline-flex items-center gap-1.5 text-sm transition-colors",
-          hasLiked ? "text-pink-600 cursor-default" : "text-muted-foreground hover:text-pink-600",
+          "inline-flex items-center gap-1.5 text-sm transition-colors cursor-pointer",
+          hasLiked ? "text-pink-600 hover:text-pink-700" : "text-muted-foreground hover:text-pink-600",
           className
         )}
-        title={hasLiked ? "You liked this" : "Like this"}
+        title={hasLiked ? "Unlike this" : "Like this"}
       >
         <Heart
           className={cn(
@@ -115,10 +119,9 @@ export function LikeButton({
       variant={hasLiked ? "default" : "outline"}
       size="sm"
       onClick={handleLike}
-      disabled={hasLiked}
       className={cn(
         "gap-2",
-        hasLiked && "bg-pink-600 hover:bg-pink-600",
+        hasLiked && "bg-pink-600 hover:bg-pink-700",
         className
       )}
     >

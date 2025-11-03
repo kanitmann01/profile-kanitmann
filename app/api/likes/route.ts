@@ -31,18 +31,28 @@ export async function GET() {
   }
 }
 
-// POST /api/likes - Increment like count for an item
+// POST /api/likes - Increment or decrement like count for an item
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { itemId } = body
+    const { itemId, action } = body
 
     if (!itemId || typeof itemId !== "string") {
       return NextResponse.json({ error: "Invalid itemId" }, { status: 400 })
     }
 
+    if (action && action !== "like" && action !== "unlike") {
+      return NextResponse.json({ error: "Invalid action" }, { status: 400 })
+    }
+
     const likes = await readLikes()
-    likes[itemId] = (likes[itemId] || 0) + 1
+    
+    if (action === "unlike") {
+      likes[itemId] = Math.max(0, (likes[itemId] || 0) - 1)
+    } else {
+      likes[itemId] = (likes[itemId] || 0) + 1
+    }
+    
     await writeLikes(likes)
 
     return NextResponse.json({ itemId, count: likes[itemId] })
