@@ -97,20 +97,27 @@ export default function About() {
     }
   ]
 
-  const skills = [
-    { name: "Python", logo: "/images/tech/python.svg" },
-    { name: "C++", logo: "/images/tech/cpp.svg" },
-    { name: "SQL", logo: "/images/tech/sql.svg" },
-    { name: "Pandas", logo: "/images/tech/pandas.svg", themeAware: true },
-    { name: "NumPy", logo: "/images/tech/numpy.svg" },
-    { name: "Matplotlib", logo: "/images/tech/matplotlib.svg" },
-    { name: "Seaborn", logo: "/images/tech/seaborn.svg" },
-    { name: "Scikit-learn", logo: "/images/tech/scikit-learn.svg" },
-    { name: "GitHub", logo: "/images/tech/github.svg", themeAware: true },
-    { name: "Docker", logo: "/images/tech/docker.svg" },
-    { name: "GCP", logo: "/images/tech/gcp.svg" },
-    { name: "Tableau", logo: "/images/tech/tableau.svg" },
-    { name: "Figma", logo: "/images/tech/figma.svg" },
+  const skillCategories = [
+    {
+      title: "Programming Languages",
+      items: ["Python", "C++", "Hands-on Coding"],
+    },
+    {
+      title: "Machine Learning & Frameworks",
+      items: ["Machine learning frameworks", "Scikit learn"],
+    },
+    {
+      title: "Data Management",
+      items: ["Data wrangling tools", "Pandas", "SQL", "Plotly", "Seaborn", "Tableau", "Microsoft Excel"],
+    },
+    {
+      title: "Mindset & Analysis",
+      items: ["Analytical mindset", "Curiosity"],
+    },
+    {
+      title: "Field Expertise",
+      items: ["Data Science", "GCP", "Cloud Infrastructure"],
+    },
   ]
 
   return (
@@ -172,20 +179,22 @@ export default function About() {
           <FadeIn>
             <h2 className="text-3xl font-bold text-foreground mb-12 text-center">My Toolkit</h2>
           </FadeIn>
-          <StaggerContainer className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-8">
-            {skills.map((skill) => (
-              <StaggerItem key={skill.name}>
-                <ScaleOnHover className="text-center group">
-                  <div className="bg-card rounded-lg p-4 shadow-sm border hover:shadow-md transition-shadow">
-                    <Image
-                      src={skill.logo}
-                      alt={skill.name}
-                      width={60}
-                      height={60}
-                      className={`mx-auto mb-2 ${skill.themeAware ? `svg-${skill.name.toLowerCase()}` : ''}`}
-                    />
-                    <p className="text-sm font-medium text-foreground">{skill.name}</p>
-                  </div>
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {skillCategories.map((category) => (
+              <StaggerItem key={category.title}>
+                <ScaleOnHover>
+                  <Card className="h-full">
+                    <CardContent className="p-6 space-y-4">
+                      <h3 className="text-xl font-semibold text-foreground">{category.title}</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {category.items.map((item) => (
+                          <Badge key={item} variant="secondary">
+                            {item}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
                 </ScaleOnHover>
               </StaggerItem>
             ))}

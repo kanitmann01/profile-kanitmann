@@ -8,6 +8,33 @@ import Link from "next/link"
 export default function Articles() {
   const articles = [
     {
+      title: "Data Visualization Portfolio Reflection",
+      description:
+        "Five portfolio visuals that track a semester’s growth in polish, accessibility, and narrative storytelling.",
+      readTime: "6 min read",
+      date: "November 3, 2025",
+      tags: ["Data Visualization", "Portfolio", "Storytelling"],
+      href: "/articles/data-viz-analysis",
+    },
+    {
+      title: "Technical Blog 3: The Wonderful World of Windows Registry",
+      description:
+        "How a locked-down corporate laptop sparked a registry deep dive, automation, and empathy for IT guardrails.",
+      readTime: "4 min read",
+      date: "September 21, 2025",
+      tags: ["Windows", "Automation", "Productivity"],
+      href: "/articles/technical-blog-3",
+    },
+    {
+      title: "Technical Blog 2: Command Line Interface vs Graphical User Interface",
+      description:
+        "A balanced look at when to lean on terminals, when to embrace GUIs, and why a blended workflow works best.",
+      readTime: "5 min read",
+      date: "September 14, 2025",
+      tags: ["CLI", "GUI", "Workflow"],
+      href: "/articles/technical-blog-2",
+    },
+    {
       title: "CCRB Allegations Analysis (Ongoing)",
       description:
         "Multi-week data analysis project on CCRB allegations; Week 1 lays the baseline and embeds the first report.",

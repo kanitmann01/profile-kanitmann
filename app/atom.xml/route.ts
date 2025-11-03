@@ -10,6 +10,27 @@ type ArticleItem = {
 function getArticles(): ArticleItem[] {
   return [
     {
+      title: "Data Visualization Portfolio Reflection",
+      description:
+        "Five visualizations that document a semester-long journey toward professional polish, accessibility, and narrative clarity.",
+      url: `${siteUrl}/articles/data-viz-analysis`,
+      date: "2025-11-03",
+    },
+    {
+      title: "Technical Blog 3: The Wonderful World of Windows Registry",
+      description:
+        "A corporate laptop story about registry tweaks, automation, and working within enterprise guardrails.",
+      url: `${siteUrl}/articles/technical-blog-3`,
+      date: "2025-09-21",
+    },
+    {
+      title: "Technical Blog 2: Command Line Interface vs Graphical User Interface",
+      description:
+        "A practitioner’s take on choosing between CLI speed, GUI discovery, and the hybrid workflows that bridge them.",
+      url: `${siteUrl}/articles/technical-blog-2`,
+      date: "2025-09-14",
+    },
+    {
       title: "CCRB Allegations Analysis (Ongoing)",
       description:
         "Multi-week data analysis project on CCRB allegations; Week 1 lays the baseline and links the first report.",
