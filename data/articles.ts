@@ -20,9 +20,9 @@ export const articles: ArticleMeta[] = [
     description:
       "A guided tour through five portfolio visualizations demonstrating polish, communication, and analytical rigor in data storytelling.",
     summary:
-      "Five portfolio visuals that track a semester’s growth in polish, accessibility, and narrative storytelling.",
+      "Five portfolio visuals that track a semester's growth in polish, accessibility, and narrative storytelling.",
     canonicalPath: "/articles/data-viz-analysis",
-    heroImage: "/placeholder.jpg",
+    heroImage: "/images/articles/data-visualization.jpg",
     publishedAt: "2025-11-03",
     updatedAt: "2025-11-03",
     readTime: "6 min read",
@@ -44,7 +44,7 @@ export const articles: ArticleMeta[] = [
     summary:
       "How a locked-down corporate laptop sparked a registry deep dive, automation, and empathy for IT guardrails.",
     canonicalPath: "/articles/technical-blog-3",
-    heroImage: "/placeholder.jpg",
+    heroImage: "/images/articles/windows-registry.jpg",
     publishedAt: "2025-09-21",
     updatedAt: "2025-09-21",
     readTime: "4 min read",
@@ -61,11 +61,11 @@ export const articles: ArticleMeta[] = [
     slug: "technical-blog-2",
     title: "Technical Blog 2: Command Line Interface vs Graphical User Interface",
     description:
-      "A practitioner’s perspective on the CLI vs GUI debate: when to embrace the terminal, when to grab the mouse, and why a hybrid mindset wins.",
+      "A practitioner's perspective on the CLI vs GUI debate: when to embrace the terminal, when to grab the mouse, and why a hybrid mindset wins.",
     summary:
       "A balanced look at when to lean on terminals, when to embrace GUIs, and why a blended workflow works best.",
     canonicalPath: "/articles/technical-blog-2",
-    heroImage: "/placeholder.jpg",
+    heroImage: "/images/articles/cli-gui.jpg",
     publishedAt: "2025-09-14",
     updatedAt: "2025-09-14",
     readTime: "5 min read",
@@ -86,7 +86,7 @@ export const articles: ArticleMeta[] = [
     summary:
       "Multi-week data analysis project on CCRB allegations; Week 1 lays the baseline and embeds the first report.",
     canonicalPath: "/articles/ccrb-allegations-analysis",
-    heroImage: "/placeholder.jpg",
+    heroImage: "/images/articles/ccrb-analysis.jpg",
     publishedAt: "2025-09-08",
     updatedAt: "2025-09-08",
     readTime: "7 min read",
@@ -110,7 +110,7 @@ export const articles: ArticleMeta[] = [
     summary:
       "Troubleshooting BIOS/UEFI, Secure Boot, and firmware issues on Ubuntu, notes from a community thread and a practical checklist.",
     canonicalPath: "/articles/bios-issues-ubuntu",
-    heroImage: "/placeholder.jpg",
+    heroImage: "/images/articles/bios-ubuntu.jpg",
     publishedAt: "2025-09-08",
     updatedAt: "2025-09-08",
     readTime: "5 min read",
