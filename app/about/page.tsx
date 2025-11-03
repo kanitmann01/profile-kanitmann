@@ -27,15 +27,15 @@ export default function About() {
     { name: "GCP", logo: "/images/tech/gcp.svg" },
     { name: "Tableau", logo: "/images/tech/tableau.svg" },
     { name: "Figma", logo: "/images/tech/figma.svg" },
-    { name: "Hands-on Coding", logo: "/images/tech/hands-on-coding.svg" },
-    { name: "Machine Learning Frameworks", logo: "/images/tech/machine-learning-frameworks.svg" },
-    { name: "Data Wrangling Tools", logo: "/images/tech/data-wrangling-tools.svg" },
+    // { name: "Hands-on Coding", logo: "/images/tech/hands-on-coding.svg" },
+    // { name: "Machine Learning Frameworks", logo: "/images/tech/machine-learning-frameworks.svg" },
+    // { name: "Data Wrangling Tools", logo: "/images/tech/data-wrangling-tools.svg" },
     { name: "Plotly", logo: "/images/tech/plotly.svg" },
     { name: "Microsoft Excel", logo: "/images/tech/microsoft-excel.svg" },
-    { name: "Analytical Mindset", logo: "/images/tech/analytical-mindset.svg" },
+    // { name: "Analytical Mindset", logo: "/images/tech/analytical-mindset.svg" },
     { name: "Curiosity", logo: "/images/tech/curiosity.svg" },
-    { name: "Data Science", logo: "/images/tech/data-science.svg" },
-    { name: "Cloud Infrastructure", logo: "/images/tech/cloud-infrastructure.svg" },
+    // { name: "Data Science", logo: "/images/tech/data-science.svg" },
+    // { name: "Cloud Infrastructure", logo: "/images/tech/cloud-infrastructure.svg" },
   ]
 
   return (
