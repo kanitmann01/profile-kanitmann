@@ -9,109 +9,33 @@ import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-c
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import { CompactExperienceTimeline } from "@/components/experience-timeline"
 import { ProjectCard } from "@/components/project-card"
+import { homeExperiences } from "@/data/experiences"
+import { featuredProjects as highlightedProjects } from "@/data/projects"
+import { articles } from "@/data/articles"
 
 export default function Home() {
-  const experiences = [
-    {
-      id: "ericsson-engineer",
-      company: "Ericsson",
-      position: "Engineer, Cloud and Infra",
-      type: "Full-time" as const,
-      location: "Noida, Uttar Pradesh, India",
-      startDate: "Sep 2023",
-      endDate: "Dec 2024",
-      duration: "1 yr 4 mos",
-      workMode: "Hybrid" as const,
-      description: "Led deployment and optimization of Citrix virtual infrastructure across regional data centers, improving resource utilization and reducing system latency. Played a key role in Ericsson's strategic hybrid cloud initiative by contributing to the migration of approximately 2,000 servers from on-premises infrastructure to Google Cloud Platform (GCP), one of the company's largest public cloud migrations. Successfully maintained application functionality and service continuity throughout the transition period, ensuring minimal disruption to business operations. Implemented automated database management workflows that decreased maintenance time significantly. Collaborated with network security teams to enhance cloud infrastructure resilience, achieving high uptime for mission-critical applications.",
-      skills: ["Citrix Workspace", "Citrix Virtual Apps", "Google Cloud Platform", "Cloud Migration", "Database Management"]
-    },
-    {
-      id: "ericsson-intern",
-      company: "Ericsson",
-      position: "Cloud and Infrastructure Intern",
-      type: "Internship" as const,
-      location: "Noida, Uttar Pradesh, India",
-      startDate: "Feb 2023",
-      endDate: "Sep 2023",
-      duration: "8 mos",
-      workMode: "On-site" as const,
-      description: "As a Cloud & Infra Ops Intern at Ericsson Global, I manage and maintain cloud and infrastructure systems, ensuring they meet high standards for reliability, security, and performance.",
-      skills: ["Citrix Workspace", "Citrix Virtual Apps", "Cloud Infrastructure"]
-    },
-    {
-      id: "trikon",
-      company: "Trikon Technologies",
-      position: "Firmware Development Intern",
-      type: "Internship" as const,
-      location: "Noida, Uttar Pradesh, India",
-      startDate: "May 2021",
-      endDate: "Aug 2021",
-      duration: "4 mos",
-      workMode: "On-site" as const,
-      description: "As a Firmware Development Intern at Trikon Technologies, I developed and tested firmware for embedded systems and microcontrollers, collaborating with cross-functional teams on automation systems, IoT devices, and motor control applications. I honed my skills in Marlin and embedded-C and gained valuable experience in debugging and problem-solving. My internship at Trikon Technologies has prepared me for future career opportunities in firmware development.",
-      skills: ["Embedded Software", "Embedded C", "Marlin", "IoT", "Motor Control"]
-    },
-    {
-      id: "syolo",
-      company: "Syolo Consulting",
-      position: "Engineer Intern",
-      type: "Internship" as const,
-      location: "Noida, Uttar Pradesh, India",
-      startDate: "Mar 2020",
-      endDate: "May 2020",
-      duration: "3 mos",
-      workMode: "On-site" as const,
-      description: "Gained foundational experience in engineering practices and consulting methodologies.",
-      skills: ["Engineering", "Consulting", "Problem Solving"]
-    }
-  ]
+  const experiences = homeExperiences
 
-  const featuredProjects = [
-    {
-      title: "VoiceBridge - Real-Time P2P Translation",
-      description:
-        "Break language barriers with real-time speech translation using cutting-edge AI models for speech recognition, translation, and speech synthesis.",
-      image: "/images/case-studies/voicebridge.jpeg",
-      tags: ["Python", "Flask", "PyTorch", "Socket.IO"],
-      href: "/projects/voicebridge",
-      github: "https://github.com/kanitmann01/hackaz_team_wildhackers",
-      live: false,
-      status: "Completed",
-    },
-    {
-      title: "Titanic Survival Predictor Web App",
-      description:
-        "A fun and interactive web application that predicts whether you would have survived the Titanic disaster based on your passenger profile.",
-      image: "/images/case-studies/titanic.jpeg",
-      tags: ["Python", "Flask", "Scikit-learn", "Bootstrap"],
-      href: "/projects/titanic",
-      github: "https://github.com/kanitmann01/titanic_survivor_web_app",
-      live: true,
-      demo: "https://titanic-survival-predictor.herokuapp.com",
-      status: "Live",
-    },
-    {
-      title: "The Echo Effect: WTO Accession Impact Analysis",
-      description:
-        "Research project using Synthetic Control Method to analyze the causal impact of World Trade Organization accession on national economies.",
-      image: "/images/case-studies/echoeffect.jpg",
-      tags: ["Python", "Synthetic Control", "Economics", "Research"],
-      href: "/projects/echo-effect",
-      github: "https://github.com/kanitmann01/The-Echo-Effect",
-      live: false,
-      status: "In Progress",
-    },
-  ]
+  const featuredProjects = highlightedProjects.map((project) => ({
+    title: project.title,
+    description: project.description,
+    image: project.image,
+    tags: project.tags,
+    href: project.href,
+    github: project.github,
+    demo: project.demo,
+    status: project.status,
+    live: project.live,
+  }))
 
-  const featuredArticles = [
-    {
-      title: "Would you have survived the Titanic?",
-      description:
-        "What this historic disaster reveals about inequality, decision-making, and leadership under pressure.",
-      readTime: "8 min read",
-      href: "/articles/titanic-survival",
-    },
-  ]
+  const featuredArticles = articles
+    .filter((article) => article.featuredOnHome)
+    .map((article) => ({
+      title: article.title,
+      description: article.summary,
+      readTime: article.readTime,
+      href: article.canonicalPath,
+    }))
 
   const techStack = [
     { name: "Python", icon: "/images/tech/python.svg" },

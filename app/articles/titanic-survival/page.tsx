@@ -1,18 +1,44 @@
-"use client"
-
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { ArrowLeft, Calendar, Clock, TreePine } from "lucide-react"
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Legend } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { FadeIn } from "@/components/animations/fade-in"
-import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
-import { ScaleOnHover } from "@/components/animations/scale-on-hover"
-import Head from "next/head"
 import Script from "next/script"
 import Link from "next/link"
+import type { Metadata } from "next"
+
+import { getArticleBySlug } from "@/data/articles"
+import { TitanicCharts } from "@/components/articles/titanic-charts"
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kanit.codes"
+const article = getArticleBySlug("titanic-survival")
+const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString()
+const heroImageUrl = article.heroImage ? new URL(article.heroImage, siteUrl).toString() : undefined
+
+export const metadata: Metadata = {
+  title: article.title,
+  description: article.description,
+  keywords: article.keywords,
+  alternates: {
+    canonical: article.canonicalPath,
+  },
+  authors: [{ name: "Kanit Mann" }],
+  openGraph: {
+    title: article.title,
+    description: article.description,
+    url: canonicalUrl,
+    type: "article",
+    publishedTime: article.publishedAt,
+    modifiedTime: article.updatedAt,
+    images: heroImageUrl ? [{ url: heroImageUrl }] : undefined,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: article.title,
+    description: article.description,
+    images: heroImageUrl ? [heroImageUrl] : undefined,
+  },
+}
 
 export default function TitanicArticle() {
   const genderData = [
@@ -34,69 +60,43 @@ export default function TitanicArticle() {
 
   const techStack = ["Python", "pandas", "scikit-learn", "matplotlib", "seaborn", "jupyter"]
   const hashtags = ["#DataScience", "#MachineLearning", "#Titanic", "#SocialInequality", "#DecisionTrees", "#Python"]
+  const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" })
+  const publishedDateLabel = dateFormatter.format(new Date(article.publishedAt))
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.description,
+    image: heroImageUrl,
+    author: { "@type": "Person", name: "Kanit Mann" },
+    publisher: {
+      "@type": "Organization",
+      name: "Kanit Mann Portfolio",
+      logo: { "@type": "ImageObject", url: new URL("/images/profile/kanit-mann.png", siteUrl).toString() },
+    },
+    datePublished: article.publishedAt,
+    dateModified: article.updatedAt ?? article.publishedAt,
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+    keywords: article.keywords?.join(", "),
+  }
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Articles", item: `${siteUrl}/articles` },
+      { "@type": "ListItem", position: 3, name: article.title, item: canonicalUrl },
+    ],
+  }
 
   return (
     <>
-      {/* Breadcrumb JSON-LD for Article */}
-      <Script id="ld-breadcrumb-article-titanic" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kanit.codes/"},
-            {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://kanit.codes/articles"},
-            {"@type": "ListItem", "position": 3, "name": "Would You Have Survived the Titanic?", "item": "https://kanit.codes/articles/titanic-survival"}
-          ]
-        })}
+      <Script id="ld-article-titanic" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(articleSchema)}
       </Script>
-      <Head>
-        <title>Would You Have Survived the Titanic? Data Analysis & Survival Predictions</title>
-        <meta name="description" content="Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns by gender, class, and age with interactive data visualizations and historical insights." />
-        <meta name="keywords" content="Titanic survival, machine learning, data analysis, survival prediction, RMS Titanic, passenger data, social inequality, decision trees, Python, data science" />
-        <meta name="author" content="Kanit Mann" />
-        <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Would You Have Survived the Titanic? Data Analysis & Survival Predictions" />
-        <meta property="og:description" content="Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns by gender, class, and age with interactive data visualizations." />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://kanit.codes/articles/titanic-survival" />
-        <meta property="og:image" content="https://kanit.codes/images/case-studies/titanic.jpeg" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Would You Have Survived the Titanic? Data Analysis & Survival Predictions" />
-        <meta name="twitter:description" content="Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns with interactive data visualizations." />
-        <meta name="twitter:image" content="https://kanit.codes/images/case-studies/titanic.jpeg" />
-        <link rel="canonical" href="https://kanit.codes/articles/titanic-survival" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Article",
-              "headline": "Would You Have Survived the Titanic? Data Analysis & Survival Predictions",
-              "description": "Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns by gender, class, and age with interactive data visualizations and historical insights.",
-              "image": "https://kanit.codes/images/case-studies/titanic.jpeg",
-              "author": {
-                "@type": "Person",
-                "name": "Kanit Mann"
-              },
-              "publisher": {
-                "@type": "Organization",
-                "name": "Kanit Mann Portfolio",
-                "logo": {
-                  "@type": "ImageObject",
-                  "url": "https://kanit.codes/images/profile/kanit-mann.png"
-                }
-              },
-              "datePublished": "2025-03-15",
-              "dateModified": "2025-03-15",
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://kanit.codes/articles/titanic-survival"
-              },
-              "keywords": "Titanic survival, machine learning, data analysis, survival prediction, RMS Titanic, passenger data, social inequality, decision trees, Python, data science"
-            })
-          }}
-        />
-      </Head>
+      <Script id="ld-breadcrumb-article-titanic" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(breadcrumbSchema)}
+      </Script>
       <div className="min-h-screen bg-background py-8 px-2 sm:py-12 sm:px-6">
         <div className="container mx-auto max-w-4xl w-full">
           <div className="mb-8">
@@ -113,10 +113,10 @@ export default function TitanicArticle() {
             <header>
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <Calendar className="h-4 w-4" />
-              <time dateTime="2025-03-15">March 15, 2025</time>
+              <time dateTime={article.publishedAt}>{publishedDateLabel}</time>
               <span>•</span>
               <Clock className="h-4 w-4" />
-              <span>8 min read</span>
+              <span>{article.readTime}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">Would You Have Survived the Titanic?</h1>
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
@@ -145,150 +145,7 @@ export default function TitanicArticle() {
         </section>
 
         {/* Data Visualization Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">Demographics Trumped Decisions</h2>
-          <p className="text-muted-foreground mb-8">
-            The data reveals clear patterns in survival rates based on passenger demographics. Using machine learning analysis, 
-            we can see how gender, class, and age significantly influenced who survived the Titanic disaster.
-          </p>
-
-          {/* Gender Chart */}
-          <SlideIn direction="left" className="mb-12">
-            <h3 className="text-lg sm:text-xl font-semibold mb-4">Titanic Survival by Gender</h3>
-            <div className="w-full max-w-full overflow-x-auto">
-              <ScaleOnHover>
-                <Card className="w-full max-w-full">
-                  <CardContent className="pt-6 w-full max-w-full">
-                    <ChartContainer
-                      config={{
-                        survived: {
-                          label: "Survived",
-                          color: "hsl(142, 76%, 36%)",
-                        },
-                        died: {
-                          label: "Died",
-                          color: "hsl(0, 84%, 60%)",
-                        },
-                      }}
-                      className="h-[300px] sm:h-[350px] min-w-[320px] w-full max-w-full"
-                    >
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={genderData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis 
-                            dataKey="category" 
-                            angle={-45}
-                            textAnchor="end"
-                            height={80}
-                            tick={{ fontSize: 12 }}
-                          />
-                          <YAxis tick={{ fontSize: 12 }} />
-                          <ChartTooltip content={<ChartTooltipContent />} />
-                          <Legend wrapperStyle={{ paddingTop: 20 }} />
-                          <Bar dataKey="survived" fill="var(--color-survived)" name="Survived" />
-                          <Bar dataKey="died" fill="var(--color-died)" name="Died" />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </ChartContainer>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Women had a 74.2% survival rate compared to just 18.9% for men
-                    </p>
-                  </CardContent>
-                </Card>
-              </ScaleOnHover>
-            </div>
-          </SlideIn>
-
-          {/* Class Chart */}
-          <div className="mb-12">
-            <h3 className="text-lg sm:text-xl font-semibold mb-4">Titanic Survival by Passenger Class</h3>
-            <div className="w-full max-w-full overflow-x-auto">
-              <Card className="w-full max-w-full">
-                <CardContent className="pt-6 w-full max-w-full">
-                  <ChartContainer
-                    config={{
-                      survived: {
-                        label: "Survived",
-                        color: "hsl(142, 76%, 36%)",
-                      },
-                      died: {
-                        label: "Died",
-                        color: "hsl(0, 84%, 60%)",
-                      },
-                    }}
-                    className="h-[300px] sm:h-[350px] min-w-[320px] w-full max-w-full"
-                  >
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={classData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis 
-                          dataKey="category" 
-                          angle={-45}
-                          textAnchor="end"
-                          height={80}
-                          tick={{ fontSize: 12 }}
-                        />
-                        <YAxis tick={{ fontSize: 12 }} />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend wrapperStyle={{ paddingTop: 20 }} />
-                        <Bar dataKey="survived" fill="var(--color-survived)" name="Survived" />
-                        <Bar dataKey="died" fill="var(--color-died)" name="Died" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    First-class passengers had a 63% survival rate, while third-class had only 24.2%
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-
-          {/* Age Chart */}
-          <div className="mb-12">
-            <h3 className="text-lg sm:text-xl font-semibold mb-4">Titanic Survival by Age Group</h3>
-            <div className="w-full max-w-full overflow-x-auto">
-              <Card className="w-full max-w-full">
-                <CardContent className="pt-6 w-full max-w-full">
-                  <ChartContainer
-                    config={{
-                      survived: {
-                        label: "Survived",
-                        color: "hsl(142, 76%, 36%)",
-                      },
-                      died: {
-                        label: "Died",
-                        color: "hsl(0, 84%, 60%)",
-                      },
-                    }}
-                    className="h-[300px] sm:h-[350px] min-w-[320px] w-full max-w-full"
-                  >
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={ageData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis 
-                          dataKey="category" 
-                          angle={-45}
-                          textAnchor="end"
-                          height={80}
-                          tick={{ fontSize: 12 }}
-                        />
-                        <YAxis tick={{ fontSize: 12 }} />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend wrapperStyle={{ paddingTop: 20 }} />
-                        <Bar dataKey="survived" fill="var(--color-survived)" name="Survived" />
-                        <Bar dataKey="died" fill="var(--color-died)" name="Died" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Children had the highest survival rate at 42.2%, while elderly passengers had only 14.3%
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
+        <TitanicCharts genderData={genderData} classData={classData} ageData={ageData} />
 
         {/* Methodology */}
         <section className="mb-16">
