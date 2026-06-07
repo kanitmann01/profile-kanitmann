@@ -1,11 +1,7 @@
 "use client"
 
 import { useState } from "react"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { TactileButton } from "@/components/tactile-button"
 
 const CONTACT_EMAIL = "kanitmann01@gmail.com"
 
@@ -46,47 +42,89 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="firstName">First Name</Label>
-          <Input id="firstName" name="firstName" placeholder="John" autoComplete="given-name" />
+          <label htmlFor="firstName" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+            First Name
+          </label>
+          <input
+            id="firstName"
+            name="firstName"
+            placeholder="John"
+            autoComplete="given-name"
+            className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+          />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="lastName">Last Name</Label>
-          <Input id="lastName" name="lastName" placeholder="Doe" autoComplete="family-name" />
+          <label htmlFor="lastName" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+            Last Name
+          </label>
+          <input
+            id="lastName"
+            name="lastName"
+            placeholder="Doe"
+            autoComplete="family-name"
+            className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+          />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input id="email" name="email" type="email" placeholder="your.email@example.com" autoComplete="email" />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="company">Company (Optional)</Label>
-        <Input id="company" name="company" placeholder="Your Company" autoComplete="organization" />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="subject">Subject</Label>
-        <Input id="subject" name="subject" placeholder="Project collaboration opportunity" />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="message">Message</Label>
-        <Textarea
-          id="message"
-          name="message"
-          placeholder="Tell me about your project, idea, or how we might work together..."
-          className="min-h-[120px]"
+        <label htmlFor="email" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="your.email@example.com"
+          autoComplete="email"
+          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
         />
       </div>
 
-      <Button className="w-full" size="lg" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Opening email client..." : "Send Message"}
-      </Button>
+      <div className="space-y-2">
+        <label htmlFor="company" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          Company <span className="text-muted-foreground/50">(Optional)</span>
+        </label>
+        <input
+          id="company"
+          name="company"
+          placeholder="Your Company"
+          autoComplete="organization"
+          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="subject" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          Subject
+        </label>
+        <input
+          id="subject"
+          name="subject"
+          placeholder="Project collaboration opportunity"
+          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="message" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          Message
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          placeholder="Tell me about your project, idea, or how we might work together..."
+          rows={4}
+          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors resize-none"
+        />
+      </div>
+
+      <TactileButton type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? "Opening email..." : "Send via Email"}
+      </TactileButton>
     </form>
   )
 }
-

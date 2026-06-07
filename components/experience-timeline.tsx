@@ -1,16 +1,34 @@
 "use client"
 
 import { useState } from "react"
-import { Calendar, MapPin, Building2, Briefcase, ChevronDown, ChevronUp } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ChevronDown, ChevronUp } from "lucide-react"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { truncate } from "@/lib/truncate"
 import type { Experience } from "@/data/experiences"
 
 interface ExperienceTimelineProps {
   experiences: Experience[]
   compact?: boolean
+}
+
+const roleVariants = {
+  hidden: { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] as const },
+  },
+}
+
+const parallaxVariants = {
+  hidden: { y: 20 },
+  visible: {
+    y: 0,
+    transition: { duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] as const },
+  },
 }
 
 export function ExperienceTimeline({ experiences, compact = false }: ExperienceTimelineProps) {
@@ -26,148 +44,143 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
     setExpandedCards(newExpanded)
   }
 
-  const truncateDescription = (description: string, maxLength: number = 200) => {
-    if (description.length <= maxLength) return description
-    return description.substring(0, maxLength) + "..."
+  if (compact) {
+    return (
+      <div className="relative border-l-2 border-primary/30 ml-4">
+        {experiences.slice(0, 5).map((experience) => (
+          <motion.div
+            key={experience.id}
+            className="relative pl-8 py-4"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+          >
+            <div className="absolute left-[-5px] top-6 w-2 h-2 rounded-full bg-primary" />
+            <p className="font-sans font-medium text-sm text-foreground truncate">
+              {experience.position}
+            </p>
+            <p className="font-mono text-xs text-muted-foreground truncate">
+              {experience.company}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    )
   }
 
   return (
-    <div className="space-y-4">
-      {experiences.map((experience) => {
-        const isExpanded = expandedCards.has(experience.id)
-        const shouldTruncate = experience.description.length > 200
-        const displayDescription = isExpanded || !shouldTruncate 
-          ? experience.description 
-          : truncateDescription(experience.description)
+    <div className="relative">
+      <div
+        data-testid="timeline-connector"
+        className="absolute left-0 top-0 bottom-0 w-px bg-primary/20"
+      />
 
-        return (
-          <div key={experience.id}>
-            <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  {/* Company Logo */}
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                      <Building2 className="h-6 w-6 text-muted-foreground" />
-                    </div>
-                  </div>
+      <div className="space-y-0">
+        {experiences.map((experience, index) => {
+          const isExpanded = expandedCards.has(experience.id)
+          const shouldTruncate = experience.description.length > 200
+          const displayDescription =
+            isExpanded || !shouldTruncate
+              ? experience.description
+              : truncate(experience.description)
 
-                  {/* Experience Details */}
-                  <div className="flex-1 min-w-0">
-                    {/* Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                      <div>
-                        <h3 className="font-semibold text-lg text-foreground">{experience.position}</h3>
-                        <p className="text-primary font-medium">{experience.company}</p>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant="outline" className="text-xs">
-                          {experience.type}
-                        </Badge>
-                        <Badge variant="secondary" className="text-xs">
-                          {experience.workMode}
-                        </Badge>
-                      </div>
-                    </div>
+          return (
+            <motion.div
+              key={experience.id}
+              className="relative pl-8 sm:pl-12 py-12"
+              variants={roleVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <div className="absolute left-[-5px] top-14 w-[10px] h-[10px] rounded-full bg-primary border-2 border-background" />
 
-                    {/* Meta Information */}
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-3">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        <span>{experience.startDate} - {experience.endDate}</span>
-                        <span>·</span>
-                        <span>{experience.duration}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        <span>{experience.location}</span>
-                      </div>
-                    </div>
+              <div className="space-y-4">
+                <motion.div variants={parallaxVariants}>
+                  <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest mb-2">
+                    {experience.startDate} – {experience.endDate}
+                    <span className="mx-2">·</span>
+                    {experience.duration}
+                  </p>
 
-                    {/* Description */}
-                    {!compact && (
-                      <div className="mb-4">
-                        <p className="text-muted-foreground leading-relaxed">
-                          {displayDescription}
-                        </p>
-                        {shouldTruncate && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => toggleCard(experience.id)}
-                            className="mt-2 p-0 h-auto text-primary hover:text-primary/80"
-                          >
-                            {isExpanded ? (
-                              <>
-                                Show less <ChevronUp className="ml-1 h-3 w-3" />
-                              </>
-                            ) : (
-                              <>
-                                Read more <ChevronDown className="ml-1 h-3 w-3" />
-                              </>
-                            )}
-                          </Button>
-                        )}
-                      </div>
-                    )}
+                  <h3 className="font-serif text-3xl sm:text-4xl text-foreground leading-tight">
+                    {experience.company}
+                  </h3>
 
-                    {/* Skills */}
-                    {experience.skills.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {experience.skills.map((skill) => (
-                          <Badge key={skill} variant="secondary" className="text-xs">
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
+                  <p className="font-mono text-accent text-sm mt-1">
+                    {experience.position}
+                  </p>
+                </motion.div>
 
-                    {/* Achievements */}
-                    {!compact && experience.achievements && experience.achievements.length > 0 && (
-                      <div className="mt-4">
-                        <h4 className="font-medium text-sm text-foreground mb-2">Key Achievements:</h4>
-                        <ul className="space-y-1">
-                          {experience.achievements.map((achievement, idx) => (
-                            <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
-                              <span className="text-primary mt-1">•</span>
-                              <span>{achievement}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline" className="text-xs font-mono">
+                    {experience.type}
+                  </Badge>
+                  <Badge variant="secondary" className="text-xs font-mono">
+                    {experience.workMode}
+                  </Badge>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        )
-      })}
+
+                <p className="font-sans text-muted-foreground leading-relaxed max-w-2xl">
+                  {displayDescription}
+                </p>
+
+                {shouldTruncate && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toggleCard(experience.id)}
+                    className="p-0 h-auto text-primary hover:text-primary/80 font-mono text-xs"
+                  >
+                    {isExpanded ? (
+                      <>
+                        Show less <ChevronUp className="ml-1 h-3 w-3" />
+                      </>
+                    ) : (
+                      <>
+                        Read more <ChevronDown className="ml-1 h-3 w-3" />
+                      </>
+                    )}
+                  </Button>
+                )}
+
+                {experience.skills.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {experience.skills.map((skill) => (
+                      <Badge key={skill} variant="secondary" className="text-xs font-mono">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+
+                {experience.achievements && experience.achievements.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    {experience.achievements.map((achievement, idx) => (
+                      <motion.li
+                        key={idx}
+                        className="font-sans text-sm text-muted-foreground flex items-start gap-3 list-none"
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      >
+                        <span className="text-primary mt-0.5 flex-shrink-0">—</span>
+                        <span>{achievement}</span>
+                      </motion.li>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )
+        })}
+      </div>
     </div>
   )
 }
 
-// Compact version for homepage
 export function CompactExperienceTimeline({ experiences }: { experiences: Experience[] }) {
-  return (
-    <div className="space-y-3">
-      {experiences.slice(0, 5).map((experience) => (
-        <div
-          key={experience.id}
-          className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
-        >
-          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-            <Briefcase className="h-4 w-4 text-primary" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm text-foreground truncate">{experience.position}</p>
-            <p className="text-xs text-muted-foreground truncate">{experience.company}</p>
-          </div>
-          <div className="text-xs text-muted-foreground">
-            {experience.startDate.split(' ')[1]} - {experience.endDate.split(' ')[1]}
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-} 
+  return <ExperienceTimeline experiences={experiences} compact />
+}

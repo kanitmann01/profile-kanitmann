@@ -104,7 +104,7 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block fixed right-8 top-32 w-64 max-h-[calc(100vh-8rem)] overflow-y-auto">
         <nav className="p-4 border rounded-lg bg-background">
-          <h3 className="text-sm font-semibold mb-4 text-foreground">Table of Contents</h3>
+          <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">Table of Contents</h3>
           <ul className="space-y-2">
             {headings.map((heading) => (
               <li
@@ -113,9 +113,9 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
               >
                 <button
                   onClick={() => scrollToHeading(heading.id)}
-                  className={`text-left text-sm hover:text-primary transition-colors border-l-2 pl-3 ${
+                  className={`text-left font-mono text-xs uppercase tracking-wider hover:text-primary transition-colors border-l-2 pl-3 ${
                     activeId === heading.id
-                      ? "border-primary text-primary font-semibold"
+                      ? "border-primary text-primary"
                       : "border-transparent text-muted-foreground hover:border-muted-foreground/50"
                   }`}
                 >

@@ -1,11 +1,8 @@
-import { articles } from "@/data/articles"
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kanit.codes"
+import { getSortedArticles, getArticleUrl, getSiteUrl, feedHeaders } from "@/lib/feed-generator"
 
 export async function GET() {
-  const items = articles
-    .slice()
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+  const items = getSortedArticles()
+  const siteUrl = getSiteUrl()
   const updated = new Date().toISOString()
 
   const feedId = `${siteUrl}/atom.xml`
@@ -23,7 +20,7 @@ export async function GET() {
   </author>
   ${items
     .map((item) => {
-      const url = new URL(item.canonicalPath, siteUrl).toString()
+      const url = getArticleUrl(item.canonicalPath)
       const updatedItem = new Date(item.publishedAt).toISOString()
       return `
   <entry>
@@ -38,10 +35,7 @@ export async function GET() {
 </feed>`
 
   return new Response(atom, {
-    headers: {
-      "Content-Type": "application/atom+xml; charset=utf-8",
-      "Cache-Control": "s-maxage=600, stale-while-revalidate=86400",
-    },
+    headers: feedHeaders.atom,
   })
 }
 

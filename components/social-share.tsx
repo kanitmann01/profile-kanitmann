@@ -8,9 +8,10 @@ interface SocialShareProps {
   title: string
   description: string
   url: string
+  variant?: "icon" | "text"
 }
 
-export function SocialShare({ title, description, url }: SocialShareProps) {
+export function SocialShare({ title, description, url, variant = "icon" }: SocialShareProps) {
   const [copied, setCopied] = useState(false)
 
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
@@ -20,6 +21,35 @@ export function SocialShare({ title, description, url }: SocialShareProps) {
     await navigator.clipboard.writeText(url)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  if (variant === "text") {
+    return (
+      <div className="flex items-center gap-4 font-mono text-xs uppercase tracking-wider">
+        <button
+          onClick={handleCopy}
+          className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+        >
+          {copied ? "Copied!" : "Copy link"}
+        </button>
+        <a
+          href={linkedInUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-muted-foreground hover:text-primary transition-colors"
+        >
+          Share on LinkedIn
+        </a>
+        <a
+          href={twitterUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-muted-foreground hover:text-primary transition-colors"
+        >
+          Share on X
+        </a>
+      </div>
+    )
   }
 
   return (

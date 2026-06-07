@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -6,26 +8,21 @@ import Link from "next/link"
 import Image from "next/image"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import { LikeButton } from "@/components/like-button"
+import { useLikeItem } from "@/hooks/use-like-item"
 import { ProjectCardInteractive } from "@/components/project-card-interactive"
+import type { Project } from "@/data/projects"
 
 interface ProjectCardProps {
-  project: {
-    slug?: string
-    title: string
-    description: string
-    image: string
-    tags: string[]
-    href: string
-    github?: string
-    demo?: string
-    status?: string
-    live?: boolean
-  }
+  project: Project
   likeCount?: number
-  onLikeCountChange?: (count: number) => void
 }
 
-export function ProjectCard({ project, likeCount = 0, onLikeCountChange }: ProjectCardProps) {
+function LikeButtonBridge({ slug, initialCount }: { slug: string; initialCount: number }) {
+  const { count, isLiked, isPending, toggle } = useLikeItem(slug, initialCount)
+  return <LikeButton count={count} isLiked={isLiked} isPending={isPending} onToggle={toggle} variant="compact" />
+}
+
+export function ProjectCard({ project, likeCount = 0 }: ProjectCardProps) {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "Live":
@@ -100,12 +97,7 @@ export function ProjectCard({ project, likeCount = 0, onLikeCountChange }: Proje
           {project.slug && (
             <div className="flex justify-end">
               <ProjectCardInteractive>
-                <LikeButton
-                  itemId={project.slug}
-                  initialCount={likeCount}
-                  onCountChange={onLikeCountChange}
-                  variant="compact"
-                />
+                <LikeButtonBridge slug={project.slug} initialCount={likeCount} />
               </ProjectCardInteractive>
             </div>
           )}

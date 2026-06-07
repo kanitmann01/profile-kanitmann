@@ -1,12 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import { describe, it, expect, vi } from "vitest"
-
-vi.mock("framer-motion", () => ({
-  motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-  },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
-}))
+import { describe, it, expect } from "vitest"
 
 import { GraduationSection } from "@/components/graduation-section"
 

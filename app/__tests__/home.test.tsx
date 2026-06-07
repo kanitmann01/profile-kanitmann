@@ -1,38 +1,13 @@
 import { render, screen } from "@testing-library/react"
-import { describe, it, expect, vi } from "vitest"
-
-vi.mock("next/image", () => ({
-  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
-    const { unoptimized, ...rest } = props as any
-    return <img {...rest} />
-  },
-}))
-
-vi.mock("next/link", () => ({
-  default: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: React.ReactNode
-    href: string
-  }) => <a href={href} {...props}>{children}</a>,
-}))
-
-vi.mock("framer-motion", () => ({
-  motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-    nav: ({ children, ...props }: any) => <nav {...props}>{children}</nav>,
-    li: ({ children, ...props }: any) => <li {...props}>{children}</li>,
-  },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
-}))
+import { describe, it, expect } from "vitest"
 
 import Home from "@/app/page"
 
 describe("Home page", () => {
-  it("displays GPA of 3.75 in hero quick stats", () => {
+  it("renders the hero section with KANIT and MANN", () => {
     render(<Home />)
-    expect(screen.getByText("3.75")).toBeInTheDocument()
+    const heading = screen.getByRole("heading", { name: /KANIT/i })
+    expect(heading).toBeInTheDocument()
+    expect(heading.textContent).toContain("MANN")
   })
 })

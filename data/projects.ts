@@ -111,22 +111,3 @@ export const projects: Project[] = [
 
 export const featuredProjects = projects.filter((project) => project.featuredOnHome)
 
-export function groupProjectsByPeriod() {
-  const groups = new Map<string, Project[]>()
-
-  projects
-    .slice()
-    .sort((a, b) => b.order - a.order)
-    .forEach((project) => {
-      if (!groups.has(project.period)) {
-        groups.set(project.period, [])
-      }
-      groups.get(project.period)!.push(project)
-    })
-
-  return Array.from(groups.entries()).map(([period, periodProjects]) => ({
-    period,
-    projects: periodProjects,
-  }))
-}
-
