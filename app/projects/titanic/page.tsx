@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { RelatedProjects } from "@/components/related-projects"
 import { ArrowLeft, ExternalLink, Github, BarChart3, Brain, Database } from "lucide-react"
 import Image from "next/image"
 import type { Metadata } from "next"
 import Script from "next/script"
 import Link from "next/link"
+import { projects } from "@/data/projects"
 
 export default function TitanicCaseStudy() {
   const techStack = ["Python", "Flask", "Scikit-learn", "Pandas", "Bootstrap", "Chart.js", "NumPy"]
@@ -229,6 +231,11 @@ export default function TitanicCaseStudy() {
             </div>
           </div>
         </section>
+
+        <RelatedProjects 
+          currentProject={projects.find(p => p.slug === "titanic")!} 
+          allProjects={projects} 
+        />
       </div>
     </div>
   )

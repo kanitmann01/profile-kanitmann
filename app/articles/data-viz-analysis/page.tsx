@@ -6,6 +6,7 @@ import { FadeIn } from "@/components/animations/fade-in"
 import { SlideIn } from "@/components/animations/slide-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import { ArticleHeader } from "@/components/article-header"
+import { TableOfContents } from "@/components/table-of-contents"
 import Link from "next/link"
 import Script from "next/script"
 import type { Metadata } from "next"
@@ -101,6 +102,9 @@ export default function DataVizPortfolioArticle() {
             />
           </FadeIn>
 
+          <TableOfContents containerId="article-content" />
+
+          <article id="article-content">
           <section className="mb-16">
             <SlideIn direction="left">
               <div className="bg-muted/30 rounded-lg p-8">
@@ -218,6 +222,7 @@ export default function DataVizPortfolioArticle() {
               </div>
             </div>
           </footer>
+          </article>
         </div>
       </div>
     </>

@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { RelatedProjects } from "@/components/related-projects"
 import { ArrowLeft, ExternalLink, Github, Mic, Globe, Smartphone } from "lucide-react"
 import type { Metadata } from "next"
 import Script from "next/script"
 import Image from "next/image"
 import Link from "next/link"
+import { projects } from "@/data/projects"
 
 export default function VoicebridgeCaseStudy() {
   const techStack = ["Python", "Flask", "PyTorch", "Socket.IO", "Whisper", "NLLB-200", "MMS-TTS", "HTML5/CSS3/JavaScript"]
@@ -224,6 +226,11 @@ export default function VoicebridgeCaseStudy() {
             </div>
           </div>
         </section>
+
+        <RelatedProjects 
+          currentProject={projects.find(p => p.slug === "voicebridge")!} 
+          allProjects={projects} 
+        />
       </div>
     </div>
   )

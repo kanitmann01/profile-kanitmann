@@ -3,11 +3,13 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { RelatedProjects } from "@/components/related-projects"
 import { ArrowLeft, Calendar, Users, Target, TrendingUp, Database, BarChart3, Globe, BookOpen, AlertTriangle, CheckCircle, Clock, FileText, Code, ChartBar } from "lucide-react"
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
 import type { Metadata } from "next"
 import Script from "next/script"
+import { projects } from "@/data/projects"
 
 export default function EchoEffectCaseStudy() {
   const methodologies = [
@@ -800,6 +802,11 @@ export default function EchoEffectCaseStudy() {
           </FadeIn>
         </div>
       </section>
+
+      <RelatedProjects 
+        currentProject={projects.find(p => p.slug === "echo-effect")!} 
+        allProjects={projects} 
+      />
     </div>
   )
 } 

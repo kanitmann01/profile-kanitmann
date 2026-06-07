@@ -2,11 +2,13 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PdfReportSection } from "@/components/pdf-report-section"
+import { RelatedProjects } from "@/components/related-projects"
 import { ArrowLeft, Database, Github, LineChart, TrendingUp, Users, Lightbulb } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Script from "next/script"
 import Link from "next/link"
+import { projects } from "@/data/projects"
 
 export default function CollegeMajorShiftAnalysis() {
   const techStack = [
@@ -244,6 +246,11 @@ export default function CollegeMajorShiftAnalysis() {
             </div>
           </div>
         </section>
+
+        <RelatedProjects 
+          currentProject={projects.find(p => p.slug === "college-major-shift-analysis")!} 
+          allProjects={projects} 
+        />
       </div>
     </div>
   )

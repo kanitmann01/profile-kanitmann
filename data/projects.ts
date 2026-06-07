@@ -19,6 +19,37 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "unified-bharat",
+    title: "Unified Bharat: Cross-Sector Policy Analytics Lakehouse",
+    description:
+      "Distributed Medallion Lakehouse integrating cross-ministry CSR, groundwater, and education datasets using Apache Spark and Iceberg for panel regression analysis of Indian state-level policy outcomes.",
+    image: "/images/case-studies/unified-bharat.png",
+    tags: ["Python", "Apache Spark", "Apache Iceberg", "Docker", "PySpark", "Panel Regression"],
+    href: "/projects/unified-bharat",
+    github: "https://github.com/kanitmann01/unified-bharat",
+    status: "Completed",
+    period: "May 2026",
+    order: 202605,
+    lastUpdated: "2026-05-01",
+    featuredOnHome: true,
+  },
+  {
+    slug: "twitch-analytics-pipeline",
+    title: "Real-Time Twitch Analytics Pipeline",
+    description:
+      "End-to-end ELT streaming pipeline that ingests real-time Twitch viewership data through Apache Kafka, warehouses in Snowflake, and transforms with dbt for Looker Studio dashboards.",
+    image: "/images/case-studies/twitch-analytics.png",
+    tags: ["Python", "Apache Kafka", "Snowflake", "dbt", "Looker Studio", "ELT"],
+    href: "/projects/twitch-analytics-pipeline",
+    github: "https://github.com/kanitmann01/twitch_stat_board",
+    demo: "https://lookerstudio.google.com/s/jyb_uKEUcmo",
+    status: "Completed",
+    period: "January 2026",
+    order: 202601,
+    lastUpdated: "2026-01-01",
+    featuredOnHome: true,
+  },
+  {
     slug: "college-major-shift-analysis",
     title: "College Major Selection & Shift Analysis",
     description:
@@ -45,7 +76,6 @@ export const projects: Project[] = [
     period: "July 2025",
     order: 202507,
     lastUpdated: "2025-07-01",
-    featuredOnHome: true,
   },
   {
     slug: "titanic",
@@ -62,7 +92,6 @@ export const projects: Project[] = [
     period: "March 2025",
     order: 202503,
     lastUpdated: "2025-03-01",
-    featuredOnHome: true,
   },
   {
     slug: "voicebridge",
@@ -77,7 +106,6 @@ export const projects: Project[] = [
     period: "February 2025",
     order: 202502,
     lastUpdated: "2025-02-01",
-    featuredOnHome: true,
   },
 ]
 
