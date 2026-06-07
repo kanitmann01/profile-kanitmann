@@ -4,48 +4,50 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
+    --background: 40 20% 97%;
+    --foreground: 0 0% 10%;
+    --card: 40 20% 97%;
+    --card-foreground: 0 0% 10%;
+    --popover: 40 20% 97%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 37 90% 55%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 40 15% 90%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 40 15% 90%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 12 75% 63%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --border: 40 15% 85%;
+    --input: 40 15% 85%;
+    --ring: 37 90% 55%;
     --radius: 0.75rem;
+    --sage: 140 20% 55%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --background: 30 10% 10%;
+    --foreground: 40 20% 92%;
+    --card: 30 10% 14%;
+    --card-foreground: 40 20% 92%;
+    --popover: 30 10% 10%;
+    --popover-foreground: 40 20% 92%;
+    --primary: 37 90% 55%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 30 10% 18%;
+    --secondary-foreground: 40 20% 92%;
+    --muted: 30 10% 18%;
+    --muted-foreground: 40 15% 65%;
+    --accent: 12 75% 63%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --border: 30 10% 20%;
+    --input: 30 10% 20%;
+    --ring: 37 90% 55%;
+    --sage: 140 20% 55%;
   }
 }
 
@@ -93,5 +95,83 @@
 }
 
 .gradient-text {
-  @apply bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+}
+
+/* Grain texture overlay */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Typography utilities */
+.font-display {
+  font-family: var(--font-serif);
+}
+
+.font-body {
+  font-family: var(--font-sans);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+@keyframes hero-gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+}
+
+@keyframes scroll-bounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+}
+
+.hero-gradient-bg {
+  background: linear-gradient(
+    135deg,
+    hsl(37 90% 55% / 0.06) 0%,
+    hsl(12 75% 63% / 0.05) 25%,
+    hsl(140 20% 55% / 0.04) 50%,
+    hsl(37 90% 55% / 0.06) 75%,
+    hsl(12 75% 63% / 0.05) 100%
+  );
+  background-size: 400% 400%;
+  animation: hero-gradient-shift 20s ease infinite;
+}
+
+.scroll-indicator-bounce {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-gradient-bg {
+    animation: none;
+  }
+  .scroll-indicator-bounce {
+    animation: none;
+  }
 }

@@ -19,6 +19,25 @@ export type Experience = {
 
 export const experiences: Experience[] = [
   {
+    id: "netstar",
+    company: "NetSTAR Global",
+    position: "ML Engineer",
+    type: "Internship",
+    location: "Remote",
+    startDate: "Jan 2026",
+    endDate: "May 2026",
+    duration: "5 mos",
+    workMode: "Remote",
+    description: "Developed machine learning models and data pipelines for global-scale network analytics. Built feature extraction pipelines, trained classification models, and delivered actionable insights from network telemetry data for enterprise clients.",
+    skills: ["Python", "Machine Learning", "Data Pipelines", "TensorFlow", "Scikit-learn"],
+    achievements: [
+      "Built ML classification models for network anomaly detection achieving high precision on telemetry data",
+      "Designed automated feature extraction pipeline processing millions of network events daily",
+      "Delivered executive dashboards translating model outputs into actionable engineering recommendations",
+    ],
+    featuredOnHome: true,
+  },
+  {
     id: "ericsson-engineer",
     company: "Ericsson",
     position: "Engineer, Cloud and Infra",

@@ -127,33 +127,6 @@ export const articles: ArticleMeta[] = [
       "ASRock",
     ],
   },
-  {
-    slug: "titanic-survival",
-    title: "Would You Have Survived the Titanic?",
-    description:
-      "Discover if you would have survived the Titanic disaster using machine learning. Explore survival patterns by gender, class, and age with interactive data visualizations and historical insights.",
-    summary:
-      "What this historic disaster reveals about inequality, decision-making, and leadership under pressure.",
-    canonicalPath: "/articles/titanic-survival",
-    heroImage: "/images/case-studies/titanic.jpeg",
-    publishedAt: "2025-03-15",
-    updatedAt: "2025-03-15",
-    readTime: "8 min read",
-    tags: ["Data Science", "Machine Learning", "Social Analysis"],
-    keywords: [
-      "Titanic survival",
-      "machine learning",
-      "data analysis",
-      "survival prediction",
-      "RMS Titanic",
-      "passenger data",
-      "social inequality",
-      "decision trees",
-      "Python",
-      "data science",
-    ],
-    featuredOnHome: true,
-  },
 ]
 
 export function getArticleBySlug(slug: string): ArticleMeta {

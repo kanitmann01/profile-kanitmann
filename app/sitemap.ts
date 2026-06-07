@@ -11,7 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/projects/voicebridge",
     "/projects/echo-effect",
     "/articles",
-    "/articles/titanic-survival",
     "/articles/bios-issues-ubuntu",
     "/articles/ccrb-allegations-analysis",
     "/articles/data-viz-analysis",

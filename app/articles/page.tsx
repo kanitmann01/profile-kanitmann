@@ -1,14 +1,11 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Calendar, TrendingUp, Clock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { articles } from "@/data/articles"
 import { LikeButton } from "@/components/like-button"
+import { useLikeItem } from "@/hooks/use-like-item"
 import { useLikes } from "@/hooks/use-likes"
 import { ProjectCardInteractive } from "@/components/project-card-interactive"
 import {
@@ -21,9 +18,14 @@ import {
 
 type SortOption = "recent" | "popular"
 
+function LikeButtonBridge({ slug, initialCount }: { slug: string; initialCount: number }) {
+  const { count, isLiked, isPending, toggle } = useLikeItem(slug, initialCount)
+  return <LikeButton count={count} isLiked={isLiked} isPending={isPending} onToggle={toggle} variant="compact" />
+}
+
 export default function Articles() {
   const [sortBy, setSortBy] = useState<SortOption>("recent")
-  const { likes, updateLikeCount } = useLikes()
+  const { likes } = useLikes()
 
   const sortedArticles = useMemo(() => {
     const articlesWithLikes = articles.map((article) => ({
@@ -45,7 +47,7 @@ export default function Articles() {
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
-      month: "long",
+      month: "short",
       day: "numeric",
       year: "numeric",
     })
@@ -53,147 +55,108 @@ export default function Articles() {
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
-      <div className="container mx-auto max-w-6xl">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-foreground mb-6">Articles</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+      <div className="container mx-auto max-w-4xl">
+        <header className="mb-16">
+          <h1 className="font-serif text-5xl text-foreground mb-4">Articles</h1>
+          <p className="font-sans text-lg text-muted-foreground max-w-2xl">
             Insights and analysis on data science, technology, and the stories hidden in data
           </p>
-        </div>
+        </header>
 
-        {/* Sort Controls */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
-              {sortedArticles.length} {sortedArticles.length === 1 ? "article" : "articles"}
+        <div className="flex items-center justify-end mb-10">
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs text-muted-foreground">
+              {sortedArticles.length} articles
             </span>
+            <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
+              <SelectTrigger className="w-[150px] font-mono text-xs border-0 border-b border-border rounded-none px-0 h-auto py-1">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="recent">Most Recent</SelectItem>
+                <SelectItem value="popular">Most Liked</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="recent">Most Recent</SelectItem>
-              <SelectItem value="popular">Most Liked</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
 
-        {/* Featured Article Hero */}
-        <Card className="overflow-hidden mb-12 border-2 cursor-pointer group">
-          <Link href={featuredArticle.canonicalPath}>
-            <div className="grid md:grid-cols-2 gap-0">
-              <div className="relative h-64 md:h-auto">
-                <Image
-                  src={featuredArticle.heroImage || "/placeholder.jpg"}
-                  alt={featuredArticle.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  priority
-                />
-                <div className="absolute top-4 left-4">
-                  <Badge className="bg-primary text-primary-foreground font-semibold">
-                    Featured
-                  </Badge>
-                </div>
-              </div>
-              <CardHeader className="flex flex-col justify-between p-8">
-                <div>
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
-                    <span className="inline-flex items-center gap-1.5">
-                      <Calendar className="h-4 w-4" />
-                      {formatDate(featuredArticle.publishedAt)}
-                    </span>
-                    <span>•</span>
-                    <span className="inline-flex items-center gap-1.5">
-                      <Clock className="h-4 w-4" />
-                      {featuredArticle.readTime}
-                    </span>
-                  </div>
-                  <CardTitle className="text-3xl mb-4">{featuredArticle.title}</CardTitle>
-                  <CardDescription className="text-base mb-6">
-                    {featuredArticle.description}
-                  </CardDescription>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {featuredArticle.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="text-sm font-medium text-primary flex items-center gap-2">
-                    Read Article <ArrowRight className="h-4 w-4" />
-                  </div>
-                  <ProjectCardInteractive>
-                    <LikeButton
-                      itemId={featuredArticle.slug}
-                      initialCount={featuredArticle.likeCount}
-                      onCountChange={(count) => updateLikeCount(featuredArticle.slug, count)}
-                    />
-                  </ProjectCardInteractive>
-                </div>
-              </CardHeader>
+        <Link
+          href={featuredArticle.canonicalPath}
+          className="group block mb-16"
+        >
+          <article className="relative overflow-hidden">
+            <div className="relative h-[400px] w-full overflow-hidden">
+              <Image
+                src={featuredArticle.heroImage || "/placeholder.jpg"}
+                alt={featuredArticle.title}
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
             </div>
-          </Link>
-        </Card>
+            <div className="relative mt-[-120px] px-2 pb-4">
+              <span className="font-mono text-xs text-primary uppercase tracking-wider">
+                Featured
+              </span>
+              <h2 className="font-serif text-4xl md:text-5xl text-foreground mt-3 mb-4 leading-tight group-hover:text-primary transition-colors duration-300">
+                {featuredArticle.title}
+              </h2>
+              <p className="font-serif text-lg text-muted-foreground italic max-w-2xl mb-4">
+                {featuredArticle.description}
+              </p>
+              <div className="flex items-center gap-4 font-mono text-xs text-muted-foreground">
+                <time>{formatDate(featuredArticle.publishedAt)}</time>
+                <span className="text-border">|</span>
+                <span>{featuredArticle.readTime}</span>
+                {featuredArticle.likeCount > 0 && (
+                  <>
+                    <span className="text-border">|</span>
+                    <span>{featuredArticle.likeCount} likes</span>
+                  </>
+                )}
+              </div>
+            </div>
+          </article>
+        </Link>
 
-        {/* Article Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="divide-y divide-border">
           {otherArticles.map((article) => (
-            <Card
+            <Link
               key={article.slug}
-              className="overflow-hidden hover:shadow-lg transition-all group flex flex-col cursor-pointer"
+              href={article.canonicalPath}
+              className="group block py-8"
             >
-              <Link href={article.canonicalPath} className="flex-1 flex flex-col">
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={article.heroImage || "/placeholder.jpg"}
-                    alt={article.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <CardHeader className="flex-1 flex flex-col">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-                    <Calendar className="h-3.5 w-3.5" />
-                    {formatDate(article.publishedAt)}
-                    <span>•</span>
-                    <Clock className="h-3.5 w-3.5" />
-                    {article.readTime}
+              <article>
+                <div className="flex items-start justify-between gap-6">
+                  <div className="flex-1">
+                    <h3 className="font-serif text-2xl text-foreground mb-2 leading-snug group-hover:text-primary transition-colors duration-300 relative">
+                      {article.title}
+                      <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
+                    </h3>
+                    <p className="font-sans text-sm text-muted-foreground mb-3 line-clamp-2">
+                      {article.summary}
+                    </p>
+                    <div className="flex items-center gap-4 font-mono text-xs text-muted-foreground">
+                      <time>{formatDate(article.publishedAt)}</time>
+                      <span className="text-border">|</span>
+                      <span>{article.readTime}</span>
+                      {article.likeCount > 0 && (
+                        <>
+                          <span className="text-border">|</span>
+                          <span>{article.likeCount} likes</span>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <CardTitle className="text-lg mb-2 line-clamp-2">{article.title}</CardTitle>
-                  <CardDescription className="text-sm line-clamp-3 flex-1">
-                    {article.summary}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {article.tags.slice(0, 3).map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
+                  <div className="flex-shrink-0 pt-1">
+                    <ProjectCardInteractive>
+                      <LikeButtonBridge slug={article.slug} initialCount={article.likeCount} />
+                    </ProjectCardInteractive>
                   </div>
-                </CardContent>
-              </Link>
-              <CardContent className="pt-0">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Click to read</span>
-                  <ProjectCardInteractive>
-                    <LikeButton
-                      itemId={article.slug}
-                      initialCount={article.likeCount}
-                      onCountChange={(count) => updateLikeCount(article.slug, count)}
-                      variant="compact"
-                    />
-                  </ProjectCardInteractive>
                 </div>
-              </CardContent>
-            </Card>
+              </article>
+            </Link>
           ))}
         </div>
       </div>

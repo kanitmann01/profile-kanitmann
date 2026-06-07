@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Instrument_Serif, JetBrains_Mono, Geist } from "next/font/google"
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
@@ -16,21 +16,35 @@ import "@/public/apple-touch-icon.png"
 import "@/public/android-chrome-192x192.png"
 import "@/public/android-chrome-512x512.png"
 
-const inter = Inter({ subsets: ["latin"] })
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+})
+
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
 export const metadata: Metadata = {
-  title: "Kanit Mann - Data Scientist & Product Builder",
+  title: "Kanit Mann - Data & ML Engineer",
   description:
-    "Building intelligent applications from data and cloud. Data Science MS student with expertise in statistical analysis, machine learning, and data visualization.",
+    "Data & ML Engineer with experience in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
   keywords: [
-    "data scientist",
+    "data engineer",
     "machine learning",
     "data science",
-    "statistical analysis",
+    "data pipelines",
     "cloud infrastructure",
     "python",
-    "tensorflow",
-    "scikit-learn",
+    "apache spark",
+    "snowflake",
     "portfolio"
   ],
   authors: [{ name: "Kanit Mann" }],
@@ -70,8 +84,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kanit Mann - Data Scientist & Product Builder",
-    description: "Building intelligent applications from data and cloud. Data Science MS student with expertise in statistical analysis, machine learning, and data visualization.",
+    title: "Kanit Mann - Data & ML Engineer",
+    description: "Data & ML Engineer with experience in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
   },
   robots: {
     index: true,
@@ -146,15 +160,15 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" title="Kanit Mann - RSS" href="/rss.xml" />
         <link rel="alternate" type="application/atom+xml" title="Kanit Mann - Atom" href="/atom.xml" />
       </head>
-      <body className={inter.className}>
+      <body className={`${instrumentSerif.variable} ${jetbrainsMono.variable} ${geistSans.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
           <Navigation />
-          <main className="min-h-screen">{children}</main>
+          <main className="min-h-screen pt-16">{children}</main>
           <Footer />
           <Toaster />
         </ThemeProvider>
