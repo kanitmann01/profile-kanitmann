@@ -9,6 +9,7 @@ import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import { FloatingElement } from "@/components/animations/floating-element"
 import { ExperienceTimeline } from "@/components/experience-timeline"
 import { CertificationCard } from "@/components/certification-card"
+import { GraduationSection } from "@/components/graduation-section"
 import { experiences } from "@/data/experiences"
 import { certifications } from "@/data/certifications"
 
@@ -91,6 +92,23 @@ export default function About() {
             </SlideIn>
           </div>
         </section>
+
+        {/* My Graduation Section */}
+        <GraduationSection
+          heading="My Graduation"
+          degree="Master of Science"
+          degreeSubtitle="in Data Science"
+          university="University of Arizona"
+          location="Tucson, AZ"
+          graduationDate="May 2026"
+          gpa="3.75"
+          narrative="Completing my Master of Science in Data Science with a 3.75 GPA in May 2026 marked a pivotal moment in my journey from building firmware and cloud infrastructure to creating intelligent solutions from data. I'm incredibly proud of this achievement and grateful to my family, friends, and mentors at the University of Arizona who supported me through every late-night study session and complex project. This milestone has deepened my expertise in machine learning and data visualization, and I'm excited to bring these skills to build solutions that make a real impact."
+          images={[
+            "/images/graduation/grad-1.jpg",
+            "/images/graduation/grad-2.jpg",
+            "/images/graduation/grad-3.jpg",
+          ]}
+        />
 
         {/* My Toolkit Section */}
         <section className="mb-20">

@@ -91,7 +91,7 @@ export default function Home() {
               <FadeIn delay={0.7}>
                 <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8 max-w-xs sm:max-w-md mx-auto lg:mx-0">
                   <div className="text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-primary">4.0</div>
+                    <div className="text-xl sm:text-2xl font-bold text-primary">3.75</div>
                     <div className="text-xs sm:text-sm text-muted-foreground">GPA</div>
                   </div>
                   <div className="text-center">
