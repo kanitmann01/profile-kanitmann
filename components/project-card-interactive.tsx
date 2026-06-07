@@ -9,7 +9,6 @@ interface ProjectCardInteractiveProps {
 
 export function ProjectCardInteractive({ children, onClick }: ProjectCardInteractiveProps) {
   const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault()
     e.stopPropagation()
     if (onClick) {
       onClick(e)

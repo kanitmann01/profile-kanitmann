@@ -59,3 +59,13 @@ vi.mock("@/hooks/use-likes", () => ({
     updateLikeCount: vi.fn(),
   }),
 }))
+
+vi.mock("@/components/tactile-feedback-provider", () => ({
+  useTactileFeedback: () => ({
+    isMuted: true,
+    toggleMute: vi.fn(),
+    playSound: vi.fn(),
+    triggerHaptic: vi.fn(),
+  }),
+  TactileFeedbackProvider: ({ children }: any) => children,
+}))

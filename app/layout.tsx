@@ -5,6 +5,7 @@ import "./globals.css"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
+import { TactileFeedbackProvider } from "@/components/tactile-feedback-provider"
 import { Toaster } from "@/components/ui/toaster"
 import Script from "next/script"
 
@@ -167,10 +168,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navigation />
-          <main className="min-h-screen pt-16">{children}</main>
-          <Footer />
-          <Toaster />
+          <TactileFeedbackProvider>
+            <Navigation />
+            <main className="min-h-screen pt-16">{children}</main>
+            <Footer />
+            <Toaster />
+          </TactileFeedbackProvider>
         </ThemeProvider>
       </body>
     </html>

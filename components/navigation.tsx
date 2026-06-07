@@ -4,15 +4,17 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Volume2, VolumeX } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { TapRipple } from "@/components/tap-ripple"
+import { useTactileFeedback } from "@/components/tactile-feedback-provider"
 import { useState, useEffect } from "react"
 
 export function Navigation() {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const { isMuted, toggleMute } = useTactileFeedback()
 
   const navItems = [
     { href: "/projects", label: "WORK" },
@@ -77,10 +79,24 @@ export function Navigation() {
                 />
               </TapRipple>
             ))}
+            <button
+              onClick={toggleMute}
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+              aria-label={isMuted ? "Enable sounds" : "Mute sounds"}
+            >
+              {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+            </button>
             <ThemeToggle />
           </div>
 
           <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={toggleMute}
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+              aria-label={isMuted ? "Enable sounds" : "Mute sounds"}
+            >
+              {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+            </button>
             <ThemeToggle />
             <TapRipple>
               <button

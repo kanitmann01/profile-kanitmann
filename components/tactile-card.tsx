@@ -4,21 +4,59 @@ import * as React from "react"
 import { motion, type HTMLMotionProps } from "framer-motion"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { useCardTilt } from "@/hooks/use-card-tilt"
+import { useTactileFeedback } from "@/components/tactile-feedback-provider"
 
 const TactileCard = React.forwardRef<
   HTMLDivElement,
   HTMLMotionProps<"div"> & { href?: string }
->(({ className, children, href, ...props }, ref) => {
+>(({ className, children, href, onPointerDown, ...props }, ref) => {
+  const {
+    ref: tiltRef,
+    tilt,
+    perspective,
+    handleMouseMove,
+    handleMouseLeave,
+  } = useCardTilt<HTMLDivElement>({
+    maxTilt: 8,
+    perspective: 800,
+    scale: 1.02,
+  })
+  const { playSound, triggerHaptic } = useTactileFeedback()
+
+  const combinedRef = (node: HTMLDivElement | null) => {
+    tiltRef.current = node
+    if (typeof ref === "function") {
+      ref(node)
+    } else if (ref) {
+      ref.current = node
+    }
+  }
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    playSound("click")
+    triggerHaptic("medium")
+    onPointerDown?.(e)
+  }
+
   const card = (
     <motion.div
-      ref={ref}
+      ref={combinedRef}
       className={cn(
         "rounded-lg border bg-card text-card-foreground shadow-sm cursor-pointer",
         className
       )}
-      whileHover={{ y: -4, boxShadow: "0 12px 28px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08)" }}
-      whileTap={{ scale: 0.98, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onPointerDown={handlePointerDown}
+      animate={{
+        rotateX: tilt.rotateX,
+        rotateY: tilt.rotateY,
+        scale: tilt.scale,
+      }}
+      whileTap={{ boxShadow: "inset 0 2px 4px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.08)" }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      style={{ perspective }}
       {...props}
     >
       {children}

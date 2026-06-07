@@ -5,37 +5,6 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import { TactileButton } from "@/components/tactile-button"
 
-function FloatingShape({
-  className,
-  delay = 0,
-  duration = 6,
-  yRange = 20,
-  xRange = 10,
-}: {
-  className?: string
-  delay?: number
-  duration?: number
-  yRange?: number
-  xRange?: number
-}) {
-  return (
-    <motion.div
-      className={className}
-      animate={{
-        y: [-yRange, yRange, -yRange],
-        x: [-xRange, xRange, -xRange],
-      }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      aria-hidden="true"
-    />
-  )
-}
-
 function ScrollIndicator() {
   return (
     <motion.div
@@ -105,35 +74,6 @@ export function Hero() {
         style={{
           background: `radial-gradient(600px circle at ${glowPos.x}% ${glowPos.y}%, hsl(var(--primary) / 0.12), transparent 60%)`,
         }}
-      />
-
-      <FloatingShape
-        className="absolute top-[15%] right-[10%] w-32 h-32 rounded-full border border-primary/10"
-        delay={0}
-        duration={8}
-        yRange={25}
-        xRange={15}
-      />
-      <FloatingShape
-        className="absolute top-[60%] right-[20%] w-20 h-20 rounded-full bg-accent/8"
-        delay={1}
-        duration={7}
-        yRange={18}
-        xRange={12}
-      />
-      <FloatingShape
-        className="absolute top-[30%] right-[30%] w-px h-24 bg-sage/20 origin-bottom"
-        delay={0.5}
-        duration={9}
-        yRange={15}
-        xRange={8}
-      />
-      <FloatingShape
-        className="absolute bottom-[25%] right-[8%] w-16 h-16 rotate-45 border border-sage/10"
-        delay={2}
-        duration={10}
-        yRange={20}
-        xRange={10}
       />
 
       <div className="relative z-10 flex flex-col items-start text-left w-full max-w-5xl">
