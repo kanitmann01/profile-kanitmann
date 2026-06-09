@@ -1,0 +1,1 @@
+I want to change potentially a lot about how the links on the website works. Specially, in headings. Every time there is a page redirect link, or a link to external source, I want it next to the heading. For example, in the bento box, the experience header takes user to /about#experience, can we display this? Or maybe show it as /about/experience
