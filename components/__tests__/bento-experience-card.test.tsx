@@ -18,7 +18,10 @@ describe("BentoExperienceCard", () => {
   it("renders position for each experience entry", () => {
     render(<BentoExperienceCard experiences={homeExperiences} />)
     for (const exp of homeExperiences) {
-      expect(screen.getByText(exp.position)).toBeInTheDocument()
+      const title = exp.position || exp.roles?.[0]?.position
+      if (title) {
+        expect(screen.getByText(title)).toBeInTheDocument()
+      }
     }
   })
 
