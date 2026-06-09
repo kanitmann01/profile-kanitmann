@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { FadeIn } from "@/components/animations/fade-in"
+import { LinkChip } from "@/components/link-chip"
 import { projects } from "@/data/projects"
 import { useLikes } from "@/hooks/use-likes"
 import {
@@ -122,6 +123,7 @@ function ProjectsContent() {
                         className="font-serif text-4xl md:text-5xl text-foreground leading-tight mb-4 group-hover:text-primary transition-colors duration-300"
                       >
                         {project.title}
+                        <LinkChip path={project.href} />
                       </h2>
 
                       <p className="text-muted-foreground text-base leading-relaxed mb-6">

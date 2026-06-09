@@ -102,7 +102,7 @@ export default function About() {
           </div>
         </section>
 
-        <section className="mb-32">
+        <section id="skills" className="mb-32 scroll-mt-20">
           <FadeIn>
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">
               01
@@ -190,7 +190,7 @@ export default function About() {
           </div>
         </section>
 
-        <section className="mb-32">
+        <section id="experience" className="mb-32 scroll-mt-20">
           <FadeIn>
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">
               03

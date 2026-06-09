@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import Image from "next/image"
+import { LinkChip } from "@/components/link-chip"
 import { ArrowRight } from "lucide-react"
 
 interface RelatedProjectsProps {
@@ -46,7 +47,10 @@ export function RelatedProjects({ currentProject, allProjects }: RelatedProjects
                 />
               </div>
               <CardHeader>
-                <CardTitle className="text-lg">{project.title}</CardTitle>
+                <CardTitle className="text-lg">
+                  {project.title}
+                  <LinkChip path={project.href} />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
