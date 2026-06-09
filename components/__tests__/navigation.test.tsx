@@ -15,9 +15,11 @@ describe("Navigation", () => {
     vi.clearAllMocks()
   })
 
-  it("renders the KANIT logo text", () => {
+  it("renders the logo image", () => {
     render(<Navigation />)
-    expect(screen.getByText("KANIT")).toBeInTheDocument()
+    const logo = screen.getByAltText("Kanit Mann")
+    expect(logo).toBeInTheDocument()
+    expect(logo).toHaveAttribute("src")
   })
 
   it("renders all navigation links with correct text", () => {

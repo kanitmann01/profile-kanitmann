@@ -27,11 +27,11 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
     if (!container) return
 
     const headingElements = container.querySelectorAll("h2, h3")
-    const extractedHeadings: Heading[] = Array.from(headingElements).map((el) => ({
-      id: el.id || el.textContent?.toLowerCase().replace(/\s+/g, "-") || "",
-      text: el.textContent || "",
-      level: parseInt(el.tagName.charAt(1)),
-    }))
+    const extractedHeadings: Heading[] = Array.from(headingElements).map((el) => {
+      const id = el.id || el.textContent?.toLowerCase().replace(/\s+/g, "-") || ""
+      if (!el.id) el.id = id
+      return { id, text: el.textContent || "", level: parseInt(el.tagName.charAt(1)) }
+    })
 
     setHeadings(extractedHeadings)
 
