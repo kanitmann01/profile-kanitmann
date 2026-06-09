@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { articles } from "@/data/articles"
 import { LikeButton } from "@/components/like-button"
+import { LinkChip } from "@/components/link-chip"
 import { useLikeItem } from "@/hooks/use-like-item"
 import { useLikes } from "@/hooks/use-likes"
 import { ProjectCardInteractive } from "@/components/project-card-interactive"
@@ -101,6 +102,7 @@ export default function Articles() {
               </span>
               <h2 className="font-serif text-4xl md:text-5xl text-foreground mt-3 mb-4 leading-tight group-hover:text-primary transition-colors duration-300">
                 {featuredArticle.title}
+                <LinkChip path={featuredArticle.canonicalPath} />
               </h2>
               <p className="font-serif text-lg text-muted-foreground italic max-w-2xl mb-4">
                 {featuredArticle.description}
@@ -132,6 +134,7 @@ export default function Articles() {
                   <div className="flex-1">
                     <h3 className="font-serif text-2xl text-foreground mb-2 leading-snug group-hover:text-primary transition-colors duration-300 relative">
                       {article.title}
+                      <LinkChip path={article.canonicalPath} />
                       <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
                     </h3>
                     <p className="font-sans text-sm text-muted-foreground mb-3 line-clamp-2">

@@ -49,6 +49,7 @@ const TactileButton = React.forwardRef<HTMLButtonElement, TactileButtonProps>(
     const { ref: magneticRef, offset } = useMagneticHover<HTMLButtonElement>({
       radius: 120,
       maxOffset: 8,
+      enabled: false,
     })
     const { playSound, triggerHaptic } = useTactileFeedback()
 

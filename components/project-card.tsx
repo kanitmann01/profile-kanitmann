@@ -7,6 +7,7 @@ import { ArrowRight, Github, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
+import { LinkChip } from "@/components/link-chip"
 import { LikeButton } from "@/components/like-button"
 import { useLikeItem } from "@/hooks/use-like-item"
 import { ProjectCardInteractive } from "@/components/project-card-interactive"
@@ -59,7 +60,10 @@ export function ProjectCard({ project, likeCount = 0 }: ProjectCardProps) {
             )}
           </div>
           <CardHeader className="flex-1">
-            <CardTitle className="text-xl">{project.title}</CardTitle>
+            <CardTitle className="text-xl">
+              {project.title}
+              <LinkChip path={project.href} />
+            </CardTitle>
             <CardDescription className="text-base">{project.description}</CardDescription>
           </CardHeader>
           <CardContent>
