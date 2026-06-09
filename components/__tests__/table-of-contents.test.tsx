@@ -76,4 +76,25 @@ describe("TableOfContents", () => {
     const { container } = render(<TableOfContents />)
     expect(container.firstChild).toBeNull()
   })
+
+  it("assigns ids to headings that lack them", () => {
+    const container = document.createElement("div")
+    container.id = "article-content"
+    container.innerHTML = `
+      <h2>Section 1</h2>
+      <h3>Subsection 1.1</h3>
+      <h2>Section 2</h2>
+    `
+    document.body.appendChild(container)
+
+    render(<TableOfContents containerId="article-content" />)
+
+    const h2s = container.querySelectorAll("h2")
+    expect(h2s[0].id).toBe("section-1")
+    expect(h2s[1].id).toBe("section-2")
+    const h3 = container.querySelector("h3")
+    expect(h3!.id).toBe("subsection-1.1")
+
+    document.body.removeChild(container)
+  })
 })

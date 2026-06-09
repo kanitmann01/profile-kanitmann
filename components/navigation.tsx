@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
@@ -63,9 +64,15 @@ export function Navigation() {
             href="/"
             className="flex items-center gap-2 active:scale-95"
           >
-            <span className="font-serif text-2xl text-foreground hover:text-primary transition-colors">KANIT</span>
+            <Image
+              src="/logo.svg"
+              alt="Kanit Mann"
+              width={36}
+              height={36}
+              className="rounded"
+            />
             <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full border border-primary/30 font-mono text-[10px] uppercase tracking-wider text-primary">
-              Seeking Summer 2026
+              Seeking Full-Time Roles
             </span>
           </Link>
 

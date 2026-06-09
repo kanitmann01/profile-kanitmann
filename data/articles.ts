@@ -15,6 +15,29 @@ export type ArticleMeta = {
 
 export const articles: ArticleMeta[] = [
   {
+    slug: "three-line-skill",
+    title: "The Three-Line Skill That Changed Everything",
+    description:
+      "How a three-line AI skill transformed my development workflow from fighting agents to directing them through structured interviews and PRDs.",
+    summary:
+      "A three-line skill that interviews you before coding, changing how you work with AI agents.",
+    canonicalPath: "/articles/three-line-skill",
+    heroImage: "/images/articles/three-line-skill.svg",
+    publishedAt: "2026-06-09",
+    updatedAt: "2026-06-09",
+    readTime: "3 min read",
+    tags: ["AI", "Development Workflow", "Claude Code"],
+    keywords: [
+      "ai coding",
+      "claude code skills",
+      "ai development workflow",
+      "grill-me skill",
+      "ai agent workflow",
+      "tdd ai",
+    ],
+    featuredOnHome: true,
+  },
+  {
     slug: "data-viz-analysis",
     title: "Data Visualization Portfolio Reflection",
     description:

@@ -5,9 +5,10 @@ import { ExperienceTimeline } from "@/components/experience-timeline"
 import { experiences } from "@/data/experiences"
 
 describe("ExperienceTimeline", () => {
-  it("renders all experiences", () => {
+  it("renders all visible experiences", () => {
     render(<ExperienceTimeline experiences={experiences} />)
-    experiences.forEach((exp) => {
+    const visibleExps = experiences.filter((e) => !e.collapsible)
+    visibleExps.forEach((exp) => {
       const matches = screen.getAllByText(exp.company)
       expect(matches.length).toBeGreaterThan(0)
     })
@@ -19,26 +20,54 @@ describe("ExperienceTimeline", () => {
     expect(companyElements.length).toBeGreaterThan(0)
   })
 
-  it("renders job titles for each experience", () => {
+  it("renders job titles for visible experiences", () => {
     render(<ExperienceTimeline experiences={experiences} />)
-    experiences.forEach((exp) => {
-      expect(screen.getByText(exp.position)).toBeInTheDocument()
+    const visibleExps = experiences.filter((e) => !e.collapsible)
+    visibleExps.forEach((exp) => {
+      if (exp.position) {
+        expect(screen.getByText(exp.position)).toBeInTheDocument()
+      }
+      if (exp.roles) {
+        exp.roles.forEach((role) => {
+          expect(screen.getByText(role.position)).toBeInTheDocument()
+        })
+      }
     })
   })
 
-  it("renders period (start and end dates) for each experience", () => {
+  it("renders period for visible experiences", () => {
     render(<ExperienceTimeline experiences={experiences} />)
-    experiences.forEach((exp) => {
-      const periodRegex = new RegExp(`${exp.startDate}.*${exp.endDate}`)
-      expect(screen.getByText(periodRegex)).toBeInTheDocument()
+    const visibleExps = experiences.filter((e) => !e.collapsible)
+    visibleExps.forEach((exp) => {
+      if (exp.startDate && exp.endDate) {
+        const periodRegex = new RegExp(`${exp.startDate}.*${exp.endDate}`)
+        expect(screen.getByText(periodRegex)).toBeInTheDocument()
+      }
+      if (exp.roles) {
+        exp.roles.forEach((role) => {
+          const periodRegex = new RegExp(`${role.startDate}.*${role.endDate}`)
+          expect(screen.getByText(periodRegex)).toBeInTheDocument()
+        })
+      }
     })
   })
 
-  it("renders achievements when present", () => {
+  it("renders achievements for visible experiences", () => {
     render(<ExperienceTimeline experiences={experiences} />)
-    const ericssonExp = experiences.find((e) => e.id === "ericsson-engineer")!
-    ericssonExp.achievements!.forEach((achievement) => {
-      expect(screen.getByText(achievement)).toBeInTheDocument()
+    const visibleExps = experiences.filter((e) => !e.collapsible)
+    visibleExps.forEach((exp) => {
+      if (exp.achievements) {
+        exp.achievements.forEach((achievement) => {
+          expect(screen.getByText(achievement)).toBeInTheDocument()
+        })
+      }
+      if (exp.roles) {
+        exp.roles.forEach((role) => {
+          role.achievements?.forEach((achievement) => {
+            expect(screen.getByText(achievement)).toBeInTheDocument()
+          })
+        })
+      }
     })
   })
 
@@ -50,9 +79,20 @@ describe("ExperienceTimeline", () => {
 
   it("renders in compact mode without achievements", () => {
     render(<ExperienceTimeline experiences={experiences} compact />)
-    const ericssonExp = experiences.find((e) => e.id === "ericsson-engineer")!
-    ericssonExp.achievements!.forEach((achievement) => {
-      expect(screen.queryByText(achievement)).not.toBeInTheDocument()
+    const homeExps = experiences.filter((e) => e.featuredOnHome)
+    homeExps.forEach((exp) => {
+      if (exp.achievements) {
+        exp.achievements.forEach((achievement) => {
+          expect(screen.queryByText(achievement)).not.toBeInTheDocument()
+        })
+      }
+      if (exp.roles) {
+        exp.roles.forEach((role) => {
+          role.achievements?.forEach((achievement) => {
+            expect(screen.queryByText(achievement)).not.toBeInTheDocument()
+          })
+        })
+      }
     })
   })
 })

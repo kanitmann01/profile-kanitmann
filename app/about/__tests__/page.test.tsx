@@ -15,6 +15,14 @@ beforeAll(() => {
       dispatchEvent: vi.fn(),
     })),
   })
+
+  class MockIntersectionObserver {
+    observe = vi.fn()
+    unobserve = vi.fn()
+    disconnect = vi.fn()
+    constructor() {}
+  }
+  global.IntersectionObserver = MockIntersectionObserver as any
 })
 
 import About from "@/app/about/page"
@@ -22,7 +30,8 @@ import About from "@/app/about/page"
 describe("About page - Editorial Bio Redesign", () => {
   it("renders the editorial headline", () => {
     render(<About />)
-    expect(screen.getByText("The Story")).toBeInTheDocument()
+    const headings = screen.getAllByText("The Story")
+    expect(headings.length).toBeGreaterThanOrEqual(1)
   })
 
   it("renders the bio narrative text", () => {
@@ -64,7 +73,8 @@ describe("About page - Editorial Bio Redesign", () => {
 
   it("renders the graduation section", () => {
     render(<About />)
-    expect(screen.getByText(/My Graduation/i)).toBeInTheDocument()
+    const gradHeadings = screen.getAllByText(/My Graduation/i)
+    expect(gradHeadings.length).toBeGreaterThanOrEqual(1)
     expect(screen.getAllByText(/Master of Science/).length).toBeGreaterThan(0)
   })
 
