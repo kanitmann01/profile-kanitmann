@@ -160,6 +160,9 @@ export default function RootLayout({
         {/* Feed discovery */}
         <link rel="alternate" type="application/rss+xml" title="Kanit Mann - RSS" href="/rss.xml" />
         <link rel="alternate" type="application/atom+xml" title="Kanit Mann - Atom" href="/atom.xml" />
+        {/* Calendly */}
+        <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+        <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async />
       </head>
       <body className={`${instrumentSerif.variable} ${jetbrainsMono.variable} ${geistSans.variable} font-sans`}>
         <ThemeProvider

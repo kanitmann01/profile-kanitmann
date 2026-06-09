@@ -2,8 +2,16 @@
 
 import { useRef, useState, useCallback } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import Link from "next/link"
+import Image from "next/image"
 import { TactileButton } from "@/components/tactile-button"
+
+declare global {
+  interface Window {
+    Calendly?: {
+      initPopupWidget: (options: { url: string }) => void
+    }
+  }
+}
 
 function ScrollIndicator() {
   return (
@@ -38,6 +46,14 @@ function ScrollIndicator() {
   )
 }
 
+function openCalendly() {
+  if (typeof window !== "undefined" && window.Calendly) {
+    window.Calendly.initPopupWidget({
+      url: "https://calendly.com/mannkanit/connect-with-kanit",
+    })
+  }
+}
+
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [glowPos, setGlowPos] = useState({ x: 50, y: 50 })
@@ -47,8 +63,8 @@ export function Hero() {
     offset: ["start start", "end start"],
   })
 
-  const nameScale = useTransform(scrollYProgress, [0, 1], [1, 0.9])
-  const nameOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5])
+  const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.9])
+  const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5])
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -70,23 +86,39 @@ export function Hero() {
       <div className="grain-overlay" />
       <div className="hero-gradient-bg absolute inset-0 z-0" />
       <div
-        className="pointer-events-none absolute inset-0 z-[1]"
+        className="pointer-events-none absolute inset-0 z-[3]"
         style={{
           background: `radial-gradient(600px circle at ${glowPos.x}% ${glowPos.y}%, hsl(var(--primary) / 0.12), transparent 60%)`,
         }}
       />
+
+      <div
+        className="absolute inset-y-0 right-0 w-[55%] z-[2] overflow-hidden hidden md:block pointer-events-none"
+        style={{
+          mask: `linear-gradient(to right, transparent 25%, black 60%)`,
+          WebkitMask: `linear-gradient(to right, transparent 25%, black 60%)`,
+        }}
+      >
+        <div className="relative w-full h-full">
+          <Image
+            src="/images/profile/kanit-mann.png"
+            alt="Kanit Mann"
+            fill
+            className="object-cover object-left"
+            priority
+          />
+        </div>
+      </div>
 
       <div className="relative z-10 flex flex-col items-start text-left w-full max-w-5xl">
         <motion.div
           initial={{ y: 100, opacity: 0, filter: "blur(10px)" }}
           animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{ scale: nameScale, opacity: nameOpacity }}
+          style={{ scale: contentScale, opacity: contentOpacity }}
         >
-          <h1 className="font-serif text-[clamp(4rem,15vw,12rem)] leading-[0.85] tracking-tight text-primary">
-            KEN
-            <br />
-            <span className="text-[0.6em]">(KANIT) MANN</span>
+          <h1 className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground">
+            <span>Hi, I&apos;m Kanit!</span>
           </h1>
         </motion.div>
 
@@ -94,34 +126,41 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.6 }}
-          className="mt-8"
+          className="mt-6"
         >
-          <p className="font-mono text-2xl md:text-3xl tracking-[0.3em] text-foreground uppercase">
-            Data &amp; ML Engineer
+          <p className="font-sans text-2xl md:text-4xl text-foreground">
+            <span className="text-muted-foreground">I&apos;m a</span>{" "}
+            <span className="font-bold">Data &amp; ML Engineer</span>
           </p>
         </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.5 }}
-          className="font-mono text-sm text-muted-foreground mt-3"
-        >
-          Ex-Ericsson · NetSTAR · Seeking Summer 2026
-        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-          className="flex flex-col sm:flex-row gap-4 mt-10"
+          transition={{ delay: 1.15, duration: 0.6 }}
+          className="mt-2 flex items-center gap-3 flex-wrap"
         >
-          <TactileButton size="lg" asChild>
-            <Link href="/projects">View Projects</Link>
+          <p className="font-sans text-2xl md:text-4xl">
+            <span className="font-bold text-primary">MS, University of Arizona.</span>
+          </p>
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-sm font-mono text-muted-foreground">
+            <span className="w-2 h-2 rounded-full bg-green-500" />
+            Seeking full-time roles
+          </span>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3, duration: 0.5 }}
+          className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mt-10"
+        >
+          <TactileButton size="lg" onClick={openCalendly}>
+            Book a call
           </TactileButton>
-          <TactileButton size="lg" variant="outline" asChild>
-            <Link href="/contact">Get In Touch</Link>
-          </TactileButton>
+          <p className="font-sans text-sm text-muted-foreground max-w-sm leading-relaxed">
+            Check out my projects and reach out
+          </p>
         </motion.div>
       </div>
 
