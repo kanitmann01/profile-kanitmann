@@ -5,6 +5,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "generate:og": "npx tsx scripts/generate-og-image.ts",
+    "prebuild": "npm run generate:og",
     "lint": "next lint",
     "start": "next start",
     "test": "vitest run",

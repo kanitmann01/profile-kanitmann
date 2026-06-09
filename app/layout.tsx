@@ -28,7 +28,7 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "Kanit Mann - Data & ML Engineer",
   description:
-    "Data & ML Engineer with experience in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
+    "Data & ML Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
   keywords: [
     "data engineer",
     "machine learning",
@@ -69,17 +69,19 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "Kanit Mann - Data Scientist & Product Builder",
-    description: "Building intelligent applications from data and cloud. Data Science MS student with expertise in statistical analysis, machine learning, and data visualization.",
+    title: "Kanit Mann - Data & ML Engineer",
+    description: "Data & ML Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
     url: "https://kanit.codes",
     siteName: "Kanit Mann Portfolio",
     type: "website",
     locale: "en_US",
+    images: ["/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Kanit Mann - Data & ML Engineer",
-    description: "Data & ML Engineer with experience in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
+    description: "Data & ML Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -133,6 +135,20 @@ export default function RootLayout({
               "name": "Kanit Mann"
             },
             "inLanguage": "en-US"
+          })}
+        </Script>
+        {/* Structured Data: Person */}
+        <Script id="ld-person" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Kanit Mann",
+            "jobTitle": "Data & ML Engineer",
+            "url": "https://kanit.codes",
+            "sameAs": [
+              "https://github.com/kanitmann01",
+              "https://linkedin.com/in/kanitmann"
+            ]
           })}
         </Script>
         {/* Structured Data: Site Navigation */}
