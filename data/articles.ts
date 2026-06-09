@@ -22,7 +22,7 @@ export const articles: ArticleMeta[] = [
     summary:
       "A three-line skill that interviews you before coding, changing how you work with AI agents.",
     canonicalPath: "/articles/three-line-skill",
-    heroImage: "/images/articles/three-line-skill.svg",
+    heroImage: "/images/articles/three-line-skill.png",
     publishedAt: "2026-06-09",
     updatedAt: "2026-06-09",
     readTime: "3 min read",

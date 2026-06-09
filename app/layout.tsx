@@ -9,14 +9,6 @@ import { TactileFeedbackProvider } from "@/components/tactile-feedback-provider"
 import { Toaster } from "@/components/ui/toaster"
 import Script from "next/script"
 
-// Favicon imports
-import "@/public/favicon.ico"
-import "@/public/favicon-16x16.png"
-import "@/public/favicon-32x32.png"
-import "@/public/apple-touch-icon.png"
-import "@/public/android-chrome-192x192.png"
-import "@/public/android-chrome-512x512.png"
-
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
@@ -62,6 +54,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: "/logo.svg", sizes: "any", type: "image/svg+xml" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon.ico", sizes: "any" },

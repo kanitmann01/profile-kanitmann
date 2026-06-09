@@ -61,58 +61,59 @@ export default function About() {
   return (
     <div className="min-h-screen bg-background py-20 px-6">
       <div className="container mx-auto max-w-5xl">
+        <FadeIn className="mb-24">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">
+            About
+          </p>
+          <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl text-foreground leading-none">
+            The Story
+          </h1>
+        </FadeIn>
+
+        <section id="story" className="mb-32 scroll-mt-20">
+          <div className="grid md:grid-cols-12 gap-12 items-start">
+            <SlideIn direction="right" className="md:col-span-4 md:col-start-1">
+              <div className="relative">
+                <Image
+                  src="/images/profile/kanit-mann.png"
+                  alt="Kanit Mann"
+                  width={400}
+                  height={500}
+                  className="rounded-sm"
+                />
+                <div className="absolute inset-0 rounded-sm opacity-[0.04] pointer-events-none bg-[url('data:image/svg+xml,%3Csvg%20viewBox=%270%200%20200%20200%27%20xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%270.85%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E')]" />
+              </div>
+            </SlideIn>
+
+            <SlideIn direction="left" className="md:col-span-7 md:col-start-6">
+              <div className="max-w-prose">
+                <p className="font-sans text-foreground leading-relaxed mb-6 text-lg font-medium">
+                  Data &amp; ML Engineer with 2 years of experience spanning cloud infrastructure, machine learning, and data pipelines — from migrating 2,000 servers at Ericsson to building real-time analytics systems.
+                </p>
+                <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
+                  My journey into data science began with a foundation in building tangible things, from engineering
+                  firmware for 3D printers to developing full-stack web applications. This hands-on experience taught me
+                  that the best solutions come from understanding both the technical possibilities and the human needs.
+                </p>
+                <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
+                  My time at Ericsson as an Engineer, Cloud and Infra, where my team managed the migration of over 2,000 servers to GCP,
+                  taught me how to work with complex, large-scale systems. I learned that successful technology
+                  implementations require not just technical expertise, but also careful planning, stakeholder
+                  communication, and a deep understanding of business requirements.
+                </p>
+                <p className="font-sans text-muted-foreground leading-relaxed text-lg">
+                  Now, I'm a Master's student at the University of Arizona (GPA: 3.75), where I'm combining my
+                  engineering background with a passion for data to build intelligent solutions. I believe the future
+                  belongs to those who can bridge the gap between complex algorithms and practical applications that
+                  solve real-world problems.
+                </p>
+              </div>
+            </SlideIn>
+          </div>
+        </section>
+
         <div className="flex gap-12">
           <div className="flex-1 min-w-0">
-            <FadeIn className="mb-24">
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">
-                About
-              </p>
-              <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl text-foreground leading-none">
-                The Story
-              </h1>
-            </FadeIn>
-
-            <section id="story" className="mb-32 scroll-mt-20">
-              <div className="grid md:grid-cols-12 gap-12 items-start">
-                <SlideIn direction="right" className="md:col-span-4 md:col-start-1">
-                  <div className="relative">
-                    <Image
-                      src="/images/profile/kanit-mann.png"
-                      alt="Kanit Mann"
-                      width={400}
-                      height={500}
-                      className="rounded-sm"
-                    />
-                    <div className="absolute inset-0 rounded-sm opacity-[0.04] pointer-events-none bg-[url('data:image/svg+xml,%3Csvg%20viewBox=%270%200%20200%20200%27%20xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%270.85%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E')]" />
-                  </div>
-                </SlideIn>
-
-                <SlideIn direction="left" className="md:col-span-7 md:col-start-6">
-                  <div className="max-w-prose">
-                    <p className="font-sans text-foreground leading-relaxed mb-6 text-lg font-medium">
-                      Data &amp; ML Engineer with 2 years of experience spanning cloud infrastructure, machine learning, and data pipelines — from migrating 2,000 servers at Ericsson to building real-time analytics systems.
-                    </p>
-                    <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
-                      My journey into data science began with a foundation in building tangible things, from engineering
-                      firmware for 3D printers to developing full-stack web applications. This hands-on experience taught me
-                      that the best solutions come from understanding both the technical possibilities and the human needs.
-                    </p>
-                    <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
-                      My time at Ericsson as an Engineer, Cloud and Infra, where my team managed the migration of over 2,000 servers to GCP,
-                      taught me how to work with complex, large-scale systems. I learned that successful technology
-                      implementations require not just technical expertise, but also careful planning, stakeholder
-                      communication, and a deep understanding of business requirements.
-                    </p>
-                    <p className="font-sans text-muted-foreground leading-relaxed text-lg">
-                      Now, I'm a Master's student at the University of Arizona (GPA: 3.75), where I'm combining my
-                      engineering background with a passion for data to build intelligent solutions. I believe the future
-                      belongs to those who can bridge the gap between complex algorithms and practical applications that
-                      solve real-world problems.
-                    </p>
-                  </div>
-                </SlideIn>
-              </div>
-            </section>
 
             <section id="graduation" className="mb-32 scroll-mt-20">
               <GraduationSection
