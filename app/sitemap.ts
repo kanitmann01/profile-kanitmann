@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://kanit.codes"
+  const baseUrl = "https://www.kanit.codes"
 
   const routes = [
     "",
@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/projects/voicebridge",
     "/projects/echo-effect",
     "/articles",
+    "/articles/three-line-skill",
     "/articles/bios-issues-ubuntu",
     "/articles/ccrb-allegations-analysis",
     "/articles/data-viz-analysis",

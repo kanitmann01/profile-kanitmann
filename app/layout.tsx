@@ -48,10 +48,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://kanit.codes"),
-  alternates: {
-    canonical: "/",
-  },
+  metadataBase: new URL("https://www.kanit.codes"),
   icons: {
     icon: [
       { url: "/logo.svg", sizes: "any", type: "image/svg+xml" },

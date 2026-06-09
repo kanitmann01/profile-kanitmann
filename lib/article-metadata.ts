@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import type { ArticleMeta } from "@/data/articles"
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kanit.codes"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.kanit.codes"
 
 export function buildArticleMetadata(article: ArticleMeta): Metadata {
   const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString()

@@ -15,6 +15,20 @@ vi.mock("next/script", () => ({
 const { metadata } = await import("../layout")
 
 describe("Root layout metadata", () => {
+  describe("domain alignment", () => {
+    it("metadataBase uses www.kanit.codes", () => {
+      const base = metadata.metadataBase as URL
+      expect(base.hostname).toBe("www.kanit.codes")
+    })
+  })
+
+  describe("canonical tags", () => {
+    it("does not set a global canonical (pages should set their own)", () => {
+      const alternates = metadata.alternates as Record<string, unknown> | undefined
+      expect(alternates?.canonical).toBeUndefined()
+    })
+  })
+
   describe("title and description", () => {
     it('has title "Kanit Mann - Data & ML Engineer"', () => {
       expect(metadata.title).toBe("Kanit Mann - Data & ML Engineer")

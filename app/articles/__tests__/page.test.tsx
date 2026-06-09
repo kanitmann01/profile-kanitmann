@@ -34,3 +34,10 @@ describe("Articles page", () => {
     expect(screen.getByText("Most Recent")).toBeInTheDocument()
   })
 })
+
+describe("Deleted articles", () => {
+  it("titanic-survival is not in the articles data", () => {
+    const found = articles.find((a) => a.slug === "titanic-survival")
+    expect(found).toBeUndefined()
+  })
+})
