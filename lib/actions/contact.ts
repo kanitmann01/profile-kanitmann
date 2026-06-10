@@ -79,20 +79,28 @@ export async function sendContactEmail(
   const { firstName, lastName, email, company, subject, message } = parsed.data;
   const composedSubject = subject || `Hello from ${firstName} ${lastName}`;
 
-  await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL!,
-    to: "kanitmann01@gmail.com",
-    subject: composedSubject,
-    replyTo: email,
-    html: ownerEmailHtml(parsed.data),
-  });
+  try {
+    await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL!,
+      to: "kanitmann01@gmail.com",
+      subject: composedSubject,
+      reply_to: email,
+      html: ownerEmailHtml(parsed.data),
+    });
 
-  await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL!,
-    to: email,
-    subject: `Thanks for reaching out, ${firstName}!`,
-    html: senderEmailHtml(firstName),
-  });
+    await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL!,
+      to: email,
+      subject: `Thanks for reaching out, ${firstName}!`,
+      html: senderEmailHtml(firstName),
+    });
+  } catch (error) {
+    console.error("Failed to send contact email:", error);
+    return {
+      success: false,
+      errors: { form: ["Failed to send email. Please try again."] },
+    };
+  }
 
   return { success: true };
 }
