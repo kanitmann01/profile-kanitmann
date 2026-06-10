@@ -1,120 +1,176 @@
-import { render, screen, fireEvent } from "@testing-library/react"
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { ContactForm } from "../contact-form"
+import { ContactForm } from "../contact-form";
+
+const mockSendContactEmail = vi.fn();
+vi.mock("@/lib/actions/contact", () => ({
+  sendContactEmail: (...args: unknown[]) => mockSendContactEmail(...args),
+}));
 
 describe("ContactForm", () => {
-  const originalLocation = window.location
-
   beforeEach(() => {
-    Object.defineProperty(window, "location", {
-      writable: true,
-      value: { ...originalLocation, href: "" },
-    })
-  })
-
-  afterEach(() => {
-    Object.defineProperty(window, "location", {
-      writable: true,
-      value: originalLocation,
-    })
-  })
+    vi.clearAllMocks();
+  });
 
   it("renders all form fields", () => {
-    render(<ContactForm />)
+    render(<ContactForm />);
 
-    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/last name/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/^email$/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/company/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/subject/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/message/i)).toBeInTheDocument()
-  })
+    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/last name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^email$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/company/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/subject/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/message/i)).toBeInTheDocument();
+  });
 
   it("renders submit button with correct text", () => {
-    render(<ContactForm />)
+    render(<ContactForm />);
 
-    const button = screen.getByRole("button", { name: /send via email/i })
-    expect(button).toBeInTheDocument()
-  })
+    const button = screen.getByRole("button", { name: /send via email/i });
+    expect(button).toBeInTheDocument();
+  });
 
-  it("shows loading state on submit", () => {
-    vi.useFakeTimers()
-    render(<ContactForm />)
+  it("renders hidden honeypot field", () => {
+    const { container } = render(<ContactForm />);
 
-    const form = screen.getByRole("button", { name: /send via email/i }).closest("form")!
-    fireEvent.submit(form)
+    const honeypot = container.querySelector('input[name="website"]');
+    expect(honeypot).toBeInTheDocument();
+    expect(honeypot?.parentElement).toHaveAttribute("aria-hidden", "true");
+    expect(honeypot).toHaveAttribute("tabindex", "-1");
+  });
 
-    expect(screen.getByRole("button")).toHaveTextContent("Opening email...")
+  it("calls server action on submit with form data", async () => {
+    mockSendContactEmail.mockResolvedValue({ success: true });
 
-    vi.advanceTimersByTime(1000)
-    vi.useRealTimers()
-  })
+    render(<ContactForm />);
 
-  it("constructs mailto URL with form data", () => {
-    render(<ContactForm />)
+    fireEvent.change(screen.getByLabelText(/first name/i), {
+      target: { value: "John" },
+    });
+    fireEvent.change(screen.getByLabelText(/last name/i), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/^email$/i), {
+      target: { value: "john@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/message/i), {
+      target: { value: "Let's work together on a project" },
+    });
 
-    fireEvent.change(screen.getByLabelText(/first name/i), { target: { value: "John" } })
-    fireEvent.change(screen.getByLabelText(/last name/i), { target: { value: "Doe" } })
-    fireEvent.change(screen.getByLabelText(/^email$/i), { target: { value: "john@example.com" } })
-    fireEvent.change(screen.getByLabelText(/company/i), { target: { value: "Acme" } })
-    fireEvent.change(screen.getByLabelText(/subject/i), { target: { value: "Collaboration" } })
-    fireEvent.change(screen.getByLabelText(/message/i), { target: { value: "Let's work together" } })
+    const form = screen
+      .getByRole("button", { name: /send via email/i })
+      .closest("form")!;
+    fireEvent.submit(form);
 
-    const form = screen.getByRole("button", { name: /send via email/i }).closest("form")!
-    fireEvent.submit(form)
+    await waitFor(() => {
+      expect(mockSendContactEmail).toHaveBeenCalledTimes(1);
+    });
 
-    const href = (window.location as any).href as string
-    expect(href).toContain("mailto:kanitmann01@gmail.com")
-    expect(href).toContain("subject=Collaboration")
-    expect(href).toContain("Name%3A+John+Doe")
-    expect(href).toContain("Email%3A+john%40example.com")
-    expect(href).toContain("Company%3A+Acme")
-    expect(href).toContain("Let%27s+work+together")
-  })
+    const formData = mockSendContactEmail.mock.calls[0][0] as FormData;
+    expect(formData.get("firstName")).toBe("John");
+    expect(formData.get("lastName")).toBe("Doe");
+    expect(formData.get("email")).toBe("john@example.com");
+    expect(formData.get("message")).toBe("Let's work together on a project");
+  });
 
-  it("uses default subject when subject field is empty", () => {
-    render(<ContactForm />)
+  it("shows success state after successful submission", async () => {
+    mockSendContactEmail.mockResolvedValue({ success: true });
 
-    fireEvent.change(screen.getByLabelText(/first name/i), { target: { value: "Jane" } })
-    fireEvent.change(screen.getByLabelText(/last name/i), { target: { value: "Smith" } })
-    fireEvent.change(screen.getByLabelText(/message/i), { target: { value: "Hi there" } })
+    render(<ContactForm />);
 
-    const form = screen.getByRole("button", { name: /send via email/i }).closest("form")!
-    fireEvent.submit(form)
+    fireEvent.change(screen.getByLabelText(/first name/i), {
+      target: { value: "John" },
+    });
+    fireEvent.change(screen.getByLabelText(/last name/i), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/^email$/i), {
+      target: { value: "john@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/message/i), {
+      target: { value: "Let's work together on a project" },
+    });
 
-    const href = (window.location as any).href as string
-    expect(href).toContain("subject=Hello+from+Jane+Smith")
-  })
+    const form = screen
+      .getByRole("button", { name: /send via email/i })
+      .closest("form")!;
+    fireEvent.submit(form);
 
-  it("omits email and company from body when empty", () => {
-    render(<ContactForm />)
+    await waitFor(() => {
+      expect(screen.getByText(/message sent/i)).toBeInTheDocument();
+    });
+  });
 
-    fireEvent.change(screen.getByLabelText(/first name/i), { target: { value: "A" } })
-    fireEvent.change(screen.getByLabelText(/last name/i), { target: { value: "B" } })
-    fireEvent.change(screen.getByLabelText(/message/i), { target: { value: "Msg" } })
+  it("shows validation errors on failed submission", async () => {
+    mockSendContactEmail.mockResolvedValue({
+      success: false,
+      errors: { firstName: ["Required"], email: ["Invalid email"] },
+    });
 
-    const form = screen.getByRole("button", { name: /send via email/i }).closest("form")!
-    fireEvent.submit(form)
+    render(<ContactForm />);
 
-    const href = (window.location as any).href as string
-    expect(href).not.toContain("Email%3A")
-    expect(href).not.toContain("Company%3A")
-  })
+    fireEvent.change(screen.getByLabelText(/first name/i), {
+      target: { value: "" },
+    });
+    fireEvent.change(screen.getByLabelText(/^email$/i), {
+      target: { value: "bad" },
+    });
+    fireEvent.change(screen.getByLabelText(/last name/i), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/message/i), {
+      target: { value: "Let's work together" },
+    });
 
-  it("resets form after submission", () => {
-    vi.useFakeTimers()
-    render(<ContactForm />)
+    const form = screen
+      .getByRole("button", { name: /send via email/i })
+      .closest("form")!;
+    fireEvent.submit(form);
 
-    fireEvent.change(screen.getByLabelText(/first name/i), { target: { value: "John" } })
+    await waitFor(() => {
+      expect(screen.getByText("Required")).toBeInTheDocument();
+      expect(screen.getByText("Invalid email")).toBeInTheDocument();
+    });
+  });
 
-    const form = screen.getByRole("button", { name: /send via email/i }).closest("form")!
-    fireEvent.submit(form)
+  it("disables submit button during submission", async () => {
+    let resolveSubmit: (value: unknown) => void;
+    mockSendContactEmail.mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveSubmit = resolve;
+        })
+    );
 
-    vi.advanceTimersByTime(1000)
+    render(<ContactForm />);
 
-    expect((screen.getByLabelText(/first name/i) as HTMLInputElement).value).toBe("")
+    fireEvent.change(screen.getByLabelText(/first name/i), {
+      target: { value: "John" },
+    });
+    fireEvent.change(screen.getByLabelText(/last name/i), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/^email$/i), {
+      target: { value: "john@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/message/i), {
+      target: { value: "Let's work together" },
+    });
 
-    vi.useRealTimers()
-  })
-})
+    const form = screen
+      .getByRole("button", { name: /send via email/i })
+      .closest("form")!;
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /sending/i })).toBeDisabled();
+    });
+
+    resolveSubmit!({ success: true });
+
+    await waitFor(() => {
+      expect(screen.getByText(/message sent/i)).toBeInTheDocument();
+    });
+  });
+});

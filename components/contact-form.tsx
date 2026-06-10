@@ -1,51 +1,73 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { TactileButton } from "@/components/tactile-button"
-
-const CONTACT_EMAIL = "kanitmann01@gmail.com"
+import { useState } from "react";
+import { TactileButton } from "@/components/tactile-button";
+import { sendContactEmail } from "@/lib/actions/contact";
 
 export function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-    const data = new FormData(form)
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
+    event
+  ) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
-    const firstName = (data.get("firstName") as string | null) ?? ""
-    const lastName = (data.get("lastName") as string | null) ?? ""
-    const email = (data.get("email") as string | null) ?? ""
-    const company = (data.get("company") as string | null) ?? ""
-    const subject = (data.get("subject") as string | null) ?? ""
-    const message = (data.get("message") as string | null) ?? ""
+    setIsSubmitting(true);
+    setErrors({});
 
-    const composedSubject = subject || `Hello from ${firstName} ${lastName}`.trim()
-    const bodyLines = [
-      `Name: ${firstName} ${lastName}`.trim(),
-      email ? `Email: ${email}` : undefined,
-      company ? `Company: ${company}` : undefined,
-      "",
-      message,
-    ].filter(Boolean)
+    const result = await sendContactEmail(formData);
 
-    const mailtoUrl = new URL(`mailto:${CONTACT_EMAIL}`)
-    mailtoUrl.searchParams.set("subject", composedSubject)
-    mailtoUrl.searchParams.set("body", bodyLines.join("\n"))
+    if (result.success) {
+      setSubmitted(true);
+      form.reset();
+    } else {
+      setErrors(result.errors);
+    }
 
-    setIsSubmitting(true)
-    window.location.href = mailtoUrl.toString()
-    setTimeout(() => {
-      setIsSubmitting(false)
-      form.reset()
-    }, 1000)
+    setIsSubmitting(false);
+  };
+
+  if (submitted) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="font-serif text-3xl text-foreground mb-4">
+          Message Sent!
+        </h2>
+        <p className="text-muted-foreground mb-6">
+          Thanks for reaching out. Check your email for a confirmation with my
+          Calendly link.
+        </p>
+        <TactileButton variant="outline" onClick={() => setSubmitted(false)}>
+          Send Another Message
+        </TactileButton>
+      </div>
+    );
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+      {/* Honeypot field — hidden from humans, bots fill it */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="firstName" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="firstName"
+            className="block font-mono text-xs uppercase tracking-wider text-muted-foreground"
+          >
             First Name
           </label>
           <input
@@ -55,9 +77,15 @@ export function ContactForm() {
             autoComplete="given-name"
             className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
           />
+          {errors.firstName && (
+            <p className="text-sm text-destructive">{errors.firstName[0]}</p>
+          )}
         </div>
         <div className="space-y-2">
-          <label htmlFor="lastName" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          <label
+            htmlFor="lastName"
+            className="block font-mono text-xs uppercase tracking-wider text-muted-foreground"
+          >
             Last Name
           </label>
           <input
@@ -67,11 +95,17 @@ export function ContactForm() {
             autoComplete="family-name"
             className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
           />
+          {errors.lastName && (
+            <p className="text-sm text-destructive">{errors.lastName[0]}</p>
+          )}
         </div>
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="email" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+        <label
+          htmlFor="email"
+          className="block font-mono text-xs uppercase tracking-wider text-muted-foreground"
+        >
           Email
         </label>
         <input
@@ -82,10 +116,16 @@ export function ContactForm() {
           autoComplete="email"
           className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
         />
+        {errors.email && (
+          <p className="text-sm text-destructive">{errors.email[0]}</p>
+        )}
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="company" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+        <label
+          htmlFor="company"
+          className="block font-mono text-xs uppercase tracking-wider text-muted-foreground"
+        >
           Company <span className="text-muted-foreground/50">(Optional)</span>
         </label>
         <input
@@ -98,7 +138,10 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="subject" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+        <label
+          htmlFor="subject"
+          className="block font-mono text-xs uppercase tracking-wider text-muted-foreground"
+        >
           Subject
         </label>
         <input
@@ -110,7 +153,10 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="message" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground">
+        <label
+          htmlFor="message"
+          className="block font-mono text-xs uppercase tracking-wider text-muted-foreground"
+        >
           Message
         </label>
         <textarea
@@ -120,11 +166,19 @@ export function ContactForm() {
           rows={4}
           className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors resize-none"
         />
+        {errors.message && (
+          <p className="text-sm text-destructive">{errors.message[0]}</p>
+        )}
       </div>
 
-      <TactileButton type="submit" size="lg" className="w-full" disabled={isSubmitting}>
-        {isSubmitting ? "Opening email..." : "Send via Email"}
+      <TactileButton
+        type="submit"
+        size="lg"
+        className="w-full"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Sending..." : "Send via Email"}
       </TactileButton>
     </form>
-  )
+  );
 }
