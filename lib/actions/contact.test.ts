@@ -66,7 +66,7 @@ describe("sendContactEmail", () => {
 
     await sendContactEmail(formData);
     const ownerEmail = mockSend.mock.calls[0][0];
-    expect(ownerEmail.reply_to).toBe("john@example.com");
+    expect(ownerEmail.replyTo).toBe("john@example.com");
   });
 
   it("sends confirmation to sender email", async () => {

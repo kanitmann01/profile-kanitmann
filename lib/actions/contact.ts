@@ -84,7 +84,7 @@ export async function sendContactEmail(
       from: process.env.RESEND_FROM_EMAIL!,
       to: "kanitmann01@gmail.com",
       subject: composedSubject,
-      reply_to: email,
+      replyTo: email,
       html: ownerEmailHtml(parsed.data),
     });
 
