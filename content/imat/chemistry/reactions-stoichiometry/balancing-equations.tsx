@@ -343,11 +343,6 @@ export const balancingEquationsNote: AtomicNote = {
       difficulty: "analyze",
     },
   ],
-  crosslinks: [
-    "mole-calculations",
-    "acids-bases-salts",
-    "oxidation-reduction",
-    "combustion",
-  ],
+  crosslinks: ["mole-calculations", "acids-bases-salts", "oxidation-reduction"],
   prerequisites: ["pure-substances"],
 };

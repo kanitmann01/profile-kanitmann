@@ -341,11 +341,6 @@ export const hessLawNote: AtomicNote = {
       difficulty: "analyze",
     },
   ],
-  crosslinks: [
-    "enthalpy",
-    "balancing-equations",
-    "mole-calculations",
-    "chemical-bonding",
-  ],
+  crosslinks: ["enthalpy", "balancing-equations", "mole-calculations"],
   prerequisites: ["enthalpy"],
 };

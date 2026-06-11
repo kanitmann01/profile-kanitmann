@@ -398,7 +398,7 @@ export const planeGeometryNote: AtomicNote = {
       difficulty: "analyze",
     },
   ],
-  crosslinks: ["solid-geometry", "equations-inequalities", "trigonometry"],
+  crosslinks: ["solid-geometry", "equations-inequalities"],
 };
 
 export default planeGeometryNote;

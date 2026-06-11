@@ -362,11 +362,6 @@ export const hydrocarbonsNote: AtomicNote = {
       difficulty: "analyze",
     },
   ],
-  crosslinks: [
-    "functional-groups",
-    "covalent-bonds",
-    "mole-calculations",
-    "combustion",
-  ],
+  crosslinks: ["functional-groups", "covalent-bonds", "mole-calculations"],
   prerequisites: ["covalent-bonds"],
 };

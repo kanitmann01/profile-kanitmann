@@ -350,6 +350,6 @@ export const weakInteractionsNote: AtomicNote = {
       difficulty: "analyze",
     },
   ],
-  crosslinks: ["proteins", "water", "dna-structure", "enzymes"],
+  crosslinks: ["proteins", "dna-structure", "enzymes"],
   prerequisites: ["proteins"],
 };

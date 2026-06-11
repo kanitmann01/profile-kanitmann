@@ -6,6 +6,7 @@ import { getNotesBySubject } from "@/data/imat/registry";
 import type { SubjectMeta } from "@/data/imat/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { IMATBreadcrumb } from "@/components/imat/imat-breadcrumb";
 
 interface SubjectPageClientProps {
   subject: SubjectMeta;
@@ -23,6 +24,8 @@ export function SubjectPageClient({ subject }: SubjectPageClientProps) {
   return (
     <div className="min-h-screen bg-background py-20 px-6">
       <div className="container mx-auto max-w-4xl">
+        <IMATBreadcrumb items={[{ label: subject.title }]} />
+
         <div className="mb-12">
           <h1 className="font-serif text-5xl text-foreground mb-4">
             {subject.title}

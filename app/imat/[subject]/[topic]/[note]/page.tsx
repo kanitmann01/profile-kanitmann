@@ -14,6 +14,7 @@ import {
   Sigma,
   BookOpen,
   X,
+  ChevronRight,
 } from "lucide-react";
 import { getNoteBySlug, getNotesByTopic } from "@/data/imat/registry";
 import type { Subject } from "@/data/imat/types";
@@ -22,6 +23,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ReviewSession } from "@/components/imat/review-session";
 import { ReviewButtons } from "@/components/imat/review-buttons";
+import { InlineReview } from "@/components/imat/inline-review";
+import { ConceptMap } from "@/components/imat/concept-map";
+import { SectionBookmark } from "@/components/imat/section-bookmark";
+import { BookmarksPanel } from "@/components/imat/bookmarks-panel";
+import { ConfidenceCalibration } from "@/components/imat/confidence-calibration";
+import { IMATBreadcrumb } from "@/components/imat/imat-breadcrumb";
 import { IMATPatternBadge } from "@/components/imat/imat-pattern-badge";
 import { ExternalResourcesList } from "@/components/imat/external-resources-list";
 import { EquationBlock } from "@/components/imat/equation-block";
@@ -82,6 +89,7 @@ function NotePageContent({
   const { isFocusMode, toggleFocusMode } = useFocusMode();
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [mobileToCOpen, setMobileToCOpen] = useState(false);
+  const [mobileBookmarksOpen, setMobileBookmarksOpen] = useState(false);
 
   let note;
   try {
@@ -201,15 +209,52 @@ function NotePageContent({
     <div className="min-h-screen bg-background py-8 px-4 sm:py-12 sm:px-6">
       {!isFocusMode && <ReadingProgress />}
       <div className="container mx-auto max-w-7xl">
-        <div className="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-8">
+        <div className="lg:grid lg:grid-cols-[16rem_1fr_16rem] lg:gap-8">
           {!isFocusMode && (
             <aside className="hidden lg:block">
               <div className="sticky top-8 pt-4">
-                <TableOfContents headings={tocHeadings} />
+                <nav>
+                  <ol className="flex flex-col gap-2 text-sm">
+                    <li>
+                      <Link
+                        href={`/imat/${subjectSlug}`}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {formatSlug(subjectSlug)}
+                      </Link>
+                    </li>
+                    <li className="flex items-center gap-1 text-muted-foreground pl-3">
+                      <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+                      <Link
+                        href={`/imat/${subjectSlug}/${topicSlug}`}
+                        className="hover:text-foreground transition-colors"
+                      >
+                        {topicTitle}
+                      </Link>
+                    </li>
+                    <li className="flex items-center gap-1 text-foreground font-medium pl-6">
+                      <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+                      {note.title}
+                    </li>
+                  </ol>
+                </nav>
               </div>
             </aside>
           )}
           <div className="max-w-4xl">
+            <IMATBreadcrumb
+              items={[
+                {
+                  label: formatSlug(subjectSlug),
+                  href: `/imat/${subjectSlug}`,
+                },
+                {
+                  label: topicTitle,
+                  href: `/imat/${subjectSlug}/${topicSlug}`,
+                },
+                { label: note.title },
+              ]}
+            />
             <motion.div
               id="back-nav"
               custom={sectionIndex++}
@@ -226,6 +271,24 @@ function NotePageContent({
               </Button>
             </motion.div>
 
+            {((note.prerequisites?.length ?? 0) > 0 ||
+              note.crosslinks.length > 0) && (
+              <motion.div
+                custom={sectionIndex++}
+                variants={sectionVariants}
+                initial="hidden"
+                animate="visible"
+                className="mb-6"
+              >
+                <ConceptMap
+                  currentSlug={note.slug}
+                  currentTitle={note.title}
+                  prerequisites={note.prerequisites ?? []}
+                  crosslinks={note.crosslinks}
+                />
+              </motion.div>
+            )}
+
             <motion.div
               id="title"
               custom={sectionIndex++}
@@ -234,11 +297,13 @@ function NotePageContent({
               animate="visible"
               className="mb-6"
             >
-              <h1 className="font-serif text-4xl text-foreground mb-2">
+              <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-foreground mb-2">
                 {note.title}
               </h1>
-              <div className="flex items-center gap-3 mb-4">
-                <p className="text-lg text-muted-foreground">{note.summary}</p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-4">
+                <p className="text-base sm:text-lg text-muted-foreground">
+                  {note.summary}
+                </p>
                 <ReadingTimeBadge minutes={readingMinutes} />
               </div>
               {note.imatPatterns && note.imatPatterns.length > 0 && (
@@ -278,31 +343,31 @@ function NotePageContent({
                 animate="visible"
                 className="mb-6"
               >
-                <Card className="border-amber-500/30 bg-amber-500/5">
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-3">
-                      <Zap className="h-6 w-6 text-amber-600 shrink-0 mt-0.5" />
-                      <div>
-                        <h2 className="font-semibold text-amber-700 mb-2">
-                          High-Yield Points
-                        </h2>
-                        <ul className="grid gap-1.5">
-                          {note.highYieldPoints.map((point, i) => (
-                            <li
-                              key={i}
-                              className="flex items-start gap-2 text-sm text-amber-900/80 dark:text-amber-200"
-                            >
-                              <Target className="h-3.5 w-3.5 shrink-0 mt-0.5 text-amber-500" />
-                              <span>{point}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                <div className="bg-amber-500/5 border-l-2 border-amber-500/30 pl-4 py-3 pr-4 rounded-r-lg">
+                  <div className="flex items-start gap-3">
+                    <Zap className="h-6 w-6 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h2 className="font-semibold text-amber-700 mb-2">
+                        High-Yield Points
+                      </h2>
+                      <ul className="grid gap-1.5">
+                        {note.highYieldPoints.map((point, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-2 text-sm text-amber-900/80 dark:text-amber-200"
+                          >
+                            <Target className="h-3.5 w-3.5 shrink-0 mt-0.5 text-amber-500" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
             )}
+
+            <ConfidenceCalibration noteSlug={note.slug} />
 
             <motion.div
               id="explanation"
@@ -310,12 +375,36 @@ function NotePageContent({
               variants={sectionVariants}
               initial="hidden"
               animate="visible"
-              className="mb-6"
+              className="mb-8 group"
             >
-              <article className="prose dark:prose-invert max-w-none">
-                {note.explanation}
-              </article>
+              <div className="relative">
+                <div className="absolute right-0 top-0">
+                  <SectionBookmark
+                    noteSlug={note.slug}
+                    sectionId="explanation"
+                    sectionType="explanation"
+                    label="Explanation"
+                  />
+                </div>
+                <article className="imat-prose max-w-none">
+                  {note.explanation}
+                </article>
+              </div>
             </motion.div>
+
+            {note.questions.length > 0 && (
+              <motion.div
+                custom={sectionIndex++}
+                variants={sectionVariants}
+                initial="hidden"
+                animate="visible"
+                className="mb-6"
+              >
+                <InlineReview questions={note.questions} noteSlug={note.slug} />
+              </motion.div>
+            )}
+
+            <hr className="my-10 border-border/50" />
 
             {note.equations && note.equations.length > 0 && (
               <motion.div
@@ -324,13 +413,19 @@ function NotePageContent({
                 variants={sectionVariants}
                 initial="hidden"
                 animate="visible"
-                className="mb-6"
+                className="mb-8"
               >
-                <div className="flex items-center gap-2 mb-4">
-                  <Sigma className="h-6 w-6 text-violet-600" />
-                  <h2 className="font-serif text-2xl text-foreground">
+                <div className="flex items-center gap-2 mb-4 group/eq">
+                  <Sigma className="h-5 w-5 text-violet-600" />
+                  <h2 className="font-serif text-xl text-foreground">
                     Equations
                   </h2>
+                  <SectionBookmark
+                    noteSlug={note.slug}
+                    sectionId="equations"
+                    sectionType="equation"
+                    label="Equations"
+                  />
                 </div>
                 <div className="grid gap-3">
                   {note.equations.map((eq) => (
@@ -347,13 +442,19 @@ function NotePageContent({
                 variants={sectionVariants}
                 initial="hidden"
                 animate="visible"
-                className="mb-6"
+                className="mb-8"
               >
-                <div className="flex items-center gap-2 mb-4">
-                  <BookOpen className="h-6 w-6 text-violet-600" />
-                  <h2 className="font-serif text-2xl text-foreground">
+                <div className="flex items-center gap-2 mb-4 group/we">
+                  <BookOpen className="h-5 w-5 text-violet-600" />
+                  <h2 className="font-serif text-xl text-foreground">
                     Worked Examples
                   </h2>
+                  <SectionBookmark
+                    noteSlug={note.slug}
+                    sectionId="worked-examples"
+                    sectionType="worked-example"
+                    label="Worked Examples"
+                  />
                 </div>
                 <div className="grid gap-4">
                   {note.workedExamples.map((example, i) => (
@@ -362,6 +463,8 @@ function NotePageContent({
                 </div>
               </motion.div>
             )}
+
+            <hr className="my-10 border-border/50" />
 
             {note.diagram && (
               <motion.div
@@ -372,25 +475,23 @@ function NotePageContent({
                 animate="visible"
                 className="mb-6"
               >
-                <Card>
-                  <CardContent className="pt-6">
-                    {note.diagram.type === "svg" ? (
-                      <div
-                        className="flex justify-center"
-                        dangerouslySetInnerHTML={{ __html: note.diagram.data }}
-                      />
-                    ) : (
-                      <pre className="text-sm overflow-x-auto">
-                        {note.diagram.data}
-                      </pre>
-                    )}
-                    {note.diagram.caption && (
-                      <p className="text-sm text-muted-foreground text-center mt-3">
-                        {note.diagram.caption}
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
+                <div className="py-4">
+                  {note.diagram.type === "svg" ? (
+                    <div
+                      className="flex justify-center"
+                      dangerouslySetInnerHTML={{ __html: note.diagram.data }}
+                    />
+                  ) : (
+                    <pre className="text-sm overflow-x-auto">
+                      {note.diagram.data}
+                    </pre>
+                  )}
+                  {note.diagram.caption && (
+                    <p className="text-sm text-muted-foreground text-center mt-3">
+                      {note.diagram.caption}
+                    </p>
+                  )}
+                </div>
               </motion.div>
             )}
 
@@ -400,7 +501,7 @@ function NotePageContent({
               variants={sectionVariants}
               initial="hidden"
               animate="visible"
-              className="mb-6"
+              className="mb-8"
             >
               <CollapsibleCallout
                 title="IMAT Trap"
@@ -470,9 +571,9 @@ function NotePageContent({
                 animate="visible"
                 className="mb-8"
               >
-                <h2 className="font-serif text-2xl text-foreground mb-4">
-                  Related Notes
-                </h2>
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-3">
+                  Related
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {resolvedCrosslinks.map((link) => (
                     <Link key={link.slug} href={link.href}>
@@ -508,11 +609,19 @@ function NotePageContent({
               <ReviewButtons slug={note.slug} />
             </motion.div>
           </div>
+          {!isFocusMode && (
+            <aside className="hidden lg:block">
+              <div className="sticky top-8 pt-4">
+                <TableOfContents headings={tocHeadings} />
+              </div>
+            </aside>
+          )}
         </div>
       </div>
       {!isFocusMode && (
         <MobileBottomBar
           onToggleToC={() => setMobileToCOpen((prev) => !prev)}
+          onToggleBookmarks={() => setMobileBookmarksOpen((prev) => !prev)}
           onScrollToTop={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           hasPrev={!!prevNote}
           hasNext={!!nextNote}
@@ -532,6 +641,22 @@ function NotePageContent({
           </div>
           <div className="px-6 pb-20">
             <TableOfContents headings={tocHeadings} />
+          </div>
+        </div>
+      )}
+      {mobileBookmarksOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur overflow-y-auto">
+          <div className="flex justify-between items-center p-4">
+            <h2 className="font-serif text-xl">Bookmarks</h2>
+            <button
+              onClick={() => setMobileBookmarksOpen(false)}
+              className="flex items-center justify-center w-10 h-10 rounded-md hover:bg-muted transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="px-6 pb-20">
+            <BookmarksPanel />
           </div>
         </div>
       )}

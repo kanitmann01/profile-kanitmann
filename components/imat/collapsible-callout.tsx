@@ -29,7 +29,7 @@ export function CollapsibleCallout({
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={cn(
-            "flex items-center gap-3 w-full px-6 py-4 text-left",
+            "flex items-center gap-3 w-full px-4 sm:px-6 py-4 text-left",
             "hover:bg-muted/50 transition-colors",
             "min-h-[44px]"
           )}

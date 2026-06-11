@@ -5,14 +5,7 @@ import Link from "next/link";
 import { subjects, topics, getNotesByTopic } from "@/data/imat/registry";
 import type { Subject } from "@/data/imat/types";
 import { useSpacedRepetition } from "@/hooks/use-spaced-repetition";
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { IMATBreadcrumb } from "@/components/imat/imat-breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -89,19 +82,12 @@ export default function TopicPage({
   return (
     <div className="min-h-screen bg-background py-20 px-6">
       <div className="container mx-auto max-w-4xl">
-        <Breadcrumb className="mb-6">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href={`/imat/${subjectSlug}`}>
-                {subjectTitle}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{topicTitle}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <IMATBreadcrumb
+          items={[
+            { label: subjectTitle, href: `/imat/${subjectSlug}` },
+            { label: topicTitle },
+          ]}
+        />
 
         <h1 className="font-serif text-5xl text-foreground mb-4">
           {topicTitle}

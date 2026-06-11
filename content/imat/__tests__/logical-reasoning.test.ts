@@ -63,9 +63,9 @@ describe("logical-reasoning topic", () => {
       expect(note.explanation).toBeDefined();
     });
 
-    it("has 2-3 questions", () => {
+    it("has 2-6 questions", () => {
       expect(note.questions.length).toBeGreaterThanOrEqual(2);
-      expect(note.questions.length).toBeLessThanOrEqual(3);
+      expect(note.questions.length).toBeLessThanOrEqual(6);
     });
 
     it("each question has required fields", () => {

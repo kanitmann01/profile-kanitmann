@@ -67,10 +67,11 @@ export function EquationBlock({ equation, className }: EquationBlockProps) {
         <button
           onClick={toggleMarked}
           className={cn(
-            "shrink-0 rounded-md p-1.5 transition-colors",
+            "shrink-0 rounded-md p-2 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center",
             marked
               ? "text-amber-500 hover:text-amber-600"
-              : "text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-muted-foreground"
+              : "text-muted-foreground/40 opacity-0 sm:group-hover:opacity-100 hover:text-muted-foreground",
+            !marked && "sm:opacity-0 opacity-60"
           )}
           title={marked ? "Remove from practice" : "Mark for practice"}
         >

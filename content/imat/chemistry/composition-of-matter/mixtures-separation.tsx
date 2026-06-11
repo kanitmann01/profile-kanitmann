@@ -336,11 +336,6 @@ export const mixturesSeparationNote: AtomicNote = {
       difficulty: "analyze",
     },
   ],
-  crosslinks: [
-    "pure-substances",
-    "concentration",
-    "solubility",
-    "chromatography",
-  ],
+  crosslinks: ["pure-substances", "concentration", "solubility"],
   prerequisites: ["pure-substances"],
 };

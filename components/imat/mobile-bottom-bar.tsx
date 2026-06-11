@@ -1,11 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { List, ChevronLeft, ChevronRight, ArrowUp } from "lucide-react";
+import {
+  List,
+  ChevronLeft,
+  ChevronRight,
+  ArrowUp,
+  Bookmark,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type MobileBottomBarProps = {
   onToggleToC: () => void;
+  onToggleBookmarks: () => void;
   onScrollToTop: () => void;
   hasPrev: boolean;
   hasNext: boolean;
@@ -15,6 +22,7 @@ type MobileBottomBarProps = {
 
 export function MobileBottomBar({
   onToggleToC,
+  onToggleBookmarks,
   onScrollToTop,
   hasPrev,
   hasNext,
@@ -45,6 +53,17 @@ export function MobileBottomBar({
           aria-label="Toggle table of contents"
         >
           <List className="w-5 h-5" />
+        </button>
+
+        <button
+          onClick={onToggleBookmarks}
+          className={cn(
+            btnBase,
+            "text-muted-foreground hover:text-foreground hover:bg-muted"
+          )}
+          aria-label="Toggle bookmarks"
+        >
+          <Bookmark className="w-5 h-5" />
         </button>
 
         <button

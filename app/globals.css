@@ -65,15 +65,15 @@
   .text-heading {
     @apply text-foreground;
   }
-  
+
   .text-body {
     @apply text-muted-foreground;
   }
-  
+
   .text-muted {
     @apply text-muted-foreground;
   }
-  
+
   .text-primary-text {
     @apply text-primary;
   }
@@ -86,7 +86,7 @@
   .svg-aws {
     @apply transition-all duration-200;
   }
-  
+
   .dark .svg-github,
   .dark .svg-pandas,
   .dark .svg-aws {
@@ -125,7 +125,8 @@
 }
 
 @keyframes hero-gradient-shift {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   25% {
@@ -140,7 +141,8 @@
 }
 
 @keyframes scroll-bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
     opacity: 0.6;
   }
@@ -173,5 +175,116 @@
   }
   .scroll-indicator-bounce {
     animation: none;
+  }
+}
+
+/* IMAT Note Prose Styling */
+.imat-prose {
+  @apply text-foreground leading-relaxed;
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+
+.imat-prose > p {
+  @apply mb-5;
+}
+
+.imat-prose > p:first-child {
+  @apply text-lg leading-relaxed mb-6;
+  color: hsl(var(--foreground) / 0.9);
+}
+
+.imat-prose > p:first-child strong {
+  @apply text-primary font-semibold;
+}
+
+.imat-prose h3 {
+  @apply font-serif text-xl font-semibold mt-10 mb-4 relative pl-4;
+  color: hsl(var(--foreground));
+}
+
+.imat-prose h3::before {
+  content: "";
+  @apply absolute left-0 top-1 bottom-1 w-1 rounded-full;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--primary)),
+    hsl(var(--accent))
+  );
+}
+
+.imat-prose ul {
+  @apply space-y-2.5 mb-6;
+}
+
+.imat-prose ul li {
+  @apply relative pl-6 leading-relaxed;
+}
+
+.imat-prose ul li::before {
+  content: "";
+  @apply absolute left-0 top-3 w-2 h-2 rounded-full;
+  background: hsl(var(--primary) / 0.6);
+}
+
+.imat-prose ul li strong {
+  @apply text-foreground font-semibold;
+}
+
+.imat-prose ol {
+  @apply space-y-2.5 mb-6;
+}
+
+.imat-prose ol li {
+  @apply relative pl-6 leading-relaxed;
+  counter-increment: step-counter;
+}
+
+.imat-prose ol li::before {
+  content: counter(step-counter);
+  @apply absolute left-0 top-0 w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center;
+  background: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+}
+
+.imat-prose ol {
+  counter-reset: step-counter;
+}
+
+.imat-prose code {
+  @apply px-1.5 py-0.5 rounded text-sm font-mono;
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+.imat-prose blockquote {
+  @apply border-l-4 pl-4 italic my-6;
+  border-color: hsl(var(--primary) / 0.4);
+  color: hsl(var(--muted-foreground));
+}
+
+.imat-prose strong {
+  @apply font-semibold;
+  color: hsl(var(--foreground));
+}
+
+.imat-prose em {
+  @apply italic;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .imat-prose {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .imat-prose > p:first-child {
+    font-size: 1.0625rem;
+  }
+
+  .imat-prose h3 {
+    @apply text-lg mt-8 mb-3;
   }
 }
