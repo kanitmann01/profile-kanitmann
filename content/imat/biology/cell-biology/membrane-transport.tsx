@@ -1,158 +1,352 @@
-import type { AtomicNote } from "@/data/imat/types";
+"use client";
 
-const note: AtomicNote = {
+import type { AtomicNote } from "@/data/imat/types";
+import { EquationBlock } from "@/components/imat/equation-block";
+import { WorkedExampleCard } from "@/components/imat/worked-example-card";
+import { QuickFire } from "@/components/imat/interactive/quick-fire";
+
+const recallQuestions = [
+  {
+    id: "qf-1",
+    question:
+      "What is the difference between simple and facilitated diffusion?",
+    answer:
+      "Simple: directly through bilayer (no protein). Facilitated: via channel or carrier protein",
+    context: "Both passive (no energy)",
+  },
+  {
+    id: "qf-2",
+    question: "What is osmosis?",
+    answer:
+      "The net movement of water across a selectively permeable membrane down its concentration gradient",
+    context: "Water diffusion",
+  },
+  {
+    id: "qf-3",
+    question: "What is the Na⁺/K⁺ pump?",
+    answer:
+      "Active transporter that pumps 3 Na⁺ out and 2 K⁺ in per ATP hydrolysed",
+    context: "Primary active transport",
+  },
+];
+
+export const membraneTransportNote: AtomicNote = {
   slug: "membrane-transport",
   subject: "biology",
   topic: "cell-biology",
   title: "Membrane Transport",
   summary:
-    "Movement of substances across the cell membrane via passive transport (simple diffusion, facilitated diffusion, osmosis) or active transport (pumps, endocytosis, exocytosis).",
+    "Mechanisms by which molecules cross cell membranes. Passive transport (diffusion, facilitated diffusion, osmosis) requires no energy. Active transport (primary and secondary) requires ATP. Bulk transport (endocytosis, exocytosis) moves large molecules or particles.",
   memoryHook:
-    "'Passive = no energy, goes downhill (high → low). Active = needs ATP, goes uphill (low → high).' Think of a ball rolling down a hill (passive) vs pushing it back up (active).",
+    "Passive = downhill (no energy). Active = uphill (needs ATP). Simple diffusion: small non-polar. Facilitated: polar/big via channels. Active: against gradient via pumps.",
   imatTrap:
-    "Osmosis is the diffusion of WATER (solvent), not solute. Water moves from HIGH water potential (dilute solution) to LOW water potential (concentrated solution). Students get this backwards — they think water moves toward the more concentrated solution, which is correct, but they phrase it as 'toward higher concentration' meaning solute, which confuses examiners.",
+    "Water can cross the bilayer slowly by simple diffusion (water is small and uncharged), but aquaporins greatly accelerate it. Also: facilitated diffusion is SATURABLE (limited by number of carriers/channels), unlike simple diffusion which is not saturable. And: 'active transport' requires direct (primary) or indirect (secondary) ATP consumption — secondary active transport uses the Na⁺ gradient (established by the Na⁺/K⁺ pump), so it ultimately depends on ATP.",
   whyItMatters:
-    "Oral rehydration therapy (ORT) saves millions of lives in developing countries — it exploits the sodium-glucose co-transport mechanism in intestinal cells to maximise water absorption during diarrhoea.",
+    "Transport defects cause disease: cystic fibrosis (CFTR Cl⁻ channel mutation → thick mucus), diabetes (GLUT4 translocation defect), heart failure treated with digitalis (inhibits Na⁺/K⁺ pump). Understanding transport is essential for pharmacology (drug absorption) and nephrology (kidney function).",
+  imatPatterns: [
+    {
+      years: [2022, 2023, 2024],
+      frequency: "high",
+      notes: "Simple vs facilitated vs active transport",
+    },
+    {
+      years: [2021, 2023],
+      frequency: "medium",
+      notes: "Osmosis — hyper/hypo/isotonic effects",
+    },
+    {
+      years: [2020, 2022],
+      frequency: "medium",
+      notes: "Na⁺/K⁺ pump direction and stoichiometry",
+    },
+  ],
+  equations: [
+    {
+      id: "transport-diffusion",
+      latex: "Fick: J = -D\\frac{dC}{dx}",
+      description:
+        "Fick's first law — rate of diffusion depends on concentration gradient",
+      variables:
+        "J = flux, D = diffusion coefficient, dC/dx = concentration gradient",
+    },
+    {
+      id: "transport-11-nernst",
+      latex:
+        "E_{ion} = \\frac{RT}{zF}\\ln\\left(\\frac{[ion]_{out}}{[ion]_{in}}\\right)",
+      description: "Nernst equation — equilibrium potential for an ion",
+    },
+    {
+      id: "transport-osmotic",
+      latex: "\\Pi = iMRT",
+      description:
+        "Van't Hoff equation — osmotic pressure depends on solute concentration",
+      variables:
+        "Π = osmotic pressure, i = van't Hoff factor, M = molarity, R = gas constant, T = temperature",
+    },
+  ],
+  workedExamples: [
+    {
+      id: "transport-worked-1",
+      question:
+        "A red blood cell is placed in a 0.3 M NaCl solution, and another is placed in distilled water. Predict what happens to each cell and explain why.",
+      hints: [
+        "What is the approximate osmolarity of blood plasma?",
+        "In which direction does water move?",
+        "What happens when a cell swells too much?",
+      ],
+      solution:
+        "0.3 M NaCl = ~0.6 Osm/L (since NaCl dissociates into 2 ions × 0.3 M). This is approximately isotonic to plasma (~0.3 Osm for non-dissociating solutes; plasma is ~0.3 Osm, so 0.3 M NaCl is hypertonic at 0.6 Osm). Actually, normal saline is 0.15 M NaCl = ~0.3 Osm, so 0.3 M NaCl would be hypertonic — water leaves the cell → crenation (shrinkage). Distilled water is hypotonic — water enters the cell → swelling → lysis (haemolysis).",
+    },
+  ],
+  externalResources: [
+    {
+      title: "Khan Academy — Membrane Transport",
+      url: "https://www.khanacademy.org/science/biology/membranes-and-transport/passive-and-active-transport-a/p/passive-and-active-transport",
+      type: "article",
+      description: "Overview of passive and active transport mechanisms",
+    },
+    {
+      title: "BioNinja — Membrane Transport",
+      url: "https://ib.bioninja.com.au/standard-level/topic-1-cell-biology/14-membrane-transport/",
+      type: "textbook",
+      description: "Interactive diagrams of all transport types",
+    },
+    {
+      title: "OpenStax Biology 2e — Transport",
+      url: "https://openstax.org/books/biology-2e/pages/5-2-passive-transport",
+      type: "textbook",
+      description: "Free chapter on passive and active transport",
+    },
+  ],
+  highYieldPoints: [
+    "Simple diffusion: small non-polar molecules (O₂, CO₂), directly through bilayer, no protein, not saturable",
+    "Facilitated diffusion: via channels (ion channels) or carriers (GLUT), saturable, down gradient",
+    "Osmosis: water moves from low solute to high solute concentration (when membrane is water-permeable)",
+    "Primary active transport: Na⁺/K⁺ ATPase (3 Na⁺ out, 2 K⁺ in), Ca²⁺ ATPase, H⁺/K⁺ ATPase",
+    "Secondary active transport: uses Na⁺ gradient — symport (both same direction, e.g., SGLT1) or antiport (opposite, e.g., Na⁺/Ca²⁺ exchanger)",
+    "Endocytosis: phagocytosis (solid), pinocytosis (liquid), receptor-mediated (specific uptake, e.g., LDL)",
+    "Exocytosis: secretion of neurotransmitters, hormones, digestive enzymes via vesicle fusion",
+  ],
   explanation: (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold mt-4">
-        Passive Transport (No ATP Required)
-      </h3>
-
+    <div>
       <p>
-        Substances move <strong>down</strong> their concentration gradient (high
-        → low).
+        <strong>Membrane transport</strong> describes how molecules cross the
+        selectively permeable cell membrane. Transport can be{" "}
+        <strong>passive</strong>
+        (no energy required) or <strong>active</strong> (requires ATP or an
+        existing gradient).
       </p>
-      <ul className="list-disc pl-6 space-y-1">
-        <li>
-          <strong>Simple diffusion</strong>: Small, non-polar molecules (O₂,
-          CO₂, lipid-soluble substances) pass directly through the phospholipid
-          bilayer. Rate depends on gradient, temperature, molecule size, and
-          membrane surface area.
-        </li>
-        <li>
-          <strong>Facilitated diffusion</strong>: Polar or charged molecules use
-          membrane proteins.
-          <ul className="list-circle pl-4 mt-1">
-            <li>
-              <em>Channel proteins</em>: Form pores for ions (e.g., Na⁺, K⁺,
-              Ca²⁺). Some are gated (voltage or ligand-controlled).
-            </li>
-            <li>
-              <em>Carrier proteins</em>: Change shape to transport specific
-              molecules (e.g., glucose via GLUT4). Saturable — rate plateaus at
-              high concentrations.
-            </li>
-          </ul>
-        </li>
-        <li>
-          <strong>Osmosis</strong>: Net movement of <em>water</em> molecules
-          from a region of higher water potential to lower water potential
-          through a partially permeable membrane.
-          <ul className="list-circle pl-4 mt-1">
-            <li>
-              Hypertonic solution: higher solute concentration → cell shrinks
-              (crenation in animal cells, plasmolysis in plant cells)
-            </li>
-            <li>
-              Hypotonic solution: lower solute concentration → cell swells
-              (lysis in animal cells, turgid in plant cells)
-            </li>
-            <li>Isotonic: equal concentration → no net water movement</li>
-          </ul>
-        </li>
-      </ul>
 
-      <h3 className="text-lg font-semibold mt-4">
-        Active Transport (Requires ATP)
-      </h3>
+      <h3>Passive Transport</h3>
+
+      <h4>Simple Diffusion</h4>
       <p>
-        Substances move <strong>against</strong> their concentration gradient
-        (low → high).
+        Small, non-polar molecules (O₂, CO₂, N₂, steroid hormones) dissolve in
+        the lipid bilayer and diffuse directly through. Rate depends on the
+        concentration gradient and lipid solubility. Not saturable.
       </p>
-      <ul className="list-disc pl-6 space-y-1">
-        <li>
-          <strong>Protein pumps</strong>: Carrier proteins that use ATP to move
-          substances. The classic example is the <strong>Na⁺/K⁺ pump</strong>{" "}
-          (Na⁺/K⁺-ATPase): pumps 3 Na⁺ out and 2 K⁺ into the cell per ATP,
-          maintaining the resting membrane potential.
-        </li>
-        <li>
-          <strong>Co-transport</strong>: One substance moves down its gradient,
-          providing energy to move another against its gradient. Example:
-          sodium-glucose co-transporter (SGLT) in intestinal epithelia.
-        </li>
-      </ul>
 
-      <h3 className="text-lg font-semibold mt-4">Bulk Transport</h3>
-      <ul className="list-disc pl-6 space-y-1">
-        <li>
-          <strong>Endocytosis</strong>: Cell engulfs material by invaginating
-          the membrane to form a vesicle.
-          <ul className="list-circle pl-4 mt-1">
-            <li>
-              Phagocytosis: 'cell eating' — large particles (e.g., macrophages
-              engulfing bacteria)
-            </li>
-            <li>Pinocytosis: 'cell drinking' — fluid and dissolved solutes</li>
-            <li>
-              Receptor-mediated endocytosis: specific ligands bind receptors,
-              triggering vesicle formation (e.g., LDL cholesterol uptake)
-            </li>
-          </ul>
-        </li>
-        <li>
-          <strong>Exocytosis</strong>: Vesicles fuse with the membrane to
-          release contents outside the cell (e.g., neurotransmitter release,
-          hormone secretion).
-        </li>
-      </ul>
+      <h4>Facilitated Diffusion</h4>
+      <p>
+        Polar molecules and ions use membrane proteins:
+        <strong>Channels</strong> — aqueous pores (ion channels are usually
+        gated: voltage, ligand, or mechanically gated).{" "}
+        <strong>Carriers</strong>— bind the molecule and change shape to release
+        it on the other side (GLUT1 for glucose). Saturatable (limited by number
+        of proteins).
+      </p>
+
+      <h4>Osmosis</h4>
+      <p>
+        The <strong>net diffusion of water</strong> across a selectively
+        permeable membrane. Water moves from a region of low solute
+        concentration (high water concentration) to high solute concentration
+        (low water concentration). <strong>Aquaporins</strong> are
+        water-specific channels.
+      </p>
+
+      <EquationBlock
+        equation={{
+          id: "transport-osmotic",
+          latex: "\\Pi = iMRT",
+          description: "Osmotic pressure (van't Hoff equation)",
+        }}
+      />
+
+      <QuickFire questions={recallQuestions.slice(0, 1)} title="Quick Check" />
+
+      <h3>Active Transport</h3>
+
+      <h4>Primary Active Transport</h4>
+      <p>
+        Uses ATP directly to move molecules against their gradient. The
+        <strong>Na⁺/K⁺ ATPase</strong> is the most important: it pumps 3 Na⁺ out
+        and 2 K⁺ in per ATP. This establishes the electrochemical gradient that
+        powers secondary active transport.
+      </p>
+
+      <h4>Secondary Active Transport</h4>
+      <p>
+        Uses the Na⁺ gradient (established by Na⁺/K⁺ ATPase) to transport other
+        molecules. <strong>Symport (cotransport):</strong> Na⁺ and glucose enter
+        together (SGLT1 in kidney/intestine).{" "}
+        <strong>Antiport (countertransport):</strong> Na⁺ enters, Ca²⁺ exits
+        (Na⁺/Ca²⁺ exchanger).
+      </p>
+
+      <h3>Bulk Transport</h3>
+      <p>
+        <strong>Endocytosis:</strong> membrane invaginates to engulf
+        extracellular material. Types: phagocytosis (large particles),
+        pinocytosis (fluid), receptor-mediated endocytosis (specific uptake via
+        coated pits). <strong>Exocytosis:</strong> intracellular vesicles fuse
+        with membrane to release contents (neurotransmitters, hormones).
+      </p>
+
+      <QuickFire
+        questions={recallQuestions.slice(1, 2)}
+        title="Check Understanding"
+      />
+
+      <h3>Tonicity — Effect on Cells</h3>
+      <div className="grid grid-cols-3 gap-3 rounded-lg border bg-card p-4 text-xs">
+        <div>
+          <h4 className="font-semibold text-blue-500">Hypotonic</h4>
+          <p>Water enters → cell swells → lysis (animal cells)</p>
+        </div>
+        <div>
+          <h4 className="font-semibold text-green-500">Isotonic</h4>
+          <p>No net water movement → no change</p>
+        </div>
+        <div>
+          <h4 className="font-semibold text-red-500">Hypertonic</h4>
+          <p>Water leaves → cell shrinks (crenation)</p>
+        </div>
+      </div>
+      <p className="text-sm text-muted-foreground mt-1">
+        Plant cells: hypotonic → turgid (good). Hypertonic → plasmolysis
+        (membrane pulls away from cell wall).
+      </p>
+
+      <h3>Worked Example</h3>
+      <div className="grid gap-4">
+        <WorkedExampleCard
+          example={{
+            id: "transport-worked-1",
+            question:
+              "A red blood cell is placed in a 0.3 M NaCl solution, and another is placed in distilled water. Predict what happens to each cell and explain why.",
+            hints: [
+              "What is the approximate osmolarity of blood plasma?",
+              "In which direction does water move?",
+              "What happens when a cell swells too much?",
+            ],
+            solution:
+              "0.3 M NaCl = ~0.6 Osm/L (since NaCl dissociates into 2 ions). Normal saline is 0.15 M NaCl = ~0.3 Osm, so 0.3 M NaCl is hypertonic — water leaves the cell → crenation (shrinkage). Distilled water is hypotonic — water enters the cell → swelling → lysis (haemolysis).",
+          }}
+        />
+      </div>
+
+      <h3>High-Yield Summary</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {[
+          "Simple diffusion: O₂, CO₂ — no protein, not saturable",
+          "Facilitated: channels (fast) or carriers (slower, saturable)",
+          "Osmosis: water diffusion (via bilayer + aquaporins)",
+          "Na⁺/K⁺ pump: 3 out, 2 in, 1 ATP (electrogenic)",
+          "Secondary active: uses Na⁺ gradient (symport/antiport)",
+          "Endocytosis: phagocytosis, pinocytosis, receptor-mediated",
+          "Hypotonic = swell, isotonic = no change, hypertonic = shrink",
+        ].map((point) => (
+          <div
+            key={point}
+            className="flex items-start gap-2 rounded-lg border border-green-500/20 bg-green-500/5 p-2"
+          >
+            <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-green-500" />
+            <span className="text-xs text-muted-foreground">{point}</span>
+          </div>
+        ))}
+      </div>
+
+      <QuickFire questions={recallQuestions.slice(2, 3)} title="Final Check" />
     </div>
   ),
   questions: [
     {
-      id: "membrane-transport-q1",
+      id: "transport-q1",
       type: "multiple-choice",
-      prompt:
-        "A red blood cell is placed in a hypertonic solution. What happens?",
-      options: [
-        "The cell swells and bursts",
-        "The cell shrinks (crenation)",
-        "The cell remains unchanged",
-        "The cell divides",
-      ],
-      answer: "The cell shrinks (crenation)",
-      explanation:
-        "In a hypertonic solution, water potential outside is lower than inside the cell. Water leaves the cell by osmosis, causing it to shrink — this is called crenation in animal cells.",
-      difficulty: "apply",
-    },
-    {
-      id: "membrane-transport-q2",
-      type: "multiple-choice",
-      prompt: "The Na⁺/K⁺ pump moves how many ions per ATP hydrolysed?",
-      options: [
-        "3 Na⁺ in, 2 K⁺ out",
-        "3 Na⁺ out, 2 K⁺ in",
-        "2 Na⁺ out, 3 K⁺ in",
-        "2 Na⁺ in, 2 K⁺ out",
-      ],
-      answer: "3 Na⁺ out, 2 K⁺ in",
-      explanation:
-        "The Na⁺/K⁺-ATPase pumps 3 sodium ions OUT of the cell and 2 potassium ions INTO the cell per ATP, creating an electrochemical gradient essential for nerve impulses.",
+      prompt: "Which type of transport requires ATP?",
+      answer: "Active transport",
       difficulty: "recall",
+      options: [
+        "Simple diffusion",
+        "Facilitated diffusion",
+        "Active transport",
+        "Osmosis",
+      ],
     },
     {
-      id: "membrane-transport-q3",
+      id: "transport-q2",
+      type: "multiple-choice",
+      prompt: "The Na⁺/K⁺ pump pumps out/in how many ions per ATP?",
+      answer: "3 Na⁺ out, 2 K⁺ in",
+      difficulty: "recall",
+      options: [
+        "2 Na⁺ out, 3 K⁺ in",
+        "3 Na⁺ out, 2 K⁺ in",
+        "3 Na⁺ out, 3 K⁺ in",
+        "2 Na⁺ out, 2 K⁺ in",
+      ],
+    },
+    {
+      id: "transport-q3",
+      type: "multiple-choice",
+      prompt: "A red blood cell in distilled water will:",
+      answer: "Swell and lyse (burst)",
+      difficulty: "apply",
+      options: [
+        "Shrink (crenate)",
+        "Swell and lyse (burst)",
+        "Remain unchanged",
+        "Become turgid",
+      ],
+    },
+    {
+      id: "transport-q4",
+      type: "multiple-choice",
+      prompt: "Which is an example of secondary active transport?",
+      answer: "SGLT1 — Na⁺/glucose symport in the kidney",
+      difficulty: "apply",
+      options: [
+        "Na⁺/K⁺ ATPase",
+        "SGLT1 — Na⁺/glucose symport in the kidney",
+        "GLUT1 glucose transporter",
+        "Aquaporin",
+      ],
+      imatYear: 2023,
+    },
+    {
+      id: "transport-q5",
+      type: "multiple-choice",
+      prompt: "Facilitated diffusion differs from simple diffusion because:",
+      answer: "It requires a membrane protein and is saturable",
+      difficulty: "apply",
+      options: [
+        "It requires ATP",
+        "It requires a membrane protein and is saturable",
+        "It only moves water",
+        "It moves molecules against their gradient",
+      ],
+    },
+    {
+      id: "transport-q6",
       type: "explain-why",
       prompt:
-        "Why does facilitated diffusion plateau at high substrate concentrations while simple diffusion does not?",
+        "Explain why receptor-mediated endocytosis is more efficient than pinocytosis for nutrient uptake.",
       answer:
-        "Facilitated diffusion relies on a finite number of carrier/channel proteins. Once all transport proteins are occupied (saturated), the rate cannot increase further. Simple diffusion has no such limit — rate increases linearly with concentration gradient.",
+        "Receptor-mediated endocytosis concentrates specific molecules (e.g., LDL, iron-bound transferrin) by binding them to surface receptors before internalisation via clathrin-coated pits. This allows selective, high-affinity uptake even when the target molecule is at low concentration. Pinocytosis non-selectively takes in whatever solutes are in the extracellular fluid at their ambient concentration.",
       difficulty: "analyze",
     },
   ],
   crosslinks: ["cell-membrane-structure", "organelles", "homeostasis"],
-  prerequisites: ["cell-membrane-structure", "lipids"],
+  prerequisites: ["cell-membrane-structure"],
 };
-
-export default note;

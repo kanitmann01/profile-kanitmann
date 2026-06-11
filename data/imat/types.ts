@@ -28,6 +28,8 @@ export type Question = {
   explanation?: string;
   difficulty: Difficulty;
   options?: string[];
+  /** Year this question appeared in IMAT (for pattern tracking) */
+  imatYear?: number;
 };
 
 export type DiagramType = "svg" | "mermaid";
@@ -36,6 +38,45 @@ export type Diagram = {
   type: DiagramType;
   data: string;
   caption: string;
+};
+
+export type EquationDef = {
+  id: string;
+  latex: string;
+  description?: string;
+  variables?: string;
+};
+
+export type IMATFrequency = "high" | "medium" | "low";
+
+export type IMATPattern = {
+  years: number[];
+  frequency: IMATFrequency;
+  notes?: string;
+};
+
+export type WorkedExample = {
+  id: string;
+  question: string;
+  hints: string[];
+  solution: string;
+  equations?: string[];
+  imatYear?: number;
+};
+
+export type ResourceType =
+  | "video"
+  | "article"
+  | "practice"
+  | "textbook"
+  | "simulation"
+  | "past-paper";
+
+export type ResourceLink = {
+  title: string;
+  url: string;
+  type: ResourceType;
+  description?: string;
 };
 
 export type AtomicNote = {
@@ -52,6 +93,16 @@ export type AtomicNote = {
   questions: Question[];
   crosslinks: string[];
   prerequisites?: string[];
+  /** KaTeX equations for practice mode */
+  equations?: EquationDef[];
+  /** IMAT exam appearance patterns */
+  imatPatterns?: IMATPattern[];
+  /** Step-by-step worked examples */
+  workedExamples?: WorkedExample[];
+  /** Curated external resources */
+  externalResources?: ResourceLink[];
+  /** High-yield summary for last-minute revision */
+  highYieldPoints?: string[];
 };
 
 export type TopicMeta = {

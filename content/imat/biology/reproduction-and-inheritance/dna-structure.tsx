@@ -14,6 +14,111 @@ const note: AtomicNote = {
     "DNA strands are ANTIPARALLEL — one runs 5′→3′, the other 3′→5′. Students often draw both strands running the same direction. Also, A pairs with T (not U — that's RNA), and G≡C has 3 H-bonds (stronger), not 2.",
   whyItMatters:
     "Sickle cell anaemia results from a single base substitution (A→T) in the β-globin gene, changing glutamate to valine. Understanding DNA structure explains how one nucleotide change can alter protein function and cause disease.",
+  equations: [
+    {
+      id: "chargaff-rules",
+      latex: "[A] = [T], \\quad [G] = [C], \\quad [A+G] = [T+C]",
+      description: "Chargaff's rules: purine content equals pyrimidine content",
+      variables:
+        "[A] = molar fraction of adenine, [T] = thymine, [G] = guanine, [C] = cytosine",
+    },
+    {
+      id: "h-bonds-base-pair",
+      latex:
+        "A{=}T \\Rightarrow 2\\ \\text{H-bonds}, \\quad G{\\equiv}C \\Rightarrow 3\\ \\text{H-bonds}",
+      description: "Hydrogen bond count per base pair",
+    },
+    {
+      id: "phosphodiester-bond",
+      latex:
+        "\\text{3'–OH} + \\text{5'–PO}_4 \\xrightarrow{\\text{condensation}} \\text{3'–O–P–O–5'} + H_2O",
+      description:
+        "Phosphodiester bond formation via condensation reaction between adjacent nucleotides",
+    },
+    {
+      id: "melting-temp-gc",
+      latex: "T_m \\propto \\%\\,(G{+}C)",
+      description:
+        "Melting temperature increases with G-C content due to 3 H-bonds per G≡C vs 2 per A=T",
+    },
+  ],
+  workedExamples: [
+    {
+      id: "dna-worked-1",
+      question:
+        "A double-stranded DNA molecule contains 30% adenine. What percentage of the bases are guanine?",
+      hints: [
+        "Start with Chargaff's rule: [A] = [T].",
+        "If A = 30%, then T = ?%. Together they account for what fraction?",
+        "The remaining percentage must be split equally between G and C.",
+      ],
+      solution:
+        "By Chargaff's rules, [A] = [T] = 30%, so A + T = 60%. The remaining bases are G + C = 100% − 60% = 40%. Since [G] = [C], guanine = 40% ÷ 2 = 20%.",
+    },
+    {
+      id: "dna-worked-2",
+      question:
+        "A 100 base-pair DNA segment has 40% G-C content. How many hydrogen bonds hold the two strands together in this segment?",
+      hints: [
+        "40% G-C content means 40% of the 100 bp are G≡C pairs.",
+        "Each G≡C pair contributes 3 H-bonds; each A=T pair contributes 2 H-bonds.",
+        "Total H-bonds = (number of G-C pairs × 3) + (number of A-T pairs × 2).",
+      ],
+      solution:
+        "G-C pairs = 40% × 100 = 40 pairs. A-T pairs = 100 − 40 = 60 pairs. Total H-bonds = (40 × 3) + (60 × 2) = 120 + 120 = 240 hydrogen bonds.",
+    },
+  ],
+  imatPatterns: [
+    {
+      years: [2019, 2020, 2021, 2022, 2023, 2024],
+      frequency: "high",
+      notes:
+        "Base pairing rules (A=T, G≡C) and antiparallel strand orientation tested nearly every year",
+    },
+    {
+      years: [2020, 2022, 2023],
+      frequency: "medium",
+      notes: "Chargaff's rule calculations and H-bond counting problems",
+    },
+    {
+      years: [2018, 2021],
+      frequency: "low",
+      notes:
+        "Historical contributors: Watson, Crick, Franklin (Photo 51), Wilkins",
+    },
+  ],
+  highYieldPoints: [
+    "Strands are antiparallel: one runs 5′→3′, the other 3′→5′",
+    "A pairs with T (2 H-bonds), G pairs with C (3 H-bonds)",
+    "Purines (A, G) are double-ring; pyrimidines (T, C) are single-ring",
+    "Phosphodiester bonds link 3′-OH to 5′-phosphate via condensation",
+    "Higher G-C content → higher melting temperature (more H-bonds)",
+    "DNA backbone = deoxyribose sugar + phosphate group",
+    "One turn of the helix = 10 base pairs, pitch = 3.4 nm",
+  ],
+  externalResources: [
+    {
+      title: "Khan Academy — DNA Structure",
+      url: "https://www.khanacademy.org/science/biology/dna-as-the-genetic-material/dna-discovery-and-structure/v/dna-structure",
+      type: "video",
+      description:
+        "Visual walkthrough of the double helix, base pairing, and antiparallel strands",
+    },
+    {
+      title: "CrashCourse Biology — DNA Structure and Replication",
+      url: "https://www.youtube.com/watch?v=8kK2zwjRV0M",
+      type: "video",
+      description:
+        "Fast-paced overview covering nucleotides, helix geometry, and Chargaff's rules",
+    },
+    {
+      title: "Learn.Genetics — DNA Interactive Module",
+      url: "https://learn.genetics.utah.edu/content/molecules/dna/",
+      type: "simulation",
+      description:
+        "University of Utah interactive simulation for exploring base pairing and helix structure",
+    },
+  ],
   explanation: (
     <div>
       <p>
@@ -96,5 +201,7 @@ const note: AtomicNote = {
   crosslinks: ["nucleic-acids", "dna-replication", "genetic-code"],
   prerequisites: ["nucleic-acids", "weak-interactions"],
 };
+
+export const dnaStructureNote = note;
 
 export default note;

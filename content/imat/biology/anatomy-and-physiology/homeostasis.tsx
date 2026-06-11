@@ -1,134 +1,347 @@
-import type { AtomicNote } from "@/data/imat/types";
+"use client";
 
-const homeostasis: AtomicNote = {
+import type { AtomicNote } from "@/data/imat/types";
+import { EquationBlock } from "@/components/imat/equation-block";
+import { WorkedExampleCard } from "@/components/imat/worked-example-card";
+import { QuickFire } from "@/components/imat/interactive/quick-fire";
+
+const recallQuestions = [
+  {
+    id: "qf-1",
+    question: "What is homeostasis?",
+    answer:
+      "The maintenance of a stable internal environment despite external changes",
+    context: "Dynamic equilibrium",
+  },
+  {
+    id: "qf-2",
+    question: "What are the three components of a negative feedback loop?",
+    answer: "Receptor (sensor), control centre (integrator), effector",
+    context: "Reflex arc structure",
+  },
+  {
+    id: "qf-3",
+    question: "Is childbirth an example of positive or negative feedback?",
+    answer: "Positive feedback — oxytocin release amplifies contractions",
+    context: "Self-amplifying cycle",
+  },
+];
+
+export const homeostasisNote: AtomicNote = {
   slug: "homeostasis",
   subject: "biology",
   topic: "anatomy-and-physiology",
-  title: "Homeostasis and Feedback Mechanisms",
+  title: "Homeostasis",
   summary:
-    "Homeostasis is the maintenance of stable internal conditions through negative and positive feedback loops involving receptors, control centers, and effectors.",
+    "The maintenance of a stable internal environment via feedback mechanisms. Negative feedback reverses deviations (e.g., thermoregulation, blood glucose). Positive feedback amplifies them (e.g., childbirth, blood clotting). The nervous and endocrine systems are the major control systems.",
   memoryHook:
-    "Think of a thermostat: sensor (receptor) detects cold → furnace (effector) turns on → temperature rises → sensor detects warmth → furnace turns off. That's negative feedback. Positive feedback is like a microphone near a speaker — the signal amplifies until something stops it.",
+    "Negative feedback = 'reverse the change' (most common). Positive feedback = 'amplify the change' (rare, but dramatic). Think: thermostat (negative) vs childbirth contractions (positive).",
   imatTrap:
-    "Students confuse negative vs positive feedback. Negative feedback = correction (opposes change). Positive feedback = amplification (reinforces change). Most homeostasis is NEGATIVE feedback. Positive feedback is rare and always has a defined endpoint (childbirth, clotting).",
+    "Homeostasis does NOT mean 'no change' — it means dynamic equilibrium within a narrow range. Blood glucose oscillates between 4–6 mM, body temp ~37°C ± 0.5°C. Also: positive feedback is NORMAL for some processes (childbirth, lactation, clotting) — it is NOT always pathological. The trap is viewing positive feedback only as a loss of homeostasis.",
   whyItMatters:
-    "Diabetes mellitus results from broken negative feedback in blood glucose regulation. Understanding feedback loops is essential for grasping endocrine disorders, thermoregulation failures (heat stroke), and pharmacological interventions.",
+    "Failure of homeostasis underlies most diseases: diabetes (blood glucose), hypertension (blood pressure), hypothermia/hyperthermia (temperature), dehydration (fluid balance). Understanding feedback is the basis for clinical interventions: insulin therapy, antipyretics, intravenous fluids.",
+  imatPatterns: [
+    {
+      years: [2022, 2023, 2024],
+      frequency: "high",
+      notes: "Negative vs positive feedback — identify examples",
+    },
+    {
+      years: [2021, 2023],
+      frequency: "medium",
+      notes:
+        "Components of a feedback loop (receptor, control centre, effector)",
+    },
+    {
+      years: [2020, 2022],
+      frequency: "medium",
+      notes: "Thermoregulation as a model system",
+    },
+  ],
+  equations: [
+    {
+      id: "homeo-glucose-range",
+      latex: "[\\text{Glucose}]_{normal} \\approx 4.0\\! -\\! 6.0\\ \\text{mM}",
+      description: "Normal fasting blood glucose range",
+    },
+    {
+      id: "homeo-temp-range",
+      latex: "T_{core} \\approx 37 \\pm 0.5^\\circ C",
+      description: "Normal core body temperature range",
+    },
+    {
+      id: "homeo-ph-range",
+      latex: "pH_{blood} \\approx 7.35\\! -\\! 7.45",
+      description: "Normal arterial blood pH range",
+    },
+  ],
+  workedExamples: [
+    {
+      id: "homeo-worked-1",
+      question:
+        "After a large carbohydrate meal, blood glucose rises to 8 mM. Describe the negative feedback mechanisms that restore it to normal range.",
+      hints: [
+        "Which organ detects the change and which hormone does it release?",
+        "What effect does this hormone have on target cells?",
+        "How does the corrective signal stop when glucose returns to normal?",
+      ],
+      solution:
+        "1) Pancreatic β-cells detect elevated blood glucose. 2) They release insulin. 3) Insulin signals muscle, liver, and adipose cells to increase glucose uptake (GLUT4 translocation) and stimulates liver glycogenesis. 4) Blood glucose falls. 5) As glucose approaches normal, insulin secretion decreases (negative feedback — the response reverses the stimulus). The system is off when glucose is back to ~5 mM. This is a classic IMAT essay-style question.",
+    },
+  ],
+  externalResources: [
+    {
+      title: "Khan Academy — Homeostasis",
+      url: "https://www.khanacademy.org/science/biology/principles-of-physiology/body-structure-and-homeostasis/a/homeostasis",
+      type: "article",
+      description: "Clear explanation of feedback mechanisms",
+    },
+    {
+      title: "OpenStax Anatomy & Physiology — Homeostasis",
+      url: "https://openstax.org/books/anatomy-and-physiology-2e/pages/1-5-homeostasis",
+      type: "textbook",
+      description: "Detailed textbook chapter on feedback systems",
+    },
+    {
+      title: "IMAT Buddy — Physiology Questions",
+      url: "https://www.imatbuddy.com/imat-science-question-banks/",
+      type: "practice",
+      description: "IMAT-style homeostasis and feedback questions",
+    },
+  ],
+  highYieldPoints: [
+    "Homeostasis = dynamic equilibrium within a narrow physiological range",
+    "Negative feedback: reverses deviation — most common (temp, glucose, pH, BP)",
+    "Positive feedback: amplifies deviation — oxytocin (childbirth), platelet plug (clotting), action potentials",
+    "Components: receptor (detects), control centre (compares to set point), effector (makes the change)",
+    "Pancreas: β-cells release insulin (high glucose), α-cells release glucagon (low glucose) — antagonistic hormones",
+    "Thermoregulation: hypothalamus is the control centre — vasodilation/sweating (cool) vs vasoconstriction/shivering (warm)",
+    "Fever: positive feedback on pyrogens resetting the hypothalamic set point upward",
+  ],
   explanation: (
-    <div className="space-y-4">
+    <div>
       <p>
-        <strong>Homeostasis</strong> is the dynamic maintenance of a stable
-        internal environment despite external changes. It requires three
-        components:
+        <strong>Homeostasis</strong> is the process by which the body maintains
+        a stable internal environment within narrow physiological ranges. It is
+        essential for optimal enzyme function, cellular metabolism, and
+        survival. The two major control systems are the{" "}
+        <strong>nervous system</strong> and the{" "}
+        <strong>endocrine system</strong>.
       </p>
-      <ul className="list-disc pl-6 space-y-1">
+
+      <h3>Feedback Loops</h3>
+      <p>
+        The basic feedback loop has three components:
+        <strong>Receptor</strong> (detects the change) →{" "}
+        <strong>Control centre</strong> (compares to set point) →{" "}
+        <strong>Effector</strong> (produces the response).
+      </p>
+
+      <h4>Negative Feedback</h4>
+      <p>
+        The <strong>response reverses the stimulus</strong>. This is the most
+        common type, used for:
+      </p>
+      <ul>
+        <li>Blood glucose (insulin lowers glucose, glucagon raises it)</li>
+        <li>Body temperature (sweating cools, shivering warms)</li>
+        <li>Blood pressure (baroreceptors → heart rate adjustment)</li>
+        <li>Blood pH (buffer systems, respiratory rate adjustment)</li>
+        <li>Blood calcium (calcitonin vs parathyroid hormone)</li>
+      </ul>
+
+      <QuickFire questions={recallQuestions.slice(0, 1)} title="Quick Check" />
+
+      <h4>Positive Feedback</h4>
+      <p>
+        The <strong>response amplifies the stimulus</strong>, creating a
+        self-amplifying cycle. It is less common and usually part of a process
+        that must reach completion:
+      </p>
+      <ul>
         <li>
-          <strong>Receptor (sensor)</strong>: detects changes (stimuli) — e.g.,
-          thermoreceptors in skin and hypothalamus
+          <strong>Childbirth:</strong> oxytocin release → stronger contractions
+          → more oxytocin release → contractions intensify until delivery
         </li>
         <li>
-          <strong>Control center</strong>: processes information and sends
-          commands — e.g., hypothalamus (thermoregulation), pancreas (blood
-          glucose)
+          <strong>Blood clotting:</strong> initial clot → cascade of clotting
+          factors → more clotting → stable plug
         </li>
         <li>
-          <strong>Effector</strong>: carries out the response — e.g., sweat
-          glands, skeletal muscles, liver
+          <strong>Action potentials:</strong> Na⁺ entry → depolarisation → more
+          Na⁺ channels open → full depolarisation
         </li>
       </ul>
 
-      <h3 className="text-lg font-semibold mt-4">Negative Feedback</h3>
+      <h3>Thermoregulation — A Model System</h3>
       <p>
-        The response <em>opposes</em> the stimulus, returning the system toward
-        the set point. This is the most common mechanism.
+        The <strong>hypothalamus</strong> acts as the control centre. When core
+        temperature deviates from ~37°C:
       </p>
-      <ul className="list-disc pl-6 space-y-1">
+      <div className="grid grid-cols-2 gap-3 rounded-lg border bg-card p-4">
+        <div>
+          <h4 className="text-sm font-semibold text-red-500">Too Hot</h4>
+          <ul className="text-xs text-muted-foreground mt-1 space-y-1">
+            <li>Vasodilation (more blood to skin)</li>
+            <li>Sweating (evaporative cooling)</li>
+            <li>Reduced metabolic heat production</li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="text-sm font-semibold text-blue-500">Too Cold</h4>
+          <ul className="text-xs text-muted-foreground mt-1 space-y-1">
+            <li>Vasoconstriction (less blood to skin)</li>
+            <li>Shivering (muscle heat generation)</li>
+            <li>Piloerection (minimal in humans)</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Blood Glucose Regulation</h3>
+      <p>
+        The <strong>pancreas</strong> contains clusters of endocrine cells
+        called
+        <strong>islets of Langerhans</strong>:
+      </p>
+      <ul>
         <li>
-          <strong>Thermoregulation</strong>: Cold → hypothalamus detects drop →
-          shivering, vasoconstriction, increased metabolism → temperature rises
-          → hypothalamus detects warmth → responses stop
+          <strong>β-cells:</strong> sense high glucose → release insulin →
+          glucose uptake + storage (glycogenesis)
         </li>
         <li>
-          <strong>Blood glucose</strong>: High glucose → pancreatic beta cells
-          release insulin → cells take up glucose, liver stores glycogen →
-          glucose drops → insulin secretion decreases
-        </li>
-        <li>
-          <strong>Low glucose</strong>: Pancreatic alpha cells release glucagon
-          → liver breaks down glycogen → glucose rises → glucagon secretion
-          decreases
+          <strong>α-cells:</strong> sense low glucose → release glucagon →
+          glycogen breakdown (glycogenolysis) + gluconeogenesis
         </li>
       </ul>
 
-      <h3 className="text-lg font-semibold mt-4">Positive Feedback</h3>
+      <QuickFire
+        questions={recallQuestions.slice(1, 2)}
+        title="Check Understanding"
+      />
+
+      <h3>Clinical Disruption</h3>
       <p>
-        The response <em>amplifies</em> the stimulus, driving the system further
-        from the set point. Always has a defined endpoint.
+        <strong>Diabetes mellitus</strong>: type 1 (autoimmune β-cell
+        destruction, no insulin), type 2 (insulin resistance, cells do not
+        respond). Both disrupt glucose homeostasis, leading to hyperglycaemia,
+        which causes microvascular damage (retinopathy, nephropathy,
+        neuropathy).
       </p>
-      <ul className="list-disc pl-6 space-y-1">
-        <li>
-          <strong>Childbirth</strong>: Uterine contractions push baby → baby's
-          head stretches cervix → stretch receptors signal hypothalamus →
-          posterior pituitary releases oxytocin → oxytocin strengthens
-          contractions → more stretching → more oxytocin → cycle continues until
-          delivery
-        </li>
-        <li>
-          <strong>Blood clotting</strong>: Vessel damage → platelets adhere and
-          release chemicals → chemicals attract more platelets → platelet plug
-          forms → cascade amplifies until clot is complete
-        </li>
-        <li>
-          <strong>Lactation</strong>: Baby suckles → nerve signals to
-          hypothalamus → posterior pituitary releases oxytocin → milk ejection →
-          more suckling → more oxytocin
-        </li>
-      </ul>
+
+      <h3>Worked Example</h3>
+      <div className="grid gap-4">
+        <WorkedExampleCard
+          example={{
+            id: "homeo-worked-1",
+            question:
+              "After a large carbohydrate meal, blood glucose rises to 8 mM. Describe the negative feedback mechanisms that restore it to normal range.",
+            hints: [
+              "Which organ detects the change and which hormone does it release?",
+              "What effect does this hormone have on target cells?",
+              "How does the corrective signal stop when glucose returns to normal?",
+            ],
+            solution:
+              "1) Pancreatic β-cells detect elevated blood glucose. 2) They release insulin. 3) Insulin signals muscle, liver, and adipose cells to increase glucose uptake (GLUT4 translocation) and stimulates liver glycogenesis. 4) Blood glucose falls. 5) As glucose approaches normal, insulin secretion decreases (negative feedback — the response reverses the stimulus).",
+          }}
+        />
+      </div>
+
+      <h3>High-Yield Summary</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {[
+          "Homeostasis: stable internal environment (dynamic, not static)",
+          "Negative feedback reverses change (most common)",
+          "Positive feedback amplifies change (rare, specific purposes)",
+          "Receptor → Control centre → Effector",
+          "Hypothalamus: temperature, thirst, hunger control centre",
+          "Pancreas: insulin (β) + glucagon (α) for glucose balance",
+          "Diabetes = homeostatic failure of blood glucose",
+        ].map((point) => (
+          <div
+            key={point}
+            className="flex items-start gap-2 rounded-lg border border-green-500/20 bg-green-500/5 p-2"
+          >
+            <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-green-500" />
+            <span className="text-xs text-muted-foreground">{point}</span>
+          </div>
+        ))}
+      </div>
+
+      <QuickFire questions={recallQuestions.slice(2, 3)} title="Final Check" />
     </div>
   ),
   questions: [
     {
-      id: "homeostasis-q1",
+      id: "homeo-q1",
+      type: "multiple-choice",
+      prompt: "What does homeostasis maintain?",
+      answer: "A stable internal environment",
+      difficulty: "recall",
+      options: [
+        "A constant external environment",
+        "A stable internal environment",
+        "Complete absence of change",
+        "Maximum body temperature",
+      ],
+    },
+    {
+      id: "homeo-q2",
       type: "multiple-choice",
       prompt: "Which of the following is an example of positive feedback?",
-      options: [
-        "Thermoregulation in response to cold",
-        "Insulin release after a meal",
-        "Oxytocin release during childbirth",
-        "Glucagon release during fasting",
-      ],
       answer: "Oxytocin release during childbirth",
-      explanation:
-        "Childbirth is a classic positive feedback loop: contractions stretch the cervix, triggering oxytocin release, which strengthens contractions, creating a self-amplifying cycle until delivery.",
       difficulty: "recall",
+      options: [
+        "Insulin lowering blood glucose",
+        "Oxytocin release during childbirth",
+        "Sweating in response to heat",
+        "Shivering in cold conditions",
+      ],
     },
     {
-      id: "homeostasis-q2",
+      id: "homeo-q3",
+      type: "multiple-choice",
+      prompt: "What are the three components of a feedback loop?",
+      answer: "Receptor, control centre, effector",
+      difficulty: "recall",
+      options: [
+        "Stimulus, response, hormone",
+        "Receptor, control centre, effector",
+        "Sensor, gland, organ",
+        "Input, output, feedback",
+      ],
+    },
+    {
+      id: "homeo-q4",
+      type: "multiple-choice",
+      prompt: "Which organ is the control centre for thermoregulation?",
+      answer: "Hypothalamus",
+      difficulty: "apply",
+      options: ["Thalamus", "Hypothalamus", "Cerebellum", "Medulla oblongata"],
+    },
+    {
+      id: "homeo-q5",
+      type: "multiple-choice",
+      prompt: "In type 1 diabetes, the homeostatic failure is due to:",
+      answer: "Autoimmune destruction of pancreatic β-cells",
+      difficulty: "apply",
+      options: [
+        "Insulin resistance in target cells",
+        "Autoimmune destruction of pancreatic β-cells",
+        "Excess glucagon production",
+        "Failure of liver glycogenesis",
+      ],
+      imatYear: 2023,
+    },
+    {
+      id: "homeo-q6",
       type: "explain-why",
       prompt:
-        "Why is the hypothalamus considered the master control center for homeostasis?",
+        "Explain why positive feedback is typically not used for long-term homeostatic regulation.",
       answer:
-        "The hypothalamus integrates signals from thermoreceptors, osmoreceptors, and chemoreceptors, then coordinates responses via the autonomic nervous system and endocrine system (e.g., ADH release, TRH for thyroid). It regulates temperature, thirst, hunger, and circadian rhythms.",
+        "Positive feedback is self-amplifying — it drives a variable further away from its set point rather than returning it. This creates an unstable, runaway system that would rapidly exceed physiological limits if not terminated. It is only useful for processes that need rapid completion (childbirth, clotting), after which the feedback loop is broken by a distinct event (e.g., delivery of baby ends oxytocin release).",
       difficulty: "analyze",
     },
-    {
-      id: "homeostasis-q3",
-      type: "multiple-choice",
-      prompt:
-        "In blood glucose regulation, what is the effector when glucose levels are high?",
-      options: [
-        "Pancreatic beta cells",
-        "Liver and muscle cells",
-        "Hypothalamus",
-        "Pancreatic alpha cells",
-      ],
-      answer: "Liver and muscle cells",
-      explanation:
-        "When glucose is high, beta cells (control center) release insulin, but the effectors are liver and muscle cells, which take up glucose and store it as glycogen.",
-      difficulty: "apply",
-    },
   ],
-  crosslinks: ["organ-systems", "carbohydrates", "proteins"],
-  prerequisites: ["carbohydrates"],
+  crosslinks: ["organ-systems", "enzymes"],
+  prerequisites: [],
 };
-
-export default homeostasis;

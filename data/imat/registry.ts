@@ -7,99 +7,99 @@ import { fermentationNote } from "@/content/imat/biology/bioenergetics/fermentat
 import { photosynthesisNote } from "@/content/imat/biology/bioenergetics/photosynthesis";
 import { atpNote } from "@/content/imat/biology/bioenergetics/atp";
 
-import carbohydrates from "@/content/imat/biology/chemistry-of-living-things/carbohydrates";
-import lipids from "@/content/imat/biology/chemistry-of-living-things/lipids";
-import proteins from "@/content/imat/biology/chemistry-of-living-things/proteins";
-import nucleicAcids from "@/content/imat/biology/chemistry-of-living-things/nucleic-acids";
-import enzymes from "@/content/imat/biology/chemistry-of-living-things/enzymes";
-import weakInteractions from "@/content/imat/biology/chemistry-of-living-things/weak-interactions";
+import { carbohydratesNote } from "@/content/imat/biology/chemistry-of-living-things/carbohydrates";
+import { lipidsNote } from "@/content/imat/biology/chemistry-of-living-things/lipids";
+import { proteinsNote } from "@/content/imat/biology/chemistry-of-living-things/proteins";
+import { nucleicAcidsNote } from "@/content/imat/biology/chemistry-of-living-things/nucleic-acids";
+import { enzymesNote } from "@/content/imat/biology/chemistry-of-living-things/enzymes";
+import { weakInteractionsNote } from "@/content/imat/biology/chemistry-of-living-things/weak-interactions";
 
-import homeostasis from "@/content/imat/biology/anatomy-and-physiology/homeostasis";
-import organSystems from "@/content/imat/biology/anatomy-and-physiology/organ-systems";
+import { homeostasisNote } from "@/content/imat/biology/anatomy-and-physiology/homeostasis";
+import { organSystemsNote } from "@/content/imat/biology/anatomy-and-physiology/organ-systems";
 
-import dnaStructure from "@/content/imat/biology/reproduction-and-inheritance/dna-structure";
-import dnaReplication from "@/content/imat/biology/reproduction-and-inheritance/dna-replication";
-import geneticCode from "@/content/imat/biology/reproduction-and-inheritance/genetic-code";
-import mendelianGenetics from "@/content/imat/biology/reproduction-and-inheritance/mendelian-genetics";
-import inheritancePatterns from "@/content/imat/biology/reproduction-and-inheritance/inheritance-patterns";
+import { dnaStructureNote } from "@/content/imat/biology/reproduction-and-inheritance/dna-structure";
+import { dnaReplicationNote } from "@/content/imat/biology/reproduction-and-inheritance/dna-replication";
+import { geneticCodeNote } from "@/content/imat/biology/reproduction-and-inheritance/genetic-code";
+import { mendelianGeneticsNote } from "@/content/imat/biology/reproduction-and-inheritance/mendelian-genetics";
+import { inheritancePatternsNote } from "@/content/imat/biology/reproduction-and-inheritance/inheritance-patterns";
 
-import geneExpression from "@/content/imat/biology/inheritance-and-environment/gene-expression";
-import mutations from "@/content/imat/biology/inheritance-and-environment/mutations";
-import geneticEngineering from "@/content/imat/biology/inheritance-and-environment/genetic-engineering";
-import evolutionBasics from "@/content/imat/biology/inheritance-and-environment/evolution-basics";
+import { geneExpressionNote } from "@/content/imat/biology/inheritance-and-environment/gene-expression";
+import { mutationsNote } from "@/content/imat/biology/inheritance-and-environment/mutations";
+import { geneticEngineeringNote } from "@/content/imat/biology/inheritance-and-environment/genetic-engineering";
+import { evolutionBasicsNote } from "@/content/imat/biology/inheritance-and-environment/evolution-basics";
 
-import cellTheory from "@/content/imat/biology/cell-biology/cell-theory";
-import cellMembraneStructure from "@/content/imat/biology/cell-biology/cell-membrane-structure";
-import membraneTransport from "@/content/imat/biology/cell-biology/membrane-transport";
-import organelles from "@/content/imat/biology/cell-biology/organelles";
-import cellCycle from "@/content/imat/biology/cell-biology/cell-cycle";
-import mitosis from "@/content/imat/biology/cell-biology/mitosis";
-import meiosis from "@/content/imat/biology/cell-biology/meiosis";
-import prokaryotesVsEukaryotes from "@/content/imat/biology/cell-biology/prokaryotes-vs-eukaryotes";
-import viruses from "@/content/imat/biology/cell-biology/viruses";
+import { cellTheoryNote } from "@/content/imat/biology/cell-biology/cell-theory";
+import { cellMembraneStructureNote } from "@/content/imat/biology/cell-biology/cell-membrane-structure";
+import { membraneTransportNote } from "@/content/imat/biology/cell-biology/membrane-transport";
+import { organellesNote } from "@/content/imat/biology/cell-biology/organelles";
+import { cellCycleNote } from "@/content/imat/biology/cell-biology/cell-cycle";
+import { mitosisNote } from "@/content/imat/biology/cell-biology/mitosis";
+import { meiosisNote } from "@/content/imat/biology/cell-biology/meiosis";
+import { prokaryotesVsEukaryotesNote } from "@/content/imat/biology/cell-biology/prokaryotes-vs-eukaryotes";
+import { virusesNote } from "@/content/imat/biology/cell-biology/viruses";
 
-import pureSubstances from "@/content/imat/chemistry/composition-of-matter/pure-substances";
-import mixturesSeparation from "@/content/imat/chemistry/composition-of-matter/mixtures-separation";
-import atomicModels from "@/content/imat/chemistry/atomic-structure/atomic-models";
-import electronConfiguration from "@/content/imat/chemistry/atomic-structure/electron-configuration";
-import periodicTrends from "@/content/imat/chemistry/periodic-table/periodic-trends";
-import groupsPeriods from "@/content/imat/chemistry/periodic-table/groups-periods";
-import ionicBonds from "@/content/imat/chemistry/chemical-bonding/ionic-bonds";
-import covalentBonds from "@/content/imat/chemistry/chemical-bonding/covalent-bonds";
-import acidsBasesSalts from "@/content/imat/chemistry/inorganic-chemistry/acids-bases-salts";
-import oxides from "@/content/imat/chemistry/inorganic-chemistry/oxides";
-import balancingEquations from "@/content/imat/chemistry/reactions-stoichiometry/balancing-equations";
-import moleCalculations from "@/content/imat/chemistry/reactions-stoichiometry/mole-calculations";
-import concentration from "@/content/imat/chemistry/solutions/concentration";
-import solubility from "@/content/imat/chemistry/solutions/solubility";
-import oxidationReduction from "@/content/imat/chemistry/redox/oxidation-reduction";
-import electrochemistry from "@/content/imat/chemistry/redox/electrochemistry";
-import hydrocarbons from "@/content/imat/chemistry/organic-chemistry/hydrocarbons";
-import functionalGroups from "@/content/imat/chemistry/organic-chemistry/functional-groups";
-import enthalpy from "@/content/imat/chemistry/thermochemistry/enthalpy";
-import hessLaw from "@/content/imat/chemistry/thermochemistry/hess-law";
+import { pureSubstancesNote } from "@/content/imat/chemistry/composition-of-matter/pure-substances";
+import { mixturesSeparationNote } from "@/content/imat/chemistry/composition-of-matter/mixtures-separation";
+import { atomicModelsNote } from "@/content/imat/chemistry/atomic-structure/atomic-models";
+import { electronConfigurationNote } from "@/content/imat/chemistry/atomic-structure/electron-configuration";
+import { periodicTrendsNote } from "@/content/imat/chemistry/periodic-table/periodic-trends";
+import { groupsPeriodsNote } from "@/content/imat/chemistry/periodic-table/groups-periods";
+import { ionicBondsNote } from "@/content/imat/chemistry/chemical-bonding/ionic-bonds";
+import { covalentBondsNote } from "@/content/imat/chemistry/chemical-bonding/covalent-bonds";
+import { acidsBasesSaltsNote } from "@/content/imat/chemistry/inorganic-chemistry/acids-bases-salts";
+import { oxidesNote } from "@/content/imat/chemistry/inorganic-chemistry/oxides";
+import { balancingEquationsNote } from "@/content/imat/chemistry/reactions-stoichiometry/balancing-equations";
+import { moleCalculationsNote } from "@/content/imat/chemistry/reactions-stoichiometry/mole-calculations";
+import { concentrationNote } from "@/content/imat/chemistry/solutions/concentration";
+import { solubilityNote } from "@/content/imat/chemistry/solutions/solubility";
+import { oxidationReductionNote } from "@/content/imat/chemistry/redox/oxidation-reduction";
+import { electrochemistryNote } from "@/content/imat/chemistry/redox/electrochemistry";
+import { hydrocarbonsNote } from "@/content/imat/chemistry/organic-chemistry/hydrocarbons";
+import { functionalGroupsNote } from "@/content/imat/chemistry/organic-chemistry/functional-groups";
+import { enthalpyNote } from "@/content/imat/chemistry/thermochemistry/enthalpy";
+import { hessLawNote } from "@/content/imat/chemistry/thermochemistry/hess-law";
 
-import siUnits from "@/content/imat/physics/measures/si-units";
-import significantFigures from "@/content/imat/physics/measures/significant-figures";
-import uniformMotion from "@/content/imat/physics/kinematics/uniform-motion";
-import projectileMotion from "@/content/imat/physics/kinematics/projectile-motion";
-import newtonLaws from "@/content/imat/physics/dynamics/newton-laws";
-import forces from "@/content/imat/physics/dynamics/forces";
-import pressure from "@/content/imat/physics/fluid-mechanics/pressure";
-import archimedes from "@/content/imat/physics/fluid-mechanics/archimedes";
-import heatTransfer from "@/content/imat/physics/thermodynamics/heat-transfer";
-import gasLaws from "@/content/imat/physics/thermodynamics/gas-laws";
-import coulombsLaw from "@/content/imat/physics/electrostatics-electrodynamics/coulombs-law";
-import ohmsLaw from "@/content/imat/physics/electrostatics-electrodynamics/ohms-law";
+import { siUnitsNote } from "@/content/imat/physics/measures/si-units";
+import { significantFiguresNote } from "@/content/imat/physics/measures/significant-figures";
+import { uniformMotionNote } from "@/content/imat/physics/kinematics/uniform-motion";
+import { projectileMotionNote } from "@/content/imat/physics/kinematics/projectile-motion";
+import { newtonLawsNote } from "@/content/imat/physics/dynamics/newton-laws";
+import { forcesNote } from "@/content/imat/physics/dynamics/forces";
+import { pressureNote } from "@/content/imat/physics/fluid-mechanics/pressure";
+import { archimedesNote } from "@/content/imat/physics/fluid-mechanics/archimedes";
+import { heatTransferNote } from "@/content/imat/physics/thermodynamics/heat-transfer";
+import { gasLawsNote } from "@/content/imat/physics/thermodynamics/gas-laws";
+import { coulombsLawNote } from "@/content/imat/physics/electrostatics-electrodynamics/coulombs-law";
+import { ohmsLawNote } from "@/content/imat/physics/electrostatics-electrodynamics/ohms-law";
 
-import renaissance from "@/content/imat/general-knowledge/european-history/renaissance";
-import worldWars from "@/content/imat/general-knowledge/european-history/world-wars";
-import dante from "@/content/imat/general-knowledge/italian-literature/dante";
-import modernItalian from "@/content/imat/general-knowledge/italian-literature/modern-italian";
-import ancientPhilosophy from "@/content/imat/general-knowledge/philosophy/ancient-philosophy";
-import modernPhilosophy from "@/content/imat/general-knowledge/philosophy/modern-philosophy";
-import unSystem from "@/content/imat/general-knowledge/international-institutions/un-system";
-import euInstitutions from "@/content/imat/general-knowledge/international-institutions/eu-institutions";
+import { renaissanceNote } from "@/content/imat/general-knowledge/european-history/renaissance";
+import { worldWarsNote } from "@/content/imat/general-knowledge/european-history/world-wars";
+import { danteNote } from "@/content/imat/general-knowledge/italian-literature/dante";
+import { modernItalianNote } from "@/content/imat/general-knowledge/italian-literature/modern-italian";
+import { ancientPhilosophyNote } from "@/content/imat/general-knowledge/philosophy/ancient-philosophy";
+import { modernPhilosophyNote } from "@/content/imat/general-knowledge/philosophy/modern-philosophy";
+import { unSystemNote } from "@/content/imat/general-knowledge/international-institutions/un-system";
+import { euInstitutionsNote } from "@/content/imat/general-knowledge/international-institutions/eu-institutions";
 
-import mainConclusionNote from "@/content/imat/logical-reasoning/argument-structure/main-conclusion";
-import premisesNote from "@/content/imat/logical-reasoning/argument-structure/premises";
-import drawingConclusionNote from "@/content/imat/logical-reasoning/conclusion-types/drawing-conclusion";
-import assumptionsNote from "@/content/imat/logical-reasoning/conclusion-types/assumptions";
-import additionalEvidenceNote from "@/content/imat/logical-reasoning/evaluation/additional-evidence";
-import reasoningErrorsNote from "@/content/imat/logical-reasoning/evaluation/reasoning-errors";
-import matchingArgumentsNote from "@/content/imat/logical-reasoning/application/matching-arguments";
-import applyingPrinciplesNote from "@/content/imat/logical-reasoning/application/applying-principles";
-import dataInterpretationNote from "@/content/imat/logical-reasoning/problem-solving/data-interpretation";
-import numericalReasoningNote from "@/content/imat/logical-reasoning/problem-solving/numerical-reasoning";
+import { mainConclusionNote } from "@/content/imat/logical-reasoning/argument-structure/main-conclusion";
+import { premisesNote } from "@/content/imat/logical-reasoning/argument-structure/premises";
+import { drawingConclusionNote } from "@/content/imat/logical-reasoning/conclusion-types/drawing-conclusion";
+import { assumptionsNote } from "@/content/imat/logical-reasoning/conclusion-types/assumptions";
+import { additionalEvidenceNote } from "@/content/imat/logical-reasoning/evaluation/additional-evidence";
+import { reasoningErrorsNote } from "@/content/imat/logical-reasoning/evaluation/reasoning-errors";
+import { matchingArgumentsNote } from "@/content/imat/logical-reasoning/application/matching-arguments";
+import { applyingPrinciplesNote } from "@/content/imat/logical-reasoning/application/applying-principles";
+import { dataInterpretationNote } from "@/content/imat/logical-reasoning/problem-solving/data-interpretation";
+import { numericalReasoningNote } from "@/content/imat/logical-reasoning/problem-solving/numerical-reasoning";
 
-import equationsInequalities from "@/content/imat/mathematics/algebra/equations-inequalities";
-import polynomials from "@/content/imat/mathematics/algebra/polynomials";
-import linearFunctions from "@/content/imat/mathematics/functions/linear-functions";
-import quadraticFunctions from "@/content/imat/mathematics/functions/quadratic-functions";
-import planeGeometry from "@/content/imat/mathematics/geometry/plane-geometry";
-import solidGeometry from "@/content/imat/mathematics/geometry/solid-geometry";
-import probabilityBasics from "@/content/imat/mathematics/probability-statistics/probability-basics";
-import descriptiveStatistics from "@/content/imat/mathematics/probability-statistics/descriptive-statistics";
+import { equationsInequalitiesNote } from "@/content/imat/mathematics/algebra/equations-inequalities";
+import { polynomialsNote } from "@/content/imat/mathematics/algebra/polynomials";
+import { linearFunctionsNote } from "@/content/imat/mathematics/functions/linear-functions";
+import { quadraticFunctionsNote } from "@/content/imat/mathematics/functions/quadratic-functions";
+import { planeGeometryNote } from "@/content/imat/mathematics/geometry/plane-geometry";
+import { solidGeometryNote } from "@/content/imat/mathematics/geometry/solid-geometry";
+import { probabilityBasicsNote } from "@/content/imat/mathematics/probability-statistics/probability-basics";
+import { descriptiveStatisticsNote } from "@/content/imat/mathematics/probability-statistics/descriptive-statistics";
 
 export const subjects: SubjectMeta[] = [
   {
@@ -478,66 +478,66 @@ export const topics: TopicMeta[] = [
 ];
 
 export const notes: AtomicNote[] = [
-  carbohydrates,
-  lipids,
-  proteins,
-  nucleicAcids,
-  enzymes,
-  weakInteractions,
-  homeostasis,
-  organSystems,
+  carbohydratesNote,
+  lipidsNote,
+  proteinsNote,
+  nucleicAcidsNote,
+  enzymesNote,
+  weakInteractionsNote,
+  homeostasisNote,
+  organSystemsNote,
   glycolysisNote,
   krebsCycleNote,
   electronTransportChainNote,
   fermentationNote,
   photosynthesisNote,
   atpNote,
-  cellTheory,
-  cellMembraneStructure,
-  membraneTransport,
-  organelles,
-  cellCycle,
-  mitosis,
-  meiosis,
-  prokaryotesVsEukaryotes,
-  viruses,
-  dnaStructure,
-  dnaReplication,
-  geneticCode,
-  mendelianGenetics,
-  inheritancePatterns,
-  geneExpression,
-  mutations,
-  geneticEngineering,
-  evolutionBasics,
-  pureSubstances,
-  mixturesSeparation,
-  atomicModels,
-  electronConfiguration,
-  periodicTrends,
-  groupsPeriods,
-  ionicBonds,
-  covalentBonds,
-  acidsBasesSalts,
-  oxides,
-  balancingEquations,
-  moleCalculations,
-  concentration,
-  solubility,
-  oxidationReduction,
-  electrochemistry,
-  hydrocarbons,
-  functionalGroups,
-  enthalpy,
-  hessLaw,
-  equationsInequalities,
-  polynomials,
-  linearFunctions,
-  quadraticFunctions,
-  planeGeometry,
-  solidGeometry,
-  probabilityBasics,
-  descriptiveStatistics,
+  cellTheoryNote,
+  cellMembraneStructureNote,
+  membraneTransportNote,
+  organellesNote,
+  cellCycleNote,
+  mitosisNote,
+  meiosisNote,
+  prokaryotesVsEukaryotesNote,
+  virusesNote,
+  dnaStructureNote,
+  dnaReplicationNote,
+  geneticCodeNote,
+  mendelianGeneticsNote,
+  inheritancePatternsNote,
+  geneExpressionNote,
+  mutationsNote,
+  geneticEngineeringNote,
+  evolutionBasicsNote,
+  pureSubstancesNote,
+  mixturesSeparationNote,
+  atomicModelsNote,
+  electronConfigurationNote,
+  periodicTrendsNote,
+  groupsPeriodsNote,
+  ionicBondsNote,
+  covalentBondsNote,
+  acidsBasesSaltsNote,
+  oxidesNote,
+  balancingEquationsNote,
+  moleCalculationsNote,
+  concentrationNote,
+  solubilityNote,
+  oxidationReductionNote,
+  electrochemistryNote,
+  hydrocarbonsNote,
+  functionalGroupsNote,
+  enthalpyNote,
+  hessLawNote,
+  equationsInequalitiesNote,
+  polynomialsNote,
+  linearFunctionsNote,
+  quadraticFunctionsNote,
+  planeGeometryNote,
+  solidGeometryNote,
+  probabilityBasicsNote,
+  descriptiveStatisticsNote,
   mainConclusionNote,
   premisesNote,
   drawingConclusionNote,
@@ -548,26 +548,26 @@ export const notes: AtomicNote[] = [
   applyingPrinciplesNote,
   dataInterpretationNote,
   numericalReasoningNote,
-  renaissance,
-  worldWars,
-  dante,
-  modernItalian,
-  ancientPhilosophy,
-  modernPhilosophy,
-  unSystem,
-  euInstitutions,
-  siUnits,
-  significantFigures,
-  uniformMotion,
-  projectileMotion,
-  newtonLaws,
-  forces,
-  pressure,
-  archimedes,
-  heatTransfer,
-  gasLaws,
-  coulombsLaw,
-  ohmsLaw,
+  renaissanceNote,
+  worldWarsNote,
+  danteNote,
+  modernItalianNote,
+  ancientPhilosophyNote,
+  modernPhilosophyNote,
+  unSystemNote,
+  euInstitutionsNote,
+  siUnitsNote,
+  significantFiguresNote,
+  uniformMotionNote,
+  projectileMotionNote,
+  newtonLawsNote,
+  forcesNote,
+  pressureNote,
+  archimedesNote,
+  heatTransferNote,
+  gasLawsNote,
+  coulombsLawNote,
+  ohmsLawNote,
 ];
 
 export function getNoteBySlug(slug: string): AtomicNote {

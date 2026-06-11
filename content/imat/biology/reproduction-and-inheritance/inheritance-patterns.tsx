@@ -1,6 +1,6 @@
 import type { AtomicNote } from "@/data/imat/types";
 
-const note: AtomicNote = {
+export const inheritancePatternsNote: AtomicNote = {
   slug: "inheritance-patterns",
   subject: "biology",
   topic: "reproduction-and-inheritance",
@@ -119,5 +119,3 @@ const note: AtomicNote = {
   crosslinks: ["mendelian-genetics", "genetic-code", "dna-structure"],
   prerequisites: ["mendelian-genetics"],
 };
-
-export default note;

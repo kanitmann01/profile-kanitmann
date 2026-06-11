@@ -1,86 +1,363 @@
+"use client";
+
 import type { AtomicNote } from "@/data/imat/types";
+import { EquationBlock } from "@/components/imat/equation-block";
+import { WorkedExampleCard } from "@/components/imat/worked-example-card";
+import { QuickFire } from "@/components/imat/interactive/quick-fire";
+
+const recallQuestions = [
+  {
+    id: "qf-1",
+    question: "What is the primary purpose of fermentation?",
+    answer: "To regenerate NAD⁺ from NADH so glycolysis can continue",
+    hint: "Think about what happens to NADH when O₂ is absent",
+    context: "NAD⁺ recycling",
+  },
+  {
+    id: "qf-2",
+    question: "What are the two types of fermentation?",
+    answer: "Lactic acid (animals/bacteria) and alcoholic (yeast/plants)",
+    context: "End products differ",
+  },
+  {
+    id: "qf-3",
+    question: "How many ATP are produced per glucose in fermentation?",
+    answer: "2 (only from glycolysis)",
+    context: "No ETC involvement",
+  },
+];
 
 export const fermentationNote: AtomicNote = {
   slug: "fermentation",
   subject: "biology",
   topic: "bioenergetics",
-  title: "Fermentation (Anaerobic Respiration)",
+  title: "Fermentation",
   summary:
-    "An anaerobic pathway that regenerates NAD⁺ from NADH, allowing glycolysis to continue. Produces lactic acid (animals) or ethanol + CO₂ (yeast). Net yield: 2 ATP per glucose (from glycolysis only).",
+    "Anaerobic pathway that regenerates NAD⁺ from NADH to sustain glycolysis when oxygen is absent. Two types: lactic acid fermentation (muscle, bacteria) and alcoholic fermentation (yeast, plants). Net yield: 2 ATP per glucose — all from glycolysis.",
   memoryHook:
-    '"No Oxygen? No Problem — But Only 2 ATP!" — Fermentation doesn\'t make extra ATP; it just recycles NAD⁺ so glycolysis can keep running.',
+    "Lactic: Pyruvate → Lactate (NADH → NAD⁺). Alcoholic: Pyruvate → Acetaldehyde → Ethanol (NADH → NAD⁺, CO₂ released).",
   imatTrap:
-    "Fermentation produces NO additional ATP beyond glycolysis. Its sole purpose is to regenerate NAD⁺. Lactic acid fermentation occurs in animal muscle cells AND some bacteria; alcoholic fermentation occurs in yeast and some plants. Don't confuse CO₂ production (alcoholic only) with lactic acid fermentation.",
+    "Fermentation does NOT produce additional ATP beyond glycolysis. The 2 ATP from glycolysis are the only ATP. Students often think fermentation 'makes more ATP.' It only regenerates NAD⁺ to keep glycolysis running. Also: lactic acid is NOT the cause of post-exercise soreness — it's cleared quickly; soreness is from microtears and inflammation.",
   whyItMatters:
-    "During intense exercise, muscle cells switch to lactic acid fermentation when O₂ supply is insufficient, causing the 'burn'. Lactate is later converted back to pyruvate in the liver (Cori cycle). Yeast alcoholic fermentation is the basis of bread-making (CO₂ rises dough) and brewing (ethanol).",
+    "Obligate anaerobes (e.g., Clostridium botulinum) rely entirely on fermentation. Lactobacillus ferments lactose to lactic acid in yogurt/cheese production. Alcoholic fermentation by Saccharomyces cerevisiae is essential for bread (CO₂ raises dough) and ethanol production. Muscle fermentation during intense exercise allows continued ATP production when O₂ delivery lags.",
+  imatPatterns: [
+    {
+      years: [2023, 2024],
+      frequency: "medium",
+      notes: "NAD⁺ regeneration purpose",
+    },
+    {
+      years: [2021, 2022],
+      frequency: "medium",
+      notes: "Comparing lactic acid vs alcoholic pathways",
+    },
+    {
+      years: [2020, 2023],
+      frequency: "medium",
+      notes: "Why fermentation yield is only 2 ATP",
+    },
+  ],
+  equations: [
+    {
+      id: "fermentation-lactic",
+      latex:
+        "Pyruvate + NADH + H^+ \\xrightarrow{\\text{Lactate dehydrogenase}} Lactate + NAD^+",
+      description: "Lactic acid fermentation — NAD⁺ regenerated",
+      variables: "Lactate dehydrogenase = enzyme; lactate = end product",
+    },
+    {
+      id: "fermentation-alcoholic",
+      latex:
+        "Pyruvate \\xrightarrow{\\text{Pyruvate decarboxylase}} Acetaldehyde + CO_2",
+      description:
+        "Step 1 of alcoholic fermentation — decarboxylation of pyruvate",
+    },
+    {
+      id: "fermentation-ethanol",
+      latex:
+        "Acetaldehyde + NADH + H^+ \\xrightarrow{\\text{Alcohol dehydrogenase}} Ethanol + NAD^+",
+      description: "Step 2 of alcoholic fermentation — reduction to ethanol",
+    },
+    {
+      id: "fermentation-overall",
+      latex:
+        "Glucose + 2\\ ADP + 2\\ P_i \\longrightarrow 2\\ Ethanol + 2\\ CO_2 + 2\\ ATP + 2\\ H_2O",
+      description: "Overall net reaction of alcoholic fermentation",
+    },
+  ],
+  workedExamples: [
+    {
+      id: "fermentation-worked-1",
+      question:
+        "A yeast culture is grown in an airtight flask with glucose. After 24 hours, ethanol and CO₂ are detected. If O₂ is then introduced, what happens to the metabolic rate and ATP yield?",
+      hints: [
+        "What pathway is the yeast using anaerobically?",
+        "What changes when O₂ becomes available?",
+        "How does the ATP yield per glucose compare before and after?",
+      ],
+      solution:
+        "In anaerobic conditions, yeast performs alcoholic fermentation: 2 ATP per glucose from glycolysis, with NAD⁺ regenerated by ethanol production. When O₂ is introduced, yeast switches to aerobic respiration. The Krebs cycle and ETC become active, producing ~36 ATP per glucose. The metabolic rate (glucose consumption) decreases because aerobic respiration is far more efficient — the yeast needs much less glucose to meet energy demands.",
+    },
+  ],
+  externalResources: [
+    {
+      title: "Khan Academy — Fermentation Overview",
+      url: "https://www.khanacademy.org/science/biology/cellular-respiration-and-fermentation/fermentation/v/fermentation",
+      type: "video",
+      description: "Clear introduction to both fermentation types",
+    },
+    {
+      title: "OpenStax Biology 2e — Fermentation",
+      url: "https://openstax.org/books/biology-2e/pages/7-5-fermentation",
+      type: "textbook",
+      description: "Textbook chapter with industrial and food applications",
+    },
+    {
+      title: "Ninja Nerd — Fermentation Lecture",
+      url: "https://www.youtube.com/watch?v=wqCO6dRRK1Q",
+      type: "video",
+      description: "Detailed lecture on lactate and ethanol pathways",
+    },
+  ],
+  highYieldPoints: [
+    "Purpose: regenerate NAD⁺ so glycolysis continues — NO additional ATP beyond glycolysis",
+    "Lactic acid: pyruvate → lactate via lactate dehydrogenase (muscle, some bacteria)",
+    "Alcoholic: pyruvate → acetaldehyde (CO₂ released) → ethanol via alcohol dehydrogenase (yeast, plants)",
+    "Total ATP: 2 per glucose (glycolysis only) — 34-fold less than aerobic respiration",
+    "O₂ presence: Pasteur effect — cells switch from fermentation to respiration when O₂ is available",
+    "Obligate anaerobes die in O₂ (Clostridium); facultative anaerobes switch (yeast, muscle)",
+    "Industrial: bread (CO₂), yogurt (lactic acid), beer/ethanol (alcoholic)",
+  ],
   explanation: (
     <div>
       <p>
-        When oxygen is unavailable, the ETC cannot accept electrons from NADH.
-        Without NAD⁺ regeneration, glycolysis would halt. Fermentation solves
-        this by transferring electrons from NADH back to pyruvate (or a
-        derivative), regenerating NAD⁺.
+        <strong>Fermentation</strong> is an anaerobic pathway that allows cells
+        to continue producing ATP when oxygen is unavailable. It does NOT
+        produce additional ATP — its sole purpose is to{" "}
+        <strong>regenerate NAD⁺</strong> from NADH so that glycolysis can keep
+        running.
       </p>
-      <h3>Lactic Acid Fermentation (Animals, Some Bacteria)</h3>
-      <ul>
-        <li>Pyruvate + NADH → Lactate + NAD⁺</li>
-        <li>
-          Enzyme: <strong>Lactate dehydrogenase (LDH)</strong>
-        </li>
-        <li>No CO₂ produced</li>
-        <li>
-          Occurs in: skeletal muscle during strenuous exercise, red blood cells
-        </li>
-      </ul>
-      <h3>Alcoholic Fermentation (Yeast, Some Plants)</h3>
-      <ul>
-        <li>Pyruvate → Acetaldehyde + CO₂ (pyruvate decarboxylase)</li>
-        <li>Acetaldehyde + NADH → Ethanol + NAD⁺ (alcohol dehydrogenase)</li>
-        <li>CO₂ is released (this is why bread rises)</li>
-      </ul>
-      <h3>Energy Yield</h3>
+
+      <h3>Why Fermentation Exists</h3>
       <p>
-        Only <strong>2 ATP per glucose</strong> (from glycolysis). The
-        fermentation steps themselves produce zero ATP — they only recycle NAD⁺.
+        Glycolysis requires NAD⁺ as an electron acceptor (step 6: G3P →
+        1,3-BPG). Each glucose produces 2 NADH. Without O₂, the ETC cannot
+        recycle NADH back to NAD⁺. Without NAD⁺, glycolysis stalls after a few
+        turns. Fermentation solves this by transferring electrons from NADH to
+        pyruvate (or its derivative), regenerating NAD⁺.
       </p>
+
+      <QuickFire questions={recallQuestions.slice(0, 1)} title="Quick Check" />
+
+      <h3>Lactic Acid Fermentation</h3>
+      <p>
+        Occurs in <strong>animal muscle</strong> during intense exercise and in
+        certain bacteria (<em>Lactobacillus</em>, <em>Streptococcus</em>).
+        Pyruvate is directly reduced to <strong>lactate</strong> by{" "}
+        <strong>lactate dehydrogenase</strong> (LDH), using NADH as the reducing
+        agent.
+      </p>
+
+      <EquationBlock
+        equation={{
+          id: "fermentation-lactic",
+          latex:
+            "Pyruvate + NADH + H^+ \\xrightarrow{\\text{LDH}} Lactate + NAD^+",
+          description: "Lactic acid fermentation",
+        }}
+      />
+
+      <p>
+        Lactate is transported to the liver via the blood (Cori cycle), where it
+        is reconverted to glucose (gluconeogenesis). The idea that lactate
+        causes muscle soreness is outdated — lactate is cleared within an hour
+        of exercise.
+      </p>
+
+      <h3>Alcoholic Fermentation</h3>
+      <p>
+        Occurs in <strong>yeast</strong> and some plants. Pyruvate is first
+        decarboxylated to <strong>acetaldehyde</strong> (releasing CO₂) by{" "}
+        <strong>pyruvate decarboxylase</strong> (requires TPP). Acetaldehyde is
+        then reduced to <strong>ethanol</strong> by{" "}
+        <strong>alcohol dehydrogenase</strong>, regenerating NAD⁺.
+      </p>
+
+      <EquationBlock
+        equation={{
+          id: "fermentation-alcoholic",
+          latex:
+            "Pyruvate \\xrightarrow{\\text{Pyruvate decarboxylase}} Acetaldehyde + CO_2",
+          description: "Step 1: decarboxylation",
+        }}
+      />
+
+      <EquationBlock
+        equation={{
+          id: "fermentation-ethanol",
+          latex:
+            "Acetaldehyde + NADH + H^+ \\xrightarrow{\\text{Alcohol dehydrogenase}} Ethanol + NAD^+",
+          description: "Step 2: reduction to ethanol",
+        }}
+      />
+
+      <QuickFire
+        questions={recallQuestions.slice(1, 2)}
+        title="Check Understanding"
+      />
+
+      <h3>ATP Yield Comparison</h3>
+      <div className="my-4 grid grid-cols-2 gap-3 rounded-lg border bg-card p-4">
+        <div>
+          <h4 className="text-sm font-semibold text-red-500">Fermentation</h4>
+          <p className="text-lg font-bold">2 ATP</p>
+          <p className="text-xs text-muted-foreground">Glycolysis only</p>
+        </div>
+        <div>
+          <h4 className="text-sm font-semibold text-green-500">
+            Aerobic Respiration
+          </h4>
+          <p className="text-lg font-bold">~36 ATP</p>
+          <p className="text-xs text-muted-foreground">
+            Glycolysis + Krebs + ETC
+          </p>
+        </div>
+      </div>
+
+      <h3>The Pasteur Effect</h3>
+      <p>
+        <strong>Louis Pasteur</strong> discovered that yeast consume less sugar
+        when grown aerobically than anaerobically. This makes sense: aerobic
+        respiration yields ~36 ATP per glucose, while fermentation yields only
+        2. When O₂ is present, cells repress fermentation genes and activate
+        oxidative metabolism — a more efficient strategy.
+      </p>
+
+      <h3>Clinical & Industrial Applications</h3>
+      <p>
+        Lactic acid bacteria (LAB) ferment lactose to lactic acid in yogurt,
+        cheese, and sauerkraut production. Sourdough bread relies on a symbiotic
+        culture of
+        <em>Lactobacillus</em> (lactic acid) and <em>Saccharomyces</em> (CO₂).
+        In medicine, elevated blood lactate indicates tissue hypoxia (sepsis,
+        shock) — lactic acidosis is a medical emergency.
+      </p>
+
+      <h3>Worked Example</h3>
+      <div className="grid gap-4">
+        <WorkedExampleCard
+          example={{
+            id: "fermentation-worked-1",
+            question:
+              "A yeast culture is grown in an airtight flask with glucose. After 24 hours, ethanol and CO₂ are detected. If O₂ is then introduced, what happens to the metabolic rate and ATP yield?",
+            hints: [
+              "What pathway is the yeast using anaerobically?",
+              "What changes when O₂ becomes available?",
+              "How does the ATP yield per glucose compare before and after?",
+            ],
+            solution:
+              "In anaerobic conditions, yeast performs alcoholic fermentation: 2 ATP per glucose from glycolysis, with NAD⁺ regenerated by ethanol production. When O₂ is introduced, yeast switches to aerobic respiration. The Krebs cycle and ETC become active, producing ~36 ATP per glucose. The metabolic rate (glucose consumption) decreases because aerobic respiration is far more efficient — the yeast needs much less glucose to meet energy demands.",
+          }}
+        />
+      </div>
+
+      <h3>High-Yield Summary</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {[
+          "Purpose: regenerate NAD⁺, NOT make ATP",
+          "Only 2 ATP (from glycolysis, no extra)",
+          "Lactic: pyruvate → lactate (muscle, bacteria)",
+          "Alcoholic: pyruvate → acetaldehyde → ethanol (yeast)",
+          "Pasteur effect: fermentation off, respiration on in O₂",
+          "Lactate cleared by liver (Cori cycle)",
+          "Obligate vs facultative anaerobes",
+        ].map((point) => (
+          <div
+            key={point}
+            className="flex items-start gap-2 rounded-lg border border-green-500/20 bg-green-500/5 p-2"
+          >
+            <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-green-500" />
+            <span className="text-xs text-muted-foreground">{point}</span>
+          </div>
+        ))}
+      </div>
+
+      <QuickFire questions={recallQuestions.slice(2, 3)} title="Final Check" />
     </div>
   ),
   questions: [
     {
-      id: "ferm-q1",
+      id: "fermentation-q1",
       type: "multiple-choice",
-      prompt:
-        "What is the primary purpose of fermentation in anaerobic conditions?",
+      prompt: "What is the main purpose of fermentation?",
       answer: "Regenerate NAD⁺ so glycolysis can continue",
-      explanation:
-        "Fermentation does not produce additional ATP. It recycles NADH → NAD⁺, which is required for glycolysis to keep running.",
-      difficulty: "apply",
+      difficulty: "recall",
       options: [
-        "Produce additional ATP beyond glycolysis",
+        "Produce additional ATP",
         "Regenerate NAD⁺ so glycolysis can continue",
-        "Convert pyruvate into acetyl-CoA",
-        "Feed electrons into the electron transport chain",
+        "Produce oxygen for the cell",
+        "Break down lactate",
       ],
     },
     {
-      id: "ferm-q2",
-      type: "true-false",
-      prompt: "Lactic acid fermentation produces CO₂ as a by-product.",
-      answer: "False",
-      explanation:
-        "Lactic acid fermentation converts pyruvate directly to lactate without releasing CO₂. Only alcoholic fermentation releases CO₂.",
+      id: "fermentation-q2",
+      type: "multiple-choice",
+      prompt: "How many net ATP are produced by fermentation per glucose?",
+      answer: "2",
       difficulty: "recall",
+      options: ["0", "2", "36", "38"],
     },
     {
-      id: "ferm-q3",
+      id: "fermentation-q3",
+      type: "multiple-choice",
+      prompt: "Which enzyme converts pyruvate to lactate?",
+      answer: "Lactate dehydrogenase",
+      difficulty: "recall",
+      options: [
+        "Alcohol dehydrogenase",
+        "Lactate dehydrogenase",
+        "Pyruvate decarboxylase",
+        "Pyruvate dehydrogenase",
+      ],
+    },
+    {
+      id: "fermentation-q4",
+      type: "multiple-choice",
+      prompt:
+        "Alcoholic fermentation produces which TWO products from pyruvate?",
+      answer: "Ethanol and CO₂",
+      difficulty: "recall",
+      options: [
+        "Ethanol and O₂",
+        "Ethanol and CO₂",
+        "Lactate and CO₂",
+        "Lactate and ethanol",
+      ],
+    },
+    {
+      id: "fermentation-q5",
+      type: "multiple-choice",
+      prompt: "What happens to blood lactate after exercise?",
+      answer: "Transported to liver for gluconeogenesis (Cori cycle)",
+      difficulty: "apply",
+      options: [
+        "Stored in muscle tissue indefinitely",
+        "Excreted in urine",
+        "Transported to liver for gluconeogenesis (Cori cycle)",
+        "Converted directly back to pyruvate in muscles",
+      ],
+      imatYear: 2023,
+    },
+    {
+      id: "fermentation-q6",
       type: "explain-why",
       prompt:
-        "Why can't human muscle cells sustain lactic acid fermentation indefinitely?",
+        "Why can obligate anaerobes only survive in O₂-free environments?",
       answer:
-        "Lactate accumulation lowers intracellular pH, denaturing enzymes and causing muscle fatigue/pain. Additionally, at only 2 ATP/glucose, fermentation cannot meet the energy demands of sustained activity. Lactate must be shuttled to the liver for conversion back to glucose (Cori cycle).",
+        "Obligate anaerobes lack antioxidant enzymes (superoxide dismutase, catalase) to neutralise reactive oxygen species (ROS) produced during aerobic metabolism. O₂ exposure leads to ROS accumulation, damaging proteins, lipids, and DNA.",
       difficulty: "analyze",
     },
   ],
-  crosslinks: ["glycolysis", "electron-transport-chain", "atp"],
+  crosslinks: ["glycolysis", "electron-transport-chain", "krebs-cycle", "atp"],
   prerequisites: ["glycolysis", "atp"],
 };
