@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -24,16 +25,16 @@ export function IMATBreadcrumb({ items }: IMATBreadcrumbProps) {
           <BreadcrumbLink href="/imat">IMAT</BreadcrumbLink>
         </BreadcrumbItem>
         {items.map((item, index) => (
-          <>
-            <BreadcrumbSeparator key={`sep-${index}`} />
-            <BreadcrumbItem key={index}>
+          <Fragment key={index}>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
               {item.href ? (
                 <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
               ) : (
                 <BreadcrumbPage>{item.label}</BreadcrumbPage>
               )}
             </BreadcrumbItem>
-          </>
+          </Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
