@@ -38,3 +38,11 @@
 - **MuseumParticles**: The WebGL2 particle background. Pauses on `prefers-reduced-motion` and on `document.hidden`. Silent fallback to a black background if WebGL2 is unavailable.
 - **MuseumFilterBar**: The tag-pill filter bar above the grid. Multi-select, URL-synced via `?tags=`, with a shuffle and a clear control.
 - **SubmitSiteButton**: A server component that renders an `<a>` linking to a pre-filled `fable5-submission` GitHub Issue. No backend, no form, no email — git-native contribution.
+
+## Source Engine
+
+- **Fable5Candidate**: The typed shape the bot produces when opening an issue (`{ url, demoUrl?, authorHandle, yourHandle?, oneLiner, tags: Fable5Tag[], type: Fable5MentionType, source, discoveredAt }`).
+- **SeenEntry**: One record in `data/.fable5-seen.json` (`{ firstSeen: ISODate, status: "seen"|"accepted"|"rejected", source, issueNumber? }`).
+- **TriageBot**: The GitHub Actions workflow + script that consumes `fable5-accept` / `fable5-reject` / `fable5-accept-force` labels and mutates `data/fable5.ts`.
+- **CrawlJob**: The nightly `fable5-crawl` workflow that fetches Hacker News (Algolia) and Reddit RSS, dedupes, and opens `fable5-submission` issues.
+- **AwesomeSync**: The weekly `fable5-awesome-sync` workflow that pulls the `Anil-matcha/awesome-claude-fable-5` README and opens issues for unseen cases.

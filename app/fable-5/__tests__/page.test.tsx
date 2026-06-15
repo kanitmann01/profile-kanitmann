@@ -82,4 +82,17 @@ describe("Fable 5 Museum page", () => {
     const cards = container.querySelectorAll("[data-museum-card]");
     expect(cards.length).toBeGreaterThan(0);
   });
+
+  it("renders the Last updated line with a date and the refresh glyph", () => {
+    const { container } = render(<Fable5MuseumPage />);
+    const lastUpdated = container.querySelector("[data-last-updated]");
+    expect(lastUpdated).toBeInTheDocument();
+    if (lastUpdated) {
+      expect(lastUpdated.textContent).toMatch(
+        /Last updated: \d{4}-\d{2}-\d{2}/
+      );
+      expect(lastUpdated.textContent).toContain("↻");
+      expect(lastUpdated.className).toMatch(/font-mono/);
+    }
+  });
 });
