@@ -1,50 +1,51 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Volume2, VolumeX } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { TapRipple } from "@/components/tap-ripple"
-import { useTactileFeedback } from "@/components/tactile-feedback-provider"
-import { useState, useEffect } from "react"
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, Volume2, VolumeX } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { TapRipple } from "@/components/tap-ripple";
+import { useTactileFeedback } from "@/components/tactile-feedback-provider";
+import { useState, useEffect } from "react";
 
 export function Navigation() {
-  const pathname = usePathname()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const { isMuted, toggleMute } = useTactileFeedback()
+  const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { isMuted, toggleMute } = useTactileFeedback();
 
   const navItems = [
     { href: "/projects", label: "WORK" },
+    { href: "/fable-5", label: "FABLE 5" },
     { href: "/about", label: "ABOUT" },
     { href: "/articles", label: "ARTICLES" },
     { href: "/contact", label: "CONTACT" },
-  ]
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ""
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = ""
-    }
-  }, [isMobileMenuOpen])
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
-  const closeMobileMenu = () => setIsMobileMenuOpen(false)
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <>
@@ -60,12 +61,17 @@ export function Navigation() {
         )}
       >
         <div className="container mx-auto h-full px-6 flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2 active:scale-95"
-          >
-            <Image src="/logo-mark.svg" alt="" width={22} height={22} className="rounded-sm" />
-            <span className="font-serif text-2xl text-foreground hover:text-primary transition-colors">KANIT</span>
+          <Link href="/" className="flex items-center gap-2 active:scale-95">
+            <Image
+              src="/logo-mark.svg"
+              alt=""
+              width={22}
+              height={22}
+              className="rounded-sm"
+            />
+            <span className="font-serif text-2xl text-foreground hover:text-primary transition-colors">
+              KANIT
+            </span>
             <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full border border-primary/30 font-mono text-[10px] uppercase tracking-wider text-primary">
               Seeking Full-Time Roles
             </span>
@@ -86,7 +92,11 @@ export function Navigation() {
               className="p-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label={isMuted ? "Enable sounds" : "Mute sounds"}
             >
-              {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+              {isMuted ? (
+                <VolumeX className="h-4 w-4" />
+              ) : (
+                <Volume2 className="h-4 w-4" />
+              )}
             </button>
             <ThemeToggle />
           </div>
@@ -97,7 +107,11 @@ export function Navigation() {
               className="p-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label={isMuted ? "Enable sounds" : "Mute sounds"}
             >
-              {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+              {isMuted ? (
+                <VolumeX className="h-4 w-4" />
+              ) : (
+                <Volume2 className="h-4 w-4" />
+              )}
             </button>
             <ThemeToggle />
             <TapRipple>
@@ -106,29 +120,29 @@ export function Navigation() {
                 className="p-2 text-foreground hover:text-primary transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center active:scale-95"
                 aria-label="Toggle mobile menu"
               >
-              <AnimatePresence mode="wait">
-                {isMobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <X className="h-5 w-5" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Menu className="h-5 w-5" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                <AnimatePresence mode="wait">
+                  {isMobileMenuOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <X className="h-5 w-5" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Menu className="h-5 w-5" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </button>
             </TapRipple>
           </div>
@@ -145,7 +159,10 @@ export function Navigation() {
             className="fixed inset-0 z-40 bg-background md:hidden"
           >
             <div className="flex flex-col h-full items-center justify-center">
-              <nav className="flex flex-col items-center gap-8" aria-label="Mobile navigation">
+              <nav
+                className="flex flex-col items-center gap-8"
+                aria-label="Mobile navigation"
+              >
                 {navItems.map((item, index) => (
                   <motion.div
                     key={item.href}
@@ -159,7 +176,9 @@ export function Navigation() {
                       onClick={closeMobileMenu}
                       className={cn(
                         "font-serif text-4xl transition-colors hover:text-primary active:scale-95 min-h-[44px] inline-flex items-center",
-                        pathname === item.href ? "text-primary" : "text-foreground"
+                        pathname === item.href
+                          ? "text-primary"
+                          : "text-foreground"
                       )}
                     >
                       {item.label}
@@ -172,16 +191,26 @@ export function Navigation() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }
 
-function NavLink({ href, label, isActive }: { href: string; label: string; isActive: boolean }) {
+function NavLink({
+  href,
+  label,
+  isActive,
+}: {
+  href: string;
+  label: string;
+  isActive: boolean;
+}) {
   return (
     <Link
       href={href}
       className={cn(
         "relative font-mono text-xs uppercase tracking-wider transition-colors py-2 active:scale-95",
-        isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+        isActive
+          ? "text-primary"
+          : "text-muted-foreground hover:text-foreground"
       )}
     >
       {label}
@@ -192,5 +221,5 @@ function NavLink({ href, label, isActive }: { href: string; label: string; isAct
         )}
       />
     </Link>
-  )
+  );
 }
