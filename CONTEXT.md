@@ -29,3 +29,12 @@
 - **HapticFeedback**: Vibration patterns (10ms button, 20ms like, 15-50-15ms form success). Mobile only, tied to audio mute toggle.
 - **TactileFeedbackProvider**: React Context at app root managing mute state. Persists to localStorage. Provides `useTactileFeedback()` hook.
 
+## Digital Museum
+
+- **Fable5Site**: A typed record for a visual, deployable Claude Fable 5 build in the museum (`data/fable5.ts`). Distinguished from `Fable5Mention` by having a `screenshotUrl` and a `demoUrl` for iframe preview.
+- **Fable5Mention**: A typed record for a non-deployable Fable 5 case (X post, benchmark writeup, tutorial). Renders in the museum's monospace credits list, not in the card grid.
+- **MuseumCard**: The tactile card component for a `Fable5Site`. Uses `next/image` for the poster with fallback, supports tag-chip clicks for filtering, opens the modal on activation.
+- **MuseumModal**: A Radix `Dialog` that previews a `Fable5Site` with a poster first and a lazy-mounted sandboxed iframe on `▶ play live`. Auto-falls back to the poster + "visit site" CTA if the iframe is blocked or errors.
+- **MuseumParticles**: The WebGL2 particle background. Pauses on `prefers-reduced-motion` and on `document.hidden`. Silent fallback to a black background if WebGL2 is unavailable.
+- **MuseumFilterBar**: The tag-pill filter bar above the grid. Multi-select, URL-synced via `?tags=`, with a shuffle and a clear control.
+- **SubmitSiteButton**: A server component that renders an `<a>` linking to a pre-filled `fable5-submission` GitHub Issue. No backend, no form, no email — git-native contribution.
