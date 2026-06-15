@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import { MuseumHero } from "@/components/fable5/museum-hero";
+import { MuseumGrid } from "@/components/fable5/museum-grid";
+import { fable5Sites } from "@/data/fable5";
 
 const TITLE = "Fable 5 Digital Museum | Kanit Mann";
 const DESCRIPTION =
@@ -29,8 +31,9 @@ export default function Fable5MuseumPage() {
   return (
     <div className="min-h-screen bg-background">
       <MuseumHero />
-      {/* grid and details land in slices 4-7 */}
-      <div data-museum-grid-slot />
+      <section className="py-20 px-6">
+        <MuseumGrid sites={fable5Sites} />
+      </section>
     </div>
   );
 }

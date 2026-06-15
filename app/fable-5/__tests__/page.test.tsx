@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeAll } from "vitest";
 
 import Fable5MuseumPage from "@/app/fable-5/page";
 import {
@@ -7,6 +7,22 @@ import {
   fable5Mentions,
   featuredFable5Sites,
 } from "@/data/fable5";
+
+beforeAll(() => {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: vi.fn().mockImplementation((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+});
 
 describe("Fable 5 Museum page", () => {
   it("renders the page", () => {
@@ -53,9 +69,17 @@ describe("Fable 5 Museum page", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the grid slot for later slices", () => {
+  it("renders the museum grid with both featured and all-sites sections", () => {
     const { container } = render(<Fable5MuseumPage />);
-    const slot = container.querySelector("[data-museum-grid-slot]");
-    expect(slot).toBeInTheDocument();
+    const grids = container.querySelectorAll("[data-museum-grid]");
+    expect(grids.length).toBe(2);
+    expect(grids[0].getAttribute("data-museum-grid")).toBe("featured");
+    expect(grids[1].getAttribute("data-museum-grid")).toBe("all");
+  });
+
+  it("renders at least one card in the grid", () => {
+    const { container } = render(<Fable5MuseumPage />);
+    const cards = container.querySelectorAll("[data-museum-card]");
+    expect(cards.length).toBeGreaterThan(0);
   });
 });
