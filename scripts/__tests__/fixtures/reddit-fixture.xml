@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+  <entry>
+    <id>t3_1abcd</id>
+    <title>[Show HN] I built a Three.js solar system with Fable 5</title>
+    <author>
+      <name>redditor1</name>
+    </author>
+    <published>2026-06-15T10:00:00Z</published>
+    <content type="html">&lt;p&gt;Built this with one prompt: &lt;a href="https://example.com/solar-system"&gt;https://example.com/solar-system&lt;/a&gt;&lt;/p&gt;</content>
+    <link href="https://www.reddit.com/r/ClaudeAI/comments/1abcd/show_hn_i_built_a_threejs_solar_system/"/>
+  </entry>
+  <entry>
+    <id>t3_2efgh</id>
+    <title>Fable 5 + Claude Code = insane productivity boost</title>
+    <author>
+      <name>redditor2</name>
+    </author>
+    <published>2026-06-14T14:30:00Z</published>
+    <content type="html">&lt;p&gt;Post about Fable 5 usage in Claude Code, no external link.&lt;/p&gt;</content>
+    <link href="https://www.reddit.com/r/ClaudeAI/comments/2efgh/fable_5_claude_code_productivity/"/>
+  </entry>
+  <entry>
+    <id>t3_3hijk</id>
+    <title>Fable 5 benchmark results are impressive</title>
+    <author>
+      <name>redditor3</name>
+    </author>
+    <published>2026-06-13T09:15:00Z</published>
+    <content type="html">&lt;p&gt;Check out the results: &lt;a href="https://t.co/benchmark123"&gt;https://t.co/benchmark123&lt;/a&gt;&lt;/p&gt;</content>
+    <link href="https://www.reddit.com/r/Anthropic/comments/3hijk/fable_5_benchmark_results/"/>
+  </entry>
+</feed>
