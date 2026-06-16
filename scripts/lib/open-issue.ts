@@ -58,9 +58,10 @@ export function buildIssueBody(candidate: Fable5Candidate): string {
     ? `@${candidate.submitter}`
     : "_unknown_";
   const notes = candidate.notes?.trim() || "_none_";
+  const siteUrl = candidate.demoUrl?.trim() || "_not deployable_";
   const footer = `${FOOTER_PREFIX} ${candidate.source}: ${candidate.sourceUrl}`;
   return [
-    `**Site URL:** ${candidate.demoUrl}`,
+    `**Site URL:** ${siteUrl}`,
     `**Author:** @${candidate.author}`,
     `**Submitter:** ${submitter}`,
     `**One-liner:** ${candidate.oneLiner}`,

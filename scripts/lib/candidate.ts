@@ -6,7 +6,7 @@ export type Fable5Candidate = {
   id: string;
   source: SeenSource;
   sourceUrl: string;
-  demoUrl: string;
+  demoUrl?: string;
   author: string;
   submitter?: string;
   oneLiner: string;
