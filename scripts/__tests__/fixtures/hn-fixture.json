@@ -1,0 +1,32 @@
+{
+  "hits": [
+    {
+      "objectID": "hn-1",
+      "title": "Show HN: One-prompt Three.js black-hole simulation with Fable 5",
+      "url": "https://github.com/example/black-hole-sim",
+      "author": "deveshcodes_",
+      "created_at_i": 1717000000,
+      "story_text": null
+    },
+    {
+      "objectID": "hn-2",
+      "title": "Fable 5 launched a build pipeline in 10 minutes",
+      "url": "https://x.com/intheworldofai/status/2064421915347812672",
+      "author": "hn-submitter-2",
+      "created_at_i": 1717050000,
+      "story_text": null
+    },
+    {
+      "objectID": "hn-3",
+      "title": "Ask HN: Has anyone tried Claude Fable 5 for game dev?",
+      "url": null,
+      "author": "hn-asker",
+      "created_at_i": 1717100000,
+      "story_text": "Looking for pointers..."
+    }
+  ],
+  "nbHits": 3,
+  "page": 0,
+  "nbPages": 1,
+  "hitsPerPage": 20
+}

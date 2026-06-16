@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <title>Reddit Search Results for fable 5 in r/ClaudeAI</title>
+  <link href="https://www.reddit.com/r/ClaudeAI/search?q=fable+5" rel="alternate"/>
+  <updated>2026-06-15T10:00:00+00:00</updated>
+  <id>tag:reddit.com,2005:/search</id>
+  <entry>
+    <title>Built a black hole sim in one Fable 5 prompt</title>
+    <link href="https://www.reddit.com/r/ClaudeAI/comments/abc123/built_a_black_hole_sim/" rel="alternate"/>
+    <id>tag:reddit.com,2005:/r/ClaudeAI/comments/abc123</id>
+    <updated>2026-06-15T09:00:00+00:00</updated>
+    <content:encoded type="html">&lt;p&gt;Check out my new project: &lt;a href="https://github.com/example/black-hole-sim"&gt;repo link&lt;/a&gt;&lt;/p&gt;</content:encoded>
+    <author>
+      <name>/u/deveshcodes_</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Anyone else getting amazing builds with Fable 5?</title>
+    <link href="https://www.reddit.com/r/ClaudeAI/comments/def456/anyone_else/" rel="alternate"/>
+    <id>tag:reddit.com,2005:/r/ClaudeAI/comments/def456</id>
+    <updated>2026-06-15T08:00:00+00:00</updated>
+    <content:encoded type="html">&lt;p&gt;Just an internal link, no external demo.&lt;/p&gt;</content:encoded>
+    <author>
+      <name>/u/curious_dev</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Web OS in one prompt</title>
+    <link href="https://www.reddit.com/r/SideProject/comments/ghi789/web_os_in_one_prompt/" rel="alternate"/>
+    <id>tag:reddit.com,2005:/r/SideProject/comments/ghi789</id>
+    <updated>2026-06-15T07:00:00+00:00</updated>
+    <content:encoded type="html">&lt;p&gt;Demo: &lt;a href="https://github.com/example/web-os"&gt;here&lt;/a&gt;&lt;/p&gt;</content:encoded>
+    <author>
+      <name>/u/intheworldofai</name>
+    </author>
+  </entry>
+</feed>
