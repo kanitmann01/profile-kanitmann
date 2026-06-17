@@ -1,19 +1,47 @@
+export type ArticleKind = "article" | "museum";
+
 export type ArticleMeta = {
-  slug: string
-  title: string
-  description: string
-  summary: string
-  canonicalPath: string
-  heroImage?: string
-  publishedAt: string
-  updatedAt?: string
-  readTime: string
-  tags: string[]
-  keywords?: string[]
-  featuredOnHome?: boolean
-}
+  slug: string;
+  title: string;
+  description: string;
+  summary: string;
+  canonicalPath: string;
+  heroImage?: string;
+  publishedAt: string;
+  updatedAt?: string;
+  readTime: string;
+  tags: string[];
+  keywords?: string[];
+  featuredOnHome?: boolean;
+  kind?: ArticleKind;
+};
+
+export const topArticleSlug: string | undefined = "fable-5";
 
 export const articles: ArticleMeta[] = [
+  {
+    slug: "fable-5",
+    title: "The Fable 5 Digital Museum",
+    description:
+      "A living gallery of what people have built with Claude Fable 5 — one-shot websites, Three.js simulations, single-file operating systems, and games, curated from public demos.",
+    summary:
+      "A curated gallery of public Claude Fable 5 builds: one-shot websites, Three.js simulations, single-file operating systems, and games.",
+    canonicalPath: "/fable-5",
+    heroImage: "/images/articles/fable-5-museum.svg",
+    publishedAt: "2026-06-09",
+    readTime: "5 min browse",
+    tags: ["AI", "Claude", "Showcase", "Three.js"],
+    keywords: [
+      "fable 5",
+      "claude fable 5",
+      "ai showcases",
+      "one-shot websites",
+      "three.js",
+      "claude code",
+    ],
+    featuredOnHome: true,
+    kind: "museum",
+  },
   {
     slug: "three-line-skill",
     title: "The Three-Line Skill That Changed Everything",
@@ -82,7 +110,8 @@ export const articles: ArticleMeta[] = [
   },
   {
     slug: "technical-blog-2",
-    title: "Technical Blog 2: Command Line Interface vs Graphical User Interface",
+    title:
+      "Technical Blog 2: Command Line Interface vs Graphical User Interface",
     description:
       "A practitioner's perspective on the CLI vs GUI debate: when to embrace the terminal, when to grab the mouse, and why a hybrid mindset wins.",
     summary:
@@ -150,15 +179,14 @@ export const articles: ArticleMeta[] = [
       "ASRock",
     ],
   },
-]
+];
 
 export function getArticleBySlug(slug: string): ArticleMeta {
-  const article = articles.find((item) => item.slug === slug)
+  const article = articles.find((item) => item.slug === slug);
 
   if (!article) {
-    throw new Error(`Article with slug "${slug}" not found`)
+    throw new Error(`Article with slug "${slug}" not found`);
   }
 
-  return article
+  return article;
 }
-
