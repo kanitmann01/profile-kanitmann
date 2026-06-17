@@ -1,5 +1,9 @@
 import { isNew, markSeen } from "./lib/seen";
-import { openIssue, type Fable5Candidate, type Fable5Source } from "./lib/open-issue";
+import {
+  openIssue,
+  type Fable5Candidate,
+  type Fable5Source,
+} from "./lib/open-issue";
 import { log } from "./lib/log";
 import type { Fable5MentionType } from "../data/fable5";
 
@@ -14,7 +18,7 @@ export function parseCases(markdown: string): ParseResult {
   const cases: Fable5Candidate[] = [];
   const errors: string[] = [];
 
-  const sections = markdown.split(/\n---+\n/);
+  const sections = markdown.split(/\r?\n---+\r?\n/);
 
   for (const section of sections) {
     const caseMatch = section.match(
@@ -40,7 +44,9 @@ export function parseCases(markdown: string): ParseResult {
     const headerIdx = bodyLines.findIndex((l) => l.startsWith("### Case"));
     const boldLine =
       headerIdx >= 0
-        ? bodyLines.slice(headerIdx + 1).find((l) => l.startsWith("**") && l.endsWith("**"))
+        ? bodyLines
+            .slice(headerIdx + 1)
+            .find((l) => l.startsWith("**") && l.endsWith("**"))
         : null;
     const oneLiner = boldLine?.replace(/\*\*/g, "").trim() ?? "";
 
@@ -58,7 +64,7 @@ export function parseCases(markdown: string): ParseResult {
 
   // If no sections matched via ---, try parsing case-by-case
   if (cases.length === 0) {
-    const caseBlocks = markdown.split(/(?=\n### Case \d+:)/);
+    const caseBlocks = markdown.split(/(?=\r?\n### Case \d+:)/);
     for (const block of caseBlocks) {
       const caseMatch = block.match(
         /### Case (\d+): \[([^\]]+)\]\(([^)]+)\)\s+\(by\s+\[@([^\]]+)\]/
@@ -83,7 +89,9 @@ export function parseCases(markdown: string): ParseResult {
       const headerIdx = lines.findIndex((l) => l.startsWith("### Case"));
       const boldLine =
         headerIdx >= 0
-          ? lines.slice(headerIdx + 1).find((l) => l.startsWith("**") && l.endsWith("**"))
+          ? lines
+              .slice(headerIdx + 1)
+              .find((l) => l.startsWith("**") && l.endsWith("**"))
           : null;
       const oneLiner = boldLine?.replace(/\*\*/g, "").trim() ?? "";
 
