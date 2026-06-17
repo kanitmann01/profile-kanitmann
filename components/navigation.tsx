@@ -19,7 +19,6 @@ export function Navigation() {
 
   const navItems = [
     { href: "/projects", label: "WORK" },
-    { href: "/fable-5", label: "FABLE 5" },
     { href: "/about", label: "ABOUT" },
     { href: "/articles", label: "ARTICLES" },
     { href: "/contact", label: "CONTACT" },
