@@ -1,0 +1,28 @@
+{
+  "hits": [
+    {
+      "title": "Claude Fable 5 just replicated GitHub from a screenshot",
+      "url": "https://x.com/coldopn/status/2064435234465087638",
+      "author": "coldopn",
+      "points": 245,
+      "created_at_i": 1718524800
+    },
+    {
+      "title": "I let Fable 5 build a Minecraft clone in 37 minutes",
+      "url": "https://x.com/ydamitcodes/status/2064536076518363353",
+      "author": "ydamitcodes",
+      "points": 189,
+      "created_at_i": 1718535000
+    },
+    {
+      "title": "Discussion thread about Fable 5 capabilities",
+      "url": null,
+      "author": "hackernewsuser",
+      "points": 120,
+      "created_at_i": 1718540000
+    }
+  ],
+  "nbHits": 3,
+  "page": 0,
+  "nbPages": 1
+}

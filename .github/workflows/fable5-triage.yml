@@ -1,0 +1,28 @@
+name: Fable 5 Triage Bot
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  fable5-triage:
+    if: |
+      github.event.label.name == 'fable5-accept' ||
+      github.event.label.name == 'fable5-accept-force' ||
+      github.event.label.name == 'fable5-reject'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx tsx scripts/triage-bot.ts
+        env:
+          FABLE5_TRIAGE_MODE: pr

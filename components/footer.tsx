@@ -1,17 +1,26 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { cn } from "@/lib/utils"
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+
+const FABLE5_CREDIT = {
+  label: "awesome-claude-fable-5",
+  href: "https://github.com/anil-matcha/awesome-claude-fable-5",
+};
 
 const socialLinks = [
   { label: "Email", href: "mailto:kanitmann01@gmail.com" },
   { label: "GitHub", href: "https://github.com/kanitmann01", external: true },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/kanitmann", external: true },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/kanitmann",
+    external: true,
+  },
   { label: "Resume", href: "/Kanit Mann - Resume.pdf", download: true },
-]
+];
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="relative border-t-2 border-primary bg-card overflow-hidden">
@@ -38,12 +47,17 @@ export function Footer() {
             </p>
           </div>
 
-          <nav className="flex flex-wrap gap-x-6 gap-y-3" aria-label="Social links">
+          <nav
+            className="flex flex-wrap gap-x-6 gap-y-3"
+            aria-label="Social links"
+          >
             {socialLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                {...(link.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
                 {...(link.download ? { download: true } : {})}
                 className={cn(
                   "relative font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors min-h-[44px] inline-flex items-center active:scale-95",
@@ -51,13 +65,24 @@ export function Footer() {
                 )}
               >
                 {link.label}
-                <span
-                  className="absolute bottom-0 left-0 h-px w-full bg-primary scale-x-0 hover:scale-x-100 transition-transform duration-300 ease-out origin-left"
-                />
+                <span className="absolute bottom-0 left-0 h-px w-full bg-primary scale-x-0 hover:scale-x-100 transition-transform duration-300 ease-out origin-left" />
               </Link>
             ))}
           </nav>
         </div>
+
+        <p className="mt-6 text-xs text-muted-foreground font-mono text-center">
+          data sourced from{" "}
+          <Link
+            href={FABLE5_CREDIT.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:text-foreground transition-colors"
+          >
+            {FABLE5_CREDIT.label}
+          </Link>{" "}
+          by Anil-matcha · MIT
+        </p>
 
         <div className="mt-12 pt-6 border-t border-border/30">
           <p className="font-mono text-xs text-muted-foreground text-center">
@@ -66,5 +91,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
