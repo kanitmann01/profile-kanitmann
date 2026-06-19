@@ -1,0 +1,109 @@
+[
+  {
+    "id": "github-replica",
+    "sourceUrl": "https://x.com/coldopn/status/2064435234465087638",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064435234465087638",
+    "screenshotUrl": "/public/images/fable5/github-replica.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "black-hole-sim",
+    "sourceUrl": "https://x.com/deveshcodes_/status/2064437742189379745",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064437742189379745",
+    "screenshotUrl": "/public/images/fable5/black-hole-sim.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "macos-web-os",
+    "sourceUrl": "https://x.com/intheworldofai/status/2064421915347812672",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064421915347812672",
+    "screenshotUrl": "/public/images/fable5/macos-web-os.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "spawn-5",
+    "sourceUrl": "https://x.com/jsnnsa/status/2064420561078693941",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064420561078693941",
+    "screenshotUrl": "/public/images/fable5/spawn-5.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "tenex-rebuild",
+    "sourceUrl": "https://x.com/JJEnglert/status/2064469635190170105",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064469635190170105",
+    "screenshotUrl": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect width='1200' height='630' fill='%23111'/><text x='50%' y='50%' fill='%23888' font-family='monospace' font-size='24' text-anchor='middle' dominant-baseline='middle'>FABLE 5</text></svg>",
+    "screenshotStatus": "missing",
+    "notes": "No media in tweet"
+  },
+  {
+    "id": "finger-dino",
+    "sourceUrl": "https://x.com/ai_for_success/status/2064413182396108932",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064413182396108932",
+    "screenshotUrl": "/public/images/fable5/finger-dino.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "mario-kart",
+    "sourceUrl": "https://x.com/kieradev/status/2064482704763085202",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064482704763085202",
+    "screenshotUrl": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect width='1200' height='630' fill='%23111'/><text x='50%' y='50%' fill='%23888' font-family='monospace' font-size='24' text-anchor='middle' dominant-baseline='middle'>FABLE 5</text></svg>",
+    "screenshotStatus": "missing",
+    "notes": "No media in tweet"
+  },
+  {
+    "id": "termcraft-3d",
+    "sourceUrl": "https://x.com/vikvang1/status/2064500731848319303",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064500731848319303",
+    "screenshotUrl": "/public/images/fable5/termcraft-3d.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "minecraft-clone",
+    "sourceUrl": "https://x.com/ydamitcodes/status/2064536076518363353",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064536076518363353",
+    "screenshotUrl": "/public/images/fable5/minecraft-clone.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "mvmt-email",
+    "sourceUrl": "https://x.com/ecomchasedimond/status/2064454139225297091",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064454139225297091",
+    "screenshotUrl": "/public/images/fable5/mvmt-email.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "swiss-watchmaker",
+    "sourceUrl": "https://x.com/quanghuynt14/status/2064509430650065278",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064509430650065278",
+    "screenshotUrl": "/public/images/fable5/swiss-watchmaker.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "friends-apartment",
+    "sourceUrl": "https://x.com/scottstts/status/2064464351906673029",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064464351906673029",
+    "screenshotUrl": "/public/images/fable5/friends-apartment.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "solar-system",
+    "sourceUrl": "https://x.com/tetumemo/status/2064477582930989357",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064477582930989357",
+    "screenshotUrl": "/public/images/fable5/solar-system.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "site-design-audit",
+    "sourceUrl": "https://x.com/Voxyz_ai/status/2064441201084825921",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064441201084825921",
+    "screenshotUrl": "/public/images/fable5/site-design-audit.jpg",
+    "screenshotStatus": "downloaded"
+  },
+  {
+    "id": "s1-drafting",
+    "sourceUrl": "https://x.com/gabepereyra/status/2064436570720284879",
+    "demoUrl": "https://platform.twitter.com/embed/Tweet.html?id=2064436570720284879",
+    "screenshotUrl": "/public/images/fable5/s1-drafting.jpg",
+    "screenshotStatus": "downloaded"
+  }
+]
