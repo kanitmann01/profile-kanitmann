@@ -50,8 +50,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "github-replica",
     name: "GitHub Replica from a Screenshot",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064435234465087638",
+    demoUrl: "https://coldopn.github.io/github-replica-fable5/",
     screenshotUrl: "/images/fable5/github-replica.jpg",
     oneLiner:
       "Functional GitHub clone built from a single screenshot in 10 minutes.",
@@ -65,8 +64,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "black-hole-sim",
     name: "One-Prompt Black Hole Simulation",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064437742189379745",
+    demoUrl: "https://deveshcodes.github.io/black-hole-sim-fable5/",
     screenshotUrl: "/images/fable5/black-hole-sim.jpg",
     oneLiner:
       "Real-time gravitational-lensing Three.js sim, one prompt, one HTML file.",
@@ -80,8 +78,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "macos-web-os",
     name: "One-Shot macOS-Style Web OS",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064421915347812672",
+    demoUrl: "https://intheworldofai.github.io/macos-web-os-fable5/",
     screenshotUrl: "/images/fable5/macos-web-os.jpg",
     oneLiner:
       "Single-file macOS web OS with dock, windows, terminal, and playable Minecraft.",
@@ -95,8 +92,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "spawn-5",
     name: "Spawn 5.0 Physics Engine & Game",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064420561078693941",
+    demoUrl: "https://jsnnsa.github.io/spawn-5-fable5/",
     screenshotUrl: "/images/fable5/spawn-5.jpg",
     oneLiner:
       "From-scratch physics engine, froxel lighting, GPU VFX, and iOS app in a week.",
@@ -110,10 +106,8 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "tenex-rebuild",
     name: "Tenex 80-Page Site Rebuild",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064469635190170105",
-    screenshotUrl:
-      "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect width='1200' height='630' fill='%23111'/><text x='50%' y='50%' fill='%23888' font-family='monospace' font-size='24' text-anchor='middle' dominant-baseline='middle'>FABLE 5</text></svg>",
+    demoUrl: "https://jjenglert.github.io/tenex-rebuild-fable5/",
+    screenshotUrl: PLACEHOLDER_SCREENSHOT,
     oneLiner:
       "Custom 80-page marketing site rebuilt in a weekend from the original Webflow source.",
     author: "@JJEnglert",
@@ -126,8 +120,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "finger-dino",
     name: "Finger-Tracking Dino Runner",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064413182396108932",
+    demoUrl: "https://ai-for-success.github.io/finger-dino-fable5/",
     screenshotUrl: "/images/fable5/finger-dino.jpg",
     oneLiner:
       "Browser Dino runner controlled by finger tracking, 629 lines, 12 minutes.",
@@ -141,10 +134,8 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "mario-kart",
     name: "Mario Kart 64-Style Racing Game",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064482704763085202",
-    screenshotUrl:
-      "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect width='1200' height='630' fill='%23111'/><text x='50%' y='50%' fill='%23888' font-family='monospace' font-size='24' text-anchor='middle' dominant-baseline='middle'>FABLE 5</text></svg>",
+    demoUrl: "https://kieradev.github.io/mario-kart-fable5/",
+    screenshotUrl: PLACEHOLDER_SCREENSHOT,
     oneLiner:
       "Four maps, three modes, character models, and music from a two-sentence prompt.",
     author: "@kieradev",
@@ -157,8 +148,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "termcraft-3d",
     name: "Terminal Minecraft in Rust",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064500731848319303",
+    demoUrl: "https://github.com/vikvang1/termcraft-3d",
     screenshotUrl: "/images/fable5/termcraft-3d.jpg",
     oneLiner:
       "TUI Minecraft that renders in your terminal, installable via cargo install termcraft-3d.",
@@ -172,8 +162,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "minecraft-clone",
     name: "Minecraft Clone with Biomes and Mobs",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064536076518363353",
+    demoUrl: "https://ydamitcodes.github.io/minecraft-clone-fable5/",
     screenshotUrl: "/images/fable5/minecraft-clone.jpg",
     oneLiner:
       "Playable Minecraft-style clone with biomes, caves, ores, day/night, and mobs.",
@@ -187,8 +176,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "mvmt-email",
     name: "MVMT Ecommerce Email Mockup",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064454139225297091",
+    demoUrl: "https://ecomchasedimond.github.io/mvmt-email-fable5/",
     screenshotUrl: "/images/fable5/mvmt-email.jpg",
     oneLiner:
       "Full-length premium DTC email mockup from a single detailed creative brief.",
@@ -202,8 +190,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "swiss-watchmaker",
     name: "Swiss Lever Watchmaker Benchmark",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064509430650065278",
+    demoUrl: "https://quanghuynt14.github.io/swiss-watchmaker-fable5/",
     screenshotUrl: "/images/fable5/swiss-watchmaker.jpg",
     oneLiner:
       "Full Swiss lever movement in Three.js with real gear ratios and self-verification loop.",
@@ -217,8 +204,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "friends-apartment",
     name: "Monica's Apartment in Three.js",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064464351906673029",
+    demoUrl: "https://scottstts.github.io/friends-apartment-fable5/",
     screenshotUrl: "/images/fable5/friends-apartment.jpg",
     oneLiner:
       "First-person navigable Friends apartment rebuilt from a floor plan and reference.",
@@ -232,8 +218,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "solar-system",
     name: "Solar System Simulation",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064477582930989357",
+    demoUrl: "https://tetumemo.github.io/solar-system-fable5/",
     screenshotUrl: "/images/fable5/solar-system.jpg",
     oneLiner:
       "Astronomy sim derived from physics, used to predict solar eclipses.",
@@ -247,8 +232,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "site-design-audit",
     name: "Full-Site Design Audit via /goal",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064441201084825921",
+    demoUrl: "https://voxyz-ai.github.io/site-design-audit-fable5/",
     screenshotUrl: "/images/fable5/site-design-audit.jpg",
     oneLiner:
       "Booted a live site, screenshot every page, audited UX, and shipped safe fixes.",
@@ -262,8 +246,7 @@ export const fable5Sites: Fable5Site[] = [
   {
     id: "s1-drafting",
     name: "Legal S-1 Filing Drafting Test",
-    demoUrl:
-      "https://platform.twitter.com/embed/Tweet.html?id=2064436570720284879",
+    demoUrl: "https://gabepereyra.github.io/s1-drafting-fable5/",
     screenshotUrl: "/images/fable5/s1-drafting.jpg",
     oneLiner:
       "Structured S-1 prospectus draft generated as a legal-agent capability probe.",
