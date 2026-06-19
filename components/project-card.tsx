@@ -8,22 +8,14 @@ import Link from "next/link"
 import Image from "next/image"
 import { ScaleOnHover } from "@/components/animations/scale-on-hover"
 import { LinkChip } from "@/components/link-chip"
-import { LikeButton } from "@/components/like-button"
-import { useLikeItem } from "@/hooks/use-like-item"
 import { ProjectCardInteractive } from "@/components/project-card-interactive"
 import type { Project } from "@/data/projects"
 
 interface ProjectCardProps {
   project: Project
-  likeCount?: number
 }
 
-function LikeButtonBridge({ slug, initialCount }: { slug: string; initialCount: number }) {
-  const { count, isLiked, isPending, toggle } = useLikeItem(slug, initialCount)
-  return <LikeButton count={count} isLiked={isLiked} isPending={isPending} onToggle={toggle} variant="compact" />
-}
-
-export function ProjectCard({ project, likeCount = 0 }: ProjectCardProps) {
+export function ProjectCard({ project }: ProjectCardProps) {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "Live":
@@ -98,13 +90,7 @@ export function ProjectCard({ project, likeCount = 0 }: ProjectCardProps) {
               </div>
             </ProjectCardInteractive>
           </div>
-          {project.slug && (
-            <div className="flex justify-end">
-              <ProjectCardInteractive>
-                <LikeButtonBridge slug={project.slug} initialCount={likeCount} />
-              </ProjectCardInteractive>
-            </div>
-          )}
+
         </CardContent>
       </Card>
     </ScaleOnHover>

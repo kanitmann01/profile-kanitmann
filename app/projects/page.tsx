@@ -7,7 +7,6 @@ import { motion } from "framer-motion"
 import { FadeIn } from "@/components/animations/fade-in"
 import { LinkChip } from "@/components/link-chip"
 import { projects } from "@/data/projects"
-import { useLikes } from "@/hooks/use-likes"
 import {
   Select,
   SelectContent,
@@ -20,20 +19,11 @@ type SortOption = "recent" | "popular"
 
 function ProjectsContent() {
   const [sortBy, setSortBy] = useState<SortOption>("recent")
-  const { likes, updateLikeCount } = useLikes()
 
   const sortedProjects = useMemo(() => {
-    const projectsWithLikes = projects.map((project) => ({
-      ...project,
-      likeCount: likes[project.slug] || 0,
-    }))
-
-    if (sortBy === "popular") {
-      return projectsWithLikes.sort((a, b) => b.likeCount - a.likeCount)
-    }
-
-    return projectsWithLikes.sort((a, b) => b.order - a.order)
-  }, [sortBy, likes])
+    // Without server-side likes, sort by order only
+    return [...projects].sort((a, b) => b.order - a.order)
+  }, [sortBy])
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
@@ -61,7 +51,6 @@ function ProjectsContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="recent">Most Recent</SelectItem>
-                <SelectItem value="popular">Most Liked</SelectItem>
               </SelectContent>
             </Select>
           </div>

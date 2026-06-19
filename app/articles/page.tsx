@@ -4,10 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { articles, topArticleSlug, type ArticleMeta } from "@/data/articles";
-import { LikeButton } from "@/components/like-button";
 import { LinkChip } from "@/components/link-chip";
-import { useLikeItem } from "@/hooks/use-like-item";
-import { useLikes } from "@/hooks/use-likes";
 import { ProjectCardInteractive } from "@/components/project-card-interactive";
 import {
   Select,
@@ -19,27 +16,6 @@ import {
 
 type SortOption = "recent" | "popular";
 
-type ArticleWithLikes = ArticleMeta & { likeCount: number };
-
-function LikeButtonBridge({
-  slug,
-  initialCount,
-}: {
-  slug: string;
-  initialCount: number;
-}) {
-  const { count, isLiked, isPending, toggle } = useLikeItem(slug, initialCount);
-  return (
-    <LikeButton
-      count={count}
-      isLiked={isLiked}
-      isPending={isPending}
-      onToggle={toggle}
-      variant="compact"
-    />
-  );
-}
-
 function MuseumBadge() {
   return (
     <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground border border-border rounded-full px-2 py-0.5 ml-2 align-middle">
@@ -50,33 +26,19 @@ function MuseumBadge() {
 
 export default function Articles() {
   const [sortBy, setSortBy] = useState<SortOption>("recent");
-  const { likes } = useLikes();
 
   const sortedArticles = useMemo(() => {
-    const articlesWithLikes = articles.map((article) => ({
-      ...article,
-      likeCount: likes[article.slug] || 0,
-    }));
-
-    if (sortBy === "popular") {
-      return articlesWithLikes.sort((a, b) => b.likeCount - a.likeCount);
-    }
-
-    return articlesWithLikes.sort(
+    // Without server-side likes, sort by recent only
+    return [...articles].sort(
       (a, b) =>
         new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
-  }, [sortBy, likes]);
+  }, [sortBy]);
 
   const topArticle: ArticleMeta =
     (topArticleSlug && articles.find((a) => a.slug === topArticleSlug)) ||
     articles.find((a) => a.featuredOnHome) ||
     articles[0];
-
-  const topArticleWithLikes: ArticleWithLikes = {
-    ...topArticle,
-    likeCount: likes[topArticle.slug] || 0,
-  };
 
   const otherArticles = sortedArticles.filter(
     (a) => a.slug !== topArticle.slug
@@ -122,14 +84,14 @@ export default function Articles() {
         </div>
 
         <Link
-          href={topArticleWithLikes.canonicalPath}
+          href={topArticle.canonicalPath}
           className="group block mb-16"
         >
           <article className="relative overflow-hidden">
             <div className="relative h-[400px] w-full overflow-hidden">
               <Image
-                src={topArticleWithLikes.heroImage || "/placeholder.jpg"}
-                alt={topArticleWithLikes.title}
+                src={topArticle.heroImage || "/placeholder.jpg"}
+                alt={topArticle.title}
                 fill
                 className="object-cover"
                 priority
@@ -141,25 +103,19 @@ export default function Articles() {
                 <span className="font-mono text-xs text-primary uppercase tracking-wider">
                   Featured
                 </span>
-                {topArticleWithLikes.kind === "museum" && <MuseumBadge />}
+                {topArticle.kind === "museum" && <MuseumBadge />}
               </div>
               <h2 className="font-serif text-4xl md:text-5xl text-foreground mt-3 mb-4 leading-tight group-hover:text-primary transition-colors duration-300">
-                {topArticleWithLikes.title}
-                <LinkChip path={topArticleWithLikes.canonicalPath} />
+                {topArticle.title}
+                <LinkChip path={topArticle.canonicalPath} />
               </h2>
               <p className="font-serif text-lg text-muted-foreground italic max-w-2xl mb-4">
-                {topArticleWithLikes.description}
+                {topArticle.description}
               </p>
               <div className="flex items-center gap-4 font-mono text-xs text-muted-foreground">
-                <time>{formatDate(topArticleWithLikes.publishedAt)}</time>
+                <time>{formatDate(topArticle.publishedAt)}</time>
                 <span className="text-border">|</span>
-                <span>{topArticleWithLikes.readTime}</span>
-                {topArticleWithLikes.likeCount > 0 && (
-                  <>
-                    <span className="text-border">|</span>
-                    <span>{topArticleWithLikes.likeCount} likes</span>
-                  </>
-                )}
+                <span>{topArticle.readTime}</span>
               </div>
             </div>
           </article>
@@ -188,22 +144,9 @@ export default function Articles() {
                       <time>{formatDate(article.publishedAt)}</time>
                       <span className="text-border">|</span>
                       <span>{article.readTime}</span>
-                      {article.likeCount > 0 && (
-                        <>
-                          <span className="text-border">|</span>
-                          <span>{article.likeCount} likes</span>
-                        </>
-                      )}
                     </div>
                   </div>
-                  <div className="flex-shrink-0 pt-1">
-                    <ProjectCardInteractive>
-                      <LikeButtonBridge
-                        slug={article.slug}
-                        initialCount={article.likeCount}
-                      />
-                    </ProjectCardInteractive>
-                  </div>
+
                 </div>
               </article>
             </Link>
