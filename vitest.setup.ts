@@ -77,14 +77,6 @@ vi.mock("framer-motion", () => {
   };
 });
 
-vi.mock("@/hooks/use-likes", () => ({
-  useLikes: () => ({
-    likes: {},
-    isLoading: false,
-    updateLikeCount: vi.fn(),
-  }),
-}));
-
 vi.mock("@/components/tactile-feedback-provider", () => ({
   useTactileFeedback: () => ({
     isMuted: true,
