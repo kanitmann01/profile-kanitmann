@@ -27,12 +27,44 @@ function extractTweetIdFromUrl(url: string): string | null {
   return match ? match[1] : null;
 }
 
-function getIframeSrc(site: Fable5Site): string {
+function isEmbeddableUrl(url: string): boolean {
+  // URLs that can be embedded in iframes
+  const embeddableHosts = [
+    "github.io",
+    "vercel.app",
+    "netlify.app",
+    "pages.dev",
+    "web.app",
+    "replit.com",
+    "stackblitz.com",
+    "codepen.io",
+    "glitch.me",
+    "platform.twitter.com",
+    "example.com", // For testing
+  ];
+  
+  try {
+    const urlObj = new URL(url);
+    return embeddableHosts.some(host => urlObj.hostname.includes(host));
+  } catch {
+    return false;
+  }
+}
+
+function getIframeSrc(site: Fable5Site): string | null {
+  // For Twitter/X URLs, extract the tweet ID and use the embed URL
   const tweetId = extractTweetIdFromUrl(site.demoUrl);
   if (tweetId) {
     return `https://platform.twitter.com/embed/Tweet.html?id=${tweetId}`;
   }
-  return site.demoUrl;
+  
+  // Check if the URL can be embedded
+  if (isEmbeddableUrl(site.demoUrl)) {
+    return site.demoUrl;
+  }
+  
+  // For non-embeddable URLs (like github.com repos), return null
+  return null;
 }
 
 export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
@@ -86,26 +118,52 @@ export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
   }, [playState, clearPlayTimeout]);
 
   const handlePlayClick = React.useCallback(() => {
+    // Don't try to play if the site can't be embedded
+    if (!isEmbeddable) {
+      // Open the demoUrl directly in a new tab
+      if (typeof window !== "undefined") {
+        window.open(site.demoUrl, "_blank", "noopener,noreferrer");
+      }
+      return;
+    }
+    
     setPlayState("playing");
     clearPlayTimeout();
     timeoutRef.current = setTimeout(() => {
       setPlayState((current) => (current === "playing" ? "error" : current));
       timeoutRef.current = null;
     }, PLAY_TIMEOUT_MS);
-  }, [clearPlayTimeout]);
+  }, [clearPlayTimeout, isEmbeddable, site.demoUrl]);
 
   if (!open || !site) {
     return null;
   }
 
+  const iframeSrc = getIframeSrc(site);
+  const isEmbeddable = iframeSrc !== null;
+
   const renderMedia = () => {
     if (playState === "playing") {
+      if (!isEmbeddable) {
+        return (
+          <div
+            data-testid="museum-iframe-error"
+            className="relative aspect-[16/10] w-full bg-zinc-900 flex items-center justify-center px-6"
+          >
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground text-center">
+              This site can&apos;t be embedded. Use the link below to open it
+              directly.
+            </p>
+          </div>
+        );
+      }
+      
       return (
         <div className="relative aspect-[16/10] w-full bg-black">
           <iframe
             ref={iframeRef}
             data-museum-iframe
-            src={getIframeSrc(site)}
+            src={iframeSrc!}
             sandbox="allow-scripts allow-same-origin allow-forms"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             loading="lazy"
