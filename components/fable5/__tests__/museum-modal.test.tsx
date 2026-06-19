@@ -105,6 +105,27 @@ describe("MuseumModal", () => {
     expect(iframe).toHaveAttribute("referrerpolicy", "no-referrer");
   });
 
+  it("uses the embed URL for X posts", () => {
+    const xSite: Fable5Site = {
+      ...mockSite,
+      demoUrl: "https://x.com/testauthor/status/123",
+    };
+    const onOpenChange = vi.fn();
+    render(
+      <MuseumModal site={xSite} open={true} onOpenChange={onOpenChange} />
+    );
+
+    const playButton = screen.getByRole("button", { name: /play live/i });
+    fireEvent.click(playButton);
+
+    const iframe = document.querySelector("iframe");
+    expect(iframe).toBeInTheDocument();
+    expect(iframe).toHaveAttribute(
+      "src",
+      "https://platform.twitter.com/embed/Tweet.html?id=123"
+    );
+  });
+
   it("unmounts the iframe and shows error state when iframe onError fires", () => {
     const onOpenChange = vi.fn();
     render(

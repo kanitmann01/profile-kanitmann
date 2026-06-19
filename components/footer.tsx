@@ -3,11 +3,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const FABLE5_CREDIT = {
-  label: "awesome-claude-fable-5",
-  href: "https://github.com/anil-matcha/awesome-claude-fable-5",
-};
-
 const socialLinks = [
   { label: "Email", href: "mailto:kanitmann01@gmail.com" },
   { label: "GitHub", href: "https://github.com/kanitmann01", external: true },
@@ -70,19 +65,6 @@ export function Footer() {
             ))}
           </nav>
         </div>
-
-        <p className="mt-6 text-xs text-muted-foreground font-mono text-center">
-          data sourced from{" "}
-          <Link
-            href={FABLE5_CREDIT.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline underline-offset-2 hover:text-foreground transition-colors"
-          >
-            {FABLE5_CREDIT.label}
-          </Link>{" "}
-          by Anil-matcha · MIT
-        </p>
 
         <div className="mt-12 pt-6 border-t border-border/30">
           <p className="font-mono text-xs text-muted-foreground text-center">
