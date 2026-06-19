@@ -60,7 +60,6 @@ export default async function ArticlePage({ params }: Params) {
 
           <FadeIn className="mb-16">
             <ArticleHeader
-              articleSlug={article.slug}
               title={article.title}
               description={article.summary}
               publishedAt={article.publishedAt}
