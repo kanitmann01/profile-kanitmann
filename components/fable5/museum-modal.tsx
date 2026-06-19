@@ -22,6 +22,19 @@ export interface MuseumModalProps {
 
 const PLAY_TIMEOUT_MS = 6000;
 
+function extractTweetIdFromUrl(url: string): string | null {
+  const match = url.match(/x\.com\/[^/]+\/status\/(\d+)/);
+  return match ? match[1] : null;
+}
+
+function getIframeSrc(site: Fable5Site): string {
+  const tweetId = extractTweetIdFromUrl(site.demoUrl);
+  if (tweetId) {
+    return `https://platform.twitter.com/embed/Tweet.html?id=${tweetId}`;
+  }
+  return site.demoUrl;
+}
+
 export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
   const [playState, setPlayState] = React.useState<PlayState>("poster");
   const [imageFailed, setImageFailed] = React.useState(false);
@@ -92,7 +105,7 @@ export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
           <iframe
             ref={iframeRef}
             data-museum-iframe
-            src={site.demoUrl}
+            src={getIframeSrc(site)}
             sandbox="allow-scripts allow-same-origin allow-forms"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             loading="lazy"

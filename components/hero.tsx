@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useRef, useState, useCallback } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
-import Image from "next/image"
-import { TactileButton } from "@/components/tactile-button"
+import { useRef, useState, useCallback } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
+import { TactileButton } from "@/components/tactile-button";
 
 declare global {
   interface Window {
     Calendly?: {
-      initPopupWidget: (options: { url: string }) => void
-    }
+      initPopupWidget: (options: { url: string }) => void;
+    };
   }
 }
 
@@ -43,39 +43,36 @@ function ScrollIndicator() {
         </svg>
       </div>
     </motion.div>
-  )
+  );
 }
 
 function openCalendly() {
   if (typeof window !== "undefined" && window.Calendly) {
     window.Calendly.initPopupWidget({
       url: "https://calendly.com/mannkanit/connect-with-kanit",
-    })
+    });
   }
 }
 
 export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 })
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
-  })
+  });
 
-  const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.9])
-  const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5])
+  const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!containerRef.current) return
-      const rect = containerRef.current.getBoundingClientRect()
-      const x = ((e.clientX - rect.left) / rect.width) * 100
-      const y = ((e.clientY - rect.top) / rect.height) * 100
-      setGlowPos({ x, y })
-    },
-    []
-  )
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setGlowPos({ x, y });
+  }, []);
 
   return (
     <section
@@ -141,7 +138,9 @@ export function Hero() {
           className="mt-2 flex items-center gap-3 flex-wrap"
         >
           <p className="font-sans text-2xl md:text-4xl">
-            <span className="font-bold text-primary">MS, University of Arizona.</span>
+            <span className="font-bold text-primary">
+              MS, University of Arizona.
+            </span>
           </p>
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-sm font-mono text-muted-foreground">
             <span className="w-2 h-2 rounded-full bg-green-500" />
@@ -165,6 +164,7 @@ export function Hero() {
       </div>
 
       <ScrollIndicator />
+      {/* InteractiveMascot is temporarily hidden - component exists at components/interactive-mascot.tsx with full emotion state machine, click interactions, and particle effects. Re-enable when ready to integrate. */}
     </section>
-  )
+  );
 }
