@@ -117,11 +117,18 @@ export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
     };
   }, [playState, clearPlayTimeout]);
 
+  if (!open || !site) {
+    return null;
+  }
+
+  const iframeSrc = getIframeSrc(site);
+  const isEmbeddable = iframeSrc !== null;
+
   const handlePlayClick = React.useCallback(() => {
     // Don't try to play if the site can't be embedded
-    if (!isEmbeddable || !site) {
+    if (!isEmbeddable) {
       // Open the demoUrl directly in a new tab
-      if (typeof window !== "undefined" && site) {
+      if (typeof window !== "undefined") {
         window.open(site.demoUrl, "_blank", "noopener,noreferrer");
       }
       return;
@@ -134,13 +141,6 @@ export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
       timeoutRef.current = null;
     }, PLAY_TIMEOUT_MS);
   }, [clearPlayTimeout, isEmbeddable, site.demoUrl]);
-
-  if (!open || !site) {
-    return null;
-  }
-
-  const iframeSrc = getIframeSrc(site);
-  const isEmbeddable = iframeSrc !== null;
 
   const renderMedia = () => {
     if (playState === "playing") {
