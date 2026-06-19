@@ -119,9 +119,9 @@ export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
 
   const handlePlayClick = React.useCallback(() => {
     // Don't try to play if the site can't be embedded
-    if (!isEmbeddable) {
+    if (!isEmbeddable || !site) {
       // Open the demoUrl directly in a new tab
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && site) {
         window.open(site.demoUrl, "_blank", "noopener,noreferrer");
       }
       return;
