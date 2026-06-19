@@ -1,0 +1,1 @@
+npm test -- --testPathPattern="museum-modal"

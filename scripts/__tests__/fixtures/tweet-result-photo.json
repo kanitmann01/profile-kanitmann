@@ -1,0 +1,29 @@
+{
+  "__typename": "Tweet",
+  "favorite_count": 89,
+  "lang": "en",
+  "created_at": "2026-06-09T21:06:37.000Z",
+  "display_text_range": [0, 278],
+  "entities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/jO7ToOgdxr",
+        "expanded_url": "https://x.com/ecomchasedimond/status/2064454139225297091/photo/1",
+        "indices": [279, 302],
+        "url": "https://t.co/jO7ToOgdxr"
+      }
+    ]
+  },
+  "id_str": "2064454139225297091",
+  "text": "Claude Fable 5 made this with a single prompt and no edits.",
+  "mediaDetails": [
+    {
+      "type": "photo",
+      "media_url_https": "https://pbs.twimg.com/media/HKZp8z3aQAAqy5k.jpg",
+      "original_info": {
+        "height": 4096,
+        "width": 820
+      }
+    }
+  ]
+}

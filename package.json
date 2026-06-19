@@ -12,7 +12,9 @@
     "start": "next start",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepare": "husky"
+    "prepare": "husky",
+    "fable5:extract-media": "npx tsx scripts/extract-fable5-media.ts",
+    "fable5:open-pr": "npx tsx scripts/open-fable5-pr.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

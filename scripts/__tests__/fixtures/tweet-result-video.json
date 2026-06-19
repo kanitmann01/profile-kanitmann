@@ -1,0 +1,35 @@
+{
+  "__typename": "Tweet",
+  "favorite_count": 36,
+  "lang": "en",
+  "created_at": "2026-06-09T20:01:27.000Z",
+  "display_text_range": [10, 267],
+  "entities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/E23I8bnPKb",
+        "expanded_url": "https://x.com/deveshcodes_/status/2064437742189379745/video/1",
+        "indices": [267, 290],
+        "url": "https://t.co/E23I8bnPKb"
+      }
+    ]
+  },
+  "id_str": "2064437742189379745",
+  "text": "one-shotted a real-time black hole lensing sim in Three.js with Claude Fable 5",
+  "mediaDetails": [
+    {
+      "type": "video",
+      "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/2064437555161186304/img/A506QLHeVCvViLcD.jpg",
+      "video_info": {
+        "aspect_ratio": [733, 403],
+        "duration_millis": 40133,
+        "variants": [
+          {
+            "content_type": "video/mp4",
+            "url": "https://video.twimg.com/amplify_video/2064437555161186304/vid/avc1/640x360/ZIYhDTXspmkHTXKW.mp4"
+          }
+        ]
+      }
+    }
+  ]
+}

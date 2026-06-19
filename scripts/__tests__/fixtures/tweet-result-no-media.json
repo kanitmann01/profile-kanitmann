@@ -1,0 +1,10 @@
+{
+  "__typename": "Tweet",
+  "favorite_count": 73,
+  "lang": "en",
+  "created_at": "2026-06-09T22:08:11.000Z",
+  "display_text_range": [0, 280],
+  "entities": {},
+  "id_str": "2064469635190170105",
+  "text": "The short version of my Claude Fable 5 review: I spent a billion tokens testing Claude Fable 5 and it felt like having an unfair advantage."
+}
