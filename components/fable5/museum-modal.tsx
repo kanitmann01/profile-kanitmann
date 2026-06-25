@@ -42,10 +42,10 @@ function isEmbeddableUrl(url: string): boolean {
     "platform.twitter.com",
     "example.com", // For testing
   ];
-  
+
   try {
     const urlObj = new URL(url);
-    return embeddableHosts.some(host => urlObj.hostname.includes(host));
+    return embeddableHosts.some((host) => urlObj.hostname.includes(host));
   } catch {
     return false;
   }
@@ -57,12 +57,12 @@ function getIframeSrc(site: Fable5Site): string | null {
   if (tweetId) {
     return `https://platform.twitter.com/embed/Tweet.html?id=${tweetId}`;
   }
-  
+
   // Check if the URL can be embedded
   if (isEmbeddableUrl(site.demoUrl)) {
     return site.demoUrl;
   }
-  
+
   // For non-embeddable URLs (like github.com repos), return null
   return null;
 }
@@ -117,30 +117,29 @@ export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
     };
   }, [playState, clearPlayTimeout]);
 
-  if (!open || !site) {
-    return null;
-  }
-
-  const iframeSrc = getIframeSrc(site);
+  const iframeSrc = site ? getIframeSrc(site) : null;
   const isEmbeddable = iframeSrc !== null;
 
   const handlePlayClick = React.useCallback(() => {
-    // Don't try to play if the site can't be embedded
+    if (!site) return;
     if (!isEmbeddable) {
-      // Open the demoUrl directly in a new tab
       if (typeof window !== "undefined") {
         window.open(site.demoUrl, "_blank", "noopener,noreferrer");
       }
       return;
     }
-    
+
     setPlayState("playing");
     clearPlayTimeout();
     timeoutRef.current = setTimeout(() => {
       setPlayState((current) => (current === "playing" ? "error" : current));
       timeoutRef.current = null;
     }, PLAY_TIMEOUT_MS);
-  }, [clearPlayTimeout, isEmbeddable, site.demoUrl]);
+  }, [clearPlayTimeout, isEmbeddable, site]);
+
+  if (!open || !site) {
+    return null;
+  }
 
   const renderMedia = () => {
     if (playState === "playing") {
@@ -157,7 +156,7 @@ export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
           </div>
         );
       }
-      
+
       return (
         <div className="relative aspect-[16/10] w-full bg-black">
           <iframe
