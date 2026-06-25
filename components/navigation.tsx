@@ -61,6 +61,13 @@ export function Navigation() {
       >
         <div className="container mx-auto h-full px-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 active:scale-95">
+            {/*
+              LOGO ATTRIBUTION COUPLED IN FOOTER:
+              This logo is sourced from magnific.com and requires attribution.
+              The attribution link lives in components/footer.tsx (copyright line).
+              If this logo file/source ever changes, update the footer attribution
+              in components/footer.tsx to match the new source's licensing terms.
+            */}
             <Image
               src="/logo-mark.svg"
               alt=""

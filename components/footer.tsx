@@ -68,7 +68,16 @@ export function Footer() {
 
         <div className="mt-12 pt-6 border-t border-border/30">
           <p className="font-mono text-xs text-muted-foreground text-center">
-            &copy; {currentYear} Kanit Mann. All rights reserved.
+            &copy; {currentYear} Kanit Mann. All rights reserved. Logo by{" "}
+            <Link
+              href="https://magnific.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-foreground transition-colors"
+            >
+              magnific.com
+            </Link>
+            .
           </p>
         </div>
       </div>
