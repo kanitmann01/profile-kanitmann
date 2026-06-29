@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       - run: npx tsx scripts/crawl-sources.ts
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
