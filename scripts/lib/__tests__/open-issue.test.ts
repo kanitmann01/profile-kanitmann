@@ -3,10 +3,25 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { openIssue, type Fable5Candidate } from "../open-issue";
 
-const mockExecSync = vi.fn();
+const mockSpawnSync = vi.fn();
 vi.mock("child_process", () => ({
-  execSync: (...args: unknown[]) => mockExecSync(...args),
+  spawnSync: (...args: unknown[]) => mockSpawnSync(...args),
 }));
+
+function okSpawn(stdout: string) {
+  return {
+    stdout,
+    stderr: "",
+    status: 0,
+    error: undefined,
+    pid: 0,
+    output: [],
+  };
+}
+
+function errSpawn(stderr: string, status = 1) {
+  return { stdout: "", stderr, status, error: undefined, pid: 0, output: [] };
+}
 
 const baseCandidate: Fable5Candidate = {
   url: "https://example.com/fable5-site",
@@ -23,21 +38,31 @@ beforeEach(() => {
 });
 
 describe("openIssue", () => {
+  function getArgs(callIndex = 0): string[] {
+    return mockSpawnSync.mock.calls[callIndex][1] as string[];
+  }
+
   it("calls gh with the correct title and labels", async () => {
-    mockExecSync.mockReturnValue("https://github.com/kanitmann01/profile-kanitmann/issues/200\n");
+    mockSpawnSync.mockReturnValue(
+      okSpawn("https://github.com/kanitmann01/profile-kanitmann/issues/200\n")
+    );
 
     await openIssue(baseCandidate);
 
-    const call = mockExecSync.mock.calls[0][0] as string;
-    expect(call).toContain("gh issue create");
-    expect(call).toContain('"fable5-submission"');
-    expect(call).toContain('"needs-triage"');
-    expect(call).toContain("A test Fable 5 build");
-    expect(call).toContain("kanitmann01/profile-kanitmann");
+    const args = getArgs();
+    expect(args[0]).toBe("issue");
+    expect(args[1]).toBe("create");
+    expect(args).toContain("--label");
+    expect(args).toContain("fable5-submission");
+    expect(args).toContain("needs-triage");
+    expect(args[args.indexOf("--title") + 1]).toContain("A test Fable 5 build");
+    expect(args).toContain("kanitmann01/profile-kanitmann");
   });
 
   it("includes all form fields in the body", async () => {
-    mockExecSync.mockReturnValue("https://github.com/kanitmann01/profile-kanitmann/issues/201\n");
+    mockSpawnSync.mockReturnValue(
+      okSpawn("https://github.com/kanitmann01/profile-kanitmann/issues/201\n")
+    );
 
     await openIssue({
       ...baseCandidate,
@@ -45,33 +70,39 @@ describe("openIssue", () => {
       yourHandle: "submittedby",
     });
 
-    const call = mockExecSync.mock.calls[0][0] as string;
-    expect(call).toContain("Site URL");
-    expect(call).toContain("https://example.com/fable5-site");
-    expect(call).toContain("Demo URL");
-    expect(call).toContain("https://demo.example.com");
-    expect(call).toContain("Author X handle");
-    expect(call).toContain("testauthor");
-    expect(call).toContain("Your X handle");
-    expect(call).toContain("submittedby");
-    expect(call).toContain("One-line description");
-    expect(call).toContain("A test Fable 5 build");
-    expect(call).toContain("3d, shader");
-    expect(call).toContain("Demo");
-    expect(call).toContain("author is credited");
+    const body = getArgs()[getArgs().indexOf("--body") + 1] as string;
+    expect(body).toContain("Site URL");
+    expect(body).toContain("https://example.com/fable5-site");
+    expect(body).toContain("Demo URL");
+    expect(body).toContain("https://demo.example.com");
+    expect(body).toContain("Author X handle");
+    expect(body).toContain("testauthor");
+    expect(body).toContain("Your X handle");
+    expect(body).toContain("submittedby");
+    expect(body).toContain("One-line description");
+    expect(body).toContain("A test Fable 5 build");
+    expect(body).toContain("3d, shader");
+    expect(body).toContain("Demo");
+    expect(body).toContain("author is credited");
   });
 
   it("includes the bot footer with source and date", async () => {
-    mockExecSync.mockReturnValue("https://github.com/kanitmann01/profile-kanitmann/issues/202\n");
+    mockSpawnSync.mockReturnValue(
+      okSpawn("https://github.com/kanitmann01/profile-kanitmann/issues/202\n")
+    );
 
     await openIssue(baseCandidate);
 
-    const call = mockExecSync.mock.calls[0][0] as string;
-    expect(call).toContain("Auto-discovered from hn on 2026-06-16 by fable5-bot");
+    const body = getArgs()[getArgs().indexOf("--body") + 1] as string;
+    expect(body).toContain(
+      "Auto-discovered from hn on 2026-06-16 by fable5-bot"
+    );
   });
 
   it("parses the issue number from the output URL", async () => {
-    mockExecSync.mockReturnValue("https://github.com/kanitmann01/profile-kanitmann/issues/203\n");
+    mockSpawnSync.mockReturnValue(
+      okSpawn("https://github.com/kanitmann01/profile-kanitmann/issues/203\n")
+    );
 
     const result = await openIssue(baseCandidate);
     expect(result.number).toBe(203);
@@ -81,60 +112,44 @@ describe("openIssue", () => {
   });
 
   it("retries on 429 error", async () => {
-    mockExecSync
-      .mockImplementationOnce(() => {
-        const err = new Error("Rate limited") as Error & { stderr: string };
-        err.stderr = "429 - Too Many Requests";
-        throw err;
-      })
-      .mockReturnValue("https://github.com/kanitmann01/profile-kanitmann/issues/204\n");
+    mockSpawnSync
+      .mockImplementationOnce(() => errSpawn("429 - Too Many Requests"))
+      .mockReturnValue(
+        okSpawn("https://github.com/kanitmann01/profile-kanitmann/issues/204\n")
+      );
 
     const result = await openIssue(baseCandidate);
     expect(result.number).toBe(204);
-    expect(mockExecSync).toHaveBeenCalledTimes(2);
+    expect(mockSpawnSync).toHaveBeenCalledTimes(2);
   });
 
   it("retries on 503 error", async () => {
-    mockExecSync
-      .mockImplementationOnce(() => {
-        const err = new Error("Service unavailable") as Error & {
-          stderr: string;
-        };
-        err.stderr = "503 - Service Unavailable";
-        throw err;
-      })
-      .mockReturnValue("https://github.com/kanitmann01/profile-kanitmann/issues/205\n");
+    mockSpawnSync
+      .mockImplementationOnce(() => errSpawn("503 - Service Unavailable"))
+      .mockReturnValue(
+        okSpawn("https://github.com/kanitmann01/profile-kanitmann/issues/205\n")
+      );
 
     const result = await openIssue(baseCandidate);
     expect(result.number).toBe(205);
-    expect(mockExecSync).toHaveBeenCalledTimes(2);
+    expect(mockSpawnSync).toHaveBeenCalledTimes(2);
   });
 
   it("does not retry on 404 error", async () => {
-    mockExecSync
-      .mockImplementationOnce(() => {
-        const err = new Error("Not found") as Error & { stderr: string };
-        err.stderr = "404 - Not Found";
-        throw err;
-      })
-      .mockReturnValue("https://github.com/kanitmann01/profile-kanitmann/issues/206\n");
+    mockSpawnSync
+      .mockImplementationOnce(() => errSpawn("404 - Not Found"))
+      .mockReturnValue(
+        okSpawn("https://github.com/kanitmann01/profile-kanitmann/issues/206\n")
+      );
 
     await expect(openIssue(baseCandidate)).rejects.toThrow();
-    expect(mockExecSync).toHaveBeenCalledTimes(1);
+    expect(mockSpawnSync).toHaveBeenCalledTimes(1);
   });
 
-  it(
-    "gives up after 3 retries on persistent 429",
-    async () => {
-      mockExecSync.mockImplementation(() => {
-        const err = new Error("Rate limited") as Error & { stderr: string };
-        err.stderr = "429 - Too Many Requests";
-        throw err;
-      });
+  it("gives up after 3 retries on persistent 429", async () => {
+    mockSpawnSync.mockImplementation(() => errSpawn("429 - Too Many Requests"));
 
-      await expect(openIssue(baseCandidate)).rejects.toThrow();
-      expect(mockExecSync).toHaveBeenCalledTimes(4); // initial + 3 retries
-    },
-    25_000
-  );
+    await expect(openIssue(baseCandidate)).rejects.toThrow();
+    expect(mockSpawnSync).toHaveBeenCalledTimes(4); // initial + 3 retries
+  }, 25_000);
 });

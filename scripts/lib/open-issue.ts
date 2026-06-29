@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { spawnSync } from "child_process";
 
 import type { Fable5Tag } from "@/data/fable5";
 import type { Fable5MentionType } from "@/data/fable5";
@@ -72,10 +72,17 @@ function buildBody(candidate: Fable5Candidate): string {
 }
 
 function runGh(args: string[]): string {
-  const cmd = `gh issue create ${args
-    .map((a) => (a.includes(" ") ? `"${a}"` : a))
-    .join(" ")}`;
-  return execSync(cmd, { encoding: "utf-8", timeout: 30000 });
+  const result = spawnSync("gh", ["issue", "create", ...args], {
+    encoding: "utf-8",
+    timeout: 30000,
+  });
+  if (result.error) throw result.error;
+  if (result.status !== 0) {
+    const err = new Error(result.stderr) as Error & { stderr: string };
+    err.stderr = result.stderr;
+    throw err;
+  }
+  return result.stdout;
 }
 
 export async function openIssue(
@@ -83,18 +90,20 @@ export async function openIssue(
 ): Promise<OpenIssueResult> {
   const title = `[Fable 5] ${candidate.oneLiner}`;
   const body = buildBody(candidate);
-  const labelArgs = '--label "fable5-submission" --label "needs-triage"';
-  const bodyArg = `--body "${body.replace(/"/g, '\\"').replace(/\n/g, "\\n")}"`;
-  const titleArg = `--title "${title.replace(/"/g, '\\"')}"`;
 
   let lastError: Error | null = null;
 
   for (let attempt = 0; attempt <= BACKOFFS.length; attempt++) {
     try {
       const output = runGh([
-        titleArg,
-        bodyArg,
-        labelArgs,
+        "--title",
+        title,
+        "--body",
+        body,
+        "--label",
+        "fable5-submission",
+        "--label",
+        "needs-triage",
         "--repo",
         "kanitmann01/profile-kanitmann",
       ]);
