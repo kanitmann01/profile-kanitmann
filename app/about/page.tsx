@@ -1,15 +1,16 @@
-import Image from "next/image"
-import type { Metadata } from "next"
-import { FadeIn } from "@/components/animations/fade-in"
-import { SlideIn } from "@/components/animations/slide-in"
-import { ExperienceTimeline } from "@/components/experience-timeline"
-import { GraduationSection } from "@/components/graduation-section"
-import { AboutNav } from "@/components/about-nav"
-import { experiences } from "@/data/experiences"
-import { certifications } from "@/data/certifications"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { formatDate } from "@/lib/date-format"
+import Image from "next/image";
+import type { Metadata } from "next";
+import { FadeIn } from "@/components/animations/fade-in";
+import { SlideIn } from "@/components/animations/slide-in";
+import { ExperienceTimeline } from "@/components/experience-timeline";
+import { GraduationSection } from "@/components/graduation-section";
+import { AboutNav } from "@/components/about-nav";
+import { experiences } from "@/data/experiences";
+import { certifications } from "@/data/certifications";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/lib/date-format";
+import { getSiteUrl } from "@/lib/site";
 
 const skillImageMap: Record<string, { src: string; className?: string }> = {
   Python: { src: "/images/tech/python.svg" },
@@ -27,7 +28,7 @@ const skillImageMap: Record<string, { src: string; className?: string }> = {
   Tableau: { src: "/images/tech/tableau.svg" },
   Figma: { src: "/images/tech/figma.svg" },
   "Microsoft Excel": { src: "/images/tech/microsoft-excel.svg" },
-}
+};
 
 const skillGroups = [
   {
@@ -36,7 +37,14 @@ const skillGroups = [
   },
   {
     category: "Data & ML",
-    items: ["Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn", "Plotly"],
+    items: [
+      "Pandas",
+      "NumPy",
+      "Scikit-learn",
+      "Matplotlib",
+      "Seaborn",
+      "Plotly",
+    ],
   },
   {
     category: "Frameworks",
@@ -46,7 +54,7 @@ const skillGroups = [
     category: "Tools",
     items: ["GitHub", "Tableau", "Figma", "Microsoft Excel"],
   },
-]
+];
 
 const sections = [
   { id: "story", label: "The Story" },
@@ -55,7 +63,7 @@ const sections = [
   { id: "experience", label: "Experience" },
   { id: "leadership", label: "Leadership" },
   { id: "certifications", label: "Certifications" },
-]
+];
 
 export default function About() {
   return (
@@ -88,24 +96,35 @@ export default function About() {
             <SlideIn direction="left" className="md:col-span-7 md:col-start-6">
               <div className="max-w-prose">
                 <p className="font-sans text-foreground leading-relaxed mb-6 text-lg font-medium">
-                  Data &amp; ML Engineer with 2 years of experience spanning cloud infrastructure, machine learning, and data pipelines — from migrating 2,000 servers at Ericsson to building real-time analytics systems.
+                  Data &amp; ML Engineer with 2 years of experience spanning
+                  cloud infrastructure, machine learning, and data pipelines —
+                  from migrating 2,000 servers at Ericsson to building real-time
+                  analytics systems.
                 </p>
                 <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
-                  My journey into data science began with a foundation in building tangible things, from engineering
-                  firmware for 3D printers to developing full-stack web applications. This hands-on experience taught me
-                  that the best solutions come from understanding both the technical possibilities and the human needs.
+                  My journey into data science began with a foundation in
+                  building tangible things, from engineering firmware for 3D
+                  printers to developing full-stack web applications. This
+                  hands-on experience taught me that the best solutions come
+                  from understanding both the technical possibilities and the
+                  human needs.
                 </p>
                 <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
-                  My time at Ericsson as an Engineer, Cloud and Infra, where my team managed the migration of over 2,000 servers to GCP,
-                  taught me how to work with complex, large-scale systems. I learned that successful technology
-                  implementations require not just technical expertise, but also careful planning, stakeholder
-                  communication, and a deep understanding of business requirements.
+                  My time at Ericsson as an Engineer, Cloud and Infra, where my
+                  team managed the migration of over 2,000 servers to GCP,
+                  taught me how to work with complex, large-scale systems. I
+                  learned that successful technology implementations require not
+                  just technical expertise, but also careful planning,
+                  stakeholder communication, and a deep understanding of
+                  business requirements.
                 </p>
                 <p className="font-sans text-muted-foreground leading-relaxed text-lg">
-                  Now, I'm a Master's student at the University of Arizona (GPA: 3.75), where I'm combining my
-                  engineering background with a passion for data to build intelligent solutions. I believe the future
-                  belongs to those who can bridge the gap between complex algorithms and practical applications that
-                  solve real-world problems.
+                  Now, I'm a Master's student at the University of Arizona (GPA:
+                  3.75), where I'm combining my engineering background with a
+                  passion for data to build intelligent solutions. I believe the
+                  future belongs to those who can bridge the gap between complex
+                  algorithms and practical applications that solve real-world
+                  problems.
                 </p>
               </div>
             </SlideIn>
@@ -114,7 +133,6 @@ export default function About() {
 
         <div className="flex gap-12">
           <div className="flex-1 min-w-0">
-
             <section id="graduation" className="mb-32 scroll-mt-20">
               <GraduationSection
                 heading="My Graduation"
@@ -152,7 +170,7 @@ export default function About() {
                       </h3>
                       <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                         {group.items.map((skill) => {
-                          const img = skillImageMap[skill]
+                          const img = skillImageMap[skill];
                           return (
                             <div
                               key={skill}
@@ -171,7 +189,7 @@ export default function About() {
                                 {skill}
                               </span>
                             </div>
-                          )
+                          );
                         })}
                       </div>
                     </div>
@@ -212,19 +230,41 @@ export default function About() {
                     </p>
                     <ul className="space-y-2 text-muted-foreground font-sans">
                       <li className="flex items-start gap-3">
-                        <span className="text-primary mt-0.5 flex-shrink-0">—</span>
-                        <span>Lead a team of 70 students, designing onboarding playbooks and mentoring new hires, coupling shadowing rotations with clear accountability so student associates master essential store procedures quickly.</span>
+                        <span className="text-primary mt-0.5 flex-shrink-0">
+                          —
+                        </span>
+                        <span>
+                          Lead a team of 70 students, designing onboarding
+                          playbooks and mentoring new hires, coupling shadowing
+                          rotations with clear accountability so student
+                          associates master essential store procedures quickly.
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <span className="text-primary mt-0.5 flex-shrink-0">—</span>
-                        <span>Direct day-to-day floor operations-staff scheduling, inventory checks, and guest experience initiatives-to keep the team aligned on service standards and sales goals.</span>
+                        <span className="text-primary mt-0.5 flex-shrink-0">
+                          —
+                        </span>
+                        <span>
+                          Direct day-to-day floor operations-staff scheduling,
+                          inventory checks, and guest experience initiatives-to
+                          keep the team aligned on service standards and sales
+                          goals.
+                        </span>
                       </li>
                     </ul>
                     <div className="flex flex-wrap gap-2 mt-4">
-                      <Badge variant="secondary" className="font-mono text-xs">Team Leadership</Badge>
-                      <Badge variant="secondary" className="font-mono text-xs">Training & Development</Badge>
-                      <Badge variant="secondary" className="font-mono text-xs">Retail Operations</Badge>
-                      <Badge variant="secondary" className="font-mono text-xs">Customer Experience</Badge>
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        Team Leadership
+                      </Badge>
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        Training & Development
+                      </Badge>
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        Retail Operations
+                      </Badge>
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        Customer Experience
+                      </Badge>
                     </div>
                   </div>
                 </FadeIn>
@@ -239,17 +279,33 @@ export default function About() {
                     </p>
                     <div className="space-y-2 text-muted-foreground font-sans">
                       <p>
-                        As a Board Member for Robovitics, I directed collaborations for the campus robotics club, impacting over 250 students. My role involved strategic planning, event coordination, and fostering partnerships that enhanced learning opportunities for our community.
+                        As a Board Member for Robovitics, I directed
+                        collaborations for the campus robotics club, impacting
+                        over 250 students. My role involved strategic planning,
+                        event coordination, and fostering partnerships that
+                        enhanced learning opportunities for our community.
                       </p>
                       <p>
-                        I organized 10+ events and workshops, including a global MLH-partnered hackathon with 800+ registrations. These experiences taught me the importance of bringing people together around shared goals and creating environments where innovation can flourish.
+                        I organized 10+ events and workshops, including a global
+                        MLH-partnered hackathon with 800+ registrations. These
+                        experiences taught me the importance of bringing people
+                        together around shared goals and creating environments
+                        where innovation can flourish.
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2 mt-4">
-                      <Badge variant="secondary" className="font-mono text-xs">Event Planning</Badge>
-                      <Badge variant="secondary" className="font-mono text-xs">Team Leadership</Badge>
-                      <Badge variant="secondary" className="font-mono text-xs">Partnership Development</Badge>
-                      <Badge variant="secondary" className="font-mono text-xs">Community Building</Badge>
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        Event Planning
+                      </Badge>
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        Team Leadership
+                      </Badge>
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        Partnership Development
+                      </Badge>
+                      <Badge variant="secondary" className="font-mono text-xs">
+                        Community Building
+                      </Badge>
                     </div>
                   </div>
                 </FadeIn>
@@ -268,8 +324,10 @@ export default function About() {
 
               <div className="max-w-prose space-y-6">
                 {certifications.map((cert) => {
-                  const issued = formatDate(cert.issueDate)
-                  const expires = cert.expirationDate ? formatDate(cert.expirationDate) : undefined
+                  const issued = formatDate(cert.issueDate);
+                  const expires = cert.expirationDate
+                    ? formatDate(cert.expirationDate)
+                    : undefined;
                   return (
                     <FadeIn key={`${cert.title}-${cert.issueDate}`}>
                       <div className="border-b border-border/40 pb-6">
@@ -292,7 +350,7 @@ export default function About() {
                         )}
                       </div>
                     </FadeIn>
-                  )
+                  );
                 })}
               </div>
             </section>
@@ -300,9 +358,13 @@ export default function About() {
             <section className="text-center">
               <FadeIn>
                 <div className="border-t border-border/40 pt-16">
-                  <h2 className="font-serif text-3xl text-foreground mb-4">Let's Build Something That Works</h2>
+                  <h2 className="font-serif text-3xl text-foreground mb-4">
+                    Let's Build Something That Works
+                  </h2>
                   <p className="font-sans text-muted-foreground max-w-prose mx-auto">
-                    I'm looking for teams that ship data products end-to-end — from pipeline to dashboard. If that sounds like your stack, I'd love to talk.
+                    I'm looking for teams that ship data products end-to-end —
+                    from pipeline to dashboard. If that sounds like your stack,
+                    I'd love to talk.
                   </p>
                 </div>
               </FadeIn>
@@ -317,22 +379,25 @@ export default function About() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export const metadata: Metadata = {
   title: "About - Kanit Mann",
-  description: "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
+  description:
+    "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About - Kanit Mann",
-    description: "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
-    url: "https://kanit.codes/about",
+    description:
+      "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
+    url: getSiteUrl() + "/about",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "About - Kanit Mann",
-    description: "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
+    description:
+      "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
   },
-}
+};

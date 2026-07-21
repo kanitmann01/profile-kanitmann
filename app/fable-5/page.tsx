@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getSiteUrl } from "@/lib/site";
 
 import { MuseumHero } from "@/components/fable5/museum-hero";
 import { MuseumGrid } from "@/components/fable5/museum-grid";
@@ -9,14 +10,15 @@ const DESCRIPTION =
   "A living gallery of what people have built with Claude Fable 5 — one-shot websites, Three.js simulations, single-file operating systems, and games, curated from public demos.";
 
 export function generateMetadata(): Metadata {
+  const siteUrl = getSiteUrl();
   return {
     title: TITLE,
     description: DESCRIPTION,
-    alternates: { canonical: "https://kanit.codes/fable-5" },
+    alternates: { canonical: `${siteUrl}/fable-5` },
     openGraph: {
       title: TITLE,
       description: DESCRIPTION,
-      url: "https://kanit.codes/fable-5",
+      url: `${siteUrl}/fable-5`,
       type: "website",
     },
     twitter: {
