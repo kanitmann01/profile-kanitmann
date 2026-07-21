@@ -16,8 +16,6 @@
 
 - **Content Component**: Per-project/article prose lives in a thin React component. The dynamic route handles boilerplate (hero, metadata, JSON-LD); the content component handles rich prose.
 - **Content Registry**: A `Record<string, ComponentType>` mapping slugs to content components. Type-safe, fails at compile time if a slug is missing.
-- **Two-Hook Likes**: `useLikes()` is a read-only bulk fetcher; `useLikeItem(id)` is an independent per-item toggle manager. They don't sync state.
-- **Presentational LikeButton**: Receives `count`, `isLiked`, `onToggle` as props. No internal state or localStorage.
 
 ## Tactile Feedback
 
