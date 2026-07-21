@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { GraduationCap } from "lucide-react";
 import { useSpacedRepetition } from "@/hooks/use-spaced-repetition";
 import { subjects } from "@/data/imat/registry";
 import type { Subject } from "@/data/imat/types";
@@ -293,6 +294,12 @@ export default function ImatDashboard() {
               <CardTitle className="text-lg">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-3">
+              <Button variant="outline" asChild>
+                <Link href="/imat/universities">
+                  <GraduationCap className="mr-2 h-4 w-4" />
+                  University Guide
+                </Link>
+              </Button>
               <Button variant="outline">Random Quiz</Button>
               <Button variant="outline">Weak Topics</Button>
               <Button variant="outline">New Content</Button>
