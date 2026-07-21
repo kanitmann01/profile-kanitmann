@@ -10,7 +10,7 @@
 
 ## Experience
 
-- **WorkType**: Discriminated union — `"Full-time" | "Part-time" | "Internship"`. Apprenticeships are classified as `"Internship"`.
+- **WorkType**: Discriminated union — `"Full-time" | "Part-time" | "Internship" | "Contract"`. Apprenticeships are classified as `"Internship"`.
 
 ## Architecture
 

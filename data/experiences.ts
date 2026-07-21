@@ -1,4 +1,4 @@
-export type WorkType = "Full-time" | "Part-time" | "Internship";
+export type WorkType = "Full-time" | "Part-time" | "Internship" | "Contract";
 export type WorkMode = "On-site" | "Hybrid" | "Remote";
 
 export type SubRole = {
