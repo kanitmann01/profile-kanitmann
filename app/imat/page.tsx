@@ -7,11 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, TrendingUp, BookOpen, ArrowRight } from "lucide-react";
 import { useSpacedRepetition } from "@/hooks/use-spaced-repetition";
 import { subjects } from "@/data/imat/registry";
 import type { Subject } from "@/data/imat/types";
 import { FadeIn } from "@/components/animations/fade-in";
+import { universities, imatExamInfo } from "@/data/imat/universities";
 
 function parseWeight(w: string): number {
   return parseFloat(w.replace(/[^0-9.]/g, "")) || 0;
@@ -178,11 +179,139 @@ export default function ImatDashboard() {
           </Card>
         </motion.div>
 
+        {/* University Guide & How to Improve — side by side */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+          {/* University Guide Card */}
+          <Card className="border-primary/20">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <GraduationCap className="h-5 w-5 text-primary" />
+                University Guide
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                All 16 Italian medical universities offering English-taught
+                Medicine via IMAT 2026 — compared on cut-offs, scholarships,
+                costs, safety, and more.
+              </p>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="rounded-md bg-muted p-2">
+                  <p className="font-semibold text-foreground">16</p>
+                  <p className="text-muted-foreground">Universities</p>
+                </div>
+                <div className="rounded-md bg-muted p-2">
+                  <p className="font-semibold text-foreground">
+                    {Math.min(...universities.map((u) => u.imatCutoff["2025"]))}
+                    –
+                    {Math.max(...universities.map((u) => u.imatCutoff["2025"]))}
+                  </p>
+                  <p className="text-muted-foreground">Cut-off range</p>
+                </div>
+                <div className="rounded-md bg-muted p-2">
+                  <p className="font-semibold text-foreground">
+                    {Math.max(
+                      ...universities.map((u) => u.nonEuSeatsProjection2026)
+                    )}
+                  </p>
+                  <p className="text-muted-foreground">Max non-EU seats</p>
+                </div>
+                <div className="rounded-md bg-muted p-2">
+                  <p className="font-semibold text-foreground">8 Oct</p>
+                  <p className="text-muted-foreground">Exam date</p>
+                </div>
+              </div>
+              <Button asChild className="w-full" size="sm">
+                <Link href="/imat/universities">
+                  Explore universities <ArrowRight className="ml-2 h-3 w-3" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* How to Improve Card */}
+          <Card className="border-amber-500/20">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-amber-500" />
+                How to Improve
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                The IMAT is 60 questions, 100 minutes. Focus your study where it
+                counts most.
+              </p>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Biology</span>
+                  <span className="font-semibold text-foreground">
+                    23 Qs · 38%
+                  </span>
+                </div>
+                <Progress value={38} className="h-2 bg-muted" />
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Chemistry</span>
+                  <span className="font-semibold text-foreground">
+                    15 Qs · 25%
+                  </span>
+                </div>
+                <Progress value={25} className="h-2 bg-muted" />
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Maths & Physics</span>
+                  <span className="font-semibold text-foreground">
+                    13 Qs · 22%
+                  </span>
+                </div>
+                <Progress value={22} className="h-2 bg-muted" />
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">
+                    Logical Reasoning
+                  </span>
+                  <span className="font-semibold text-foreground">
+                    5 Qs · 8%
+                  </span>
+                </div>
+                <Progress value={8} className="h-2 bg-muted" />
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">
+                    General Knowledge
+                  </span>
+                  <span className="font-semibold text-foreground">
+                    5 Qs · 7%
+                  </span>
+                </div>
+                <Progress value={7} className="h-2 bg-muted" />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                <strong>Strategy:</strong> Biology + Chemistry = 63% of your
+                score. Master these first. Use the study notes below to build a
+                strong foundation, then tackle the other sections.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {subjects.slice(0, 2).map((sub) => (
+                  <Button key={sub.slug} variant="outline" size="sm" asChild>
+                    <Link href={`/imat/${sub.slug}`}>
+                      <BookOpen className="mr-1.5 h-3 w-3" />
+                      {sub.title} notes
+                    </Link>
+                  </Button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
         <motion.div
           data-testid="exam-readiness"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
           className="mb-8"
         >
           <Card>
