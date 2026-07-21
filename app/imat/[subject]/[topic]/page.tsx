@@ -9,13 +9,7 @@ import { IMATBreadcrumb } from "@/components/imat/imat-breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-
-function formatSlug(slug: string): string {
-  return slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
+import { formatSlug } from "@/lib/imat-slugs";
 
 function getConfidenceColor(confidence: string | undefined): string {
   switch (confidence) {
