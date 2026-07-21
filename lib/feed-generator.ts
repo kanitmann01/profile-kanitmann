@@ -1,20 +1,20 @@
-import { articles } from "@/data/articles"
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kanit.codes"
+import { articles } from "@/data/articles";
+import { getSiteUrl } from "@/lib/site";
 
 export function getSortedArticles() {
   return articles
     .slice()
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
 }
 
 export function getArticleUrl(canonicalPath: string) {
-  return new URL(canonicalPath, siteUrl).toString()
+  return new URL(canonicalPath, getSiteUrl()).toString();
 }
 
-export function getSiteUrl() {
-  return siteUrl
-}
+export { getSiteUrl } from "@/lib/site";
 
 export const feedHeaders = {
   rss: {
@@ -25,4 +25,4 @@ export const feedHeaders = {
     "Content-Type": "application/atom+xml; charset=utf-8",
     "Cache-Control": "s-maxage=600, stale-while-revalidate=86400",
   },
-}
+};

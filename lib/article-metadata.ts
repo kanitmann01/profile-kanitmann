@@ -1,11 +1,13 @@
-import type { Metadata } from "next"
-import type { ArticleMeta } from "@/data/articles"
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.kanit.codes"
+import type { Metadata } from "next";
+import type { ArticleMeta } from "@/data/articles";
+import { getSiteUrl } from "@/lib/site";
 
 export function buildArticleMetadata(article: ArticleMeta): Metadata {
-  const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString()
-  const heroImageUrl = article.heroImage ? new URL(article.heroImage, siteUrl).toString() : undefined
+  const siteUrl = getSiteUrl();
+  const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString();
+  const heroImageUrl = article.heroImage
+    ? new URL(article.heroImage, siteUrl).toString()
+    : undefined;
 
   return {
     title: article.title,
@@ -28,12 +30,15 @@ export function buildArticleMetadata(article: ArticleMeta): Metadata {
       description: article.description,
       images: heroImageUrl ? [heroImageUrl] : undefined,
     },
-  }
+  };
 }
 
 export function buildArticleSchema(article: ArticleMeta) {
-  const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString()
-  const heroImageUrl = article.heroImage ? new URL(article.heroImage, siteUrl).toString() : undefined
+  const siteUrl = getSiteUrl();
+  const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString();
+  const heroImageUrl = article.heroImage
+    ? new URL(article.heroImage, siteUrl).toString()
+    : undefined;
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -44,28 +49,40 @@ export function buildArticleSchema(article: ArticleMeta) {
     publisher: {
       "@type": "Organization",
       name: "Kanit Mann Portfolio",
-      logo: { "@type": "ImageObject", url: new URL("/images/profile/kanit-mann.png", siteUrl).toString() },
+      logo: {
+        "@type": "ImageObject",
+        url: new URL("/images/profile/kanit-mann.png", siteUrl).toString(),
+      },
     },
     datePublished: article.publishedAt,
     dateModified: article.updatedAt ?? article.publishedAt,
     mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
     keywords: article.keywords?.join(", "),
-  }
+  };
 }
 
 export function buildBreadcrumbSchema(article: ArticleMeta) {
-  const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString()
+  const siteUrl = getSiteUrl();
+  const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString();
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
-      { "@type": "ListItem", position: 2, name: "Articles", item: `${siteUrl}/articles` },
-      { "@type": "ListItem", position: 3, name: article.title, item: canonicalUrl },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Articles",
+        item: `${siteUrl}/articles`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: article.title,
+        item: canonicalUrl,
+      },
     ],
-  }
+  };
 }
 
-export function getSiteUrl() {
-  return siteUrl
-}
+export { getSiteUrl } from "@/lib/site";
