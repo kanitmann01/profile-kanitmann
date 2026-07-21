@@ -1,7 +1,9 @@
 # ADR 0003: Likes System — Two-Hook Design
 
 **Date:** 2026-06-07  
-**Status:** Accepted  
+**Status:** Retired
+
+> Retired 2026-07-21. All code described here was deleted (the entire likes system was removed from the codebase). See branch `vibe/remove-like-component-efe592` and git history.
 
 ## Context
 

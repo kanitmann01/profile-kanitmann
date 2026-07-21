@@ -34,3 +34,6 @@ data/.fable5-seen.json
 
 # temp files
 /temp/
+
+# fable5 fixes output (committed by mistake)
+data/fable5-fixes.*

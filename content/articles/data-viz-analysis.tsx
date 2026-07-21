@@ -1,51 +1,76 @@
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, FileText, Palette, Table2 } from "lucide-react"
-import { SlideIn } from "@/components/animations/slide-in"
-import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
-import { PdfReportSection } from "@/components/pdf-report-section"
-import { SocialShare } from "@/components/social-share"
-import { getArticleBySlug } from "@/data/articles"
-import { getSiteUrl } from "@/lib/article-metadata"
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowLeft, FileText, Palette, Table2 } from "lucide-react";
+import { SlideIn } from "@/components/animations/slide-in";
+import {
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/animations/stagger-container";
+import { PdfReportSection } from "@/components/pdf-report-section";
+import { SocialShare } from "@/components/social-share";
 
-const article = getArticleBySlug("data-viz-analysis")
-const siteUrl = getSiteUrl()
-const canonicalUrl = new URL(article.canonicalPath, siteUrl).toString()
-const pdfPath = "/Data%20Viz%20Analysis.pdf"
+const tags = ["Data Visualization", "Portfolio", "Storytelling"];
+const pdfPath = "/Data%20Viz%20Analysis.pdf";
 
 type VisualizationHighlightProps = {
-  title: string
-  focus: string
-  summary: string
-  takeaway: string
-}
+  title: string;
+  focus: string;
+  summary: string;
+  takeaway: string;
+};
 
-function VisualizationHighlight({ title, focus, summary, takeaway }: VisualizationHighlightProps) {
+function VisualizationHighlight({
+  title,
+  focus,
+  summary,
+  takeaway,
+}: VisualizationHighlightProps) {
   return (
     <StaggerContainer>
       <StaggerItem>
         <div className="space-y-3">
-          <h3 className="text-xl sm:text-2xl font-semibold text-foreground">{title}</h3>
-          <p className="text-sm uppercase tracking-wide text-muted-foreground">{focus}</p>
+          <h3 className="text-xl sm:text-2xl font-semibold text-foreground">
+            {title}
+          </h3>
+          <p className="text-sm uppercase tracking-wide text-muted-foreground">
+            {focus}
+          </p>
           <p className="text-muted-foreground leading-relaxed">{summary}</p>
           <div className="border-l-4 border-primary pl-4">
-            <p className="text-foreground font-medium">Key takeaway: {takeaway}</p>
+            <p className="text-foreground font-medium">
+              Key takeaway: {takeaway}
+            </p>
           </div>
         </div>
       </StaggerItem>
     </StaggerContainer>
-  )
+  );
 }
 
-export function DataVizAnalysisContent() {
+type DataVizAnalysisContentProps = {
+  /** Canonical URL for this article. The route page passes this via buildArticleMetadata. */
+  canonicalUrl?: string;
+};
+
+export function DataVizAnalysisContent({
+  canonicalUrl: canonicalUrlProp,
+}: DataVizAnalysisContentProps) {
+  const canonicalUrl =
+    canonicalUrlProp ?? "https://kanitmann.com/articles/data-viz-analysis";
   return (
     <>
       <section className="mb-16 font-sans">
         <SlideIn direction="left">
           <div className="bg-muted/30 rounded-lg p-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">What Changed This Semester</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
+              What Changed This Semester
+            </h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Early drafts exposed gaps in professional finish, data comprehension, and audience-friendly communication. Iterating on the same stories with sharper intent helped me transform recurring errors into deliberate design choices that would hold up in a client review.
+              Early drafts exposed gaps in professional finish, data
+              comprehension, and audience-friendly communication. Iterating on
+              the same stories with sharper intent helped me transform recurring
+              errors into deliberate design choices that would hold up in a
+              client review.
             </p>
             <div className="grid md:grid-cols-3 gap-4">
               {[
@@ -70,8 +95,12 @@ export function DataVizAnalysisContent() {
                     <div className="flex items-start gap-3">
                       <item.icon className="h-6 w-6 text-primary mt-1" />
                       <div>
-                        <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed">{item.text}</p>
+                        <h3 className="font-semibold text-lg mb-1">
+                          {item.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed">
+                          {item.text}
+                        </p>
                       </div>
                     </div>
                   </CardContent>
@@ -89,13 +118,16 @@ export function DataVizAnalysisContent() {
           pdfUrl={pdfPath}
           downloadLabel="Download Portfolio"
         >
-          The PDF captures final layouts, caption placement, and annotations. Every figure is built in R with
-          reproducible code available at the end of the report.
+          The PDF captures final layouts, caption placement, and annotations.
+          Every figure is built in R with reproducible code available at the end
+          of the report.
         </PdfReportSection>
       </section>
 
       <section className="mb-16 font-sans">
-        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">Visualization Highlights</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
+          Visualization Highlights
+        </h2>
         <div className="space-y-10">
           <VisualizationHighlight
             title="Visualization 1 - Executive-Ready Health Table"
@@ -124,32 +156,44 @@ export function DataVizAnalysisContent() {
           <VisualizationHighlight
             title="Visualization 5 - Occupational Risk Facets"
             focus="Facetted line charts across four hazardous industries"
-            summary={"Breaking fatalities into top causes across time validates that \u201Cdangerous\u201D is industry-specific\u2014falls devastate construction, while violent acts dominate public safety roles."}
+            summary={
+              "Breaking fatalities into top causes across time validates that \u201Cdangerous\u201D is industry-specific\u2014falls devastate construction, while violent acts dominate public safety roles."
+            }
             takeaway="Faceting reduces cognitive overload when comparing trends that operate on different scales."
           />
         </div>
       </section>
 
       <section className="mb-16 font-sans">
-        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">Process Notes & Tooling</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
+          Process Notes & Tooling
+        </h2>
         <p className="text-muted-foreground leading-relaxed mb-6">
-          Everything in the portfolio is reproducible in R. Packages such as <code>ggplot2</code>, <code>patchwork</code>,
-          <code>gt</code>, and <code>ggsankey</code> handle rendering, while <code>janitor</code> and <code>dplyr</code> keep the data tidy. Automating
-          color palettes with <code>RColorBrewer</code> and <code>viridis</code> prevents accessibility regressions during iteration.
+          Everything in the portfolio is reproducible in R. Packages such as{" "}
+          <code>ggplot2</code>, <code>patchwork</code>,<code>gt</code>, and{" "}
+          <code>ggsankey</code> handle rendering, while <code>janitor</code> and{" "}
+          <code>dplyr</code> keep the data tidy. Automating color palettes with{" "}
+          <code>RColorBrewer</code> and <code>viridis</code> prevents
+          accessibility regressions during iteration.
         </p>
         <div className="rounded-lg border border-dashed border-primary/40 bg-primary/5 p-6">
           <h3 className="text-xl font-semibold text-primary mb-3">Takeaway</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Iterating on the same story with different charts made trade-offs obvious: tables foreground rankings, sankeys expose distribution, and facetted lines surface pacing. The code appendix in the PDF doubles as a knowledge base for future dashboards.
+            Iterating on the same story with different charts made trade-offs
+            obvious: tables foreground rankings, sankeys expose distribution,
+            and facetted lines surface pacing. The code appendix in the PDF
+            doubles as a knowledge base for future dashboards.
           </p>
         </div>
       </section>
 
       <footer className="border-t pt-8 font-sans">
         <div className="mb-6">
-          <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">Tags</h3>
+          <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">
+            Tags
+          </h3>
           <div className="flex flex-wrap gap-2">
-            {article.tags.map((tag) => (
+            {tags.map((tag) => (
               <Badge key={tag} variant="secondary">
                 {tag}
               </Badge>
@@ -158,13 +202,13 @@ export function DataVizAnalysisContent() {
         </div>
         <div className="mt-8">
           <SocialShare
-            title={article.title}
-            description={article.description}
+            title="Data Visualization Portfolio Reflection"
+            description="A guided tour through five portfolio visualizations demonstrating polish, communication, and analytical rigor in data storytelling."
             url={canonicalUrl}
             variant="text"
           />
         </div>
       </footer>
     </>
-  )
+  );
 }

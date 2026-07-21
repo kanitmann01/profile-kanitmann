@@ -164,7 +164,6 @@ export function Hero() {
       </div>
 
       <ScrollIndicator />
-      {/* InteractiveMascot is temporarily hidden - component exists at components/interactive-mascot.tsx with full emotion state machine, click interactions, and particle effects. Re-enable when ready to integrate. */}
     </section>
   );
 }
