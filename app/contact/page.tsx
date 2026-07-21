@@ -1,6 +1,7 @@
-import { TactileButton } from "@/components/tactile-button"
-import { ContactForm } from "@/components/contact-form"
-import type { Metadata } from "next"
+import { TactileButton } from "@/components/tactile-button";
+import { ContactForm } from "@/components/contact-form";
+import type { Metadata } from "next";
+import { getSiteUrl } from "@/lib/site";
 
 export default function Contact() {
   return (
@@ -77,32 +78,34 @@ export default function Contact() {
             Prefer a Quick Chat?
           </h3>
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            Sometimes a conversation is worth a thousand emails. Feel free to reach out directly.
+            Sometimes a conversation is worth a thousand emails. Feel free to
+            reach out directly.
           </p>
           <TactileButton asChild size="lg">
-            <a href="mailto:kanitmann01@gmail.com">
-              Email Me Directly
-            </a>
+            <a href="mailto:kanitmann01@gmail.com">Email Me Directly</a>
           </TactileButton>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export const metadata: Metadata = {
   title: "Contact - Kanit Mann",
-  description: "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+  description:
+    "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact - Kanit Mann",
-    description: "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
-    url: "https://kanit.codes/contact",
+    description:
+      "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+    url: getSiteUrl() + "/contact",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact - Kanit Mann",
-    description: "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+    description:
+      "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
   },
-}
+};

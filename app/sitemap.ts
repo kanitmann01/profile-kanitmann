@@ -1,7 +1,8 @@
-import type { MetadataRoute } from "next"
+import type { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.kanit.codes"
+  const baseUrl = getSiteUrl();
 
   const routes = [
     "",
@@ -18,16 +19,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/articles/technical-blog-2",
     "/articles/technical-blog-3",
     "/contact",
-  ]
+  ];
 
-  const now = new Date().toISOString()
+  const now = new Date().toISOString();
 
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: now,
-    changeFrequency: route === "" || route === "/projects" || route === "/articles" ? "weekly" : "monthly",
-    priority: route === "" ? 1 : route === "/projects" || route === "/articles" ? 0.9 : 0.8,
-  }))
+    changeFrequency:
+      route === "" || route === "/projects" || route === "/articles"
+        ? "weekly"
+        : "monthly",
+    priority:
+      route === ""
+        ? 1
+        : route === "/projects" || route === "/articles"
+          ? 0.9
+          : 0.8,
+  }));
 }
-
-
