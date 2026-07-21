@@ -1,84 +1,66 @@
-import { RelatedProjects } from "@/components/related-projects"
-import { ArrowLeft, Github, ExternalLink } from "lucide-react"
-import type { Metadata } from "next"
-import Image from "next/image"
-import Script from "next/script"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { projects } from "@/data/projects"
-import { projectContent } from "@/data/project-content"
+import { RelatedProjects } from "@/components/related-projects";
+import { ArrowLeft, Github, ExternalLink } from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Script from "next/script";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { projects } from "@/data/projects";
+import { projectContent } from "@/data/project-content";
+import {
+  buildProjectMetadata,
+  buildProjectSchema,
+  buildBreadcrumbSchema,
+} from "@/lib/project-metadata";
 
 interface ProjectPageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }))
+  return projects.map((project) => ({ slug: project.slug }));
 }
 
-export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-  const { slug } = await params
-  const project = projects.find((p) => p.slug === slug)
-
-  if (!project) {
-    return {}
-  }
-
-  return {
-    title: `${project.title} - Project | Kanit Mann`,
-    description: project.description,
-    alternates: { canonical: `/projects/${slug}` },
-    openGraph: {
-      title: `${project.title} - Project | Kanit Mann`,
-      description: project.description,
-      url: `https://kanit.codes/projects/${slug}`,
-      images: [
-        { url: `https://kanit.codes${project.image}` }
-      ],
-      type: "article",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${project.title} - Project | Kanit Mann`,
-      description: project.description,
-      images: [`https://kanit.codes${project.image}`],
-    },
-  }
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
+  if (!project) return {};
+  return buildProjectMetadata(project);
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = await params
-  const project = projects.find((p) => p.slug === slug)
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
 
   if (!project) {
-    notFound()
+    notFound();
   }
 
-  const ContentComponent = projectContent[slug]
+  const ContentComponent = projectContent[slug];
 
   if (!ContentComponent) {
-    notFound()
+    notFound();
   }
 
-  const techStack = project.tags
+  const techStack = project.tags;
 
   return (
     <div className="min-h-screen bg-background">
-      <Script id={`ld-breadcrumb-${slug}`} type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://kanit.codes/" },
-            { "@type": "ListItem", position: 2, name: "Projects", item: "https://kanit.codes/projects" },
-            {
-              "@type": "ListItem",
-              position: 3,
-              name: project.title,
-              item: `https://kanit.codes/projects/${slug}`,
-            },
-          ],
-        })}
+      <Script
+        id={`ld-breadcrumb-${slug}`}
+        type="application/ld+json"
+        strategy="afterInteractive"
+      >
+        {JSON.stringify(buildBreadcrumbSchema(project))}
+      </Script>
+      <Script
+        id={`ld-article-${slug}`}
+        type="application/ld+json"
+        strategy="afterInteractive"
+      >
+        {JSON.stringify(buildProjectSchema(project))}
       </Script>
 
       <div className="relative w-full min-h-[70vh] flex items-end overflow-hidden">
@@ -139,7 +121,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <div className="mb-16">
           <div className="flex flex-wrap gap-3 font-mono text-xs uppercase tracking-wider">
             {techStack.map((tech) => (
-              <span key={tech} className="px-3 py-1.5 border border-primary/30 text-primary rounded-sm">
+              <span
+                key={tech}
+                className="px-3 py-1.5 border border-primary/30 text-primary rounded-sm"
+              >
                 {tech}
               </span>
             ))}
@@ -148,11 +133,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         <ContentComponent />
 
-        <RelatedProjects
-          currentProject={project}
-          allProjects={projects}
-        />
+        <RelatedProjects currentProject={project} allProjects={projects} />
       </div>
     </div>
-  )
+  );
 }
