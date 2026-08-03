@@ -96,10 +96,13 @@ export default function About() {
             <SlideIn direction="left" className="md:col-span-7 md:col-start-6">
               <div className="max-w-prose">
                 <p className="font-sans text-foreground leading-relaxed mb-6 text-lg font-medium">
-                  Data, ML &amp; AI Engineer with 3+ years of production
-                  experience spanning cloud infrastructure, machine learning,
-                  and data pipelines — from migrating 2,000 servers at Ericsson
-                  to building real-time analytics systems.
+                  <em className="font-serif-italic font-normal">
+                    Data, ML &amp; AI Engineer
+                  </em>{" "}
+                  with 3+ years of production experience spanning cloud
+                  infrastructure, machine learning, and data pipelines — from
+                  migrating 2,000 servers at Ericsson to building real-time
+                  analytics systems.
                 </p>
                 <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
                   My journey into data science began with a foundation in

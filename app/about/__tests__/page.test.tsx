@@ -41,6 +41,13 @@ describe("About page - Editorial Bio Redesign", () => {
     ).toBeInTheDocument();
   });
 
+  it("styles the Data, ML & AI Engineer lead in italic serif", () => {
+    render(<About />);
+    const lead = screen.getByText("Data, ML & AI Engineer");
+    expect(lead.tagName).toBe("EM");
+    expect(lead).toHaveClass("font-serif-italic");
+  });
+
   it("renders the profile image", () => {
     render(<About />);
     const profileImg = screen.getByAltText("Kanit Mann");

@@ -130,6 +130,14 @@
   font-family: var(--font-mono);
 }
 
+/* Italic serif accent — Instrument Serif italic is already loaded
+   (next/font style: ["normal", "italic"]), so this adds 0 KB of font
+   payload. Use sparingly as a display accent, never for body copy. */
+.font-serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
 @keyframes hero-gradient-shift {
   0%,
   100% {
@@ -181,6 +189,16 @@
   }
   .scroll-indicator-bounce {
     animation: none;
+  }
+  /* Neutralize CSS animations/transitions (e.g. the Radix command palette
+     dialog) and smooth scrolling for users who prefer reduced motion. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

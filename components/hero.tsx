@@ -128,7 +128,8 @@ export function Hero() {
         >
           <p className="font-sans text-2xl md:text-4xl text-foreground">
             <span className="text-muted-foreground">I&apos;m a</span>{" "}
-            <span className="font-bold">Data, ML &amp; AI Engineer</span>
+            <span className="font-bold">Data, ML &amp; AI</span>{" "}
+            <em className="font-serif-italic">Engineer</em>
           </p>
         </motion.div>
 

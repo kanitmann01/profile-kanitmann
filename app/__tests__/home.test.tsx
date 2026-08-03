@@ -57,12 +57,30 @@ describe("Home page", () => {
 
   it("renders featured projects section", () => {
     render(<Home />);
-    expect(screen.getByText("Featured Projects")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /Featured Projects/i })
+    ).toBeInTheDocument();
+  });
+
+  it("styles the Projects kicker word in italic serif", () => {
+    render(<Home />);
+    const projects = screen.getByText("Projects");
+    expect(projects.tagName).toBe("EM");
+    expect(projects).toHaveClass("font-serif-italic");
   });
 
   it("renders featured articles section", () => {
     render(<Home />);
-    expect(screen.getByText("Featured Articles")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /Featured Articles/i })
+    ).toBeInTheDocument();
+  });
+
+  it("styles the Articles kicker word in italic serif", () => {
+    render(<Home />);
+    const articles = screen.getByText("Articles");
+    expect(articles.tagName).toBe("EM");
+    expect(articles).toHaveClass("font-serif-italic");
   });
 
   it("does not render the old Currently Seeking section", () => {
