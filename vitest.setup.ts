@@ -9,6 +9,25 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
 };
 
+// jsdom does not implement matchMedia; components using useReducedMotion
+// (e.g. the list filter bar) call it in an effect. Script tests run under
+// `// @vitest-environment node` where `window` does not exist, so guard.
+if (typeof window !== "undefined") {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: vi.fn().mockImplementation((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+}
+
 afterEach(() => {
   cleanup();
 });
@@ -76,7 +95,15 @@ vi.mock("framer-motion", () => {
     useScroll: () => ({ scrollYProgress: 0 }),
     useTransform: (_value: any, _input: number[], output: number[]) =>
       output[0],
-    useReducedMotion: () => false,
+    // vi.fn so individual tests can override per-path (see
+    // components/__tests__/hero-stats-strip.test.tsx).
+    useReducedMotion: vi.fn(() => false),
+    // jsdom has no IntersectionObserver, so default to "in view"; tests
+    // override to assert the not-yet-in-view path.
+    useInView: vi.fn(() => true),
+    // Safe default (stop() must exist for effect cleanup); the count-up test
+    // replaces this with a timer-driven tween.
+    animate: vi.fn(() => ({ stop: vi.fn() })),
   };
 });
 
