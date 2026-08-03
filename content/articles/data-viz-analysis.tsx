@@ -8,6 +8,7 @@ import {
 } from "@/components/animations/stagger-container";
 import { PdfReportSection } from "@/components/pdf-report-section";
 import { SocialShare } from "@/components/social-share";
+import { getSiteUrl } from "@/lib/site";
 
 const tags = ["Data Visualization", "Portfolio", "Storytelling"];
 const pdfPath = "/Data%20Viz%20Analysis.pdf";
@@ -56,7 +57,8 @@ export function DataVizAnalysisContent({
   canonicalUrl: canonicalUrlProp,
 }: DataVizAnalysisContentProps) {
   const canonicalUrl =
-    canonicalUrlProp ?? "https://kanitmann.com/articles/data-viz-analysis";
+    canonicalUrlProp ??
+    new URL("/articles/data-viz-analysis", getSiteUrl()).toString();
   return (
     <>
       <section className="mb-16 font-sans">
@@ -133,7 +135,7 @@ export function DataVizAnalysisContent({
             title="Visualization 1 - Executive-Ready Health Table"
             focus="Global Health Metrics Comparison"
             summary="A polished `gt` table compares life expectancy, infant mortality, and death rates for nine countries. Column spanners, aligned ranks, and color-coded performance finally match the expectations of an analyst briefing deck."
-            takeaway="Professional formatting is not a finishing touch-it is how data earns trust."
+            takeaway="Professional formatting is not a finishing touch — it is how data earns trust."
           />
           <VisualizationHighlight
             title="Visualization 2 - COVID-19 Response Storyline"

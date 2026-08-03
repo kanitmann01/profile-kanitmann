@@ -1,6 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Instrument_Serif, JetBrains_Mono, Geist } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -13,6 +14,7 @@ import { getSiteUrl } from "@/lib/site";
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
+  style: ["normal", "italic"],
   variable: "--font-serif",
 });
 
@@ -27,9 +29,9 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Kanit Mann - Data & ML Engineer",
+  title: "Kanit Mann - Data, ML & AI Engineer",
   description:
-    "Data & ML Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
+    "Data, ML & AI Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
   keywords: [
     "data engineer",
     "machine learning",
@@ -75,9 +77,9 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "Kanit Mann - Data & ML Engineer",
+    title: "Kanit Mann - Data, ML & AI Engineer",
     description:
-      "Data & ML Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
+      "Data, ML & AI Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
     url: getSiteUrl(),
     siteName: "Kanit Mann Portfolio",
     type: "website",
@@ -86,9 +88,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kanit Mann - Data & ML Engineer",
+    title: "Kanit Mann - Data, ML & AI Engineer",
     description:
-      "Data & ML Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
+      "Data, ML & AI Engineer specializing in cloud infrastructure, ML pipelines, and analytics. MS Data Science, University of Arizona.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -161,7 +163,7 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "Person",
             name: "Kanit Mann",
-            jobTitle: "Data & ML Engineer",
+            jobTitle: "Data, ML & AI Engineer",
             url: siteUrl,
             sameAs: [
               "https://github.com/kanitmann01",
@@ -251,12 +253,17 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TactileFeedbackProvider>
-            <Navigation />
-            <main className="min-h-screen pt-16">{children}</main>
-            <Footer />
-            <Toaster />
-          </TactileFeedbackProvider>
+          {/* Respect the user's OS-level reduced-motion setting across the whole
+              Framer Motion layer (entrance, hover, and view-triggered animations).
+              The CSS @media rule in globals.css only covers keyframe animations. */}
+          <MotionConfig reducedMotion="user">
+            <TactileFeedbackProvider>
+              <Navigation />
+              <main className="min-h-screen pt-16">{children}</main>
+              <Footer />
+              <Toaster />
+            </TactileFeedbackProvider>
+          </MotionConfig>
         </ThemeProvider>
       </body>
     </html>

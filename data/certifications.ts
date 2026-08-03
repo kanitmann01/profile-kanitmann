@@ -15,6 +15,7 @@ export const certifications: Certification[] = [
     title: "Claude 101",
     issuer: "Anthropic",
     issueDate: "2026-06-01",
+    credentialId: "xcavpyxkrnsc",
     linkedInUrl:
       "https://www.linkedin.com/in/kanitmann/details/certifications/",
   },
@@ -22,6 +23,7 @@ export const certifications: Certification[] = [
     title: "AI Fluency: Framework & Foundations",
     issuer: "Anthropic",
     issueDate: "2026-06-01",
+    credentialId: "vcoxct4zctf5",
     linkedInUrl:
       "https://www.linkedin.com/in/kanitmann/details/certifications/",
   },

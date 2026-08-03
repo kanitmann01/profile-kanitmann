@@ -9,10 +9,23 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { GraduationCap, TrendingUp, BookOpen, ArrowRight } from "lucide-react";
 import { useSpacedRepetition } from "@/hooks/use-spaced-repetition";
-import { subjects } from "@/data/imat/registry";
+import { subjects, notes } from "@/data/imat/registry";
 import type { Subject } from "@/data/imat/types";
 import { FadeIn } from "@/components/animations/fade-in";
 import { universities, imatExamInfo } from "@/data/imat/universities";
+
+// Bare note slug → { subject, topic }. Progress is keyed by the bare slug
+// (e.g. "glycolysis"), so subject/topic must be resolved via the registry
+// rather than parsed from the stored key. Built once at module scope.
+const notePathBySlug = new Map(
+  notes.map((n) => [n.slug, { subject: n.subject, topic: n.topic }])
+);
+
+function noteHref(slug: string): string {
+  const path = notePathBySlug.get(slug);
+  if (!path) return `/imat/${slug}`;
+  return `/imat/${path.subject}/${path.topic}/${slug}`;
+}
 
 function parseWeight(w: string): number {
   return parseFloat(w.replace(/[^0-9.]/g, "")) || 0;
@@ -69,9 +82,10 @@ export default function ImatDashboard() {
 
   const subjectProgress = useMemo(() => {
     return subjects.map((s) => {
-      const subjectNotes = Object.values(progress).filter((p) =>
-        p.noteSlug.startsWith(s.slug + "/")
-      );
+      const subjectNotes = Object.values(progress).filter((p) => {
+        const path = notePathBySlug.get(p.noteSlug);
+        return path?.subject === s.slug;
+      });
       const total = subjectNotes.length;
       const strong = subjectNotes.filter(
         (p) => p.confidence === "strong"
@@ -101,8 +115,11 @@ export default function ImatDashboard() {
       .map((slug) => {
         const p = progress[slug];
         if (!p) return null;
-        const subjectMatch = slug.split("/")[0] as Subject;
-        const meta = subjects.find((s) => s.slug === subjectMatch);
+        const path = notePathBySlug.get(slug);
+        const subjectMatch = (path?.subject ?? null) as Subject | null;
+        const meta = subjectMatch
+          ? subjects.find((s) => s.slug === subjectMatch)
+          : undefined;
         const weight = meta ? parseWeight(meta.examWeight) : 0;
         const overdueDays = Math.max(
           0,
@@ -124,7 +141,7 @@ export default function ImatDashboard() {
       .slice(0, 5) as {
       slug: string;
       score: number;
-      meta: (typeof subjects)[0];
+      meta: (typeof subjects)[0] | undefined;
       progress: any;
     }[];
   }, [dueNotes, progress]);
@@ -398,11 +415,12 @@ export default function ImatDashboard() {
                           {item.slug}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {item.meta?.title} · {item.progress.confidence}
+                          {item.meta?.title ?? "Unknown subject"} ·{" "}
+                          {item.progress.confidence}
                         </p>
                       </div>
                       <Button asChild size="sm">
-                        <Link href={`/imat/${item.slug}`}>Start Review</Link>
+                        <Link href={noteHref(item.slug)}>Start Review</Link>
                       </Button>
                     </div>
                   ))}

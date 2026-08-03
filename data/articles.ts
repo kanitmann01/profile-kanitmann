@@ -16,7 +16,11 @@ export type ArticleMeta = {
   kind?: ArticleKind;
 };
 
-export const topArticleSlug: string | undefined = "fable-5";
+// No hardcoded hero: the articles page now falls back to the first
+// `featuredOnHome` article (a data-relevant piece) rather than the Fable-5
+// museum, which showcased other people's builds and was off-message for the
+// site's ML/Data positioning. The museum remains reachable via its link.
+export const topArticleSlug: string | undefined = undefined;
 
 export const articles: ArticleMeta[] = [
   {
@@ -39,7 +43,10 @@ export const articles: ArticleMeta[] = [
       "three.js",
       "claude code",
     ],
-    featuredOnHome: true,
+    // Demoted from featured: the museum showcases others' Claude builds and
+    // diluted the ML/Data positioning on the homepage. Still linked from the
+    // articles list and its own page.
+    featuredOnHome: false,
     kind: "museum",
   },
   {
@@ -86,6 +93,7 @@ export const articles: ArticleMeta[] = [
       "R",
       "data presentation",
     ],
+    featuredOnHome: true,
   },
   {
     slug: "technical-blog-3",

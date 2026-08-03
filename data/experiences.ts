@@ -1,4 +1,9 @@
-export type WorkType = "Full-time" | "Part-time" | "Internship" | "Contract";
+export type WorkType =
+  | "Full-time"
+  | "Part-time"
+  | "Internship"
+  | "Contract"
+  | "Apprenticeship";
 export type WorkMode = "On-site" | "Hybrid" | "Remote";
 
 export type SubRole = {
@@ -29,6 +34,10 @@ export type Experience = {
   achievements?: string[];
   roles?: SubRole[];
   featuredOnHome?: boolean;
+  /** Ordering weight for the homepage compact card (lower = higher). The About
+   *  timeline uses the data-file order; this only affects the homepage feed so
+   *  the strongest, most on-target roles surface first. */
+  homeOrder?: number;
   collapsible?: boolean;
 };
 
@@ -41,44 +50,71 @@ export const experiences: Experience[] = [
     location: "Remote",
     startDate: "Jul 2026",
     endDate: "Present",
-    duration: "1 mo",
+    duration: "2 mos",
     workMode: "Remote",
     description:
       "Contracted to evaluate and refine advanced conversational AI systems and Audio Virtual Agents for an enterprise client. Conduct comparative performance analyses between machine learning model iterations, utilizing audio datasets and JSON transcripts to evaluate output accuracy. Synthesize model evaluation metrics to deliver structured, high-quality technical feedback for ongoing algorithmic alignment and natural language model optimization.",
     skills: [
-      "Conversational AI",
       "Model Evaluation",
+      "Data Analysis",
+      "Conversational AI",
       "Natural Language Processing",
       "Machine Learning",
-      "Audio Data Analysis",
     ],
     featuredOnHome: true,
+    homeOrder: 3,
+  },
+  {
+    id: "mercor",
+    company: "Mercor",
+    position: "Offensive Cyber Expert",
+    type: "Contract",
+    location: "Remote",
+    startDate: "Jul 2026",
+    endDate: "Present",
+    duration: "2 mos",
+    workMode: "Remote",
+    description:
+      "Partnered with Mercor as an independent contractor to enhance AI models in cybersecurity. Developed expert-level prompts for offensive and defensive cybersecurity topics to improve model understanding, and evaluated and annotated model responses for technical accuracy and sensitivity to ensure high-quality outputs.",
+    skills: [
+      "AI Safety",
+      "Prompt Engineering",
+      "Cybersecurity",
+      "Offensive Security",
+      "Technical Evaluation",
+    ],
+    // Off the homepage feed: the title reads as off-message for ML/Data roles
+    // and isn't on the resume. Still shown in full on the About timeline.
+    featuredOnHome: false,
   },
   {
     id: "netstar",
     company: "NetSTAR Global",
-    position: "ML Engineer",
-    type: "Internship",
+    position: "Machine Learning Engineer",
+    type: "Apprenticeship",
     location: "Remote",
     startDate: "Jan 2026",
     endDate: "May 2026",
     duration: "5 mos",
     workMode: "Remote",
     description:
-      "Developed machine learning models and data pipelines for global-scale network analytics. Built feature extraction pipelines, trained classification models, and delivered actionable insights from network telemetry data for enterprise clients.",
+      "Engineered an enterprise-grade automated threat intelligence platform with a hybrid detection architecture combining a FastText NLP classifier, structured ML models, and algorithmic distance rules to identify deceptive URLs and brand spoofing, improving detection accuracy and reducing manual investigation time for client security teams. Analyzed 1B+ phishing URLs using SQL and orchestrated a containerized environment to support real-time telemetry on a live Power BI dashboard, integrating NetSTAR and PhishStats APIs to dynamically enrich zero-day threat evaluation for client networks.",
     skills: [
+      "FastText",
+      "Power BI",
+      "SQL",
+      "Docker",
       "Python",
       "Machine Learning",
-      "Data Pipelines",
-      "TensorFlow",
-      "Scikit-learn",
     ],
     achievements: [
-      "Built ML classification models for network anomaly detection achieving high precision on telemetry data",
-      "Designed automated feature extraction pipeline processing millions of network events daily",
-      "Delivered executive dashboards translating model outputs into actionable engineering recommendations",
+      "Achieved ~96% accuracy on zero-day phishing threats with an ML ensemble (XGBoost, LightGBM, Random Forest, Logistic Regression)",
+      "Engineered high-throughput data pipelines processing 1B+ phishing URLs using SQL and distributed frameworks",
+      "Containerized the infrastructure with Docker and deployed real-time Power BI dashboards for enterprise client security teams",
+      "Integrated NetSTAR and PhishStats APIs to dynamically enrich zero-day threat evaluation for client networks",
     ],
     featuredOnHome: true,
+    homeOrder: 1,
   },
   {
     id: "ericsson",
@@ -100,19 +136,19 @@ export const experiences: Experience[] = [
         duration: "1 yr 4 mos",
         workMode: "Hybrid",
         description:
-          "Led deployment and optimization of Citrix virtual infrastructure across regional data centers, improving resource utilization and reducing system latency. Contributed to migrating approximately 2,000 servers from on-premises infrastructure to Google Cloud Platform (GCP) and collaborated with security teams to harden the hybrid cloud environment.",
+          "Orchestrated the scale-out Citrix virtual infrastructure migration of 2,000+ production servers to Google Cloud Platform (GCP), executing one of the company's largest public cloud modernization initiatives. Collaborated with security teams to harden the hybrid cloud environment.",
         skills: [
           "Citrix Workspace",
           "Citrix Virtual Apps",
           "Google Cloud Platform",
           "Cloud Migration",
           "Database Management",
+          "SQL",
         ],
         achievements: [
-          "Successfully migrated 2,000+ servers to GCP with minimal disruption",
-          "Improved resource utilization and reduced system latency",
-          "Implemented automated database management workflows",
-          "Achieved high uptime for mission-critical applications",
+          "Led team migration of 2,000+ servers from on-prem to GCP, reducing infrastructure cost by an estimated 30%",
+          "Improved tool uptime to three 9s (99.9% uptime SLA)",
+          "Automated database management workflows, reducing maintenance time by 40% and freeing 8 hours/week for the team",
         ],
       },
       {
@@ -133,6 +169,7 @@ export const experiences: Experience[] = [
       },
     ],
     featuredOnHome: true,
+    homeOrder: 2,
   },
   {
     id: "tata-power",
@@ -209,6 +246,16 @@ export const experiences: Experience[] = [
   },
 ];
 
-export const homeExperiences = experiences.filter(
-  (experience) => experience.featuredOnHome
-);
+/**
+ * Experiences shown on the homepage compact card, ordered by `homeOrder`
+ * (ascending; missing values sort last, preserving data-file order among
+ * themselves). This is independent of the About-page timeline, which uses
+ * the data-file order directly.
+ */
+export const homeExperiences = experiences
+  .filter((experience) => experience.featuredOnHome)
+  .sort((a, b) => {
+    const ai = a.homeOrder ?? Number.MAX_SAFE_INTEGER;
+    const bi = b.homeOrder ?? Number.MAX_SAFE_INTEGER;
+    return ai - bi;
+  });

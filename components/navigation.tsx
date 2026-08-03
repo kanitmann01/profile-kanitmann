@@ -181,9 +181,9 @@ export function Navigation() {
                       href={item.href}
                       onClick={closeMobileMenu}
                       className={cn(
-                        "font-serif text-4xl transition-colors hover:text-primary active:scale-95 min-h-[44px] inline-flex items-center",
+                        "font-serif text-4xl transition-colors hover:text-primary-text active:scale-95 min-h-[44px] inline-flex items-center",
                         pathname === item.href
-                          ? "text-primary"
+                          ? "text-primary-text"
                           : "text-foreground"
                       )}
                     >
@@ -215,7 +215,7 @@ function NavLink({
       className={cn(
         "relative font-mono text-xs uppercase tracking-wider transition-colors py-2 active:scale-95",
         isActive
-          ? "text-primary"
+          ? "text-primary-text"
           : "text-muted-foreground hover:text-foreground"
       )}
     >

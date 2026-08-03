@@ -22,10 +22,10 @@ export default function Contact() {
                   Email
                 </span>
                 <a
-                  href="mailto:kanitmann01@gmail.com"
+                  href="mailto:mannkanit@gmail.com"
                   className="font-serif text-lg text-foreground hover:text-primary transition-colors"
                 >
-                  kanitmann01@gmail.com
+                  mannkanit@gmail.com
                 </a>
               </div>
 
@@ -34,7 +34,7 @@ export default function Contact() {
                   Location
                 </span>
                 <span className="font-serif text-lg text-foreground">
-                  Tucson, AZ
+                  Greater Phoenix Area
                 </span>
               </div>
             </div>
@@ -45,7 +45,7 @@ export default function Contact() {
               </span>
               <div className="flex gap-6">
                 <a
-                  href="mailto:kanitmann01@gmail.com"
+                  href="mailto:mannkanit@gmail.com"
                   className="font-mono text-sm text-foreground hover:text-primary transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-px after:bg-primary after:transition-all hover:after:w-full"
                 >
                   Email
@@ -82,7 +82,7 @@ export default function Contact() {
             reach out directly.
           </p>
           <TactileButton asChild size="lg">
-            <a href="mailto:kanitmann01@gmail.com">Email Me Directly</a>
+            <a href="mailto:mannkanit@gmail.com">Email Me Directly</a>
           </TactileButton>
         </div>
       </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
-  { label: "Email", href: "mailto:kanitmann01@gmail.com" },
+  { label: "Email", href: "mailto:mannkanit@gmail.com" },
   { label: "GitHub", href: "https://github.com/kanitmann01", external: true },
   {
     label: "LinkedIn",
@@ -35,7 +35,7 @@ export function Footer() {
               KANIT MANN
             </p>
             <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              Data &amp; ML Engineer
+              Data, ML &amp; AI Engineer
             </p>
             <p className="font-serif italic text-sm text-accent mt-4">
               Dashboards · Pipelines · Data Products

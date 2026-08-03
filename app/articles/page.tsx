@@ -1,20 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { articles, topArticleSlug, type ArticleMeta } from "@/data/articles";
 import { LinkChip } from "@/components/link-chip";
 import { ProjectCardInteractive } from "@/components/project-card-interactive";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-type SortOption = "recent" | "popular";
 
 function MuseumBadge() {
   return (
@@ -25,15 +16,12 @@ function MuseumBadge() {
 }
 
 export default function Articles() {
-  const [sortBy, setSortBy] = useState<SortOption>("recent");
-
   const sortedArticles = useMemo(() => {
-    // Without server-side likes, sort by recent only
     return [...articles].sort(
       (a, b) =>
         new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
-  }, [sortBy]);
+  }, []);
 
   const topArticle: ArticleMeta =
     (topArticleSlug && articles.find((a) => a.slug === topArticleSlug)) ||
@@ -64,29 +52,12 @@ export default function Articles() {
         </header>
 
         <div className="flex items-center justify-end mb-10">
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-xs text-muted-foreground">
-              {sortedArticles.length} articles
-            </span>
-            <Select
-              value={sortBy}
-              onValueChange={(value) => setSortBy(value as SortOption)}
-            >
-              <SelectTrigger className="w-[150px] font-mono text-xs border-0 border-b border-border rounded-none px-0 h-auto py-1">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">Most Recent</SelectItem>
-                <SelectItem value="popular">Most Liked</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <span className="font-mono text-xs text-muted-foreground">
+            {sortedArticles.length} articles
+          </span>
         </div>
 
-        <Link
-          href={topArticle.canonicalPath}
-          className="group block mb-16"
-        >
+        <Link href={topArticle.canonicalPath} className="group block mb-16">
           <article className="relative overflow-hidden">
             <div className="relative h-[400px] w-full overflow-hidden">
               <Image
@@ -146,7 +117,6 @@ export default function Articles() {
                       <span>{article.readTime}</span>
                     </div>
                   </div>
-
                 </div>
               </article>
             </Link>

@@ -1,12 +1,15 @@
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { ShieldAlert, Cpu, Wrench } from "lucide-react"
-import { SlideIn } from "@/components/animations/slide-in"
-import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
-import { ScaleOnHover } from "@/components/animations/scale-on-hover"
-import { getArticleBySlug } from "@/data/articles"
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { ShieldAlert, Cpu, Wrench } from "lucide-react";
+import { SlideIn } from "@/components/animations/slide-in";
+import {
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/animations/stagger-container";
+import { ScaleOnHover } from "@/components/animations/scale-on-hover";
+import { getArticleBySlug } from "@/data/articles";
 
-const article = getArticleBySlug("bios-issues-ubuntu")
+const article = getArticleBySlug("bios-issues-ubuntu");
 
 export function BiosIssuesUbuntuContent() {
   return (
@@ -15,7 +18,9 @@ export function BiosIssuesUbuntuContent() {
         <article>
           <div className="prose prose-lg max-w-none">
             <p className="text-foreground leading-relaxed mb-6">
-              Every week, I try to learn something new in the tech space and share my perspective. This week I explored the Ubuntu Community Discourse and was drawn to a post titled
+              Every week, I try to learn something new in the tech space and
+              share my perspective. This week I explored the Ubuntu Community
+              Discourse and was drawn to a post titled
               <a
                 href="https://discourse.ubuntu.com/t/issues-with-motherboard-bios-issues-appearing-on-ubuntu/66303"
                 target="_blank"
@@ -24,17 +29,28 @@ export function BiosIssuesUbuntuContent() {
               >
                 "Issues with motherboard BIOS issues appearing on Ubuntu"
               </a>
-              . The original poster described a frustrating experience on a new ASRock motherboard: stuck in manufacturing mode, hardware security checks failing, and kernel update attempts introducing "bad shim signature" errors, even after OS reinstalls and firmware updates.
+              . The original poster described a frustrating experience on a new
+              ASRock motherboard: stuck in manufacturing mode, hardware security
+              checks failing, and kernel update attempts introducing "bad shim
+              signature" errors, even after OS reinstalls and firmware updates.
             </p>
             <p className="text-foreground leading-relaxed mb-6">
-              What made the discussion fascinating (and a bit daunting) is how quickly troubleshooting becomes layered when hardware, firmware, and the OS intersect. Suggestions spanned UEFI and Secure Boot toggles, vendor firmware tools, and the Linux Vendor Firmware Service (LVFS). It was a reminder that progress often requires patience, methodical testing, and sometimes imperfect workarounds, like disabling Secure Boot temporarily or reverting kernels.
+              What made the discussion fascinating (and a bit daunting) is how
+              quickly troubleshooting becomes layered when hardware, firmware,
+              and the OS intersect. Suggestions spanned UEFI and Secure Boot
+              toggles, vendor firmware tools, and the Linux Vendor Firmware
+              Service (LVFS). It was a reminder that progress often requires
+              patience, methodical testing, and sometimes imperfect workarounds,
+              like disabling Secure Boot temporarily or reverting kernels.
             </p>
           </div>
         </article>
       </section>
 
       <section className="mb-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">Why BIOS + Ubuntu Gets Tricky</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">
+          Why BIOS + Ubuntu Gets Tricky
+        </h2>
         <StaggerContainer className="grid md:grid-cols-3 gap-6">
           {[
             {
@@ -60,7 +76,9 @@ export function BiosIssuesUbuntuContent() {
                     <div className="flex items-start gap-3">
                       <item.icon className="h-6 w-6 text-primary mt-1" />
                       <div>
-                        <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
+                        <h3 className="font-semibold text-lg mb-1">
+                          {item.title}
+                        </h3>
                         <p className="text-muted-foreground">{item.text}</p>
                       </div>
                     </div>
@@ -75,13 +93,27 @@ export function BiosIssuesUbuntuContent() {
       <section className="mb-16">
         <SlideIn direction="left">
           <div className="rounded-lg border border-dashed border-primary/30 bg-primary/5 p-6">
-            <h2 className="text-xl font-semibold text-primary mb-3">Practical Checklist</h2>
+            <h2 className="text-xl font-semibold text-primary mb-3">
+              Practical Checklist
+            </h2>
             <ol className="list-decimal space-y-3 pl-6 text-muted-foreground">
               <li>Document current firmware versions before making changes.</li>
-              <li>Test Secure Boot toggles and re-enroll keys only after confirming firmware updates succeed.</li>
-              <li>Use LVFS for vendor-approved updates but validate against motherboard utilities.</li>
-              <li>Keep a known-good kernel around. Boot it if a new kernel triggers shim errors.</li>
-              <li>Lean on community logs-dmesg, journalctl, and fwupdmgr output often hint at the root cause.</li>
+              <li>
+                Test Secure Boot toggles and re-enroll keys only after
+                confirming firmware updates succeed.
+              </li>
+              <li>
+                Use LVFS for vendor-approved updates but validate against
+                motherboard utilities.
+              </li>
+              <li>
+                Keep a known-good kernel around. Boot it if a new kernel
+                triggers shim errors.
+              </li>
+              <li>
+                Lean on community logs — dmesg, journalctl, and fwupdmgr output
+                often hint at the root cause.
+              </li>
             </ol>
           </div>
         </SlideIn>
@@ -100,5 +132,5 @@ export function BiosIssuesUbuntuContent() {
         </div>
       </footer>
     </>
-  )
+  );
 }

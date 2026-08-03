@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { TactileButton } from "@/components/tactile-button";
 
 declare global {
@@ -127,7 +128,7 @@ export function Hero() {
         >
           <p className="font-sans text-2xl md:text-4xl text-foreground">
             <span className="text-muted-foreground">I&apos;m a</span>{" "}
-            <span className="font-bold">Data &amp; ML Engineer</span>
+            <span className="font-bold">Data, ML &amp; AI Engineer</span>
           </p>
         </motion.div>
 
@@ -138,7 +139,7 @@ export function Hero() {
           className="mt-2 flex items-center gap-3 flex-wrap"
         >
           <p className="font-sans text-2xl md:text-4xl">
-            <span className="font-bold text-primary">
+            <span className="font-bold text-primary-text">
               MS, University of Arizona.
             </span>
           </p>
@@ -157,9 +158,12 @@ export function Hero() {
           <TactileButton size="lg" onClick={openCalendly}>
             Book a call
           </TactileButton>
-          <p className="font-sans text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Check out my projects and reach out
-          </p>
+          <Link
+            href="/projects"
+            className="font-sans text-sm text-muted-foreground max-w-sm leading-relaxed underline-offset-4 hover:text-foreground hover:underline transition-colors"
+          >
+            Or browse the work first →
+          </Link>
         </motion.div>
       </div>
 

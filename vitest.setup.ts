@@ -71,9 +71,12 @@ vi.mock("framer-motion", () => {
     motion,
     AnimatePresence: ({ children }: any) =>
       createElement(Fragment, null, children),
+    MotionConfig: ({ children }: any) =>
+      createElement(Fragment, null, children),
     useScroll: () => ({ scrollYProgress: 0 }),
     useTransform: (_value: any, _input: number[], output: number[]) =>
       output[0],
+    useReducedMotion: () => false,
   };
 });
 

@@ -1,10 +1,10 @@
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Cog, Keyboard, MousePointer2, Wrench } from "lucide-react"
-import { SlideIn } from "@/components/animations/slide-in"
-import { getArticleBySlug } from "@/data/articles"
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Cog, Keyboard, MousePointer2, Wrench } from "lucide-react";
+import { SlideIn } from "@/components/animations/slide-in";
+import { getArticleBySlug } from "@/data/articles";
 
-const article = getArticleBySlug("technical-blog-3")
+const article = getArticleBySlug("technical-blog-3");
 
 export function TechnicalBlog3Content() {
   return (
@@ -13,17 +13,28 @@ export function TechnicalBlog3Content() {
         <SlideIn direction="left">
           <div className="prose prose-lg max-w-none">
             <p className="text-muted-foreground leading-relaxed">
-              Back in 2023 I was issued a corporate laptop with "setting locked" controls. The trackpad and mouse were painfully slow, and every Windows update reset whatever the IT team fixed. After enough tickets, I gave up on the pointing devices and leaned on keyboard shortcuts-an interesting experiment, but not efficient inside a GUI-first OS.
+              Back in 2023 I was issued a corporate laptop with settings locked
+              down. The trackpad and mouse were painfully slow, and every
+              Windows update reset whatever the IT team fixed. After enough
+              tickets, I gave up on the pointing devices and leaned on keyboard
+              shortcuts — an interesting experiment, but not efficient inside a
+              GUI-first OS.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              A tip from Reddit pointed me toward the Windows Registry. If the UI is blocked but Registry access is available, you can edit the same settings at the source. The key for mouse speed lives at <code>HKEY_CURRENT_USER\Control Panel\Mouse</code>. One tweak and a reboot later, my pointer moved at human speed again.
+              A tip from Reddit pointed me toward the Windows Registry. If the
+              UI is blocked but Registry access is available, you can edit the
+              same settings at the source. The key for mouse speed lives at{" "}
+              <code>HKEY_CURRENT_USER\Control Panel\Mouse</code>. One tweak and
+              a reboot later, my pointer moved at human speed again.
             </p>
           </div>
         </SlideIn>
       </section>
 
       <section className="mb-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">Registry Hack in Practice</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
+          Registry Hack in Practice
+        </h2>
         <div className="grid md:grid-cols-3 gap-6">
           {[
             {
@@ -48,7 +59,9 @@ export function TechnicalBlog3Content() {
                   <item.icon className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{item.text}</p>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {item.text}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -58,7 +71,9 @@ export function TechnicalBlog3Content() {
       </section>
 
       <section className="mb-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">What the Registry Taught Me</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
+          What the Registry Taught Me
+        </h2>
         <div className="space-y-6">
           <Card>
             <CardHeader>
@@ -68,7 +83,9 @@ export function TechnicalBlog3Content() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground leading-relaxed">
-                Locked-down environments aren't malicious-they protect credentials and compliance. Understanding the rationale helps when searching for sanctioned workarounds.
+                Locked-down environments aren't malicious — they protect
+                credentials and compliance. Understanding the rationale helps
+                when searching for sanctioned workarounds.
               </p>
             </CardContent>
           </Card>
@@ -80,7 +97,9 @@ export function TechnicalBlog3Content() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground leading-relaxed">
-                Every registry tweak lives in a version-controlled snippets folder. When Windows resets a policy, reapplying the `.reg` file takes seconds.
+                Every registry tweak lives in a version-controlled snippets
+                folder. When Windows resets a policy, reapplying the `.reg` file
+                takes seconds.
               </p>
             </CardContent>
           </Card>
@@ -100,5 +119,5 @@ export function TechnicalBlog3Content() {
         </div>
       </footer>
     </>
-  )
+  );
 }

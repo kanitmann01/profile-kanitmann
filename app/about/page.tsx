@@ -96,10 +96,10 @@ export default function About() {
             <SlideIn direction="left" className="md:col-span-7 md:col-start-6">
               <div className="max-w-prose">
                 <p className="font-sans text-foreground leading-relaxed mb-6 text-lg font-medium">
-                  Data &amp; ML Engineer with 2 years of experience spanning
-                  cloud infrastructure, machine learning, and data pipelines —
-                  from migrating 2,000 servers at Ericsson to building real-time
-                  analytics systems.
+                  Data, ML &amp; AI Engineer with 3+ years of production
+                  experience spanning cloud infrastructure, machine learning,
+                  and data pipelines — from migrating 2,000 servers at Ericsson
+                  to building real-time analytics systems.
                 </p>
                 <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
                   My journey into data science began with a foundation in
@@ -119,12 +119,12 @@ export default function About() {
                   business requirements.
                 </p>
                 <p className="font-sans text-muted-foreground leading-relaxed text-lg">
-                  Now, I'm a Master's student at the University of Arizona (GPA:
-                  3.75), where I'm combining my engineering background with a
-                  passion for data to build intelligent solutions. I believe the
-                  future belongs to those who can bridge the gap between complex
-                  algorithms and practical applications that solve real-world
-                  problems.
+                  I recently completed my Master of Science in Data Science at
+                  the University of Arizona (GPA: 3.75), where I combined my
+                  engineering background with a passion for data to build
+                  intelligent solutions. I believe the future belongs to those
+                  who can bridge the gap between complex algorithms and
+                  practical applications that solve real-world problems.
                 </p>
               </div>
             </SlideIn>
@@ -142,7 +142,7 @@ export default function About() {
                 location="Tucson, AZ"
                 graduationDate="May 2026"
                 gpa="3.75"
-                narrative="Completing my Master of Science in Data Science with a 3.75 GPA in May 2026 marked a pivotal moment in my journey from building firmware and cloud infrastructure to creating intelligent solutions from data. I'm incredibly proud of this achievement and grateful to my family, friends, and mentors at the University of Arizona who supported me through every late-night study session and complex project. This milestone has deepened my expertise in machine learning and data visualization, and I'm excited to bring these skills to build solutions that make a real impact."
+                narrative="Finishing my MS in Data Science with a 3.75 GPA was the payoff of a long detour — from firmware and cloud infrastructure to building with data. I'm proud of it, and grateful to the family, friends, and mentors at the University of Arizona who got me through the late nights and complex builds. I'm ready to put machine learning and visualization to work on products people actually use."
                 images={[
                   "/images/graduation/grad-1.jpg",
                   "/images/graduation/grad-2.jpg",
@@ -226,29 +226,30 @@ export default function About() {
                       University of Arizona Campus Store
                     </h3>
                     <p className="font-mono text-xs text-muted-foreground mb-4">
-                      Student Lead & Keyholder · Oct 2025 – Present · Tucson, AZ
+                      Student Lead & Keyholder · Oct 2025 – May 2026 · Tucson,
+                      AZ
                     </p>
                     <ul className="space-y-2 text-muted-foreground font-sans">
                       <li className="flex items-start gap-3">
-                        <span className="text-primary mt-0.5 flex-shrink-0">
+                        <span className="text-primary-text mt-0.5 flex-shrink-0">
                           —
                         </span>
                         <span>
-                          Lead a team of 70 students, designing onboarding
-                          playbooks and mentoring new hires, coupling shadowing
-                          rotations with clear accountability so student
-                          associates master essential store procedures quickly.
+                          Led a team of 70 student associates: designed
+                          onboarding playbooks, paired shadowing rotations with
+                          clear accountability, and mentored new hires through
+                          store procedures.
                         </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <span className="text-primary mt-0.5 flex-shrink-0">
+                        <span className="text-primary-text mt-0.5 flex-shrink-0">
                           —
                         </span>
                         <span>
-                          Direct day-to-day floor operations-staff scheduling,
-                          inventory checks, and guest experience initiatives-to
-                          keep the team aligned on service standards and sales
-                          goals.
+                          Directed day-to-day store operations — staff
+                          scheduling, inventory checks, and guest-experience
+                          initiatives — to keep the team aligned on service
+                          standards and sales goals.
                         </span>
                       </li>
                     </ul>
@@ -385,12 +386,12 @@ export default function About() {
 export const metadata: Metadata = {
   title: "About - Kanit Mann",
   description:
-    "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
+    "About Kanit Mann: Data, ML & AI Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About - Kanit Mann",
     description:
-      "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
+      "About Kanit Mann: Data, ML & AI Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
     url: getSiteUrl() + "/about",
     type: "website",
   },
@@ -398,6 +399,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About - Kanit Mann",
     description:
-      "About Kanit Mann: Data & ML Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
+      "About Kanit Mann: Data, ML & AI Engineer with experience in cloud infrastructure, machine learning, and data pipelines.",
   },
 };
