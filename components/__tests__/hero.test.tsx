@@ -12,7 +12,15 @@ describe("Hero", () => {
 
   it("renders the role tagline", () => {
     render(<Hero />);
-    expect(screen.getByText(/Data, ML & AI Engineer/)).toBeInTheDocument();
+    expect(screen.getByText("Data, ML & AI")).toBeInTheDocument();
+    expect(screen.getByText("Engineer")).toBeInTheDocument();
+  });
+
+  it("styles the Engineer word in italic serif", () => {
+    render(<Hero />);
+    const engineer = screen.getByText("Engineer");
+    expect(engineer.tagName).toBe("EM");
+    expect(engineer).toHaveClass("font-serif-italic");
   });
 
   it("renders the university affiliation", () => {

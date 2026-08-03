@@ -76,7 +76,7 @@ export default function Home() {
           <FadeIn>
             <div className="text-center mb-16">
               <h2 className="font-serif text-4xl text-foreground mb-4">
-                Featured Projects
+                Featured <em className="font-serif-italic">Projects</em>
               </h2>
               <p className="text-lg text-muted-foreground">
                 Deep dives into projects that showcase technical expertise and
@@ -101,7 +101,7 @@ export default function Home() {
           <FadeIn>
             <div className="text-center mb-16">
               <h2 className="font-serif text-4xl text-foreground mb-4">
-                Featured Articles
+                Featured <em className="font-serif-italic">Articles</em>
               </h2>
               <p className="text-lg text-muted-foreground">
                 Insights and analysis on data science, technology, and
