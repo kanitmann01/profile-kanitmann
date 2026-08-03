@@ -72,7 +72,7 @@ export const certifications: Certification[] = [
       "https://www.linkedin.com/in/kanitmann/details/certifications/",
   },
   {
-    title: "International English Language Testing System",
+    title: "International English Language Testing System (Expired Apr 2026)",
     issuer: "IDP Education Ltd",
     issueDate: "2024-04-01",
     expirationDate: "2026-04-01",
