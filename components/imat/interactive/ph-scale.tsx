@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const SUBSTANCES = [
@@ -37,9 +37,9 @@ function formatScientific(value: number): string {
 export function PHScale() {
   const [pH, setPH] = useState(7);
 
-  const hConc = useMemo(() => Math.pow(10, -pH), [pH]);
-  const ohConc = useMemo(() => Math.pow(10, pH - 14), [pH]);
-  const color = useMemo(() => phToColor(pH), [pH]);
+  const hConc = Math.pow(10, -pH);
+  const ohConc = Math.pow(10, pH - 14);
+  const color = phToColor(pH);
 
   const label = pH < 7 ? "Acidic" : pH > 7 ? "Basic" : "Neutral";
 

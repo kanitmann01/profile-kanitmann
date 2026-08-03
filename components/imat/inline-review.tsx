@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,10 +29,7 @@ export function InlineReview({
   const { recordReview } = useSpacedRepetition();
   const storageKey = `imat-inline-review-${noteSlug}`;
 
-  const inlineQuestions = useMemo(
-    () => selectInlineQuestions(questions),
-    [questions]
-  );
+  const inlineQuestions = selectInlineQuestions(questions);
 
   const [answered, setAnswered] = useState<Record<string, boolean>>({});
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});

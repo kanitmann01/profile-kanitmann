@@ -34,7 +34,7 @@ export function MuseumCard({
   const [imageFailed, setImageFailed] = React.useState(false);
   const prefersReducedMotion = useReducedMotion();
 
-  const handleActivate = React.useCallback(() => {
+  const handleActivate = () => {
     if (onActivate) {
       onActivate(site);
       return;
@@ -42,38 +42,29 @@ export function MuseumCard({
     if (typeof window !== "undefined") {
       window.open(site.demoUrl, "_blank", "noopener,noreferrer");
     }
-  }, [onActivate, site]);
+  };
 
-  const handleClick = React.useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    handleActivate();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
       e.preventDefault();
       handleActivate();
-    },
-    [handleActivate]
-  );
+      return;
+    }
+    if (e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      handleActivate();
+    }
+  };
 
-  const handleKeyDown = React.useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        handleActivate();
-        return;
-      }
-      if (e.key === " " || e.key === "Spacebar") {
-        e.preventDefault();
-        handleActivate();
-      }
-    },
-    [handleActivate]
-  );
-
-  const handleTagClick = React.useCallback(
-    (tag: string) => (e: React.MouseEvent) => {
-      e.stopPropagation();
-      onTagClick?.(tag, e);
-    },
-    [onTagClick]
-  );
+  const handleTagClick = (tag: string) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onTagClick?.(tag, e);
+  };
 
   const ariaLabel = `${site.name} by ${site.author}`;
 

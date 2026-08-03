@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { List, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -42,13 +42,13 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     return () => observerRef.current?.disconnect();
   }, [headings]);
 
-  const scrollToSection = useCallback((id: string) => {
+  const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
       setIsOpen(false);
     }
-  }, []);
+  };
 
   const desktopContent = (
     <nav className="hidden lg:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">

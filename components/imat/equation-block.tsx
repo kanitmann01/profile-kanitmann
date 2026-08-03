@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -25,7 +25,7 @@ export function EquationBlock({ equation, className }: EquationBlockProps) {
     }
   }, [equation.id]);
 
-  const toggleMarked = useCallback(() => {
+  const toggleMarked = () => {
     setMarked((m) => {
       const newMarked = !m;
       const stored = JSON.parse(
@@ -37,7 +37,7 @@ export function EquationBlock({ equation, className }: EquationBlockProps) {
       localStorage.setItem("imat-practice-equations", JSON.stringify(updated));
       return newMarked;
     });
-  }, [equation.id]);
+  };
 
   return (
     <motion.div

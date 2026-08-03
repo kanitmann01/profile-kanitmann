@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 type InhibitionMode = "none" | "competitive" | "non-competitive";
@@ -100,13 +100,13 @@ export function EnzymeKinetics() {
   const [ph, setPh] = useState(OPTIMAL_PH);
   const [inhibition, setInhibition] = useState<InhibitionMode>("none");
 
-  const baseRate = useMemo(() => calcRate(temperature, ph), [temperature, ph]);
+  const baseRate = calcRate(temperature, ph);
 
-  const effectiveRate = useMemo(() => {
+  const effectiveRate = (() => {
     if (inhibition === "competitive") return Math.round(baseRate * 0.6);
     if (inhibition === "non-competitive") return Math.round(baseRate * 0.4);
     return baseRate;
-  }, [baseRate, inhibition]);
+  })();
 
   const isOptimalTemp = temperature === OPTIMAL_TEMP;
   const isOptimalPh = ph === OPTIMAL_PH;

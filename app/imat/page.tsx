@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -80,23 +79,19 @@ export default function ImatDashboard() {
   const strongPct =
     stats.total > 0 ? Math.round((stats.strong / stats.total) * 100) : 0;
 
-  const subjectProgress = useMemo(() => {
-    return subjects.map((s) => {
-      const subjectNotes = Object.values(progress).filter((p) => {
-        const path = notePathBySlug.get(p.noteSlug);
-        return path?.subject === s.slug;
-      });
-      const total = subjectNotes.length;
-      const strong = subjectNotes.filter(
-        (p) => p.confidence === "strong"
-      ).length;
-      const weak = subjectNotes.filter((p) => p.confidence === "weak").length;
-      const pct = total > 0 ? Math.round((strong / total) * 100) : 0;
-      return { ...s, total, strong, weak, pct };
+  const subjectProgress = subjects.map((s) => {
+    const subjectNotes = Object.values(progress).filter((p) => {
+      const path = notePathBySlug.get(p.noteSlug);
+      return path?.subject === s.slug;
     });
-  }, [progress]);
+    const total = subjectNotes.length;
+    const strong = subjectNotes.filter((p) => p.confidence === "strong").length;
+    const weak = subjectNotes.filter((p) => p.confidence === "weak").length;
+    const pct = total > 0 ? Math.round((strong / total) * 100) : 0;
+    return { ...s, total, strong, weak, pct };
+  });
 
-  const overallReadiness = useMemo(() => {
+  const overallReadiness = (() => {
     const totalWeight = subjectProgress.reduce(
       (s, sub) => s + parseWeight(sub.examWeight),
       0
@@ -107,44 +102,43 @@ export default function ImatDashboard() {
       0
     );
     return Math.round(weighted);
-  }, [subjectProgress]);
+  })();
 
-  const priorityNotes = useMemo(() => {
-    const now = new Date();
-    return dueNotes
-      .map((slug) => {
-        const p = progress[slug];
-        if (!p) return null;
-        const path = notePathBySlug.get(slug);
-        const subjectMatch = (path?.subject ?? null) as Subject | null;
-        const meta = subjectMatch
-          ? subjects.find((s) => s.slug === subjectMatch)
-          : undefined;
-        const weight = meta ? parseWeight(meta.examWeight) : 0;
-        const overdueDays = Math.max(
-          0,
-          Math.floor(
-            (now.getTime() - new Date(p.nextReviewDate).getTime()) / 86400000
-          )
-        );
-        const weaknessMultiplier =
-          p.confidence === "weak" ? 3 : p.confidence === "ok" ? 2 : 1;
-        return {
-          slug,
-          score: weight * weaknessMultiplier * (overdueDays + 1),
-          meta,
-          progress: p,
-        };
-      })
-      .filter(Boolean)
-      .sort((a, b) => b!.score - a!.score)
-      .slice(0, 5) as {
-      slug: string;
-      score: number;
-      meta: (typeof subjects)[0] | undefined;
-      progress: any;
-    }[];
-  }, [dueNotes, progress]);
+  const now = new Date();
+
+  const priorityNotes = dueNotes
+    .map((slug) => {
+      const p = progress[slug];
+      if (!p) return null;
+      const path = notePathBySlug.get(slug);
+      const subjectMatch = (path?.subject ?? null) as Subject | null;
+      const meta = subjectMatch
+        ? subjects.find((s) => s.slug === subjectMatch)
+        : undefined;
+      const weight = meta ? parseWeight(meta.examWeight) : 0;
+      const overdueDays = Math.max(
+        0,
+        Math.floor(
+          (now.getTime() - new Date(p.nextReviewDate).getTime()) / 86400000
+        )
+      );
+      const weaknessMultiplier =
+        p.confidence === "weak" ? 3 : p.confidence === "ok" ? 2 : 1;
+      return {
+        slug,
+        score: weight * weaknessMultiplier * (overdueDays + 1),
+        meta,
+        progress: p,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b!.score - a!.score)
+    .slice(0, 5) as {
+    slug: string;
+    score: number;
+    meta: (typeof subjects)[0] | undefined;
+    progress: any;
+  }[];
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">

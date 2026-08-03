@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, Suspense } from "react";
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -9,9 +9,7 @@ import { LinkChip } from "@/components/link-chip";
 import { projects } from "@/data/projects";
 
 function ProjectsContent() {
-  const sortedProjects = useMemo(() => {
-    return [...projects].sort((a, b) => b.order - a.order);
-  }, []);
+  const sortedProjects = [...projects].sort((a, b) => b.order - a.order);
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
