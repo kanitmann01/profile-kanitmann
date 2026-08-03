@@ -45,4 +45,20 @@ describe("Sitemap", () => {
       expect(new Date(entry.lastModified!).getTime()).not.toBeNaN();
     }
   });
+
+  it("includes the Fable-5 museum (canonical article path)", () => {
+    const urls = entries.map((e) => e.url);
+    expect(urls).toContain("https://www.kanit.codes/fable-5");
+  });
+
+  it("includes every project derived from data/projects.ts", () => {
+    const urls = entries.map((e) => e.url);
+    expect(urls).toContain("https://www.kanit.codes/projects/unified-bharat");
+    expect(urls).toContain(
+      "https://www.kanit.codes/projects/twitch-analytics-pipeline"
+    );
+    expect(urls).toContain(
+      "https://www.kanit.codes/projects/college-major-shift-analysis"
+    );
+  });
 });

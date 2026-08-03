@@ -12,9 +12,9 @@ describe("Footer", () => {
     expect(screen.getByText("KANIT MANN")).toBeInTheDocument();
   });
 
-  it("renders the subtitle Data & ML Engineer", () => {
+  it("renders the subtitle Data, ML & AI Engineer", () => {
     render(<Footer />);
-    expect(screen.getByText("Data & ML Engineer")).toBeInTheDocument();
+    expect(screen.getByText("Data, ML & AI Engineer")).toBeInTheDocument();
   });
 
   it("renders all social links as text", () => {
@@ -29,7 +29,7 @@ describe("Footer", () => {
     render(<Footer />);
     expect(screen.getByRole("link", { name: /Email/i })).toHaveAttribute(
       "href",
-      "mailto:kanitmann01@gmail.com"
+      "mailto:mannkanit@gmail.com"
     );
     expect(screen.getByRole("link", { name: /GitHub/i })).toHaveAttribute(
       "href",

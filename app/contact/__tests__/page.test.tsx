@@ -31,7 +31,7 @@ describe("Contact page", () => {
     expect(socialEmailLink).toBeTruthy();
     expect(socialEmailLink).toHaveAttribute(
       "href",
-      "mailto:kanitmann01@gmail.com"
+      "mailto:mannkanit@gmail.com"
     );
 
     const linkedInLink = screen.getByRole("link", { name: /linkedin/i });
@@ -61,7 +61,7 @@ describe("Contact page", () => {
 
   it("renders contact info with email and location", () => {
     render(<ContactPage />);
-    expect(screen.getByText("kanitmann01@gmail.com")).toBeInTheDocument();
-    expect(screen.getByText("Tucson, AZ")).toBeInTheDocument();
+    expect(screen.getByText("mannkanit@gmail.com")).toBeInTheDocument();
+    expect(screen.getByText("Greater Phoenix Area")).toBeInTheDocument();
   });
 });

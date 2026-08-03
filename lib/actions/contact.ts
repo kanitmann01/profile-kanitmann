@@ -82,7 +82,7 @@ export async function sendContactEmail(
   try {
     await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL!,
-      to: "kanitmann01@gmail.com",
+      to: "mannkanit@gmail.com",
       subject: composedSubject,
       replyTo: email,
       html: ownerEmailHtml(parsed.data),

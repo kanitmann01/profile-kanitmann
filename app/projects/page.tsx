@@ -1,36 +1,26 @@
-"use client"
+"use client";
 
-import { useState, useMemo, Suspense } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { FadeIn } from "@/components/animations/fade-in"
-import { LinkChip } from "@/components/link-chip"
-import { projects } from "@/data/projects"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
-type SortOption = "recent" | "popular"
+import { useMemo, Suspense } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { FadeIn } from "@/components/animations/fade-in";
+import { LinkChip } from "@/components/link-chip";
+import { projects } from "@/data/projects";
 
 function ProjectsContent() {
-  const [sortBy, setSortBy] = useState<SortOption>("recent")
-
   const sortedProjects = useMemo(() => {
-    // Without server-side likes, sort by order only
-    return [...projects].sort((a, b) => b.order - a.order)
-  }, [sortBy])
+    return [...projects].sort((a, b) => b.order - a.order);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
       <div className="container mx-auto max-w-5xl">
         <FadeIn>
           <div className="mb-20">
-            <h1 className="text-6xl font-serif text-foreground mb-4">Projects</h1>
+            <h1 className="text-6xl font-serif text-foreground mb-4">
+              Projects
+            </h1>
             <p className="text-lg text-muted-foreground max-w-2xl font-mono text-sm uppercase tracking-wider">
               Data engineering, analytics, and ML — built end-to-end
             </p>
@@ -38,27 +28,14 @@ function ProjectsContent() {
         </FadeIn>
 
         <div className="flex items-center justify-between mb-8 border-b border-border pb-6">
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-              {projects.length} {projects.length === 1 ? "project" : "projects"}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground mr-2">Sort</span>
-            <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
-              <SelectTrigger className="w-[160px] font-mono text-xs uppercase tracking-wider">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">Most Recent</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
+            {projects.length} {projects.length === 1 ? "project" : "projects"}
+          </span>
         </div>
 
         <div className="space-y-28">
           {sortedProjects.map((project, index) => {
-            const imageLeft = index % 2 === 0
+            const imageLeft = index % 2 === 0;
             return (
               <motion.article
                 key={project.slug}
@@ -69,13 +46,18 @@ function ProjectsContent() {
                 transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
               >
                 <Link href={project.href} className="block group no-underline">
-                  <div className={`flex flex-col ${imageLeft ? "md:flex-row" : "md:flex-row-reverse"} gap-8 md:gap-12 items-start`}>
+                  <div
+                    className={`flex flex-col ${imageLeft ? "md:flex-row" : "md:flex-row-reverse"} gap-8 md:gap-12 items-start`}
+                  >
                     <div className="w-full md:w-1/2 flex-shrink-0">
                       <div className="relative overflow-hidden rounded-sm aspect-[4/3] bg-muted">
                         <motion.div
                           className="absolute inset-0"
                           whileHover={{ scale: 1.05 }}
-                          transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+                          transition={{
+                            duration: 0.6,
+                            ease: [0.21, 0.47, 0.32, 0.98],
+                          }}
                         >
                           <Image
                             src={project.image}
@@ -119,7 +101,10 @@ function ProjectsContent() {
                         {project.description}
                       </p>
 
-                      <div data-project-tags className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-wider">
+                      <div
+                        data-project-tags
+                        className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-wider"
+                      >
                         {project.tags.map((tag) => (
                           <span
                             key={tag}
@@ -133,26 +118,30 @@ function ProjectsContent() {
                   </div>
                 </Link>
               </motion.article>
-            )
+            );
           })}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default function Projects() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-background py-20 px-6">
-        <div className="container mx-auto max-w-5xl">
-          <div className="mb-20">
-            <h1 className="text-6xl font-serif text-foreground mb-4">Projects</h1>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-background py-20 px-6">
+          <div className="container mx-auto max-w-5xl">
+            <div className="mb-20">
+              <h1 className="text-6xl font-serif text-foreground mb-4">
+                Projects
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <ProjectsContent />
     </Suspense>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 
 import Articles from "@/app/articles/page";
@@ -44,18 +44,12 @@ describe("Articles page", () => {
     expect(topLink).toHaveAttribute("href", expectedTop.canonicalPath);
   });
 
-  it("hero block stays pinned to the top article regardless of sort selection", () => {
+  it("hero block stays pinned to the top article (by topArticleSlug)", () => {
     render(<Articles />);
     const expectedTop =
       articles.find((a) => a.slug === topArticleSlug) ||
       articles.find((a) => a.featuredOnHome) ||
       articles[0];
-
-    const select = screen.getByRole("combobox");
-    fireEvent.click(select);
-    const mostLiked = screen.getByRole("option", { name: /Most Liked/i });
-    fireEvent.click(mostLiked);
-
     expect(screen.getByText(expectedTop.title)).toBeInTheDocument();
   });
 
@@ -65,10 +59,12 @@ describe("Articles page", () => {
     expect(badges.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("renders sort controls", () => {
+  it("renders the article count, not dead sort controls", () => {
     render(<Articles />);
-    expect(screen.getByRole("combobox")).toBeInTheDocument();
-    expect(screen.getByText("Most Recent")).toBeInTheDocument();
+    // The count span reads like "7 articles".
+    expect(screen.getByText(/^\d+ articles$/i)).toBeInTheDocument();
+    // The non-functional sort Select should be gone.
+    expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
   });
 });
 
