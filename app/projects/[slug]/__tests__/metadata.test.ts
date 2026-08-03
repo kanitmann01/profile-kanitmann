@@ -34,7 +34,7 @@ describe("Project route generateMetadata delegation", () => {
     );
   });
 
-  it("returns fallback www.kanit.codes URL when env var is unset", async () => {
+  it("returns fallback kanitmann.com URL when env var is unset", async () => {
     delete process.env.NEXT_PUBLIC_SITE_URL;
 
     const { generateMetadata } = await import("../page");
@@ -43,7 +43,7 @@ describe("Project route generateMetadata delegation", () => {
     });
 
     expect(md.openGraph?.url).toBe(
-      "https://www.kanit.codes/projects/unified-bharat"
+      "https://kanitmann.com/projects/unified-bharat"
     );
   });
 

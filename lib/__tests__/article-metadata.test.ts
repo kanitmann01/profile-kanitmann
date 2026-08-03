@@ -46,7 +46,7 @@ describe("article metadata builders", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
       const md = buildArticleMetadata(article);
       expect(md.openGraph?.url).toBe(
-        "https://www.kanit.codes/articles/three-line-skill"
+        "https://kanitmann.com/articles/three-line-skill"
       );
     });
 
@@ -96,11 +96,11 @@ describe("article metadata builders", () => {
       );
     });
 
-    it("falls back to www.kanit.codes when env is unset", () => {
+    it("falls back to kanitmann.com when env is unset", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
       const schema = buildArticleSchema(article);
       expect(schema.mainEntityOfPage["@id"]).toBe(
-        "https://www.kanit.codes/articles/three-line-skill"
+        "https://kanitmann.com/articles/three-line-skill"
       );
     });
   });
@@ -128,12 +128,12 @@ describe("article metadata builders", () => {
       });
     });
 
-    it("uses the www.kanit.codes fallback when env is unset", () => {
+    it("uses the kanitmann.com fallback when env is unset", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
       const schema = buildBreadcrumbSchema(article);
-      expect(schema.itemListElement[0].item).toBe("https://www.kanit.codes/");
+      expect(schema.itemListElement[0].item).toBe("https://kanitmann.com/");
       expect(schema.itemListElement[2].item).toBe(
-        "https://www.kanit.codes/articles/three-line-skill"
+        "https://kanitmann.com/articles/three-line-skill"
       );
     });
   });

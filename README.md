@@ -4,7 +4,7 @@ A modern, responsive portfolio website built with Next.js 16, TypeScript, and Ta
 
 ## Live Demo
 
-Visit: [kanit.codes](https://kanit.codes)
+Visit: [kanitmann.com](https://kanitmann.com)
 
 ## Features
 
@@ -83,23 +83,26 @@ profile-kanitmann/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm, yarn, or pnpm
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/kanitmann01/profile-kanitmann.git
    cd profile-kanitmann
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Run the development server**
+
    ```bash
    npm run dev
    ```
@@ -203,7 +206,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - **Email**: kanitmann01@gmail.com
 - **LinkedIn**: [kanitmann](https://linkedin.com/in/kanitmann)
 - **GitHub**: [kanitmann01](https://github.com/kanitmann01)
-- **Website**: [kanit.codes](https://kanit.codes)
+- **Website**: [kanitmann.com](https://kanitmann.com)
 
 ## Acknowledgments
 
@@ -215,4 +218,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-Built with ❤️ by [Kanit Mann](https://kanit.codes) 
+Built with ❤️ by [Kanit Mann](https://kanitmann.com)

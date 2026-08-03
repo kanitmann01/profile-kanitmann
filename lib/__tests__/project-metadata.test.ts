@@ -54,7 +54,7 @@ describe("project metadata builders", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
       const md = buildProjectMetadata(project);
       expect(md.openGraph?.url).toBe(
-        "https://www.kanit.codes/projects/unified-bharat"
+        "https://kanitmann.com/projects/unified-bharat"
       );
     });
 
@@ -108,11 +108,11 @@ describe("project metadata builders", () => {
       );
     });
 
-    it("falls back to www.kanit.codes when env is unset", () => {
+    it("falls back to kanitmann.com when env is unset", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
       const schema = buildProjectSchema(project);
       expect(schema.mainEntityOfPage["@id"]).toBe(
-        "https://www.kanit.codes/projects/unified-bharat"
+        "https://kanitmann.com/projects/unified-bharat"
       );
     });
 
@@ -145,12 +145,12 @@ describe("project metadata builders", () => {
       });
     });
 
-    it("uses the www.kanit.codes fallback when env is unset", () => {
+    it("uses the kanitmann.com fallback when env is unset", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
       const schema = buildBreadcrumbSchema(project);
-      expect(schema.itemListElement[0].item).toBe("https://www.kanit.codes/");
+      expect(schema.itemListElement[0].item).toBe("https://kanitmann.com/");
       expect(schema.itemListElement[2].item).toBe(
-        "https://www.kanit.codes/projects/unified-bharat"
+        "https://kanitmann.com/projects/unified-bharat"
       );
     });
   });

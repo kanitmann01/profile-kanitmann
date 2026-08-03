@@ -24,14 +24,14 @@ describe("feed-generator", () => {
       );
     });
 
-    it("uses the canonical www.kanit.codes fallback, not bare kanit.codes", () => {
+    it("uses the canonical kanitmann.com fallback, not bare kanitmann.com", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
       // Locked in by app/__tests__/sitemap.test.ts — canonical form is www.
       expect(getArticleUrl("/articles/foo")).toBe(
-        "https://www.kanit.codes/articles/foo"
+        "https://kanitmann.com/articles/foo"
       );
       expect(getArticleUrl("/articles/foo")).not.toBe(
-        "https://kanit.codes/articles/foo"
+        "https://kanitmann.com/articles/foo"
       );
     });
   });

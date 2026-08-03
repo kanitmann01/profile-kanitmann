@@ -1,6 +1,6 @@
 # Copy Audit & Content Plan: Kanit Mann Portfolio
 
-**Site:** `kanit.codes` — Personal portfolio (Next.js, Tailwind, shadcn/ui)  
+**Site:** `kanitmann.com` — Personal portfolio (Next.js, Tailwind, shadcn/ui)  
 **Owner:** Kanit Mann (Ken)  
 **Audience:** Recruiters, hiring managers, data science/data engineering peers  
 **Current positioning:** "Data Scientist & Product Builder"  
@@ -10,37 +10,37 @@
 
 ## Audit Findings
 
-| # | Issue | Dimension | Severity | Location |
-|---|-------|-----------|----------|----------|
-| 1 | Hero has no value prop — just name + title | Clarity | High | `components/hero.tsx:146-173` |
-| 2 | "Building thoughtful solutions" — vague, no specific outcome | Impact | High | `components/footer.tsx:37` |
-| 3 | "Building intelligent applications from data and cloud" repeated verbatim 4x across meta/OG/Twitter | Impact | Med | `app/layout.tsx:37,78,88` |
-| 4 | "Data Scientist & Engineer" vs "Data Scientist & Product Builder" — inconsistent title across site | Clarity | Med | `layout.tsx:36` vs `hero.tsx:169-172` vs `footer.tsx:34` |
-| 5 | "also known as Ken" — awkward phrasing | Clarity | Low | `components/hero.tsx:159` |
-| 6 | "Professional Experience" section headline — same on homepage and About page, lacks distinction | Structure | Med | `app/page.tsx:51`, `app/about/page.tsx:207` |
-| 7 | "Let's Build Something Amazing" — generic, overused closing CTA | Impact | Med | `app/about/page.tsx:298` |
-| 8 | "Get In Touch" CTA — passive, not action-specific | Conversion | Med | `components/hero.tsx:186` |
-| 9 | "Selected work in data engineering..." — passive, no reader benefit | Impact | Low | `app/projects/page.tsx:44` |
-| 10 | "Let's Connect" — fine but paired CTA "Email Me Directly" redundant with contact form | Conversion | Low | `app/contact/page.tsx:74-82` |
-| 11 | "Prefer a Quick Chat? ... Sometimes a conversation is worth a thousand emails" — wordy | Clarity | Low | `app/contact/page.tsx:72-78` |
-| 12 | "engineering firmware" — slight awkwardness | Clarity | Low | `app/about/page.tsx:93` |
-| 13 | "Now, I'm a Master's student" — weak transition | Clarity | Low | `app/about/page.tsx:103` |
-| 14 | "My journey into data science began..." — opens with "journey," not reader's problem | Impact | Med | `app/about/page.tsx:92` |
-| 15 | "I believe the future belongs to those who can bridge the gap between complex algorithms and practical applications" — wordy | Clarity | Low | `app/about/page.tsx:105` |
-| 16 | "View Full Experience" / "Read Article" / "View Projects" — functional, not benefit-driven | Conversion | Med | `app/page.tsx:63,119`, `hero.tsx:183` |
-| 17 | RSS feed title "Kanit Mann - Articles" — generic | Impact | Low | `app/rss.xml/route.ts` |
-| 18 | "Share on X" — looks like a placeholder | Tone | Low | `components/social-share.tsx` |
-| 19 | "Send Message" — no confirmation that email client will open | Conversion | Low | `components/contact-form.tsx:126` |
-| 20 | "analytics" and "machine learning" — second is subfield of third in list | Clarity | Low | `app/projects/page.tsx:44` |
-| 21 | Portfolio positions as Data Scientist; LinkedIn targets Data Analyst/Engineer — mismatch for recruiters | Clarity | **High** | Site-wide |
-| 22 | No "Seeking Summer 2026" or job-search status anywhere | Conversion | **High** | Site-wide |
-| 23 | "2 years of engineering experience" hidden in narrative, not stated upfront | Impact | Med | `app/about/page.tsx` |
-| 24 | "Ex-Ericsson" never used as credibility signal | Impact | Med | Site-wide |
-| 25 | Portfolio emphasizes ML models; LinkedIn emphasizes dashboards, ETL, BI tools — audience sees both | Clarity | Low | Projects list |
-| 26 | **NetSTAR Global ML Engineer role (Jan-May 2026) missing entirely** | Impact | **High** | All pages |
-| 27 | **"1 Billion Phishing URLs" — best specific number, not used anywhere** | Impact | **High** | Site-wide |
-| 28 | UA Student Lead currently listed under Leadership but missing "70 students" scope | Clarity | Low | `app/about/page.tsx:244` |
-| 29 | Decision Sciences & Student Council missing from Leadership section | Clarity | Low | `app/about/page.tsx` |
+| #   | Issue                                                                                                                        | Dimension  | Severity | Location                                                 |
+| --- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- | -------- | -------------------------------------------------------- |
+| 1   | Hero has no value prop — just name + title                                                                                   | Clarity    | High     | `components/hero.tsx:146-173`                            |
+| 2   | "Building thoughtful solutions" — vague, no specific outcome                                                                 | Impact     | High     | `components/footer.tsx:37`                               |
+| 3   | "Building intelligent applications from data and cloud" repeated verbatim 4x across meta/OG/Twitter                          | Impact     | Med      | `app/layout.tsx:37,78,88`                                |
+| 4   | "Data Scientist & Engineer" vs "Data Scientist & Product Builder" — inconsistent title across site                           | Clarity    | Med      | `layout.tsx:36` vs `hero.tsx:169-172` vs `footer.tsx:34` |
+| 5   | "also known as Ken" — awkward phrasing                                                                                       | Clarity    | Low      | `components/hero.tsx:159`                                |
+| 6   | "Professional Experience" section headline — same on homepage and About page, lacks distinction                              | Structure  | Med      | `app/page.tsx:51`, `app/about/page.tsx:207`              |
+| 7   | "Let's Build Something Amazing" — generic, overused closing CTA                                                              | Impact     | Med      | `app/about/page.tsx:298`                                 |
+| 8   | "Get In Touch" CTA — passive, not action-specific                                                                            | Conversion | Med      | `components/hero.tsx:186`                                |
+| 9   | "Selected work in data engineering..." — passive, no reader benefit                                                          | Impact     | Low      | `app/projects/page.tsx:44`                               |
+| 10  | "Let's Connect" — fine but paired CTA "Email Me Directly" redundant with contact form                                        | Conversion | Low      | `app/contact/page.tsx:74-82`                             |
+| 11  | "Prefer a Quick Chat? ... Sometimes a conversation is worth a thousand emails" — wordy                                       | Clarity    | Low      | `app/contact/page.tsx:72-78`                             |
+| 12  | "engineering firmware" — slight awkwardness                                                                                  | Clarity    | Low      | `app/about/page.tsx:93`                                  |
+| 13  | "Now, I'm a Master's student" — weak transition                                                                              | Clarity    | Low      | `app/about/page.tsx:103`                                 |
+| 14  | "My journey into data science began..." — opens with "journey," not reader's problem                                         | Impact     | Med      | `app/about/page.tsx:92`                                  |
+| 15  | "I believe the future belongs to those who can bridge the gap between complex algorithms and practical applications" — wordy | Clarity    | Low      | `app/about/page.tsx:105`                                 |
+| 16  | "View Full Experience" / "Read Article" / "View Projects" — functional, not benefit-driven                                   | Conversion | Med      | `app/page.tsx:63,119`, `hero.tsx:183`                    |
+| 17  | RSS feed title "Kanit Mann - Articles" — generic                                                                             | Impact     | Low      | `app/rss.xml/route.ts`                                   |
+| 18  | "Share on X" — looks like a placeholder                                                                                      | Tone       | Low      | `components/social-share.tsx`                            |
+| 19  | "Send Message" — no confirmation that email client will open                                                                 | Conversion | Low      | `components/contact-form.tsx:126`                        |
+| 20  | "analytics" and "machine learning" — second is subfield of third in list                                                     | Clarity    | Low      | `app/projects/page.tsx:44`                               |
+| 21  | Portfolio positions as Data Scientist; LinkedIn targets Data Analyst/Engineer — mismatch for recruiters                      | Clarity    | **High** | Site-wide                                                |
+| 22  | No "Seeking Summer 2026" or job-search status anywhere                                                                       | Conversion | **High** | Site-wide                                                |
+| 23  | "2 years of engineering experience" hidden in narrative, not stated upfront                                                  | Impact     | Med      | `app/about/page.tsx`                                     |
+| 24  | "Ex-Ericsson" never used as credibility signal                                                                               | Impact     | Med      | Site-wide                                                |
+| 25  | Portfolio emphasizes ML models; LinkedIn emphasizes dashboards, ETL, BI tools — audience sees both                           | Clarity    | Low      | Projects list                                            |
+| 26  | **NetSTAR Global ML Engineer role (Jan-May 2026) missing entirely**                                                          | Impact     | **High** | All pages                                                |
+| 27  | **"1 Billion Phishing URLs" — best specific number, not used anywhere**                                                      | Impact     | **High** | Site-wide                                                |
+| 28  | UA Student Lead currently listed under Leadership but missing "70 students" scope                                            | Clarity    | Low      | `app/about/page.tsx:244`                                 |
+| 29  | Decision Sciences & Student Council missing from Leadership section                                                          | Clarity    | Low      | `app/about/page.tsx`                                     |
 
 ---
 
@@ -64,9 +64,9 @@
 
 Adopt a hybrid title that works for both Data Analyst and Data Scientist recruiting:
 
-- **Hero:** "Data Analyst & ML Engineer"  
-- **Metadata:** "Data Analyst & ML Engineer · Python, SQL, GCP, Tableau"  
-- **Footer:** "Data Analyst & ML Engineer"  
+- **Hero:** "Data Analyst & ML Engineer"
+- **Metadata:** "Data Analyst & ML Engineer · Python, SQL, GCP, Tableau"
+- **Footer:** "Data Analyst & ML Engineer"
 - **RSS feed:** "Kanit Mann — Data & Engineering"
 
 ### 2. Add Job-Seeking Signal
@@ -142,6 +142,7 @@ playbooks, supervise floor operations, and train members on POS technology."
 ```
 
 CTAs:
+
 - "View Projects" → "See My Work"
 - "Get In Touch" → "Start a Conversation"
 
@@ -230,17 +231,17 @@ Then follow with the existing three-paragraph arc as background.
 
 ## Implementation Priority
 
-| Priority | Change | Effort |
-|----------|--------|--------|
-| P0 | Fix GPA contradiction (about page says 4.0, GraduationSection gets 3.75) | 2 min |
-| P0 | Add NetSTAR Global to `data/experiences.ts` | 5 min |
-| P0 | Add "Seeking Summer 2026" to nav + hero | 10 min |
-| P0 | Add "Currently Seeking" homepage section | 15 min |
-| P1 | Rewrite About page opening with LinkedIn framing | 10 min |
-| P1 | Add Decision Sciences & Student Council to Leadership | 5 min |
-| P1 | Update UA Student Lead with "70 students" | 2 min |
-| P1 | Unify title across hero/footer/metadata | 10 min |
-| P2 | Sharpen CTAs | 10 min |
-| P2 | Tweak footer tagline | 2 min |
-| P2 | Tweak contact page CTA copy | 5 min |
-| P3 | Fix minor clarity issues (list, transitions, RSS) | 10 min |
+| Priority | Change                                                                   | Effort |
+| -------- | ------------------------------------------------------------------------ | ------ |
+| P0       | Fix GPA contradiction (about page says 4.0, GraduationSection gets 3.75) | 2 min  |
+| P0       | Add NetSTAR Global to `data/experiences.ts`                              | 5 min  |
+| P0       | Add "Seeking Summer 2026" to nav + hero                                  | 10 min |
+| P0       | Add "Currently Seeking" homepage section                                 | 15 min |
+| P1       | Rewrite About page opening with LinkedIn framing                         | 10 min |
+| P1       | Add Decision Sciences & Student Council to Leadership                    | 5 min  |
+| P1       | Update UA Student Lead with "70 students"                                | 2 min  |
+| P1       | Unify title across hero/footer/metadata                                  | 10 min |
+| P2       | Sharpen CTAs                                                             | 10 min |
+| P2       | Tweak footer tagline                                                     | 2 min  |
+| P2       | Tweak contact page CTA copy                                              | 5 min  |
+| P3       | Fix minor clarity issues (list, transitions, RSS)                        | 10 min |
