@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { animate, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { FadeIn } from "@/components/animations/fade-in";
 
 /**
@@ -6,18 +10,93 @@ import { FadeIn } from "@/components/animations/fade-in";
  * signal immediately under the hero, before the bento grid. Recruiters spend
  * ~6 seconds here; the quantified wins (2,000+ servers, ~96% detection, 1B+
  * URLs, 99.9% uptime) otherwise live 2-3 scrolls deep in the experience feed.
+ *
+ * The numeric portion counts up from 0 when the strip scrolls into view
+ * (1.2s ease-out, via Motion's `animate` + `onUpdate`). Prefix (`~`) and
+ * suffix (`+`, `%`, `B+`) stay static so they never flash in/out mid-count.
+ * Under `prefers-reduced-motion` the final value renders immediately with no
+ * tween. The count always starts at 0 (server + first client paint) so there
+ * is no hydration mismatch; below the fold, so no LCP impact.
  */
-const stats = [
-  { value: "2,000+", label: "servers migrated to GCP" },
-  { value: "~96%", label: "zero-day phishing detection" },
-  { value: "1B+", label: "phishing URLs analyzed" },
-  { value: "99.9%", label: "infra uptime SLA" },
+interface Stat {
+  target: number;
+  decimals: number;
+  prefix?: string;
+  suffix: string;
+  label: string;
+}
+
+const stats: Stat[] = [
+  { target: 2000, decimals: 0, suffix: "+", label: "servers migrated to GCP" },
+  {
+    target: 96,
+    decimals: 0,
+    prefix: "~",
+    suffix: "%",
+    label: "zero-day phishing detection",
+  },
+  { target: 1, decimals: 0, suffix: "B+", label: "phishing URLs analyzed" },
+  {
+    target: 99.9,
+    decimals: 1,
+    suffix: "%",
+    label: "infra uptime SLA",
+  },
 ];
 
+function formatCount(value: number, decimals: number): string {
+  if (decimals > 0) {
+    return value.toLocaleString("en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+  }
+  return Math.round(value).toLocaleString("en-US");
+}
+
+interface CountUpStatProps {
+  target: number;
+  decimals: number;
+  start: boolean;
+  reducedMotion: boolean | null;
+}
+
+function CountUpStat({
+  target,
+  decimals,
+  start,
+  reducedMotion,
+}: CountUpStatProps) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setCount(target);
+      return;
+    }
+    if (!start) {
+      return;
+    }
+    const controls = animate(0, target, {
+      duration: 1.2,
+      ease: "easeOut",
+      onUpdate: (value) => setCount(value),
+    });
+    return () => controls.stop();
+  }, [reducedMotion, start, target]);
+
+  return <span className="number">{formatCount(count, decimals)}</span>;
+}
+
 export function HeroStatsStrip() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const inView = useInView(sectionRef, { once: true, margin: "-50px" });
+  const reducedMotion = useReducedMotion();
+
   return (
     <FadeIn>
       <section
+        ref={sectionRef}
         aria-label="At a glance"
         className="border-y border-border/40 bg-muted/20"
       >
@@ -28,7 +107,14 @@ export function HeroStatsStrip() {
               <div key={s.label} className="text-center md:text-left">
                 <dt className="sr-only">{s.label}</dt>
                 <p className="font-serif text-3xl md:text-4xl text-foreground leading-none">
-                  {s.value}
+                  {s.prefix ? <span className="prefix">{s.prefix}</span> : null}
+                  <CountUpStat
+                    target={s.target}
+                    decimals={s.decimals}
+                    start={inView}
+                    reducedMotion={reducedMotion}
+                  />
+                  <span className="suffix">{s.suffix}</span>
                 </p>
                 <p className="mt-2 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                   {s.label}
