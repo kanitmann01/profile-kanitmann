@@ -9,6 +9,7 @@ import { Menu, X, Volume2, VolumeX } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TapRipple } from "@/components/tap-ripple";
 import { useTactileFeedback } from "@/components/tactile-feedback-provider";
+import { useCommandPalette } from "@/components/command-palette";
 import { useState, useEffect } from "react";
 
 export function Navigation() {
@@ -16,6 +17,7 @@ export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { isMuted, toggleMute } = useTactileFeedback();
+  const { openPalette } = useCommandPalette();
 
   const navItems = [
     { href: "/projects", label: "WORK" },
@@ -191,6 +193,27 @@ export function Navigation() {
                     </Link>
                   </motion.div>
                 ))}
+                <motion.div
+                  key="commands"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ delay: navItems.length * 0.1, duration: 0.3 }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      closeMobileMenu();
+                      openPalette();
+                    }}
+                    className="font-serif text-4xl text-foreground transition-colors hover:text-primary-text active:scale-95 min-h-[44px] inline-flex items-center"
+                  >
+                    Commands
+                    <kbd className="ml-3 font-mono text-xs uppercase tracking-wider text-muted-foreground border border-border/50 rounded px-1.5 py-0.5">
+                      ⌘K
+                    </kbd>
+                  </button>
+                </motion.div>
               </nav>
             </div>
           </motion.div>

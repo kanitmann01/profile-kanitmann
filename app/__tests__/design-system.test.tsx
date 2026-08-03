@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react"
-import { describe, it, expect, vi, beforeAll } from "vitest"
+import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeAll } from "vitest";
 
 beforeAll(() => {
   Object.defineProperty(window, "matchMedia", {
@@ -14,16 +14,25 @@ beforeAll(() => {
       removeEventListener: vi.fn(),
       dispatchEvent: vi.fn(),
     })),
-  })
-})
+  });
+});
 
 vi.mock("next/font/google", () => ({
-  Instrument_Serif: () => ({ className: "font-serif", variable: "--font-serif" }),
+  Instrument_Serif: () => ({
+    className: "font-serif",
+    variable: "--font-serif",
+  }),
   JetBrains_Mono: () => ({ className: "font-mono", variable: "--font-mono" }),
   Geist: () => ({ className: "font-sans", variable: "--font-sans" }),
-}))
+}));
 
-import RootLayout from "@/app/layout"
+// CommandPalette (mounted in the root layout) uses the App Router hooks.
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+  usePathname: () => "/",
+}));
+
+import RootLayout from "@/app/layout";
 
 describe("Root Layout - Warm Noir Design System", () => {
   it("renders children within the layout", () => {
@@ -31,25 +40,27 @@ describe("Root Layout - Warm Noir Design System", () => {
       <RootLayout>
         <div data-testid="test-child">Test Content</div>
       </RootLayout>
-    )
-    expect(screen.getByTestId("test-child")).toBeInTheDocument()
-  })
+    );
+    expect(screen.getByTestId("test-child")).toBeInTheDocument();
+  });
 
   it("renders without errors with new font configuration", () => {
     const { container } = render(
       <RootLayout>
         <div>Test</div>
       </RootLayout>
-    )
-    expect(container).toBeDefined()
-  })
+    );
+    expect(container).toBeDefined();
+  });
 
   it("includes navigation and footer", () => {
     render(
       <RootLayout>
         <div>Test</div>
       </RootLayout>
-    )
-    expect(screen.getByText(/Kanit Mann\. All rights reserved\./)).toBeInTheDocument()
-  })
-})
+    );
+    expect(
+      screen.getByText(/Kanit Mann\. All rights reserved\./)
+    ).toBeInTheDocument();
+  });
+});

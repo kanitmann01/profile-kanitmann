@@ -7,6 +7,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TactileFeedbackProvider } from "@/components/tactile-feedback-provider";
+import { CommandPalette } from "@/components/command-palette";
 import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
 import { getSiteUrl } from "@/lib/site";
@@ -258,10 +259,12 @@ export default function RootLayout({
               The CSS @media rule in globals.css only covers keyframe animations. */}
           <MotionConfig reducedMotion="user">
             <TactileFeedbackProvider>
-              <Navigation />
-              <main className="min-h-screen pt-16">{children}</main>
-              <Footer />
-              <Toaster />
+              <CommandPalette>
+                <Navigation />
+                <main className="min-h-screen pt-16">{children}</main>
+                <Footer />
+                <Toaster />
+              </CommandPalette>
             </TactileFeedbackProvider>
           </MotionConfig>
         </ThemeProvider>
