@@ -23,6 +23,6 @@ describe("Person structured data", () => {
     // Check for Person type in JSON-LD
     expect(layoutContent).toContain('"@type": "Person"');
     expect(layoutContent).toContain('name: "Kanit Mann"');
-    expect(layoutContent).toContain('jobTitle: "Data & ML Engineer"');
+    expect(layoutContent).toContain('jobTitle: "Data, ML & AI Engineer"');
   });
 });

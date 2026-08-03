@@ -17,6 +17,7 @@ import {
 import { ScaleOnHover } from "@/components/animations/scale-on-hover";
 import { ProjectCard } from "@/components/project-card";
 import { Hero } from "@/components/hero";
+import { HeroStatsStrip } from "@/components/hero-stats-strip";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BentoExperienceCard } from "@/components/bento-experience-card";
 import { BentoTechStackCard } from "@/components/bento-tech-stack-card";
@@ -45,6 +46,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <ScrollProgress />
       <Hero />
+      <HeroStatsStrip />
 
       {/* Bento Grid */}
       <section className="py-16 px-6">
@@ -62,7 +64,7 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-foreground mb-4">
+              <h2 className="font-serif text-4xl text-foreground mb-4">
                 Featured Projects
               </h2>
               <p className="text-lg text-muted-foreground">
@@ -87,7 +89,7 @@ export default function Home() {
         <div className="container mx-auto max-w-4xl">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-foreground mb-4">
+              <h2 className="font-serif text-4xl text-foreground mb-4">
                 Featured Articles
               </h2>
               <p className="text-lg text-muted-foreground">
@@ -138,12 +140,12 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "Person",
             name: "Kanit Mann",
-            jobTitle: "Data & ML Engineer",
+            jobTitle: "Data, ML & AI Engineer",
             description:
-              "Building intelligent applications from data and cloud. Data Science MS student with expertise in statistical analysis, machine learning, and data visualization.",
+              "Data, ML & AI Engineer with an MS in Data Science from the University of Arizona — pipelines, ML systems, and analytics built end-to-end.",
             url: siteUrl,
             image: `${siteUrl}/images/profile/kanit-mann.png`,
-            email: "kanitmann01@gmail.com",
+            email: "mannkanit@gmail.com",
             sameAs: [
               "https://github.com/kanitmann01",
               "https://linkedin.com/in/kanitmann",

@@ -34,12 +34,12 @@ describe("Root layout metadata", () => {
   });
 
   describe("title and description", () => {
-    it('has title "Kanit Mann - Data & ML Engineer"', () => {
-      expect(metadata.title).toBe("Kanit Mann - Data & ML Engineer");
+    it('has title "Kanit Mann - Data, ML & AI Engineer"', () => {
+      expect(metadata.title).toBe("Kanit Mann - Data, ML & AI Engineer");
     });
 
-    it("description mentions Data & ML Engineer and cloud infrastructure", () => {
-      expect(metadata.description).toContain("Data & ML Engineer");
+    it("description mentions Data, ML & AI Engineer and cloud infrastructure", () => {
+      expect(metadata.description).toContain("Data, ML & AI Engineer");
       expect(metadata.description).toContain("cloud infrastructure");
     });
   });
@@ -52,7 +52,7 @@ describe("Root layout metadata", () => {
 
     it("has updated title", () => {
       const og = metadata.openGraph as Record<string, unknown>;
-      expect(og.title).toBe("Kanit Mann - Data & ML Engineer");
+      expect(og.title).toBe("Kanit Mann - Data, ML & AI Engineer");
     });
   });
 
