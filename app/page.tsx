@@ -9,6 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { BentoCardLift } from "@/components/animations/bento-card-lift";
 import { FadeIn } from "@/components/animations/fade-in";
 import {
   StaggerContainer,
@@ -49,18 +50,28 @@ export default function Home() {
       <HeroStatsStrip />
 
       {/* Bento Grid */}
-      <section className="py-16 px-6">
+      <section id="experience" className="scroll-mt-20 py-16 px-6">
         <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-3 gap-6">
-            <BentoExperienceCard experiences={experiences} />
-            <BentoTechStackCard />
-            <BentoGitHubCard />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Experience is the primary recruiter signal: spans 2×2 on
+                desktop (fills the 6-cell grid with the two 1-col tiles),
+                full-width first on mobile. The wrapper is a 1×1 grid so the
+                card stretches to fill its tall span without gaps. */}
+            <BentoCardLift className="md:grid md:grid-cols-[1fr] md:grid-rows-[1fr] md:col-span-2 md:row-span-2 hover:shadow-lg transition-shadow">
+              <BentoExperienceCard experiences={experiences} />
+            </BentoCardLift>
+            <BentoCardLift className="md:grid md:grid-cols-[1fr] md:grid-rows-[1fr] md:col-span-1 hover:shadow-lg transition-shadow">
+              <BentoTechStackCard />
+            </BentoCardLift>
+            <BentoCardLift className="md:grid md:grid-cols-[1fr] md:grid-rows-[1fr] md:col-span-1 hover:shadow-lg transition-shadow">
+              <BentoGitHubCard />
+            </BentoCardLift>
           </div>
         </div>
       </section>
 
       {/* Featured Projects */}
-      <section className="py-20 px-6 bg-muted/30">
+      <section id="projects" className="scroll-mt-20 py-20 px-6 bg-muted/30">
         <div className="container mx-auto max-w-6xl">
           <FadeIn>
             <div className="text-center mb-16">
@@ -85,7 +96,7 @@ export default function Home() {
       </section>
 
       {/* Featured Articles */}
-      <section className="py-20 px-6">
+      <section id="articles" className="scroll-mt-20 py-20 px-6">
         <div className="container mx-auto max-w-4xl">
           <FadeIn>
             <div className="text-center mb-16">

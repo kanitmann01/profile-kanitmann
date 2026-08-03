@@ -10,8 +10,8 @@ global.ResizeObserver = class ResizeObserver {
 };
 
 // jsdom does not implement matchMedia; components using useReducedMotion
-// (e.g. the list filter bar) call it in an effect. Script tests run under
-// `// @vitest-environment node` where `window` does not exist, so guard.
+// (e.g. the list filter bar) call it in an effect. Script tests run in a
+// node environment where `window` does not exist, hence the guard.
 if (typeof window !== "undefined") {
   Object.defineProperty(window, "matchMedia", {
     writable: true,
