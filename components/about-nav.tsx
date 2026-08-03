@@ -1,41 +1,41 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 interface AboutNavProps {
-  sections: { id: string; label: string }[]
+  sections: { id: string; label: string }[];
 }
 
 export function AboutNav({ sections }: AboutNavProps) {
-  const [activeId, setActiveId] = useState<string>("")
+  const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
+            setActiveId(entry.target.id);
           }
-        })
+        });
       },
       { rootMargin: "-100px 0px -50%", threshold: 0.3 }
-    )
+    );
 
     sections.forEach(({ id }) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
 
-    return () => observer.disconnect()
-  }, [sections])
+    return () => observer.disconnect();
+  }, [sections]);
 
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id)
+    const el = document.getElementById(id);
     if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 80
-      window.scrollTo({ top, behavior: "smooth" })
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: "smooth" });
     }
-  }
+  };
 
   return (
     <nav className="p-4 border rounded-lg bg-background">
@@ -47,9 +47,9 @@ export function AboutNav({ sections }: AboutNavProps) {
           <li key={id}>
             <button
               onClick={() => scrollTo(id)}
-              className={`text-left font-mono text-xs uppercase tracking-wider hover:text-primary transition-colors border-l-2 pl-3 ${
+              className={`text-left font-mono text-xs uppercase tracking-wider hover:text-primary-text transition-colors border-l-2 pl-3 ${
                 activeId === id
-                  ? "border-primary text-primary"
+                  ? "border-primary text-primary-text"
                   : "border-transparent text-muted-foreground hover:border-muted-foreground/50"
               }`}
             >
@@ -59,5 +59,5 @@ export function AboutNav({ sections }: AboutNavProps) {
         ))}
       </ul>
     </nav>
-  )
+  );
 }

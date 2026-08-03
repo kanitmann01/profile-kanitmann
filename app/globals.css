@@ -12,6 +12,10 @@
     --popover-foreground: 0 0% 10%;
     --primary: 37 90% 55%;
     --primary-foreground: 0 0% 10%;
+    /* Darker amber for primary-as-TEXT on light backgrounds (~4.5:1 on cream).
+       The vivid --primary is ~1.9:1 as text — fine for fills/badges/dark mode,
+       but fails WCAG AA when used as link/heading text in light mode. */
+    --primary-text: 32 85% 38%;
     --secondary: 40 15% 90%;
     --secondary-foreground: 0 0% 10%;
     --muted: 40 15% 90%;
@@ -36,6 +40,8 @@
     --popover-foreground: 40 20% 92%;
     --primary: 37 90% 55%;
     --primary-foreground: 0 0% 10%;
+    /* In dark mode the vivid amber reads ~8:1, so text can use it directly. */
+    --primary-text: 37 90% 55%;
     --secondary: 30 10% 18%;
     --secondary-foreground: 40 20% 92%;
     --muted: 30 10% 18%;
