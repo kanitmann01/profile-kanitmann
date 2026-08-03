@@ -34,10 +34,6 @@ export type Experience = {
   achievements?: string[];
   roles?: SubRole[];
   featuredOnHome?: boolean;
-  /** Ordering weight for the homepage compact card (lower = higher). The About
-   *  timeline uses the data-file order; this only affects the homepage feed so
-   *  the strongest, most on-target roles surface first. */
-  homeOrder?: number;
   collapsible?: boolean;
 };
 
@@ -62,7 +58,6 @@ export const experiences: Experience[] = [
       "Machine Learning",
     ],
     featuredOnHome: true,
-    homeOrder: 3,
   },
   {
     id: "mercor",
@@ -83,9 +78,7 @@ export const experiences: Experience[] = [
       "Offensive Security",
       "Technical Evaluation",
     ],
-    // Off the homepage feed: the title reads as off-message for ML/Data roles
-    // and isn't on the resume. Still shown in full on the About timeline.
-    featuredOnHome: false,
+    featuredOnHome: true,
   },
   {
     id: "netstar",
@@ -114,7 +107,6 @@ export const experiences: Experience[] = [
       "Integrated NetSTAR and PhishStats APIs to dynamically enrich zero-day threat evaluation for client networks",
     ],
     featuredOnHome: true,
-    homeOrder: 1,
   },
   {
     id: "ericsson",
@@ -169,7 +161,6 @@ export const experiences: Experience[] = [
       },
     ],
     featuredOnHome: true,
-    homeOrder: 2,
   },
   {
     id: "tata-power",
@@ -247,15 +238,10 @@ export const experiences: Experience[] = [
 ];
 
 /**
- * Experiences shown on the homepage compact card, ordered by `homeOrder`
- * (ascending; missing values sort last, preserving data-file order among
- * themselves). This is independent of the About-page timeline, which uses
- * the data-file order directly.
+ * Experiences shown on the homepage compact card, in data-file order — the
+ * same order the About-page timeline uses. No custom sort: the data file is
+ * the single source of truth for ordering.
  */
-export const homeExperiences = experiences
-  .filter((experience) => experience.featuredOnHome)
-  .sort((a, b) => {
-    const ai = a.homeOrder ?? Number.MAX_SAFE_INTEGER;
-    const bi = b.homeOrder ?? Number.MAX_SAFE_INTEGER;
-    return ai - bi;
-  });
+export const homeExperiences = experiences.filter(
+  (experience) => experience.featuredOnHome
+);
