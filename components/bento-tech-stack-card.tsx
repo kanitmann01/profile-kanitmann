@@ -1,16 +1,19 @@
-import Image from "next/image"
-import { HeadingLink } from "@/components/heading-link"
+import Image from "next/image";
+import { HeadingLink } from "@/components/heading-link";
 
+// Homepage tech-stack bento card — surfaces the stack the flagship projects
+// actually use (Unified Bharat: Spark/Iceberg; Twitch: Kafka/Snowflake/dbt;
+// NetSTAR: FastText/Power BI). Missing icons fall back to a 2-letter monogram.
 const skills = [
   { name: "Python", icon: "/images/tech/python.svg" },
   { name: "SQL", icon: "/images/tech/sql.svg" },
-  { name: "Machine Learning", icon: "/images/tech/machine-learning-frameworks.svg" },
   { name: "Apache Spark" },
-  { name: "GCP", icon: "/images/tech/gcp.svg" },
-  { name: "Docker", icon: "/images/tech/docker.svg" },
-  { name: "Data Pipelines" },
   { name: "Snowflake" },
-]
+  { name: "Apache Kafka" },
+  { name: "dbt" },
+  { name: "Docker", icon: "/images/tech/docker.svg" },
+  { name: "GCP", icon: "/images/tech/gcp.svg" },
+];
 
 export function BentoTechStackCard() {
   return (
@@ -40,10 +43,12 @@ export function BentoTechStackCard() {
                 </span>
               </div>
             )}
-            <span className="font-sans text-xs text-foreground">{skill.name}</span>
+            <span className="font-sans text-xs text-foreground">
+              {skill.name}
+            </span>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
