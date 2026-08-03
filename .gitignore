@@ -32,6 +32,9 @@ data/.fable5-seen.json
 # graphify knowledge graph output
 /graphify-out/
 
+# playwright MCP session artifacts (screenshots, snapshots, logs)
+/.playwright-mcp/
+
 # temp files
 /temp/
 
