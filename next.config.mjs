@@ -1,3 +1,5 @@
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // React Compiler (stable since React 19.2 / Next 16) — auto-memoizes components
@@ -23,5 +25,10 @@ const nextConfig = {
     ];
   },
 };
+
+// Cloudflare adapter dev bindings (next dev only; not awaited per adapter docs)
+if (process.env.NODE_ENV === "development") {
+  initOpenNextCloudflareForDev();
+}
 
 export default nextConfig;
