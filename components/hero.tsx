@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -67,13 +67,13 @@ export function Hero() {
   const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
   const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     setGlowPos({ x, y });
-  }, []);
+  };
 
   return (
     <section

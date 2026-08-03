@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { articles, topArticleSlug, type ArticleMeta } from "@/data/articles";
@@ -16,12 +15,10 @@ function MuseumBadge() {
 }
 
 export default function Articles() {
-  const sortedArticles = useMemo(() => {
-    return [...articles].sort(
-      (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    );
-  }, []);
+  const sortedArticles = [...articles].sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
 
   const topArticle: ArticleMeta =
     (topArticleSlug && articles.find((a) => a.slug === topArticleSlug)) ||

@@ -36,10 +36,7 @@ export interface MuseumMentionsProps {
 export function MuseumMentions({ mentions, className }: MuseumMentionsProps) {
   const [filter, setFilter] = React.useState<MentionFilter>("All");
 
-  const visible = React.useMemo(
-    () => filterMentions(mentions, filter).slice().sort(COMPARE_LATEST),
-    [mentions, filter]
-  );
+  const visible = filterMentions(mentions, filter).slice().sort(COMPARE_LATEST);
 
   return (
     <section

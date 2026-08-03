@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-
 import { MuseumCard } from "@/components/fable5/museum-card";
 import { cn } from "@/lib/utils";
 import type { Fable5Site } from "@/data/fable5";
@@ -13,10 +11,7 @@ export interface MuseumGridProps {
 }
 
 export function MuseumGrid({ sites, onActivate, className }: MuseumGridProps) {
-  const featured = React.useMemo(
-    () => sites.filter((site) => site.featured),
-    [sites]
-  );
+  const featured = sites.filter((site) => site.featured);
 
   return (
     <div className={cn("container mx-auto max-w-6xl", className)}>

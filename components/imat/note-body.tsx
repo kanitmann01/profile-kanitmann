@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -53,15 +52,9 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
   let sectionIndex = 0;
   const topicTitle = formatSlug(topicSlug);
 
-  const resolvedCrosslinks = useMemo(
-    () => resolveCrosslinks(note.crosslinks),
-    [note.crosslinks]
-  );
+  const resolvedCrosslinks = resolveCrosslinks(note.crosslinks);
 
-  const readingMinutes = useMemo(
-    () => calculateReadingTime(note.summary),
-    [note.summary]
-  );
+  const readingMinutes = calculateReadingTime(note.summary);
 
   return (
     <>

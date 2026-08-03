@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -391,33 +391,31 @@ export default function UniversitiesPage() {
     );
   };
 
-  const currentBaseline = useMemo(() => {
+  const currentBaseline = (() => {
     const hard = parseFloat(hardExamScore);
     const easy = parseFloat(easyMockScore);
     if (!isNaN(hard) && !isNaN(easy)) return Math.round((hard + easy) / 2);
     if (!isNaN(hard)) return hard;
     if (!isNaN(easy)) return easy;
     return 0;
-  }, [hardExamScore, easyMockScore]);
+  })();
 
-  const focusUniversities: FocusUniversity[] = useMemo(() => {
-    return focusSlugs
-      .map((slug) => {
-        const u = getUniversityBySlug(slug as any);
-        if (!u) return null;
-        return {
-          slug: u.slug,
-          shortName: u.shortName,
-          cutoff2025: u.imatCutoff["2025"],
-          safeTarget2026: u.imatCutoff.safeTarget2026,
-          nonEuSeats: u.nonEuSeatsProjection2026,
-          overallRating: u.ratings.overall,
-        };
-      })
-      .filter(Boolean) as FocusUniversity[];
-  }, [focusSlugs]);
+  const focusUniversities: FocusUniversity[] = focusSlugs
+    .map((slug) => {
+      const u = getUniversityBySlug(slug as any);
+      if (!u) return null;
+      return {
+        slug: u.slug,
+        shortName: u.shortName,
+        cutoff2025: u.imatCutoff["2025"],
+        safeTarget2026: u.imatCutoff.safeTarget2026,
+        nonEuSeats: u.nonEuSeatsProjection2026,
+        overallRating: u.ratings.overall,
+      };
+    })
+    .filter(Boolean) as FocusUniversity[];
 
-  const sortedUniversities = useMemo(() => {
+  const sortedUniversities = (() => {
     const list = showOnlyOpen
       ? universities.filter((u) => u.slug === "messina" || u.slug === "catania")
       : [...universities];
@@ -430,7 +428,7 @@ export default function UniversitiesPage() {
       default:
         return list.sort((a, b) => a.rank - b.rank);
     }
-  }, [showOnlyOpen, sortBy]);
+  })();
 
   const parsedScore = parseFloat(scoreEstimate);
   const recommendationTier = isNaN(parsedScore)
