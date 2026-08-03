@@ -50,7 +50,7 @@ export default function Home() {
       <HeroStatsStrip />
 
       {/* Bento Grid */}
-      <section className="py-16 px-6">
+      <section id="experience" className="scroll-mt-20 py-16 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Experience is the primary recruiter signal: spans 2×2 on
@@ -71,7 +71,7 @@ export default function Home() {
       </section>
 
       {/* Featured Projects */}
-      <section className="py-20 px-6 bg-muted/30">
+      <section id="projects" className="scroll-mt-20 py-20 px-6 bg-muted/30">
         <div className="container mx-auto max-w-6xl">
           <FadeIn>
             <div className="text-center mb-16">
@@ -96,7 +96,7 @@ export default function Home() {
       </section>
 
       {/* Featured Articles */}
-      <section className="py-20 px-6">
+      <section id="articles" className="scroll-mt-20 py-20 px-6">
         <div className="container mx-auto max-w-4xl">
           <FadeIn>
             <div className="text-center mb-16">
