@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Zap, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -65,7 +65,7 @@ export function QuickFire({
 
   if (isDone) {
     return (
-      <motion.div
+      <m.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className={cn("rounded-xl border bg-card p-4 text-center", className)}
@@ -84,7 +84,7 @@ export function QuickFire({
           <RotateCcw className="h-3 w-3" />
           Retry
         </Button>
-      </motion.div>
+      </m.div>
     );
   }
 
@@ -108,7 +108,7 @@ export function QuickFire({
       </div>
 
       <AnimatePresence mode="wait">
-        <motion.div
+        <m.div
           key={q.id}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -165,7 +165,7 @@ export function QuickFire({
           )}
 
           {showResult && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-2"
@@ -197,9 +197,9 @@ export function QuickFire({
                   Next
                 </Button>
               </div>
-            </motion.div>
+            </m.div>
           )}
-        </motion.div>
+        </m.div>
       </AnimatePresence>
 
       <div className="mt-3 flex gap-1">

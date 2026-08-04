@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -58,7 +58,7 @@ export function ReviewSession({
 
       <AnimatePresence mode="wait">
         {!isComplete && (
-          <motion.div
+          <m.div
             key={questions[currentIndex].id}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -70,7 +70,7 @@ export function ReviewSession({
               onAnswered={handleAnswered}
             />
             {answered && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="mt-3 flex justify-end"
@@ -84,14 +84,14 @@ export function ReviewSession({
                     ? "Next question →"
                     : "See results →"}
                 </button>
-              </motion.div>
+              </m.div>
             )}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {isComplete && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
         >
@@ -112,7 +112,7 @@ export function ReviewSession({
               <ReviewButtons slug={slug} />
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       )}
     </div>
   );

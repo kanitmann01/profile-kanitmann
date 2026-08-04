@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface Step {
@@ -101,7 +101,7 @@ export function GlycolysisPathway() {
         </svg>
         <div className="grid gap-3">
           {STEPS.map((step, i) => (
-            <motion.button
+            <m.button
               key={step.label}
               onClick={() => toggleStep(i)}
               className={cn(
@@ -165,7 +165,7 @@ export function GlycolysisPathway() {
                   )}
                 </div>
               </div>
-            </motion.button>
+            </m.button>
           ))}
         </div>
       </div>

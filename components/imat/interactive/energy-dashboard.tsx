@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface EnergyDashboardProps {
@@ -112,59 +112,61 @@ export function EnergyDashboard({ className }: EnergyDashboardProps) {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-        {metabolites.map((m) => (
-          <motion.div
-            key={m.id}
+        {metabolites.map((met) => (
+          <m.div
+            key={met.id}
             className={cn(
               "relative rounded-lg border p-3 text-center transition-colors overflow-hidden",
-              animating === m.id && "ring-2 ring-primary/50",
+              animating === met.id && "ring-2 ring-primary/50",
               phase === "investment" &&
-                m.id === "atp-invested" &&
+                met.id === "atp-invested" &&
                 "border-red-500/50 bg-red-500/10",
               phase === "payoff" &&
-                m.id === "atp-produced" &&
+                met.id === "atp-produced" &&
                 "border-green-500/50 bg-green-500/10",
               phase === "complete" &&
-                m.id === "atp-net" &&
+                met.id === "atp-net" &&
                 "border-amber-500/50 bg-amber-500/10"
             )}
             animate={{
-              scale: animating === m.id ? [1, 1.05, 1] : 1,
+              scale: animating === met.id ? [1, 1.05, 1] : 1,
             }}
             transition={{ duration: 0.4 }}
           >
-            <span className="text-lg">{m.icon}</span>
-            <div className={cn("text-2xl font-bold mt-1", m.color)}>
+            <span className="text-lg">{met.icon}</span>
+            <div className={cn("text-2xl font-bold mt-1", met.color)}>
               <AnimatePresence mode="wait">
-                <motion.span
-                  key={`${m.id}-${m.value}`}
+                <m.span
+                  key={`${met.id}-${met.value}`}
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -20, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {m.value > 0 && m.id !== "glucose" && m.id !== "pyruvate"
+                  {met.value > 0 &&
+                  met.id !== "glucose" &&
+                  met.id !== "pyruvate"
                     ? "+"
                     : ""}
-                  {m.value}
-                  {m.id === "glucose" || m.id === "pyruvate"
-                    ? ` ${m.unit}`
-                    : ` ${m.unit}`}
-                </motion.span>
+                  {met.value}
+                  {met.id === "glucose" || met.id === "pyruvate"
+                    ? ` ${met.unit}`
+                    : ` ${met.unit}`}
+                </m.span>
               </AnimatePresence>
             </div>
             <p className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {m.label}
+              {met.label}
             </p>
-            {animating === m.id && (
-              <motion.div
+            {animating === met.id && (
+              <m.div
                 className="absolute inset-0 bg-foreground/5"
                 initial={{ x: "-100%" }}
                 animate={{ x: "100%" }}
                 transition={{ duration: 0.6, repeat: Infinity }}
               />
             )}
-          </motion.div>
+          </m.div>
         ))}
       </div>
 

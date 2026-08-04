@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { m, useScroll, useTransform, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { MagneticButton } from "@/components/magnetic-button";
@@ -47,7 +47,7 @@ declare global {
 
 function ScrollIndicator() {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 2, duration: 0.8 }}
@@ -74,7 +74,7 @@ function ScrollIndicator() {
           />
         </svg>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -125,13 +125,13 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 flex flex-col items-start text-left w-full max-w-5xl">
-        <motion.div style={{ scale: contentScale, opacity: contentOpacity }}>
+        <m.div style={{ scale: contentScale, opacity: contentOpacity }}>
           {reducedMotion ? (
             <h1 className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground">
               {HEADLINE}
             </h1>
           ) : (
-            <motion.h1
+            <m.h1
               aria-label={HEADLINE}
               className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground"
               initial="hidden"
@@ -139,19 +139,19 @@ export function Hero() {
               variants={HEADLINE_CONTAINER_VARIANTS}
             >
               {HEADLINE.split("").map((char, index) => (
-                <motion.span
+                <m.span
                   key={index}
                   aria-hidden="true"
                   variants={HEADLINE_CHAR_VARIANTS}
                 >
                   {char}
-                </motion.span>
+                </m.span>
               ))}
-            </motion.h1>
+            </m.h1>
           )}
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.6 }}
@@ -162,9 +162,9 @@ export function Hero() {
             <span className="font-bold">Data, ML &amp; AI</span>{" "}
             <em className="font-serif-italic">Engineer</em>
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.15, duration: 0.6 }}
@@ -179,9 +179,9 @@ export function Hero() {
             <span className="w-2 h-2 rounded-full bg-green-500" />
             Seeking full-time roles
           </span>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.3, duration: 0.5 }}
@@ -196,7 +196,7 @@ export function Hero() {
           >
             Or browse the work first →
           </Link>
-        </motion.div>
+        </m.div>
       </div>
 
       <ScrollIndicator />

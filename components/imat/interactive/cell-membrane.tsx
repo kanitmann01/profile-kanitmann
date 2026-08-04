@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 type Molecule = "O2" | "Glucose" | "Na+" | "H2O";
 
@@ -127,7 +127,7 @@ export function CellMembrane() {
 
       <div className="flex flex-wrap justify-center gap-3">
         {(Object.keys(MOLECULE_COLORS) as Molecule[]).map((molecule) => (
-          <motion.button
+          <m.button
             key={molecule}
             onClick={() => handleMoleculeClick(molecule)}
             className="flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium min-h-[44px] transition-colors hover:bg-muted"
@@ -145,13 +145,13 @@ export function CellMembrane() {
               style={{ backgroundColor: MOLECULE_COLORS[molecule] }}
             />
             {molecule}
-          </motion.button>
+          </m.button>
         ))}
       </div>
 
       <AnimatePresence mode="wait">
         {selectedMolecule && (
-          <motion.div
+          <m.div
             key={selectedMolecule}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -167,7 +167,7 @@ export function CellMembrane() {
             >
               {TRANSPORT_RESULTS[selectedMolecule].label}
             </p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

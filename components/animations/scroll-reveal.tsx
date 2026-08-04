@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import type { ReactNode } from "react";
 import { useScrollRevealMode } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
@@ -60,9 +60,7 @@ export function ScrollReveal({
     );
   }
 
-  const MotionTag = (motion as unknown as Record<RevealTag, typeof motion.div>)[
-    Tag
-  ];
+  const MotionTag = (m as unknown as Record<RevealTag, typeof m.div>)[Tag];
   return (
     <MotionTag className={className} {...motionProps} {...domProps}>
       {children}

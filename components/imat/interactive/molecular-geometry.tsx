@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 type ShapeType =
   | "linear"
@@ -110,7 +110,7 @@ export function MolecularGeometry() {
     >
       <div className="flex flex-wrap gap-2 justify-center">
         {SHAPE_BUTTONS.map((s) => (
-          <motion.button
+          <m.button
             key={s}
             onClick={() => setShape(s)}
             whileHover={{ scale: 1.05 }}
@@ -122,7 +122,7 @@ export function MolecularGeometry() {
             }`}
           >
             {SHAPES[s].name}
-          </motion.button>
+          </m.button>
         ))}
       </div>
 
@@ -154,7 +154,7 @@ export function MolecularGeometry() {
           aria-label={`${config.name} molecular geometry`}
         >
           {config.atoms.map((atom, i) => (
-            <motion.line
+            <m.line
               key={`bond-${i}`}
               x1={cx}
               y1={cy}
@@ -169,7 +169,7 @@ export function MolecularGeometry() {
           ))}
 
           {lonePairPositions.map((pos, i) => (
-            <motion.g
+            <m.g
               key={`lone-${i}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -189,10 +189,10 @@ export function MolecularGeometry() {
                 fill="#f59e0b"
                 opacity={0.7}
               />
-            </motion.g>
+            </m.g>
           ))}
 
-          <motion.circle
+          <m.circle
             cx={cx}
             cy={cy}
             r={8}
@@ -214,8 +214,8 @@ export function MolecularGeometry() {
           </text>
 
           {config.atoms.map((atom, i) => (
-            <motion.g key={`atom-${i}`}>
-              <motion.circle
+            <m.g key={`atom-${i}`}>
+              <m.circle
                 cx={atom.x}
                 cy={atom.y}
                 r={6}
@@ -239,11 +239,11 @@ export function MolecularGeometry() {
               >
                 B
               </text>
-            </motion.g>
+            </m.g>
           ))}
 
           {config.atoms.length >= 2 && (
-            <motion.path
+            <m.path
               d={describeArc(cx, cy, 15, config.atoms[0], config.atoms[1])}
               fill="none"
               stroke="#6366f1"

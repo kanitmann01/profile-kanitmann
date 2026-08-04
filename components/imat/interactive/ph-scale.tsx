@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const SUBSTANCES = [
   { name: "Stomach acid", pH: 1.5 },
@@ -46,7 +46,7 @@ export function PHScale() {
   return (
     <div className="w-full max-w-2xl mx-auto p-4 space-y-6">
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-        <motion.div
+        <m.div
           data-testid="solution-circle"
           animate={{ backgroundColor: color }}
           transition={{ duration: 0.3 }}
@@ -55,7 +55,7 @@ export function PHScale() {
           <span className="text-white font-bold text-lg drop-shadow-md">
             {pH.toFixed(1)}
           </span>
-        </motion.div>
+        </m.div>
 
         <div className="text-center sm:text-left">
           <p data-testid="ph-label" className="text-xl font-semibold">

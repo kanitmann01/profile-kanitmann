@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { BarChart3, TrendingUp, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -40,7 +40,7 @@ export function IMATPatternBadge({
   const Icon = cfg.icon;
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn("flex flex-wrap items-center gap-2", className)}
@@ -67,6 +67,6 @@ export function IMATPatternBadge({
           {pattern.notes}
         </span>
       )}
-    </motion.div>
+    </m.div>
   );
 }

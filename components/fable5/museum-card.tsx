@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 import {
   Card,
@@ -152,13 +152,13 @@ export function MuseumCard({
   }
 
   return (
-    <motion.div
+    <m.div
       className="h-full"
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.2 }}
     >
       {cardBody}
-    </motion.div>
+    </m.div>
   );
 }

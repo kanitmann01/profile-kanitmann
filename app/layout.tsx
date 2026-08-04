@@ -1,7 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Instrument_Serif, JetBrains_Mono, Geist } from "next/font/google";
-import { MotionConfig } from "framer-motion";
+import { LazyMotion, domAnimation, MotionConfig } from "framer-motion";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -260,31 +260,37 @@ export default function RootLayout({
           {/* Exp 11: site-wide cursor spotlight. Fixed-position, renders
               nothing unless dark + pointer:fine + no reduced motion. */}
           <CursorSpotlight />
-          {/* Respect the user's OS-level reduced-motion setting across the whole
-              Framer Motion layer (entrance, hover, and view-triggered animations).
-              The CSS @media rule in globals.css only covers keyframe animations. */}
-          <MotionConfig reducedMotion="user">
-            {/* Exp 07: Lenis smooth scroll. Reduced-motion users get no
-                smoothing (provider renders children without Lenis); touch
-                scrolling is never hijacked. */}
-            <LenisProvider>
-              <TactileFeedbackProvider>
-                <CommandPalette>
-                  <Navigation />
-                  {/* Exp 09: cross-route View Transitions around the route
-                      outlet. Reduced-motion users get instant navigation;
-                      browsers without the API degrade to instant too. */}
-                  <main className="min-h-screen pt-16">
-                    <ViewTransitionsProvider>
-                      {children}
-                    </ViewTransitionsProvider>
-                  </main>
-                  <Footer />
-                  <Toaster />
-                </CommandPalette>
-              </TactileFeedbackProvider>
-            </LenisProvider>
-          </MotionConfig>
+          {/* Exp 16: LazyMotion + domAnimation. `m.*` components load only the
+              feature set they need; `strict` surfaces any stray `motion.*` in
+              dev. `reducedMotion` is NOT a LazyMotion prop in framer-motion
+              v12, so MotionConfig stays below it to preserve the OS-level
+              reduced-motion gate (entrance, hover, view-triggered
+              animations). The CSS @media rule in globals.css only covers
+              keyframe animations. */}
+          <LazyMotion features={domAnimation} strict>
+            <MotionConfig reducedMotion="user">
+              {/* Exp 07: Lenis smooth scroll. Reduced-motion users get no
+                  smoothing (provider renders children without Lenis); touch
+                  scrolling is never hijacked. */}
+              <LenisProvider>
+                <TactileFeedbackProvider>
+                  <CommandPalette>
+                    <Navigation />
+                    {/* Exp 09: cross-route View Transitions around the route
+                        outlet. Reduced-motion users get instant navigation;
+                        browsers without the API degrade to instant too. */}
+                    <main className="min-h-screen pt-16">
+                      <ViewTransitionsProvider>
+                        {children}
+                      </ViewTransitionsProvider>
+                    </main>
+                    <Footer />
+                    <Toaster />
+                  </CommandPalette>
+                </TactileFeedbackProvider>
+              </LenisProvider>
+            </MotionConfig>
+          </LazyMotion>
         </ThemeProvider>
       </body>
     </html>

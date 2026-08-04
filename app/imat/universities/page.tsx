@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -167,8 +167,7 @@ function UniversityCard({ university }: { university: University }) {
   const u = university;
 
   return (
-    <motion.div
-      layout
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="rounded-lg border bg-card text-card-foreground shadow-sm"
@@ -248,7 +247,7 @@ function UniversityCard({ university }: { university: University }) {
         </Button>
 
         {expanded && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             className="mt-4 space-y-6 border-t pt-4"
@@ -365,10 +364,10 @@ function UniversityCard({ university }: { university: University }) {
                 </ul>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -462,7 +461,7 @@ export default function UniversitiesPage() {
         </FadeIn>
 
         {/* Critical Deadlines Alert */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -524,10 +523,10 @@ export default function UniversitiesPage() {
               ))}
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* IMAT Exam Format Card */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
@@ -585,10 +584,10 @@ export default function UniversitiesPage() {
               </p>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* My Profile & Gap Analysis */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -830,10 +829,10 @@ export default function UniversitiesPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Filters */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
@@ -860,19 +859,19 @@ export default function UniversitiesPage() {
             />
             Applications still open
           </label>
-        </motion.div>
+        </m.div>
 
         {/* University Grid */}
         <div className="space-y-4">
           {sortedUniversities.map((u, i) => (
-            <motion.div
+            <m.div
               key={u.slug}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 * i }}
             >
               <UniversityCard university={u} />
-            </motion.div>
+            </m.div>
           ))}
         </div>
 

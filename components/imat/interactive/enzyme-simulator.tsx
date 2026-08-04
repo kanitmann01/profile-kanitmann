@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface EnzymeSimulatorProps {
@@ -160,7 +160,7 @@ export function EnzymeSimulator({ className }: EnzymeSimulatorProps) {
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3">
-        <motion.div
+        <m.div
           animate={{ scale: [1, 1.02, 1] }}
           transition={{ duration: 0.5 }}
           className={cn(
@@ -176,8 +176,8 @@ export function EnzymeSimulator({ className }: EnzymeSimulatorProps) {
           <p className={cn("text-2xl font-bold", activityColor)}>
             {Math.round(activity)}%
           </p>
-          <motion.div className="mt-2 h-1.5 w-full rounded-full bg-muted overflow-hidden">
-            <motion.div
+          <m.div className="mt-2 h-1.5 w-full rounded-full bg-muted overflow-hidden">
+            <m.div
               className={cn(
                 "h-full rounded-full",
                 activity > 70
@@ -189,10 +189,10 @@ export function EnzymeSimulator({ className }: EnzymeSimulatorProps) {
               animate={{ width: `${activity}%` }}
               transition={{ type: "spring", stiffness: 100 }}
             />
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           animate={{ scale: [1, 1.02, 1] }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className={cn(
@@ -208,8 +208,8 @@ export function EnzymeSimulator({ className }: EnzymeSimulatorProps) {
           <p className={cn("text-2xl font-bold", fluxColor)}>
             {Math.round(flux)}%
           </p>
-          <motion.div className="mt-2 h-1.5 w-full rounded-full bg-muted overflow-hidden">
-            <motion.div
+          <m.div className="mt-2 h-1.5 w-full rounded-full bg-muted overflow-hidden">
+            <m.div
               className={cn(
                 "h-full rounded-full",
                 flux > 80
@@ -221,8 +221,8 @@ export function EnzymeSimulator({ className }: EnzymeSimulatorProps) {
               animate={{ width: `${flux}%` }}
               transition={{ type: "spring", stiffness: 100 }}
             />
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
 
       <button
@@ -233,7 +233,7 @@ export function EnzymeSimulator({ className }: EnzymeSimulatorProps) {
       </button>
 
       {showDetail && (
-        <motion.div
+        <m.div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           className="mt-2 text-[11px] text-muted-foreground bg-muted rounded-lg p-3 space-y-1"
@@ -255,7 +255,7 @@ export function EnzymeSimulator({ className }: EnzymeSimulatorProps) {
                 ? " Glycolysis is partially active."
                 : " Glycolysis is nearly halted."}
           </p>
-        </motion.div>
+        </m.div>
       )}
     </div>
   );

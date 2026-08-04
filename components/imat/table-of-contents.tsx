@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { List, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -78,7 +78,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 
   const mobileToggle = (
     <div className="lg:hidden fixed bottom-4 right-4 z-50">
-      <motion.button
+      <m.button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "flex items-center justify-center w-12 h-12 rounded-full shadow-lg",
@@ -89,7 +89,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
       >
         <AnimatePresence mode="wait" initial={false}>
           {isOpen ? (
-            <motion.div
+            <m.div
               key="close"
               initial={{ rotate: -90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
@@ -97,9 +97,9 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
               transition={{ duration: 0.15 }}
             >
               <X className="w-5 h-5" />
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div
+            <m.div
               key="list"
               initial={{ rotate: 90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
@@ -107,10 +107,10 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
               transition={{ duration: 0.15 }}
             >
               <List className="w-5 h-5" />
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
-      </motion.button>
+      </m.button>
     </div>
   );
 
@@ -118,14 +118,14 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div
+          <m.div
             className="lg:hidden fixed inset-0 bg-black/50 z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
           />
-          <motion.div
+          <m.div
             className={cn(
               "lg:hidden fixed bottom-20 right-4 z-50",
               "w-72 max-h-[70vh] overflow-y-auto",
@@ -165,7 +165,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>

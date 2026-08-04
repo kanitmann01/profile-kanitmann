@@ -50,7 +50,7 @@ vi.mock("next/script", () => ({
 
 vi.mock("framer-motion", () => {
   const componentCache = new Map<string, any>();
-  const motion = new Proxy(
+  const m = new Proxy(
     {},
     {
       get: (_, tag: string) => {
@@ -87,7 +87,12 @@ vi.mock("framer-motion", () => {
     }
   );
   return {
-    motion,
+    m,
+    // LazyMotion is a no-op in tests: the proxy `m` above already strips
+    // motion props and renders plain elements, so feature loading is moot.
+    LazyMotion: ({ children }: any) => createElement(Fragment, null, children),
+    domAnimation: {},
+    domMax: {},
     AnimatePresence: ({ children }: any) =>
       createElement(Fragment, null, children),
     MotionConfig: ({ children }: any) =>

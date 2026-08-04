@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   List,
   ChevronLeft,
@@ -33,7 +33,7 @@ export function MobileBottomBar({
     "flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg transition-colors";
 
   return (
-    <motion.div
+    <m.div
       className={cn(
         "lg:hidden fixed bottom-0 left-0 right-0 z-40",
         "bg-background/95 backdrop-blur border-t",
@@ -105,6 +105,6 @@ export function MobileBottomBar({
           <ArrowUp className="w-5 h-5" />
         </button>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

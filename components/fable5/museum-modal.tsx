@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { X, ExternalLink, Play } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -294,13 +294,13 @@ export function MuseumModal({ site, open, onOpenChange }: MuseumModalProps) {
           {prefersReducedMotion ? (
             innerContent
           ) : (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
             >
               {innerContent}
-            </motion.div>
+            </m.div>
           )}
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>

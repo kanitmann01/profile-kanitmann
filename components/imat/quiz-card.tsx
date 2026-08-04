@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CheckCircle, XCircle } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -63,7 +63,7 @@ export function QuizCard({ question, onAnswered, className }: QuizCardProps) {
       </CardHeader>
       <CardContent>
         {isSubmitted && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className={cn(
@@ -85,7 +85,7 @@ export function QuizCard({ question, onAnswered, className }: QuizCardProps) {
                 — Answer: {question.answer}
               </span>
             )}
-          </motion.div>
+          </m.div>
         )}
 
         {question.type === "multiple-choice" && (
@@ -191,7 +191,7 @@ export function QuizCard({ question, onAnswered, className }: QuizCardProps) {
         )}
 
         {isSubmitted && question.explanation && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -199,7 +199,7 @@ export function QuizCard({ question, onAnswered, className }: QuizCardProps) {
           >
             <span className="font-medium text-foreground">Explanation: </span>
             {question.explanation}
-          </motion.div>
+          </m.div>
         )}
       </CardContent>
     </Card>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -91,7 +91,7 @@ export function InlineReview({
               )}
 
               {isRevealed && !isAnswered && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-3 space-y-2"
@@ -117,7 +117,7 @@ export function InlineReview({
                       Missed
                     </Button>
                   </div>
-                </motion.div>
+                </m.div>
               )}
 
               {isAnswered && (

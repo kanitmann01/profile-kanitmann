@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { ELEMENTS, CATEGORY_COLORS, type ElementData } from "./element-data";
 
 interface PeriodicTableProps {
@@ -23,7 +23,7 @@ function ElementCell({
   };
 
   return (
-    <motion.button
+    <m.button
       data-element
       data-atomic-number={element.number}
       data-category={element.category}
@@ -48,7 +48,7 @@ function ElementCell({
       <span className="text-[0.45rem] leading-tight truncate w-full hidden sm:block">
         {element.name}
       </span>
-    </motion.button>
+    </m.button>
   );
 }
 
@@ -126,7 +126,7 @@ export function PeriodicTable({ onElementClick }: PeriodicTableProps) {
 
       <AnimatePresence>
         {selected && (
-          <motion.div
+          <m.div
             data-testid="element-detail"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -178,7 +178,7 @@ export function PeriodicTable({ onElementClick }: PeriodicTableProps) {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

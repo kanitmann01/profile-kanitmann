@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -35,14 +35,14 @@ export function ShortcutsCheatsheet({
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div
+          <m.div
             className="fixed inset-0 bg-black/50 z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
-          <motion.div
+          <m.div
             className={cn(
               "fixed inset-x-4 top-[20%] z-50 mx-auto max-w-md",
               "rounded-xl border bg-background shadow-xl p-6"
@@ -85,7 +85,7 @@ export function ShortcutsCheatsheet({
                 </div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>
