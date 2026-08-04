@@ -122,6 +122,25 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/*
+         * next-themes injects its pre-hydration bootstrap via `fn.toString()`.
+         * Under React Compiler + SWC, the minifier inserts `__name(fn, "fn")`
+         * calls inside the serialized function body to preserve display names,
+         * but the `__name` helper itself is never inlined into the string the
+         * browser actually runs — so the bootstrap throws
+         * `ReferenceError: __name is not defined` on first paint, breaking the
+         * theme class on <html> until React hydrates (visible theme flash /
+         * wrong-theme flash). Define a no-op `__name` before any inline script
+         * runs so the bootstrap evaluates cleanly. The helper's only job is to
+         * tag `Function.prototype.name`; a no-op preserves behavior. See
+         * https://github.com/pacocoursey/next-themes — `M.toString()` injection.
+         */}
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `window.__name||(window.__name=function(f){return f;});`,
+          }}
+        />
         {/* Google Analytics */}
         {GA_ID ? (
           <>
