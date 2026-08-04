@@ -5,13 +5,12 @@ import type { ClassifyError, ClassifyResponse } from "@/lib/netstar/types";
 /**
  * NetSTAR live classification endpoint (Exp 13 flagship demo).
  *
- * URL text in -> category + confidence + latency. Runs the int8-quantized
+ * URL text in -> category + confidence + latency. Runs the int16-quantized
  * FastText model retrained from the NetSTAR-labeled corpus entirely in the
- * edge/serverless runtime — no external API calls, no Python, no iframe.
- * The full model is ~490 KB and ships as a static module import, so
+ * serverless runtime — no external API calls, no Python, no iframe.
+ * The full model is 947,658 bytes and ships as a static module import, so
  * inference is a single in-memory matrix multiply.
  */
-export const runtime = "edge";
 
 export async function POST(request: Request) {
   let body: unknown;
