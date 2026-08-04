@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { TactileFeedbackProvider } from "@/components/tactile-feedback-provider";
 import { LenisProvider } from "@/components/lenis-provider";
 import { ViewTransitionsProvider } from "@/components/view-transitions-provider";
+import { CursorSpotlight } from "@/components/cursor-spotlight";
 import { CommandPalette } from "@/components/command-palette";
 import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
@@ -256,6 +257,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {/* Exp 11: site-wide cursor spotlight. Fixed-position, renders
+              nothing unless dark + pointer:fine + no reduced motion. */}
+          <CursorSpotlight />
           {/* Respect the user's OS-level reduced-motion setting across the whole
               Framer Motion layer (entrance, hover, and view-triggered animations).
               The CSS @media rule in globals.css only covers keyframe animations. */}
