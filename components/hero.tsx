@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { TactileButton } from "@/components/tactile-button";
+import { MagneticButton } from "@/components/magnetic-button";
 
 declare global {
   interface Window {
@@ -156,9 +156,9 @@ export function Hero() {
           transition={{ delay: 1.3, duration: 0.5 }}
           className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mt-10"
         >
-          <TactileButton size="lg" onClick={openCalendly}>
+          <MagneticButton size="lg" onClick={openCalendly}>
             Book a call
-          </TactileButton>
+          </MagneticButton>
           <Link
             href="/projects"
             className="font-sans text-sm text-muted-foreground max-w-sm leading-relaxed underline-offset-4 hover:text-foreground hover:underline transition-colors"

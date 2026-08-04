@@ -24,13 +24,11 @@ describe("feed-generator", () => {
       );
     });
 
-    it("uses the canonical kanitmann.com fallback, not bare kanitmann.com", () => {
+    it("uses the canonical kanitmann.com fallback", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
-      // Locked in by app/__tests__/sitemap.test.ts — canonical form is www.
+      // Locked in by lib/site.ts + app/__tests__/sitemap.test.ts — canonical
+      // form is the apex https://kanitmann.com (see #191).
       expect(getArticleUrl("/articles/foo")).toBe(
-        "https://kanitmann.com/articles/foo"
-      );
-      expect(getArticleUrl("/articles/foo")).not.toBe(
         "https://kanitmann.com/articles/foo"
       );
     });
