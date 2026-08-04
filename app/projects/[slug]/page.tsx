@@ -64,7 +64,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </Script>
 
       <div className="relative w-full min-h-[70vh] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
+        {/* Exp 09: named view-transition element — morphs from the project
+            card image on the list page (same slug name). */}
+        <div
+          className="absolute inset-0"
+          style={{ viewTransitionName: `project-image-${project.slug}` }}
+        >
           <Image
             src={project.image}
             alt={`${project.title} Dashboard`}

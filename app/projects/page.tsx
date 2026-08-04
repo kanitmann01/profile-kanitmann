@@ -97,7 +97,14 @@ function ProjectsContent() {
                       className={`flex flex-col ${imageLeft ? "md:flex-row" : "md:flex-row-reverse"} gap-8 md:gap-12 items-start`}
                     >
                       <div className="w-full md:w-1/2 flex-shrink-0">
-                        <div className="relative overflow-hidden rounded-sm aspect-[4/3] bg-muted">
+                        {/* Exp 09: named view-transition element — morphs into
+                            the project detail hero image (same slug name). */}
+                        <div
+                          className="relative overflow-hidden rounded-sm aspect-[4/3] bg-muted"
+                          style={{
+                            viewTransitionName: `project-image-${project.slug}`,
+                          }}
+                        >
                           <motion.div
                             className="absolute inset-0"
                             whileHover={{ scale: 1.05 }}
