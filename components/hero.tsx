@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -88,7 +88,6 @@ function openCalendly() {
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
   const reducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -99,28 +98,13 @@ export function Hero() {
   const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
   const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setGlowPos({ x, y });
-  };
-
   return (
     <section
       ref={containerRef}
-      onMouseMove={handleMouseMove}
       className="relative flex min-h-screen flex-col items-start justify-center overflow-hidden px-6 md:px-12 lg:px-20"
     >
       <div className="grain-overlay" />
       <div className="hero-gradient-bg absolute inset-0 z-0" />
-      <div
-        className="pointer-events-none absolute inset-0 z-[3]"
-        style={{
-          background: `radial-gradient(600px circle at ${glowPos.x}% ${glowPos.y}%, hsl(var(--primary) / 0.12), transparent 60%)`,
-        }}
-      />
 
       <div
         className="absolute inset-y-0 right-0 w-[55%] z-[2] overflow-hidden hidden md:block pointer-events-none"
