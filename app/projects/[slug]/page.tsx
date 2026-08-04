@@ -1,4 +1,5 @@
 import { RelatedProjects } from "@/components/related-projects";
+import { CaseStudyContent } from "@/components/case-study-content";
 import { ArrowLeft, Github, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -39,8 +40,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const ContentComponent = projectContent[slug];
+  const isCaseStudy = Boolean(project.caseStudy);
 
-  if (!ContentComponent) {
+  if (!isCaseStudy && !ContentComponent) {
     notFound();
   }
 
@@ -94,49 +96,59 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <p className="font-sans text-lg text-muted-foreground leading-relaxed max-w-[580px]">
               {project.description}
             </p>
-            <div className="flex flex-wrap gap-4 mt-8">
-              {project.demo && (
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md text-sm font-sans hover:opacity-90 transition-opacity"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Live Demo
-                </a>
-              )}
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-border rounded-md text-sm font-sans text-foreground hover:border-primary hover:text-primary transition-colors"
-                >
-                  <Github className="h-4 w-4" />
-                  GitHub Repo
-                </a>
-              )}
-            </div>
+            {/* Case-study pages (Exp 14) render tech chips and links at the
+                end of the body; classic pages keep them in the hero. */}
+            {!isCaseStudy && (
+              <div className="flex flex-wrap gap-4 mt-8">
+                {project.demo && (
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md text-sm font-sans hover:opacity-90 transition-opacity"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Live Demo
+                  </a>
+                )}
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-border rounded-md text-sm font-sans text-foreground hover:border-primary hover:text-primary transition-colors"
+                  >
+                    <Github className="h-4 w-4" />
+                    GitHub Repo
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-[680px] px-6 py-20">
-        <div className="mb-16">
-          <div className="flex flex-wrap gap-3 font-mono text-xs uppercase tracking-wider">
-            {techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1.5 border border-primary/30 text-primary rounded-sm"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
+        {isCaseStudy ? (
+          <CaseStudyContent project={project} />
+        ) : (
+          <>
+            <div className="mb-16">
+              <div className="flex flex-wrap gap-3 font-mono text-xs uppercase tracking-wider">
+                {techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1.5 border border-primary/30 text-primary rounded-sm"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-        <ContentComponent />
+            <ContentComponent />
+          </>
+        )}
 
         <RelatedProjects currentProject={project} allProjects={projects} />
       </div>
