@@ -28,8 +28,8 @@ import { useReducedMotion } from "framer-motion";
  *  6. No WebGL (or init failure) — graceful static gradient fallback.
  *
  * Contrast: the canvas sits at z-[1] behind the photo (z-[2]) and content
- * (z-10) at opacity ~0.4, pointer-events-none, aria-hidden. Text contrast is
- * untouched in either theme.
+ * (z-10) at opacity 0.3 (dark-mode colors dimmed ×0.45), pointer-events-none,
+ * aria-hidden. Text contrast stays WCAG 2.2 AA in either theme.
  */
 
 /** Below this viewport width the live shader never mounts. */
@@ -234,9 +234,18 @@ export function ShaderHero() {
         const gl = renderer.gl;
 
         // Brand palette from theme tokens; fallbacks mirror --primary /
-        // --accent / a deep neutral for both themes.
-        const colorA = readCssHsl("--primary", [0.957, 0.651, 0.149]);
-        const colorB = readCssHsl("--accent", [0.902, 0.494, 0.4]);
+        // --accent / a deep neutral for both themes. In dark mode the
+        // accent colors are dimmed (×0.45) so even a full-amber fbm peak at
+        // canvas opacity 0.3 keeps foreground text ≥4.5:1 (WCAG 2.2 AA).
+        const dim = document.documentElement.classList.contains("dark")
+          ? 0.45
+          : 1;
+        const colorA = readCssHsl("--primary", [0.957, 0.651, 0.149]).map(
+          (v) => v * dim
+        ) as [number, number, number];
+        const colorB = readCssHsl("--accent", [0.902, 0.494, 0.4]).map(
+          (v) => v * dim
+        ) as [number, number, number];
         const colorC = readCssHsl("--background", [0.97, 0.2, 0.97]);
 
         const program = new Program(gl, {
