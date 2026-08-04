@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/animations/fade-in";
+import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { LinkChip } from "@/components/link-chip";
 import { ListFilterBar } from "@/components/list-filter-bar";
 import { Button } from "@/components/ui/button";
@@ -73,13 +74,20 @@ function ProjectsContent() {
             {filteredProjects.map((project, index) => {
               const imageLeft = index % 2 === 0;
               return (
-                <motion.article
+                <ScrollReveal
                   key={project.slug}
-                  data-editorial-project
-                  initial={{ opacity: 0, y: 60 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
+                  as="article"
+                  cssClass="rv-rise"
+                  domProps={{ "data-editorial-project": true }}
+                  motionProps={{
+                    initial: { opacity: 0, y: 60 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true, margin: "-80px" },
+                    transition: {
+                      duration: 0.7,
+                      ease: [0.21, 0.47, 0.32, 0.98],
+                    },
+                  }}
                 >
                   <Link
                     href={project.href}
@@ -156,7 +164,7 @@ function ProjectsContent() {
                       </div>
                     </div>
                   </Link>
-                </motion.article>
+                </ScrollReveal>
               );
             })}
           </div>
