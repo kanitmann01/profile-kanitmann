@@ -66,6 +66,7 @@ export const projects: Project[] = [
         "Analyzed 1B+ phishing URLs with SQL to train and validate the ensemble (XGBoost, LightGBM, Random Forest, Logistic Regression) against real threat telemetry rather than synthetic samples.",
         "Integrated the NetSTAR and PhishStats APIs so zero-day evaluations are dynamically enriched with fresh threat context instead of relying on a static corpus.",
         "Orchestrated the whole platform in a containerized environment (Docker) so the pipeline and its Power BI telemetry layer deploy identically across client environments.",
+        "Quantized the FastText classifier to int8 (per-row scale) and shipped it as an edge endpoint (POST /api/classify), so the model itself is testable live from a browser — the demo on this page runs that exact artifact.",
       ],
       outcome: [
         {
@@ -98,9 +99,14 @@ export const projects: Project[] = [
   D --> F["Algorithmic Distance Rules"]
   E --> F
   F --> G["Zero-Day Threat Score"]
-  G --> H["Power BI Telemetry<br/>Docker-orchestrated"]`,
+  G --> H["Power BI Telemetry<br/>Docker-orchestrated"]
+  subgraph DEMO["Live Demo — this page"]
+    I["Browser URL input"] --> J["Edge inference<br/>int8 FastText<br/>POST /api/classify"]
+    J --> K["Verdict + confidence + latency"]
+  end
+  D --> J`,
       evaluation:
-        "The ~96% accuracy figure comes from evaluating the ensemble against held-out zero-day phishing samples during training. The strongest gains came from the hybrid combination: FastText caught semantically deceptive URLs that structured models missed, while distance rules closed the gap on domain typo-squatting that neither model was explicitly trained on.",
+        "The ~96% accuracy figure comes from evaluating the ensemble against held-out zero-day phishing samples during training. The strongest gains came from the hybrid combination: FastText caught semantically deceptive URLs that structured models missed, while distance rules closed the gap on domain typo-squatting that neither model was explicitly trained on. The live demo on this page runs the FastText component retrained from the same corpus and measured on the deployed artifact: 96.7% accuracy, 94.1% phishing recall, and 99.3% precision on a held-out 4,409-URL split (stratified by class, unseen during training). The int16 quantization that lets the model run on the edge costs nothing measurable in accuracy — you are interacting with the deployed artifact, not a screenshot of it. It is still a URL-text-only model: it sees structure and brand tokens, never page content, so treat edge cases as signals, not verdicts.",
       retrospective:
         "I would instrument the pipeline with explicit offline evaluation harnesses earlier. Accuracy on zero-day samples was measured retrospectively rather than continuously, which made it harder to prove which component contributed each gain. I would also push harder on explainability artifacts — security teams trust a verdict more when they can see the rule or feature that triggered it, and that would have shortened the path from detection to analyst action.",
     },

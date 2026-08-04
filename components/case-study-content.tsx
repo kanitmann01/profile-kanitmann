@@ -1,14 +1,17 @@
 import type { Project, ProjectMetric } from "@/data/projects";
 import { projectDiagrams } from "@/data/diagram-content";
 import { Github, ExternalLink } from "lucide-react";
+import { NetstarClassifierDemo } from "@/components/netstar-classifier-demo";
 
 /**
  * Metric-led case-study layout (Exp 14). Renders the `caseStudy` schema in a
  * fixed editorial order: problem → approach → outcome metrics strip →
- * pipeline diagram → evaluation → retrospective → tech chips → links.
+ * live demo (NetSTAR only) → pipeline diagram → evaluation → retrospective →
+ * tech chips → links.
  *
  * Server component: the pipeline diagram is a static, build-time-rendered
- * SVG inlined from data/diagram-content.ts — no client JS for diagrams.
+ * SVG inlined from data/diagram-content.ts — no client JS for diagrams. The
+ * NetSTAR demo is the one client island on case-study pages (Exp 13).
  */
 export function CaseStudyContent({ project }: { project: Project }) {
   const study = project.caseStudy;
@@ -46,6 +49,21 @@ export function CaseStudyContent({ project }: { project: Project }) {
           <MetricCard key={metric.label} metric={metric} />
         ))}
       </div>
+
+      {project.slug === "netstar" && (
+        <>
+          <SectionHeading id="live-demo" title="Live Demo" />
+          <p className="font-sans text-muted-foreground leading-relaxed mb-8">
+            The classifier below is the FastText model from this project,
+            retrained from the NetSTAR-labeled URL corpus and quantized to int8
+            so it runs entirely on the edge. Type a URL — the verdict,
+            confidence, and latency you see are computed live on this request.
+          </p>
+          <div className="mb-20">
+            <NetstarClassifierDemo />
+          </div>
+        </>
+      )}
 
       {diagram && (
         <>
