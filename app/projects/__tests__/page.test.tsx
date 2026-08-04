@@ -29,6 +29,10 @@ vi.mock("next/navigation", () => ({
 import Projects from "@/app/projects/page";
 import { projects } from "@/data/projects";
 
+const openFilters = () => {
+  fireEvent.click(screen.getByRole("button", { name: /^Filters/ }));
+};
+
 describe("Projects page - editorial layout", () => {
   beforeEach(() => {
     setUrl("");
@@ -181,6 +185,7 @@ describe("Projects page - filters", () => {
 
   it("clicking a chip filters interactively and clear resets", () => {
     render(<Projects />);
+    openFilters();
     fireEvent.click(screen.getByRole("button", { name: "Filter by Flask" }));
     expect(
       screen.getByText("Titanic Survival Predictor Web App")
@@ -205,6 +210,7 @@ describe("Projects page - filters", () => {
 
   it("typing in the search box narrows the list and syncs the URL", () => {
     render(<Projects />);
+    openFilters();
     fireEvent.change(screen.getByLabelText("Search projects"), {
       target: { value: "titanic" },
     });

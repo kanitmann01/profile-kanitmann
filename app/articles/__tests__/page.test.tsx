@@ -29,6 +29,10 @@ vi.mock("next/navigation", () => ({
 import Articles from "@/app/articles/page";
 import { articles, topArticleSlug } from "@/data/articles";
 
+const openFilters = () => {
+  fireEvent.click(screen.getByRole("button", { name: /^Filters/ }));
+};
+
 describe("Articles page", () => {
   beforeEach(() => {
     setUrl("");
@@ -164,6 +168,7 @@ describe("Articles page - filters", () => {
 
   it("clicking a chip filters interactively and clear resets", () => {
     render(<Articles />);
+    openFilters();
     fireEvent.click(screen.getByRole("button", { name: "Filter by AI" }));
     expect(screen.getByText("The Fable 5 Digital Museum")).toBeInTheDocument();
     expect(
@@ -186,6 +191,7 @@ describe("Articles page - filters", () => {
 
   it("typing in the search box narrows the list and syncs the URL", () => {
     render(<Articles />);
+    openFilters();
     fireEvent.change(screen.getByLabelText("Search articles"), {
       target: { value: "registry" },
     });
