@@ -194,6 +194,33 @@
   animation: scroll-bounce 2s ease-in-out infinite;
 }
 
+/* Exp 15: shader hero accent. The live WebGL canvas mounts only on desktop
+   with motion + data allowed (see components/shader-hero.tsx); on mobile or
+   when WebGL is unavailable the static gradient below stands in — identical
+   placement, zero GPU cost. */
+.shader-hero-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+.shader-hero-static {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      55% 45% at 30% 35%,
+      hsl(var(--primary) / 0.1),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 40% at 75% 70%,
+      hsl(var(--accent) / 0.08),
+      transparent 70%
+    );
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-gradient-bg {
     animation: none;
