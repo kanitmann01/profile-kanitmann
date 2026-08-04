@@ -7,6 +7,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TactileFeedbackProvider } from "@/components/tactile-feedback-provider";
+import { LenisProvider } from "@/components/lenis-provider";
 import { CommandPalette } from "@/components/command-palette";
 import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
@@ -258,14 +259,19 @@ export default function RootLayout({
               Framer Motion layer (entrance, hover, and view-triggered animations).
               The CSS @media rule in globals.css only covers keyframe animations. */}
           <MotionConfig reducedMotion="user">
-            <TactileFeedbackProvider>
-              <CommandPalette>
-                <Navigation />
-                <main className="min-h-screen pt-16">{children}</main>
-                <Footer />
-                <Toaster />
-              </CommandPalette>
-            </TactileFeedbackProvider>
+            {/* Exp 07: Lenis smooth scroll. Reduced-motion users get no
+                smoothing (provider renders children without Lenis); touch
+                scrolling is never hijacked. */}
+            <LenisProvider>
+              <TactileFeedbackProvider>
+                <CommandPalette>
+                  <Navigation />
+                  <main className="min-h-screen pt-16">{children}</main>
+                  <Footer />
+                  <Toaster />
+                </CommandPalette>
+              </TactileFeedbackProvider>
+            </LenisProvider>
           </MotionConfig>
         </ThemeProvider>
       </body>
