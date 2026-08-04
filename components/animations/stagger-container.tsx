@@ -1,15 +1,33 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import type { ReactNode } from "react"
+import { motion } from "framer-motion";
+import type { ReactNode } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+
+/**
+ * Staggered reveal sequence — deliberately stays on Motion: CSS scroll
+ * timelines cannot orchestrate per-child stagger delays. Under
+ * prefers-reduced-motion both container and items render in their final,
+ * fully-visible state (no hidden start).
+ */
 
 interface StaggerContainerProps {
-  children: ReactNode
-  className?: string
-  staggerDelay?: number
+  children: ReactNode;
+  className?: string;
+  staggerDelay?: number;
 }
 
-export function StaggerContainer({ children, className, staggerDelay = 0.1 }: StaggerContainerProps) {
+export function StaggerContainer({
+  children,
+  className,
+  staggerDelay = 0.1,
+}: StaggerContainerProps) {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       initial="hidden"
@@ -27,15 +45,21 @@ export function StaggerContainer({ children, className, staggerDelay = 0.1 }: St
     >
       {children}
     </motion.div>
-  )
+  );
 }
 
 interface StaggerItemProps {
-  children: ReactNode
-  className?: string
+  children: ReactNode;
+  className?: string;
 }
 
 export function StaggerItem({ children, className }: StaggerItemProps) {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       variants={{
@@ -53,5 +77,5 @@ export function StaggerItem({ children, className }: StaggerItemProps) {
     >
       {children}
     </motion.div>
-  )
+  );
 }

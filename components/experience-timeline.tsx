@@ -1,18 +1,28 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown, ChevronUp } from "lucide-react"
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { truncate } from "@/lib/truncate"
-import type { Experience, SubRole } from "@/data/experiences"
+import { ScrollReveal } from "@/components/animations/scroll-reveal";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { truncate } from "@/lib/truncate";
+import type { Experience, SubRole } from "@/data/experiences";
 
 interface ExperienceTimelineProps {
-  experiences: Experience[]
-  compact?: boolean
+  experiences: Experience[];
+  compact?: boolean;
 }
+
+/**
+ * Generic card/button reveals run on the native CSS Scroll-Driven Animations
+ * API (`animation-timeline: view()`, classes `rv-rise` / `rv-rise-soft` /
+ * `rv-slide` in globals.css) with Motion `whileInView` as the unsupported-
+ * browser fallback. Deliberately left on Motion: the per-achievement stagger
+ * (`delay: idx * 0.1`) and the AnimatePresence expand/collapse exit.
+ */
 
 const roleVariants = {
   hidden: { opacity: 0, y: 60 },
@@ -21,7 +31,7 @@ const roleVariants = {
     y: 0,
     transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] as const },
   },
-}
+};
 
 const parallaxVariants = {
   hidden: { y: 20 },
@@ -29,15 +39,50 @@ const parallaxVariants = {
     y: 0,
     transition: { duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] as const },
   },
+};
+
+function AchievementItem({
+  achievement,
+  index,
+}: {
+  achievement: string;
+  index: number;
+}) {
+  const reducedMotion = useReducedMotion();
+
+  const className =
+    "font-sans text-sm text-muted-foreground flex items-start gap-3 list-none";
+
+  if (reducedMotion) {
+    return (
+      <li className={className}>
+        <span className="text-primary mt-0.5 flex-shrink-0">—</span>
+        <span>{achievement}</span>
+      </li>
+    );
+  }
+
+  return (
+    <motion.li
+      className={className}
+      initial={{ opacity: 0, x: -10 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <span className="text-primary mt-0.5 flex-shrink-0">—</span>
+      <span>{achievement}</span>
+    </motion.li>
+  );
 }
 
 function SubRoleCard({ role }: { role: SubRole }) {
-  const [isExpanded, setIsExpanded] = useState(false)
-  const shouldTruncate = role.description.length > 200
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shouldTruncate = role.description.length > 200;
   const displayDescription =
     isExpanded || !shouldTruncate
       ? role.description
-      : truncate(role.description)
+      : truncate(role.description);
 
   return (
     <div className="ml-8 border-l-2 border-primary/20 pl-6 py-4 mt-4">
@@ -47,9 +92,7 @@ function SubRoleCard({ role }: { role: SubRole }) {
         {role.duration}
       </p>
 
-      <p className="font-mono text-accent text-sm">
-        {role.position}
-      </p>
+      <p className="font-mono text-accent text-sm">{role.position}</p>
 
       <div className="flex flex-wrap gap-2 mt-2">
         <Badge variant="outline" className="text-xs font-mono">
@@ -86,7 +129,11 @@ function SubRoleCard({ role }: { role: SubRole }) {
       {role.skills.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-4">
           {role.skills.map((skill) => (
-            <Badge key={skill} variant="secondary" className="text-xs font-mono">
+            <Badge
+              key={skill}
+              variant="secondary"
+              className="text-xs font-mono"
+            >
               {skill}
             </Badge>
           ))}
@@ -96,44 +143,42 @@ function SubRoleCard({ role }: { role: SubRole }) {
       {role.achievements && role.achievements.length > 0 && (
         <div className="mt-4 space-y-2">
           {role.achievements.map((achievement, idx) => (
-            <motion.li
-              key={idx}
-              className="font-sans text-sm text-muted-foreground flex items-start gap-3 list-none"
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-            >
-              <span className="text-primary mt-0.5 flex-shrink-0">—</span>
-              <span>{achievement}</span>
-            </motion.li>
+            <AchievementItem key={idx} achievement={achievement} index={idx} />
           ))}
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function ExperienceCard({ experience }: { experience: Experience }) {
-  const [isExpanded, setIsExpanded] = useState(false)
-  const shouldTruncate = (experience.description?.length ?? 0) > 200
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shouldTruncate = (experience.description?.length ?? 0) > 200;
   const displayDescription =
     isExpanded || !shouldTruncate
       ? experience.description
-      : experience.description ? truncate(experience.description) : ""
+      : experience.description
+        ? truncate(experience.description)
+        : "";
 
   return (
-    <motion.div
+    <ScrollReveal
+      cssClass="rv-rise"
       className="relative pl-8 sm:pl-12 py-12"
-      variants={roleVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      motionProps={{
+        variants: roleVariants,
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, margin: "-100px" },
+      }}
     >
       <div className="absolute left-[-5px] top-14 w-[10px] h-[10px] rounded-full bg-primary border-2 border-background" />
 
       <div className="space-y-4">
-        <motion.div variants={parallaxVariants}>
+        <ScrollReveal
+          cssClass="rv-rise-soft"
+          motionProps={{ variants: parallaxVariants }}
+        >
           {experience.startDate && (
             <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest mb-2">
               {experience.startDate} – {experience.endDate}
@@ -151,7 +196,7 @@ function ExperienceCard({ experience }: { experience: Experience }) {
               {experience.position}
             </p>
           )}
-        </motion.div>
+        </ScrollReveal>
 
         {experience.type && experience.workMode && (
           <div className="flex flex-wrap gap-2">
@@ -194,7 +239,11 @@ function ExperienceCard({ experience }: { experience: Experience }) {
         {experience.skills.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {experience.skills.map((skill) => (
-              <Badge key={skill} variant="secondary" className="text-xs font-mono">
+              <Badge
+                key={skill}
+                variant="secondary"
+                className="text-xs font-mono"
+              >
                 {skill}
               </Badge>
             ))}
@@ -204,44 +253,45 @@ function ExperienceCard({ experience }: { experience: Experience }) {
         {experience.achievements && experience.achievements.length > 0 && (
           <div className="mt-4 space-y-2">
             {experience.achievements.map((achievement, idx) => (
-              <motion.li
+              <AchievementItem
                 key={idx}
-                className="font-sans text-sm text-muted-foreground flex items-start gap-3 list-none"
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-              >
-                <span className="text-primary mt-0.5 flex-shrink-0">—</span>
-                <span>{achievement}</span>
-              </motion.li>
+                achievement={achievement}
+                index={idx}
+              />
             ))}
           </div>
         )}
 
-        {experience.roles && experience.roles.map((role, idx) => (
-          <SubRoleCard key={idx} role={role} />
-        ))}
+        {experience.roles &&
+          experience.roles.map((role, idx) => (
+            <SubRoleCard key={idx} role={role} />
+          ))}
       </div>
-    </motion.div>
-  )
+    </ScrollReveal>
+  );
 }
 
-export function ExperienceTimeline({ experiences, compact = false }: ExperienceTimelineProps) {
-  const [showCollapsed, setShowCollapsed] = useState(false)
+export function ExperienceTimeline({
+  experiences,
+  compact = false,
+}: ExperienceTimelineProps) {
+  const [showCollapsed, setShowCollapsed] = useState(false);
 
   if (compact) {
-    const compactExperiences = experiences.filter((e) => e.featuredOnHome)
+    const compactExperiences = experiences.filter((e) => e.featuredOnHome);
     return (
       <div className="relative border-l-2 border-primary/30 ml-4">
         {compactExperiences.slice(0, 5).map((experience) => (
-          <motion.div
+          <ScrollReveal
             key={experience.id}
+            cssClass="rv-slide"
             className="relative pl-8 py-4"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+            motionProps={{
+              initial: { opacity: 0, x: -20 },
+              whileInView: { opacity: 1, x: 0 },
+              viewport: { once: true, margin: "-50px" },
+              transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] },
+            }}
           >
             <div className="absolute left-[-5px] top-6 w-2 h-2 rounded-full bg-primary" />
             <p className="font-sans font-medium text-sm text-foreground truncate">
@@ -250,14 +300,14 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
             <p className="font-mono text-xs text-muted-foreground truncate">
               {experience.company}
             </p>
-          </motion.div>
+          </ScrollReveal>
         ))}
       </div>
-    )
+    );
   }
 
-  const visibleExperiences = experiences.filter((e) => !e.collapsible)
-  const collapsedExperiences = experiences.filter((e) => e.collapsible)
+  const visibleExperiences = experiences.filter((e) => !e.collapsible);
+  const collapsedExperiences = experiences.filter((e) => e.collapsible);
 
   return (
     <div className="relative">
@@ -274,12 +324,15 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
         {collapsedExperiences.length > 0 && (
           <>
             {!showCollapsed && (
-              <motion.div
+              <ScrollReveal
+                cssClass="rv-rise"
                 className="relative pl-8 sm:pl-12 py-8"
-                variants={roleVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
+                motionProps={{
+                  variants: roleVariants,
+                  initial: "hidden",
+                  whileInView: "visible",
+                  viewport: { once: true, margin: "-50px" },
+                }}
               >
                 <Button
                   variant="outline"
@@ -288,7 +341,7 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
                 >
                   Show more <ChevronDown className="ml-1 h-3 w-3" />
                 </Button>
-              </motion.div>
+              </ScrollReveal>
             )}
 
             <AnimatePresence>
@@ -305,12 +358,15 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
                       <ExperienceCard experience={experience} />
                     </motion.div>
                   ))}
-                  <motion.div
+                  <ScrollReveal
+                    cssClass="rv-rise"
                     className="relative pl-8 sm:pl-12 py-4"
-                    variants={roleVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-50px" }}
+                    motionProps={{
+                      variants: roleVariants,
+                      initial: "hidden",
+                      whileInView: "visible",
+                      viewport: { once: true, margin: "-50px" },
+                    }}
                   >
                     <Button
                       variant="outline"
@@ -319,7 +375,7 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
                     >
                       Show less <ChevronUp className="ml-1 h-3 w-3" />
                     </Button>
-                  </motion.div>
+                  </ScrollReveal>
                 </>
               )}
             </AnimatePresence>
@@ -327,9 +383,13 @@ export function ExperienceTimeline({ experiences, compact = false }: ExperienceT
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export function CompactExperienceTimeline({ experiences }: { experiences: Experience[] }) {
-  return <ExperienceTimeline experiences={experiences} compact />
+export function CompactExperienceTimeline({
+  experiences,
+}: {
+  experiences: Experience[];
+}) {
+  return <ExperienceTimeline experiences={experiences} compact />;
 }

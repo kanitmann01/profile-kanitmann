@@ -1,35 +1,48 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import type { ReactNode } from "react"
+import { ScrollReveal } from "@/components/animations/scroll-reveal";
+import type { ReactNode } from "react";
 
 interface SlideInProps {
-  children: ReactNode
-  direction?: "left" | "right"
-  delay?: number
-  className?: string
+  children: ReactNode;
+  direction?: "left" | "right";
+  /** Only affects the Motion fallback path; the CSS path animates on viewport entry. */
+  delay?: number;
+  className?: string;
 }
 
-export function SlideIn({ children, direction = "left", delay = 0, className }: SlideInProps) {
+const cssClassByDirection = {
+  left: "rv-slide-left",
+  right: "rv-slide-right",
+} as const;
+
+const offsets = {
+  left: { x: -100 },
+  right: { x: 100 },
+} as const;
+
+export function SlideIn({
+  children,
+  direction = "left",
+  delay = 0,
+  className,
+}: SlideInProps) {
   return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        x: direction === "left" ? -100 : 100,
-      }}
-      whileInView={{
-        opacity: 1,
-        x: 0,
-      }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{
-        duration: 0.8,
-        delay,
-        ease: [0.21, 0.47, 0.32, 0.98],
-      }}
+    <ScrollReveal
+      cssClass={cssClassByDirection[direction]}
       className={className}
+      motionProps={{
+        initial: { opacity: 0, ...offsets[direction] },
+        whileInView: { opacity: 1, x: 0 },
+        viewport: { once: true, margin: "-50px" },
+        transition: {
+          duration: 0.8,
+          delay,
+          ease: [0.21, 0.47, 0.32, 0.98],
+        },
+      }}
     >
       {children}
-    </motion.div>
-  )
+    </ScrollReveal>
+  );
 }
