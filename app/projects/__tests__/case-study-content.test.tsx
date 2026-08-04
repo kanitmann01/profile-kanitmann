@@ -17,11 +17,21 @@ describe("CaseStudyContent (Exp 14)", () => {
       "Problem",
       "Approach",
       "Outcome",
+      "Live Demo",
       "Pipeline",
       "Evaluation",
       "What I'd Do Differently",
       "Tech Stack",
     ]);
+  });
+
+  it("renders the NetSTAR live demo island only for the netstar case study", () => {
+    const { unmount } = render(<CaseStudyContent project={netstar} />);
+    expect(screen.getByLabelText(/url to classify/i)).toBeInTheDocument();
+    unmount();
+
+    render(<CaseStudyContent project={ericsson} />);
+    expect(screen.queryByLabelText(/url to classify/i)).not.toBeInTheDocument();
   });
 
   it("renders the metrics strip with value, label, and context", () => {

@@ -1,0 +1,266 @@
+[
+  {
+    "url": "https://paypal.com/login",
+    "text": "__domain__paypal com __path__login __signal__keyword_masking __brand__paypal __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://paypal-account-verify.com/login",
+    "text": "__domain__paypal account verify com __path__login __signal__keyword_masking __feature__http",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [0.9995527267456055, 0.0004672848735935986]
+  },
+  {
+    "url": "https://www.amazon.com/gp/sign-in.html",
+    "text": "__domain__www amazon com __path__gp sign in html __brand__amazon __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://amaz0n-secure-verify.net/update",
+    "text": "__domain__amaz0n secure verify net __path__update __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.9998072981834412, 0.00021271184959914535]
+  },
+  {
+    "url": "https://accounts.google.com/signin",
+    "text": "__domain__accounts google com __path__signin __signal__keyword_masking __brand__google __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000069778470788e-5]
+  },
+  {
+    "url": "http://google-account-verify.ru/confirm",
+    "text": "__domain__google account verify ru __path__confirm __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.7478121519088745, 0.25220781564712524]
+  },
+  {
+    "url": "https://www.netflix.com/login",
+    "text": "__domain__www netflix com __path__login __signal__keyword_masking __brand__netflix __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://netflix-login-help.com/verify",
+    "text": "__domain__netflix login help com __path__verify __signal__keyword_masking __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.826805055141449, 0.17321491241455078]
+  },
+  {
+    "url": "https://github.com/login",
+    "text": "__domain__github com __path__login __signal__keyword_masking __brand__github __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://github-security-check.com/session",
+    "text": "__domain__github security check com __path__session __feature__http",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [0.9636345505714417, 0.036385428160429]
+  },
+  {
+    "url": "https://www.microsoft.com/en-us/microsoft-365",
+    "text": "__domain__www microsoft com __path__en us microsoft 365 __signal__keyword_masking __brand__microsoft __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://micros0ft-office365-update.com/account",
+    "text": "__domain__micros0ft office365 update com __path__account __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.9992703795433044, 0.0007495859172195196]
+  },
+  {
+    "url": "https://www.bankofamerica.com/",
+    "text": "__domain__www bankofamerica com __brand__bankofamerica __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://bankofamerica-verify.com/online-banking",
+    "text": "__domain__bankofamerica verify com __path__online banking __signal__keyword_masking __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.9264326691627502, 0.07358729094266891]
+  },
+  {
+    "url": "https://www.wellsfargo.com/",
+    "text": "__domain__www wellsfargo com __brand__wellsfargo __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://wellsfargo-secure-alert.com/signin",
+    "text": "__domain__wellsfargo secure alert com __path__signin __signal__keyword_masking __feature__http",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [0.8360616564750671, 0.1639583557844162]
+  },
+  {
+    "url": "http://192.168.1.1/login",
+    "text": "__domain__192 168 1 1 __path__login __signal__ip_address __signal__keyword_masking __feature__deep_subdomain __feature__http",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000017881393433, 1.8196091332356445e-5]
+  },
+  {
+    "url": "http://45.33.12.7/bank/login",
+    "text": "__domain__45 33 12 7 __path__bank login __signal__ip_address __signal__keyword_masking __feature__deep_subdomain __feature__http",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [0.9992207288742065, 0.0007992297178134322]
+  },
+  {
+    "url": "https://www.apple.com/",
+    "text": "__domain__www apple com __brand__apple __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://apple-id-icloud-verify.com/",
+    "text": "__domain__apple id icloud verify com __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.8993176817893982, 0.10070227831602097]
+  },
+  {
+    "url": "https://coinbase.com/signin",
+    "text": "__domain__coinbase com __path__signin __signal__keyword_masking __brand__coinbase __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://coinbase-wallet-update.io/verify",
+    "text": "__domain__coinbase wallet update io __path__verify __signal__keyword_masking __feature__http",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [0.9952929615974426, 0.00472706975415349]
+  },
+  {
+    "url": "https://www.instagram.com/",
+    "text": "__domain__www instagram com __brand__instagram __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://instagram-verify-account.com/",
+    "text": "__domain__instagram verify account com __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.7847203016281128, 0.21529975533485413]
+  },
+  {
+    "url": "https://twitter.com/login",
+    "text": "__domain__twitter com __path__login __signal__keyword_masking __brand__twitter __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://twitter-security-alert.com/",
+    "text": "__domain__twitter security alert com __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.9752543568611145, 0.024765659123659134]
+  },
+  {
+    "url": "https://www.chase.com/",
+    "text": "__domain__www chase com __brand__chase __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://chase-online-verification.com/signin",
+    "text": "__domain__chase online verification com __path__signin __signal__keyword_masking __feature__http",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [0.896721601486206, 0.10329844057559967]
+  },
+  {
+    "url": "https://www.paypal.com/signin",
+    "text": "__domain__www paypal com __path__signin __signal__keyword_masking __brand__paypal __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "http://n1ke.com/shoes",
+    "text": "__domain__n1ke com __path__shoes __brand__nike __signal__typosquatting __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [1.0000098943710327, 1.0112429663422517e-5]
+  },
+  {
+    "url": "http://netflix.com",
+    "text": "__domain__netflix com __brand__netflix __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.9957056045532227, 0.004314435180276632]
+  },
+  {
+    "url": "https://www.paypal.com",
+    "text": "__domain__www paypal com __brand__paypal __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__sale attestaty v yakutske 14 ru __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.9999895095825195, 3.051427484024316e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__nbalikamonjal blogspot com __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__toloka to __brand__toyota __signal__typosquatting __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [1.0000073909759521, 1.2661736036534421e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__meta support team 75aa4 netlify app __brand__netlify __feature__http",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [0.642361044883728, 0.3576589524745941]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__cpankesvv weebly com __brand__ebay __signal__typosquatting __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__karliki com __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [1.0000073909759521, 1.2566040823003277e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__tag heuer 1on1 rsvp 2025 web app __brand__webex __signal__typosquatting __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000012480304576e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__mg lj si __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [0.9999414682388306, 7.857882155803964e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__pub 3d0d2463275146329319b0ae11369bf8 r2 dev __path__index html __brand__n26 __signal__typosquatting __feature__long_url __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__ganjoho jp __feature__http",
+    "labels": ["__label__clean", "__label__phishing"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__minevip2016 weebly com __brand__ebay __signal__typosquatting __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  },
+  {
+    "url": "(held-out sample)",
+    "text": "__domain__connect 491 web app __brand__webex __signal__typosquatting __feature__https",
+    "labels": ["__label__phishing", "__label__clean"],
+    "probs": [1.0000100135803223, 1.0000003385357559e-5]
+  }
+]
