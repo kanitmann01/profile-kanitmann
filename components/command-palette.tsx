@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/command";
 import { useToast } from "@/hooks/use-toast";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useLenis } from "lenis/react";
 
 const EMAIL = "mannkanit@gmail.com";
 const RESUME_URL = "/Kanit Mann - Resume.pdf";
@@ -89,6 +90,9 @@ export function CommandPalette({ children }: { children?: React.ReactNode }) {
   const { setTheme } = useTheme();
   const { toast } = useToast();
   const prefersReducedMotion = useReducedMotion();
+  // Lenis instance when smooth scroll is active (Exp 07); undefined under
+  // reduced motion (provider doesn't mount Lenis) or before first mount.
+  const lenis = useLenis();
 
   const handleOpenChange = (nextOpen: boolean) => {
     if (nextOpen) {
@@ -144,9 +148,18 @@ export function CommandPalette({ children }: { children?: React.ReactNode }) {
   const jumpToSection = (id: string) =>
     runCommand(() => {
       if (pathname === "/") {
-        document.getElementById(id)?.scrollIntoView({
-          behavior: prefersReducedMotion ? "auto" : "smooth",
-        });
+        if (lenis) {
+          // Route through Lenis so the animated jump matches the site's
+          // smooth-scroll layer. Lenis honors the sections' CSS
+          // scroll-margin-top (scroll-mt-20) internally, so no manual
+          // offset is needed — final position matches native scrollIntoView.
+          lenis.scrollTo(`#${id}`);
+        } else {
+          // No Lenis (reduced motion / not yet mounted): native jump.
+          document.getElementById(id)?.scrollIntoView({
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+          });
+        }
       } else {
         router.push(`/#${id}`);
       }

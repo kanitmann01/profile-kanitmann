@@ -202,6 +202,27 @@
   }
 }
 
+/* Lenis smooth scroll (Exp 07). The provider only mounts Lenis when motion
+   is allowed; when it does, Lenis adds these classes to <html>. Keeping
+   `scroll-behavior: auto` while Lenis is active prevents the browser's own
+   smooth-scrolling from fighting Lenis's raf-driven scroll. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 /* IMAT Note Prose Styling */
 .imat-prose {
   @apply text-foreground leading-relaxed;
