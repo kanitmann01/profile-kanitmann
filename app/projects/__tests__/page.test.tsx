@@ -82,8 +82,10 @@ describe("Projects page - editorial layout", () => {
   it("renders project links to detail pages", () => {
     render(<Projects />);
     projects.forEach((project) => {
+      // Escape regex metacharacters (e.g. "+" in "2,000+ Servers").
+      const escaped = project.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       const link = screen.getByRole("link", {
-        name: new RegExp(project.title, "i"),
+        name: new RegExp(escaped, "i"),
       });
       expect(link).toHaveAttribute("href", project.href);
     });

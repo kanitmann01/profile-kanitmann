@@ -49,6 +49,18 @@ export function buildProjectSchema(project: Project) {
     },
     datePublished: project.lastUpdated ?? project.period,
     mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+    keywords: project.tags,
+    // Exp 14: case-study pages carry the metric-led schema; signal it to
+    // search engines via articleSection.
+    ...(project.caseStudy
+      ? {
+          articleSection: "Case Study",
+          articleBody: [
+            project.caseStudy.problem,
+            project.caseStudy.retrospective,
+          ].join(" "),
+        }
+      : {}),
   };
 }
 
