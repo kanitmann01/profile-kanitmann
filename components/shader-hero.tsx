@@ -178,6 +178,7 @@ export function ShaderHero() {
     let renderer: any;
     let mesh: any;
     let onVisibility: (() => void) | null = null;
+    let resizeObserver: ResizeObserver | null = null;
     let paused = false;
 
     const startLoop = () => {
@@ -230,6 +231,20 @@ export function ShaderHero() {
           stencil: false,
           powerPreference: "low-power",
         });
+
+        // ogl's Renderer defaults to 300x150 and writes inline px styles
+        // that override `.shader-hero-canvas { width/height: 100% }` (see
+        // globals.css). Pin the canvas to the container and re-pin on any
+        // layout change — setSize multiplies the buffer by the capped dpr
+        // internally, so pass CSS pixel dims.
+        const setCanvasSize = () => {
+          renderer.setSize(container.clientWidth, container.clientHeight);
+        };
+        setCanvasSize();
+        if (typeof ResizeObserver !== "undefined") {
+          resizeObserver = new ResizeObserver(setCanvasSize);
+          resizeObserver.observe(container);
+        }
 
         const gl = renderer.gl;
 
@@ -287,6 +302,9 @@ export function ShaderHero() {
       stopLoop();
       if (onVisibility) {
         document.removeEventListener("visibilitychange", onVisibility);
+      }
+      if (resizeObserver) {
+        resizeObserver.disconnect();
       }
       const canvas = container.querySelector("canvas");
       if (canvas && container.contains(canvas)) {

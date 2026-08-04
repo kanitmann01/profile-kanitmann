@@ -14,12 +14,24 @@ import { ShaderHero, MAX_DPR, hslToRgb } from "@/components/shader-hero";
  *  - desktop + motion allowed → live shader, dpr capped
  */
 
-const { rendererOpts, renderSpy, meshPrograms } = vi.hoisted(() => {
-  const rendererOpts: any[] = [];
-  const renderSpy = vi.fn();
-  const meshPrograms: any[] = [];
-  return { rendererOpts, renderSpy, meshPrograms };
-});
+const { rendererOpts, renderSpy, setSizeSpy, meshPrograms, resizeObservers } =
+  vi.hoisted(() => {
+    const rendererOpts: any[] = [];
+    const renderSpy = vi.fn();
+    const setSizeSpy = vi.fn();
+    const meshPrograms: any[] = [];
+    const resizeObservers: {
+      callback: ResizeObserverCallback;
+      observed: Element[];
+    }[] = [];
+    return {
+      rendererOpts,
+      renderSpy,
+      setSizeSpy,
+      meshPrograms,
+      resizeObservers,
+    };
+  });
 
 vi.mock("ogl", () => {
   class FakeVec3 {
@@ -36,6 +48,7 @@ vi.mock("ogl", () => {
     gl: any;
     canvas: any;
     render = renderSpy;
+    setSize = setSizeSpy;
     constructor(opts: any) {
       rendererOpts.push(opts);
       this.canvas = opts.canvas;
@@ -124,7 +137,9 @@ afterEach(() => {
   unstubRaf();
   rendererOpts.length = 0;
   renderSpy.mockClear();
+  setSizeSpy.mockClear();
   meshPrograms.length = 0;
+  resizeObservers.length = 0;
 });
 
 describe("ShaderHero — suspend paths", () => {
@@ -216,6 +231,67 @@ describe("ShaderHero — live shader", () => {
     expect(uniforms.uColorA).toBeDefined();
     expect(uniforms.uColorB).toBeDefined();
     expect(uniforms.uColorC).toBeDefined();
+  });
+
+  it("sizes the canvas to the container and keeps it pinned on resize", async () => {
+    stubWebGLAvailable(true);
+    Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+      configurable: true,
+      value: 800,
+    });
+    Object.defineProperty(HTMLElement.prototype, "clientHeight", {
+      configurable: true,
+      value: 500,
+    });
+
+    class FakeResizeObserver {
+      callback: ResizeObserverCallback;
+      observed: Element[] = [];
+      constructor(cb: ResizeObserverCallback) {
+        this.callback = cb;
+        resizeObservers.push(this);
+      }
+      observe(el: Element) {
+        this.observed.push(el);
+      }
+      unobserve() {}
+      disconnect() {
+        this.observed.length = 0;
+      }
+    }
+    vi.stubGlobal("ResizeObserver", FakeResizeObserver);
+
+    const { unmount } = render(<ShaderHero />);
+    await waitFor(() => {
+      expect(getCanvas()).not.toBeNull();
+    });
+
+    // Mount pins the canvas to the container's CSS pixel size (ogl applies
+    // the capped dpr to the backing buffer internally).
+    expect(setSizeSpy).toHaveBeenCalledWith(800, 500);
+
+    // The container itself is observed for layout changes.
+    const observer = resizeObservers.at(-1)!;
+    expect(observer.observed).toContain(getLayer());
+
+    // Container grows → setSize re-called with the new dims.
+    Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+      configurable: true,
+      value: 1024,
+    });
+    Object.defineProperty(HTMLElement.prototype, "clientHeight", {
+      configurable: true,
+      value: 640,
+    });
+    (observer.callback as any)([], observer);
+    expect(setSizeSpy).toHaveBeenCalledWith(1024, 640);
+
+    // Cleanup disconnects the observer (no leak, no reflow after unmount).
+    unmount();
+    expect(observer.observed).toHaveLength(0);
+
+    delete (HTMLElement.prototype as any).clientWidth;
+    delete (HTMLElement.prototype as any).clientHeight;
   });
 
   it("falls back to the static gradient when WebGL is unavailable", async () => {
