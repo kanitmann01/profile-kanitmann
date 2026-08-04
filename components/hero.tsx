@@ -1,10 +1,41 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { MagneticButton } from "@/components/magnetic-button";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+
+/**
+ * Exp 12: kinetic headline. Chars rise, fade, and unblur in a ~30ms stagger
+ * (ease-out) — the full sequence lands in under 800ms so the role line and
+ * CTAs never wait on it. Animation is transform/filter-only.
+ *
+ * a11y pattern: standard kinetic-type markup — the h1 wrapper carries the
+ * full text via aria-label, the per-char spans are aria-hidden. H1 semantics
+ * (role + accessible name) stay intact for AT and SEO; the full text remains
+ * in the DOM. Under prefers-reduced-motion the headline renders as one
+ * static element (no split, no stagger, no aria juggling).
+ */
+const HEADLINE = "Hi, I'm Kanit!";
+
+const HEADLINE_CONTAINER_VARIANTS: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.03 },
+  },
+};
+
+const HEADLINE_CHAR_VARIANTS: Variants = {
+  hidden: { y: "0.5em", opacity: 0, filter: "blur(8px)" },
+  visible: {
+    y: 0,
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.4, ease: [0.22, 0.61, 0.36, 1] },
+  },
+};
 
 declare global {
   interface Window {
@@ -58,6 +89,7 @@ function openCalendly() {
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
+  const reducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -109,15 +141,30 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 flex flex-col items-start text-left w-full max-w-5xl">
-        <motion.div
-          initial={{ y: 100, opacity: 0, filter: "blur(10px)" }}
-          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{ scale: contentScale, opacity: contentOpacity }}
-        >
-          <h1 className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground">
-            <span>Hi, I&apos;m Kanit!</span>
-          </h1>
+        <motion.div style={{ scale: contentScale, opacity: contentOpacity }}>
+          {reducedMotion ? (
+            <h1 className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground">
+              {HEADLINE}
+            </h1>
+          ) : (
+            <motion.h1
+              aria-label={HEADLINE}
+              className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground"
+              initial="hidden"
+              animate="visible"
+              variants={HEADLINE_CONTAINER_VARIANTS}
+            >
+              {HEADLINE.split("").map((char, index) => (
+                <motion.span
+                  key={index}
+                  aria-hidden="true"
+                  variants={HEADLINE_CHAR_VARIANTS}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </motion.h1>
+          )}
         </motion.div>
 
         <motion.div

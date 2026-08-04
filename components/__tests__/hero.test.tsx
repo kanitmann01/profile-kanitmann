@@ -1,7 +1,31 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Hero } from "@/components/hero";
+
+/** Full headline text as rendered in the hero. */
+const HEADLINE = "Hi, I'm Kanit!";
+
+/** Stubs the jsdom matchMedia mock the setup installs (matches: false). */
+function stubPrefersReducedMotion(matches: boolean) {
+  vi.mocked(window.matchMedia).mockImplementation(
+    (query: string) =>
+      ({
+        matches,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      }) as any
+  );
+}
+
+afterEach(() => {
+  stubPrefersReducedMotion(false);
+});
 
 describe("Hero", () => {
   it("renders the heading with name Kanit", () => {
@@ -62,5 +86,29 @@ describe("Hero", () => {
     expect(
       screen.queryByRole("link", { name: /Get In Touch/i })
     ).not.toBeInTheDocument();
+  });
+
+  it("splits the headline into aria-hidden character spans with the full text kept in the DOM", () => {
+    render(<Hero />);
+    const heading = screen.getByRole("heading", { name: /Kanit/i });
+    // The wrapper carries the accessible name; the split chars stay in the
+    // DOM (SEO) but are hidden from assistive tech.
+    expect(heading).toHaveAttribute("aria-label", HEADLINE);
+    expect(heading.textContent).toBe(HEADLINE);
+    const chars = heading.querySelectorAll("span[aria-hidden='true']");
+    expect(chars).toHaveLength(HEADLINE.length);
+    expect(chars[0].textContent).toBe("H");
+  });
+
+  it("renders the headline as a single static element under reduced motion", async () => {
+    stubPrefersReducedMotion(true);
+    render(<Hero />);
+    await waitFor(() => {
+      const heading = screen.getByRole("heading", { name: /Kanit/i });
+      // No split, no aria juggling — the plain text h1 renders as-is.
+      expect(heading.querySelectorAll("span")).toHaveLength(0);
+      expect(heading.textContent).toBe(HEADLINE);
+      expect(heading).not.toHaveAttribute("aria-label");
+    });
   });
 });
