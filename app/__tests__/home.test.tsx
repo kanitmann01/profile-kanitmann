@@ -1,7 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 import Home from "@/app/page";
+
+// BentoGitHubCard is an async Server Component (fetches live GitHub stats);
+// the client test renderer cannot render async components, so stub it here.
+// Its own behavior is covered in components/__tests__/bento-github-card.test.tsx.
+vi.mock("@/components/bento-github-card", () => ({
+  BentoGitHubCard: () => <div>GitHub</div>,
+}));
 
 describe("Home page", () => {
   it("renders the hero section with Kanit", () => {
