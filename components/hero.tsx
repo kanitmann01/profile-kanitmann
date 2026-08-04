@@ -5,6 +5,7 @@ import { m, useScroll, useTransform, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { MagneticButton } from "@/components/magnetic-button";
+import { ShaderHero } from "@/components/shader-hero";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 /**
@@ -105,6 +106,9 @@ export function Hero() {
     >
       <div className="grain-overlay" />
       <div className="hero-gradient-bg absolute inset-0 z-0" />
+      {/* Exp 15: shader accent — z-[1], behind photo (z-[2]) and content
+          (z-10), low opacity, never competes with text contrast. */}
+      <ShaderHero />
 
       <div
         className="absolute inset-y-0 right-0 w-[55%] z-[2] overflow-hidden hidden md:block pointer-events-none"
