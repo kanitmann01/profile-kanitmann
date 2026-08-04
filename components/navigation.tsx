@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Menu, X, Volume2, VolumeX } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TapRipple } from "@/components/tap-ripple";
@@ -51,7 +51,7 @@ export function Navigation() {
 
   return (
     <>
-      <motion.nav
+      <m.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -131,7 +131,7 @@ export function Navigation() {
               >
                 <AnimatePresence mode="wait">
                   {isMobileMenuOpen ? (
-                    <motion.div
+                    <m.div
                       key="close"
                       initial={{ rotate: -90, opacity: 0 }}
                       animate={{ rotate: 0, opacity: 1 }}
@@ -139,9 +139,9 @@ export function Navigation() {
                       transition={{ duration: 0.2 }}
                     >
                       <X className="h-5 w-5" />
-                    </motion.div>
+                    </m.div>
                   ) : (
-                    <motion.div
+                    <m.div
                       key="menu"
                       initial={{ rotate: 90, opacity: 0 }}
                       animate={{ rotate: 0, opacity: 1 }}
@@ -149,18 +149,18 @@ export function Navigation() {
                       transition={{ duration: 0.2 }}
                     >
                       <Menu className="h-5 w-5" />
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </button>
             </TapRipple>
           </div>
         </div>
-      </motion.nav>
+      </m.nav>
 
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -173,7 +173,7 @@ export function Navigation() {
                 aria-label="Mobile navigation"
               >
                 {navItems.map((item, index) => (
-                  <motion.div
+                  <m.div
                     key={item.href}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -192,9 +192,9 @@ export function Navigation() {
                     >
                       {item.label}
                     </Link>
-                  </motion.div>
+                  </m.div>
                 ))}
-                <motion.div
+                <m.div
                   key="commands"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -218,10 +218,10 @@ export function Navigation() {
                       ⌘K
                     </kbd>
                   </MagneticButton>
-                </motion.div>
+                </m.div>
               </nav>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

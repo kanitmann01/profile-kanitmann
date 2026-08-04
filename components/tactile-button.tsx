@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { m, type HTMLMotionProps } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants, type ButtonProps } from "@/components/ui/button";
@@ -39,7 +39,7 @@ const TactileButton = React.forwardRef<HTMLButtonElement, TactileButtonProps>(
       );
     }
     return (
-      <motion.button
+      <m.button
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         whileHover={{ boxShadow: "0 6px 16px rgba(0,0,0,0.15)" }}

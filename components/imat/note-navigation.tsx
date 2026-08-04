@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getNotesByTopic } from "@/data/imat/registry";
@@ -29,7 +29,7 @@ export function NoteNavigation({
   return (
     <nav className="flex flex-col sm:flex-row gap-3 mt-8 pt-6 border-t">
       {prev ? (
-        <motion.div whileTap={{ scale: 0.98 }} className="flex-1">
+        <m.div whileTap={{ scale: 0.98 }} className="flex-1">
           <Link
             href={`/imat/${subject}/${topic}/${prev.slug}`}
             className={cn(
@@ -42,7 +42,7 @@ export function NoteNavigation({
             <span className="hidden sm:inline truncate">{prev.title}</span>
             <ChevronLeft className="w-4 h-4 shrink-0 sm:hidden" />
           </Link>
-        </motion.div>
+        </m.div>
       ) : (
         <div className="flex-1">
           <button
@@ -59,7 +59,7 @@ export function NoteNavigation({
       )}
 
       {next ? (
-        <motion.div whileTap={{ scale: 0.98 }} className="flex-1">
+        <m.div whileTap={{ scale: 0.98 }} className="flex-1">
           <Link
             href={`/imat/${subject}/${topic}/${next.slug}`}
             className={cn(
@@ -72,7 +72,7 @@ export function NoteNavigation({
             <span className="sm:hidden">Next</span>
             <ChevronRight className="w-4 h-4 shrink-0" />
           </Link>
-        </motion.div>
+        </m.div>
       ) : (
         <div className="flex-1">
           <button

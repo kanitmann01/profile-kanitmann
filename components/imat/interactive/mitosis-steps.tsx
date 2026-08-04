@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 interface Phase {
   name: string;
@@ -236,7 +236,7 @@ export function MitosisSteps() {
   return (
     <div className="flex flex-col items-center gap-4 p-4">
       <AnimatePresence mode="wait">
-        <motion.div
+        <m.div
           key={currentStep}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -252,7 +252,7 @@ export function MitosisSteps() {
           >
             {PHASES[currentStep].description}
           </p>
-        </motion.div>
+        </m.div>
       </AnimatePresence>
 
       <div className="flex items-center gap-2">

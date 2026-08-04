@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 type InhibitionMode = "none" | "competitive" | "non-competitive";
 
@@ -54,7 +54,7 @@ function EnzymeSVG({ mode }: { mode: InhibitionMode }) {
           <text x={115} y={58} fill="white" fontSize={7}>
             Sub
           </text>
-          <motion.path
+          <m.path
             d="M 108 55 L 82 55"
             stroke="#22c55e"
             strokeWidth={2}
@@ -167,7 +167,7 @@ export function EnzymeKinetics() {
           <span className="font-bold">{effectiveRate}%</span>
         </div>
         <div className="h-4 w-full rounded-full bg-muted overflow-hidden">
-          <motion.div
+          <m.div
             className="h-full rounded-full"
             style={{
               backgroundColor:

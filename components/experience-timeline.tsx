@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
@@ -63,7 +63,7 @@ function AchievementItem({
   }
 
   return (
-    <motion.li
+    <m.li
       className={className}
       initial={{ opacity: 0, x: -10 }}
       whileInView={{ opacity: 1, x: 0 }}
@@ -72,7 +72,7 @@ function AchievementItem({
     >
       <span className="text-primary mt-0.5 flex-shrink-0">—</span>
       <span>{achievement}</span>
-    </motion.li>
+    </m.li>
   );
 }
 
@@ -348,7 +348,7 @@ export function ExperienceTimeline({
               {showCollapsed && (
                 <>
                   {collapsedExperiences.map((experience) => (
-                    <motion.div
+                    <m.div
                       key={experience.id}
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
@@ -356,7 +356,7 @@ export function ExperienceTimeline({
                       transition={{ duration: 0.5, ease: "easeInOut" }}
                     >
                       <ExperienceCard experience={experience} />
-                    </motion.div>
+                    </m.div>
                   ))}
                   <ScrollReveal
                     cssClass="rv-rise"

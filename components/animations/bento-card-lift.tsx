@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 interface BentoCardLiftProps {
@@ -18,12 +18,12 @@ export function BentoCardLift({ children, className }: BentoCardLiftProps) {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <motion.div
+    <m.div
       whileHover={prefersReducedMotion ? undefined : { y: -4 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

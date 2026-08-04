@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -106,7 +106,7 @@ export function ProjectileMotion() {
               strokeDasharray="4"
             />
             {isAnimating && (
-              <motion.circle
+              <m.circle
                 r="8"
                 fill="hsl(var(--primary))"
                 initial={{ cx: padding, cy: svgHeight - padding }}

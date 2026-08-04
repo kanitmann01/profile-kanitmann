@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   ArrowLeft,
   Brain,
@@ -71,7 +71,7 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
           { label: note.title },
         ]}
       />
-      <motion.div
+      <m.div
         id="back-nav"
         custom={sectionIndex++}
         variants={sectionVariants}
@@ -85,11 +85,11 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
             Back to {topicTitle}
           </Link>
         </Button>
-      </motion.div>
+      </m.div>
 
       {((note.prerequisites?.length ?? 0) > 0 ||
         note.crosslinks.length > 0) && (
-        <motion.div
+        <m.div
           custom={sectionIndex++}
           variants={sectionVariants}
           initial="hidden"
@@ -102,10 +102,10 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
             prerequisites={note.prerequisites ?? []}
             crosslinks={note.crosslinks}
           />
-        </motion.div>
+        </m.div>
       )}
 
-      <motion.div
+      <m.div
         id="title"
         custom={sectionIndex++}
         variants={sectionVariants}
@@ -129,9 +129,9 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
             ))}
           </div>
         )}
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         id="memory-hook"
         custom={sectionIndex++}
         variants={sectionVariants}
@@ -148,10 +148,10 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
             {note.memoryHook}
           </p>
         </CollapsibleCallout>
-      </motion.div>
+      </m.div>
 
       {note.highYieldPoints && note.highYieldPoints.length > 0 && (
-        <motion.div
+        <m.div
           id="high-yield"
           custom={sectionIndex++}
           variants={sectionVariants}
@@ -180,12 +180,12 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       )}
 
       <ConfidenceCalibration noteSlug={note.slug} />
 
-      <motion.div
+      <m.div
         id="explanation"
         custom={sectionIndex++}
         variants={sectionVariants}
@@ -206,10 +206,10 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
             {note.explanation}
           </article>
         </div>
-      </motion.div>
+      </m.div>
 
       {note.questions.length > 0 && (
-        <motion.div
+        <m.div
           custom={sectionIndex++}
           variants={sectionVariants}
           initial="hidden"
@@ -217,13 +217,13 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
           className="mb-6"
         >
           <InlineReview questions={note.questions} noteSlug={note.slug} />
-        </motion.div>
+        </m.div>
       )}
 
       <hr className="my-10 border-border/50" />
 
       {note.equations && note.equations.length > 0 && (
-        <motion.div
+        <m.div
           id="equations"
           custom={sectionIndex++}
           variants={sectionVariants}
@@ -246,11 +246,11 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
               <EquationBlock key={eq.id} equation={eq} />
             ))}
           </div>
-        </motion.div>
+        </m.div>
       )}
 
       {note.workedExamples && note.workedExamples.length > 0 && (
-        <motion.div
+        <m.div
           id="worked-examples"
           custom={sectionIndex++}
           variants={sectionVariants}
@@ -275,13 +275,13 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
               <WorkedExampleCard key={i} example={example} />
             ))}
           </div>
-        </motion.div>
+        </m.div>
       )}
 
       <hr className="my-10 border-border/50" />
 
       {note.diagram && (
-        <motion.div
+        <m.div
           id="diagram"
           custom={sectionIndex++}
           variants={sectionVariants}
@@ -304,10 +304,10 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
               </p>
             )}
           </div>
-        </motion.div>
+        </m.div>
       )}
 
-      <motion.div
+      <m.div
         id="imat-trap"
         custom={sectionIndex++}
         variants={sectionVariants}
@@ -322,9 +322,9 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
         >
           <p className="text-red-900/80 dark:text-red-200">{note.imatTrap}</p>
         </CollapsibleCallout>
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         id="why-it-matters"
         custom={sectionIndex++}
         variants={sectionVariants}
@@ -341,10 +341,10 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
             {note.whyItMatters}
           </p>
         </CollapsibleCallout>
-      </motion.div>
+      </m.div>
 
       {note.externalResources && note.externalResources.length > 0 && (
-        <motion.div
+        <m.div
           id="resources"
           custom={sectionIndex++}
           variants={sectionVariants}
@@ -353,11 +353,11 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
           className="mb-8"
         >
           <ExternalResourcesList resources={note.externalResources} />
-        </motion.div>
+        </m.div>
       )}
 
       {note.questions.length > 0 && (
-        <motion.div
+        <m.div
           id="active-recall"
           custom={sectionIndex++}
           variants={sectionVariants}
@@ -369,11 +369,11 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
             Active Recall
           </h2>
           <ReviewSession questions={note.questions} slug={note.slug} />
-        </motion.div>
+        </m.div>
       )}
 
       {note.crosslinks.length > 0 && (
-        <motion.div
+        <m.div
           id="related-notes"
           custom={sectionIndex++}
           variants={sectionVariants}
@@ -396,7 +396,7 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
               </Link>
             ))}
           </div>
-        </motion.div>
+        </m.div>
       )}
 
       <NoteNavigation
@@ -405,7 +405,7 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
         subject={subjectSlug}
       />
 
-      <motion.div
+      <m.div
         id="confidence"
         custom={sectionIndex++}
         variants={sectionVariants}
@@ -417,7 +417,7 @@ export function NoteBody({ note, subjectSlug, topicSlug }: NoteBodyProps) {
           How confident are you?
         </h2>
         <ReviewButtons slug={note.slug} />
-      </motion.div>
+      </m.div>
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import type { ReactNode } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
@@ -29,7 +29,7 @@ export function StaggerContainer({
   }
 
   return (
-    <motion.div
+    <m.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -44,7 +44,7 @@ export function StaggerContainer({
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -61,7 +61,7 @@ export function StaggerItem({ children, className }: StaggerItemProps) {
   }
 
   return (
-    <motion.div
+    <m.div
       variants={{
         hidden: { opacity: 0, y: 40 },
         visible: {
@@ -76,6 +76,6 @@ export function StaggerItem({ children, className }: StaggerItemProps) {
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

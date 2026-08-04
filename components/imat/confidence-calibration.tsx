@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -106,7 +106,7 @@ export function ConfidenceCalibration({
     >
       <CardContent className="pt-4">
         {phase === "before" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <p className="text-sm font-medium mb-3">
               How confident do you feel about this topic?
             </p>
@@ -124,14 +124,11 @@ export function ConfidenceCalibration({
                 </Button>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         )}
 
         {phase === "after" && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <m.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
             <p className="text-sm font-medium mb-3">
               Now that you've read it, how confident do you feel?
             </p>
@@ -149,11 +146,11 @@ export function ConfidenceCalibration({
                 </Button>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         )}
 
         {phase === "complete" && data && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="space-y-2"
@@ -178,7 +175,7 @@ export function ConfidenceCalibration({
                 Consider reviewing the prerequisites
               </p>
             )}
-          </motion.div>
+          </m.div>
         )}
       </CardContent>
     </Card>

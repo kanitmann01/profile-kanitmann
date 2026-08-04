@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { CheckCircle2, ArrowRight, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -55,7 +55,7 @@ export function StepSolver({
   if (complete) {
     const correct = results.filter(Boolean).length;
     return (
-      <motion.div
+      <m.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className={cn("rounded-xl border bg-card p-4 text-center", className)}
@@ -76,7 +76,7 @@ export function StepSolver({
           <RotateCcw className="h-3 w-3" />
           Try Again
         </Button>
-      </motion.div>
+      </m.div>
     );
   }
 
@@ -102,7 +102,7 @@ export function StepSolver({
         ))}
       </div>
       <AnimatePresence mode="wait">
-        <motion.div
+        <m.div
           key={currentStep}
           initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
@@ -145,7 +145,7 @@ export function StepSolver({
               )}
             </div>
           )}
-        </motion.div>
+        </m.div>
       </AnimatePresence>
     </div>
   );

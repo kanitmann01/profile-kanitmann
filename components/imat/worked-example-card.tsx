@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Lightbulb, ChevronDown, ChevronUp, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -40,7 +40,7 @@ export function WorkedExampleCard({
         <div className="grid gap-3">
           <AnimatePresence mode="popLayout">
             {Array.from({ length: revealedHints }).map((_, i) => (
-              <motion.div
+              <m.div
                 key={`hint-${i}`}
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -56,7 +56,7 @@ export function WorkedExampleCard({
                     {example.hints[i]}
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </AnimatePresence>
 
@@ -87,7 +87,7 @@ export function WorkedExampleCard({
 
           <AnimatePresence>
             {showSolution && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="rounded-lg border border-green-500/30 bg-green-500/5 p-4"
@@ -98,7 +98,7 @@ export function WorkedExampleCard({
                 <p className="text-sm text-muted-foreground whitespace-pre-wrap">
                   {example.solution}
                 </p>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>

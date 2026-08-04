@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Maximize2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,7 @@ export function InteractiveBottomSheet({
       <AnimatePresence>
         {isOpen && (
           <>
-            <motion.div
+            <m.div
               className="lg:hidden fixed inset-0 bg-black/50 z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -46,7 +46,7 @@ export function InteractiveBottomSheet({
               onClick={() => setIsOpen(false)}
               data-testid="backdrop"
             />
-            <motion.div
+            <m.div
               className="lg:hidden fixed inset-x-0 bottom-0 z-50 bg-background rounded-t-xl overflow-hidden"
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
@@ -76,7 +76,7 @@ export function InteractiveBottomSheet({
               <div className="overflow-auto h-[calc(100%-3.5rem)] p-4">
                 {children}
               </div>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>

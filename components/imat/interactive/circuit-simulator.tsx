@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -223,7 +223,7 @@ export function CircuitSimulator() {
             )}
 
             {[0, 1, 2].map((i) => (
-              <motion.circle
+              <m.circle
                 key={i}
                 r="4"
                 fill="hsl(var(--primary))"

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BlockMath } from "react-katex";
@@ -40,7 +40,7 @@ export function EquationBlock({ equation, className }: EquationBlockProps) {
   };
 
   return (
-    <motion.div
+    <m.div
       whileHover={{ scale: 1.01 }}
       className={cn(
         "group relative rounded-lg border p-4 transition-colors",
@@ -82,6 +82,6 @@ export function EquationBlock({ equation, className }: EquationBlockProps) {
           )}
         </button>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

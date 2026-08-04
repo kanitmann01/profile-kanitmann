@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { ArrowDown, CheckCircle2, RotateCcw, Shuffle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -141,13 +141,13 @@ export function PathwayChallenge() {
 
       <AnimatePresence mode="popLayout">
         {complete ? (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="grid gap-1.5"
           >
             {STEPS_CORRECT.map((step, i) => (
-              <motion.div
+              <m.div
                 key={step.id}
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
@@ -164,9 +164,9 @@ export function PathwayChallenge() {
                   </p>
                 </div>
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-green-500" />
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         ) : (
           <div className="grid gap-1.5">
             {items.map((step, idx) => {
@@ -180,7 +180,7 @@ export function PathwayChallenge() {
                 !isCorrect;
 
               return (
-                <motion.div
+                <m.div
                   key={step.id}
                   onMouseDown={() => handleDragStart(idx)}
                   onMouseUp={handleDragEnd}
@@ -192,7 +192,6 @@ export function PathwayChallenge() {
                     isWrong && "border-red-500/40 bg-red-500/10"
                   )}
                   whileTap={{ scale: 0.98 }}
-                  layout
                 >
                   <div
                     onClick={() => handleClick(step.id)}
@@ -212,7 +211,7 @@ export function PathwayChallenge() {
                     </p>
                   </div>
                   <ArrowDown className="h-3 w-3 text-muted-foreground/40" />
-                </motion.div>
+                </m.div>
               );
             })}
           </div>

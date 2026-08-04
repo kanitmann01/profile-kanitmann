@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Check, Shuffle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -56,7 +56,7 @@ export function DragDropLabel({
             {items.map((item) => (
               <div key={item.target} className="relative">
                 {placed[item.target] ? (
-                  <motion.div
+                  <m.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     className={cn(
@@ -64,7 +64,7 @@ export function DragDropLabel({
                     )}
                   >
                     {items.find((i) => i.id === placed[item.target])?.label}
-                  </motion.div>
+                  </m.div>
                 ) : (
                   <div
                     onMouseEnter={() => setDragging(item.id)}
@@ -78,7 +78,7 @@ export function DragDropLabel({
         )}
         <div className="flex flex-wrap gap-2 justify-center">
           {available.map((item) => (
-            <motion.button
+            <m.button
               key={item.id}
               layoutId={item.id}
               onMouseDown={() => setDragging(item.id)}
@@ -86,11 +86,11 @@ export function DragDropLabel({
               whileTap={{ scale: 0.95 }}
             >
               {item.label}
-            </motion.button>
+            </m.button>
           ))}
         </div>
         {allPlaced && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="flex items-center justify-center gap-2"
@@ -108,7 +108,7 @@ export function DragDropLabel({
               <Shuffle className="h-3 w-3" />
               Reset
             </Button>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

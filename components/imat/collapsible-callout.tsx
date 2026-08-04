@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -36,18 +36,18 @@ export function CollapsibleCallout({
         >
           {icon && <span className="shrink-0">{icon}</span>}
           <span className="font-semibold flex-1">{title}</span>
-          <motion.span
+          <m.span
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}
             className="shrink-0"
           >
             <ChevronDown className="w-4 h-4 text-muted-foreground" />
-          </motion.span>
+          </m.span>
         </button>
       </CardHeader>
       <AnimatePresence initial={false}>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -55,7 +55,7 @@ export function CollapsibleCallout({
             className="overflow-hidden"
           >
             <CardContent className="pt-0">{children}</CardContent>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </Card>
