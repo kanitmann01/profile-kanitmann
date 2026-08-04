@@ -18,7 +18,7 @@
  * model's 96.64% over the same 4,409-URL test split (per-line agreement
  * 98.3%).
  *
- * Weights are the int16-quantized (per-row scale) export produced by
+ * Weights are the int8-quantized (per-row scale) export produced by
  * scripts/netstar-model/; equivalence with the reference Python model on
  * individual URLs is asserted in lib/netstar/__tests__/ against a fixture
  * generated with fasttext's own predict().
@@ -50,8 +50,8 @@ export interface NetstarModelHandle {
   bucket: number;
   nwords: number;
   labels: readonly string[];
-  /** [row, dim] int16 input matrix (nwords + bucket rows), dequantized by inputScale. */
-  input: Int16Array;
+  /** [row, dim] int8 input matrix (nwords + bucket rows), dequantized by inputScale. */
+  input: Int8Array;
   inputScale: Float32Array;
   /** [label, dim] float32 output matrix. */
   output: Float32Array;
@@ -65,7 +65,7 @@ export function getModel(): NetstarModelHandle {
   if (cachedModel) return cachedModel;
 
   const { dim, bucket, nwords, words, labels } = NETSTAR_MODEL;
-  const input = new Int16Array(decodeBase64(NETSTAR_MODEL.inputI16).buffer);
+  const input = new Int8Array(decodeBase64(NETSTAR_MODEL.inputI8).buffer);
   const inputScale = new Float32Array(
     decodeBase64(NETSTAR_MODEL.inputScale).buffer
   );

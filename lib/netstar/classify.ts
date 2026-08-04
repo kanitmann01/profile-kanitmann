@@ -28,7 +28,7 @@ export function classifyUrl(
     confidenceOther: prediction.confidenceOther,
     latencyMs: Math.round(latencyMs * 100) / 100,
     model: {
-      name: "NetSTAR FastText (int16)",
+      name: "NetSTAR FastText (int8)",
       format: NETSTAR_MODEL.format,
       dim: NETSTAR_MODEL.dim,
       bucket: NETSTAR_MODEL.bucket,
