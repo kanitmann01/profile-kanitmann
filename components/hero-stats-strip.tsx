@@ -1,7 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { animate, useInView, useReducedMotion } from "framer-motion";
+import {
+  animate,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FadeIn } from "@/components/animations/fade-in";
 
@@ -12,11 +17,14 @@ import { FadeIn } from "@/components/animations/fade-in";
  * URLs, 99.9% uptime) otherwise live 2-3 scrolls deep in the experience feed.
  *
  * The numeric portion counts up from 0 when the strip scrolls into view
- * (1.2s ease-out, via Motion's `animate` + `onUpdate`). Prefix (`~`) and
- * suffix (`+`, `%`, `B+`) stay static so they never flash in/out mid-count.
- * Under `prefers-reduced-motion` the final value renders immediately with no
- * tween. The count always starts at 0 (server + first client paint) so there
- * is no hydration mismatch; below the fold, so no LCP impact.
+ * (1.2s ease-out, via Motion's `animate` + `onUpdate`), triggered by a
+ * scroll-position check (`useScroll` progress > 0) instead of an
+ * IntersectionObserver, which wedges during hydration on this page. Prefix
+ * (`~`) and suffix (`+`, `%`, `B+`) stay static so they never flash in/out
+ * mid-count. Under `prefers-reduced-motion` the final value renders
+ * immediately with no tween. The count always starts at 0 (server + first
+ * client paint) so there is no hydration mismatch; below the fold, so no LCP
+ * impact.
  */
 interface Stat {
   target: number;
@@ -90,8 +98,26 @@ function CountUpStat({
 
 export function HeroStatsStrip() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const inView = useInView(sectionRef, { once: true, margin: "-50px" });
   const reducedMotion = useReducedMotion();
+  const [start, setStart] = useState(false);
+
+  // Scroll-position trigger, not IntersectionObserver: `useInView`'s IO
+  // wedges during hydration on this page (15 observers created mid-hydration
+  // + webfont/layout shift deliver one isIntersecting:false and never
+  // another), leaving the stats stuck at 0. `useScroll` is scroll-event +
+  // rAF driven — no IO — the same mechanism hero.tsx already relies on.
+  // Progress exceeds 0 once the strip's top edge enters the viewport; the
+  // latch flips once and stays.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    if (progress > 0) {
+      setStart(true);
+    }
+  });
 
   return (
     <FadeIn>
@@ -111,7 +137,7 @@ export function HeroStatsStrip() {
                   <CountUpStat
                     target={s.target}
                     decimals={s.decimals}
-                    start={inView}
+                    start={start}
                     reducedMotion={reducedMotion}
                   />
                   <span className="suffix">{s.suffix}</span>

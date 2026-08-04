@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 import { cleanup } from "@testing-library/react";
 import { afterEach, vi } from "vitest";
-import { createElement, Fragment } from "react";
+import { createElement, Fragment, useEffect } from "react";
 
 global.ResizeObserver = class ResizeObserver {
   observe() {}
@@ -50,6 +50,26 @@ vi.mock("next/script", () => ({
 
 vi.mock("framer-motion", () => {
   const componentCache = new Map<string, any>();
+  // Minimal stand-in for motion-dom's MotionValue: `current` getter, `set`
+  // notifies `change` listeners, `on` returns an unsubscribe. Tests drive
+  // scroll progress by calling set() inside act().
+  const motionValue = vi.fn((initial = 0) => {
+    let current = initial;
+    const listeners = new Set<(v: number) => void>();
+    return {
+      get current() {
+        return current;
+      },
+      set(next: number) {
+        current = next;
+        listeners.forEach((cb) => cb(next));
+      },
+      on(_event: string, cb: (v: number) => void) {
+        listeners.add(cb);
+        return () => listeners.delete(cb);
+      },
+    };
+  });
   const m = new Proxy(
     {},
     {
@@ -97,7 +117,17 @@ vi.mock("framer-motion", () => {
       createElement(Fragment, null, children),
     MotionConfig: ({ children }: any) =>
       createElement(Fragment, null, children),
-    useScroll: () => ({ scrollYProgress: 0 }),
+    useScroll: vi.fn(() => ({ scrollYProgress: motionValue(0) })),
+    // Mirror of the real hook: subscribe on "change", re-subscribe when the
+    // callback identity changes. The motionValue above is what fires it.
+    useMotionValueEvent: (
+      value: { on: (event: string, cb: (v: number) => void) => () => void },
+      event: string,
+      callback: (v: number) => void
+    ) => {
+      useEffect(() => value.on(event, callback), [value, event, callback]);
+    },
+    motionValue,
     useTransform: (_value: any, _input: number[], output: number[]) =>
       output[0],
     // vi.fn so individual tests can override per-path (see
