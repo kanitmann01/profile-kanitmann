@@ -130,7 +130,7 @@ type ChartTooltipContentProps = React.ComponentProps<"div"> & {
   color?: string
 }
 
-const ChartTooltip = RechartsPrimitive.Tooltip<number, string>
+const ChartTooltip = RechartsPrimitive.Tooltip
 
 const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipContentProps>(
   (

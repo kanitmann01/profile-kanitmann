@@ -18,9 +18,9 @@ describe("getSiteUrl", () => {
     expect(getSiteUrl()).toBe("https://preview.example.com");
   });
 
-  it("falls back to https://www.kanit.codes when env var is unset", () => {
+  it("falls back to https://kanitmann.com when env var is unset", () => {
     delete process.env.NEXT_PUBLIC_SITE_URL;
-    expect(getSiteUrl()).toBe("https://www.kanit.codes");
+    expect(getSiteUrl()).toBe("https://kanitmann.com");
   });
 
   it("returns the env var verbatim without normalizing a trailing slash", () => {
@@ -30,10 +30,10 @@ describe("getSiteUrl", () => {
     expect(composed).toBe("https://branch-xyz.vercel.app/articles/foo");
   });
 
-  it("uses the www form in the fallback, not bare kanit.codes", () => {
+  it("uses the apex form in the fallback, not www", () => {
     delete process.env.NEXT_PUBLIC_SITE_URL;
-    // Locked in by app/__tests__/sitemap.test.ts — canonical form is www.
-    expect(getSiteUrl()).not.toBe("https://kanit.codes");
-    expect(getSiteUrl()).toMatch(/^https:\/\/www\./);
+    // Locked in by app/__tests__/sitemap.test.ts — canonical form is apex.
+    expect(getSiteUrl()).toBe("https://kanitmann.com");
+    expect(getSiteUrl()).not.toMatch(/^https:\/\/www\./);
   });
 });

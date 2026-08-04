@@ -18,9 +18,9 @@ beforeAll(async () => {
 
 describe("Root layout metadata", () => {
   describe("domain alignment", () => {
-    it("metadataBase uses www.kanit.codes", () => {
+    it("metadataBase uses kanitmann.com", () => {
       const base = metadata.metadataBase as URL;
-      expect(base.hostname).toBe("www.kanit.codes");
+      expect(base.hostname).toBe("kanitmann.com");
     });
   });
 

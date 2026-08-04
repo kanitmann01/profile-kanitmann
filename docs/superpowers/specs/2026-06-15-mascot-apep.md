@@ -1,8 +1,8 @@
-# Apep — Personal Mascot for kanit.codes
+# Apep — Personal Mascot for kanitmann.com
 
 ## Problem Statement
 
-The portfolio at `kanit.codes` is a static, single-direction experience: visitors read content top-to-bottom and leave. There is no persistent presence, no sense of personality, and no way for the site to feel "alive" or react to what a visitor is doing. The owner (Kanit, a Data & ML engineer) wants a small, opinionated companion that gives the site a personal touch — a way to communicate tone, reward engagement, and react to context — without becoming a gimmick or competing with the existing hero / bento / projects content.
+The portfolio at `kanitmann.com` is a static, single-direction experience: visitors read content top-to-bottom and leave. There is no persistent presence, no sense of personality, and no way for the site to feel "alive" or react to what a visitor is doing. The owner (Kanit, a Data & ML engineer) wants a small, opinionated companion that gives the site a personal touch — a way to communicate tone, reward engagement, and react to context — without becoming a gimmick or competing with the existing hero / bento / projects content.
 
 ## Solution
 
