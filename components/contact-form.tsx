@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { TactileButton } from "@/components/tactile-button";
+import { MagneticButton } from "@/components/magnetic-button";
 import { sendContactEmail } from "@/lib/actions/contact";
 
 export function ContactForm() {
@@ -171,14 +172,15 @@ export function ContactForm() {
         )}
       </div>
 
-      <TactileButton
+      <MagneticButton
         type="submit"
         size="lg"
         className="w-full"
+        wrapperClassName="w-full"
         disabled={isSubmitting}
       >
         {isSubmitting ? "Sending..." : "Send via Email"}
-      </TactileButton>
+      </MagneticButton>
     </form>
   );
 }
