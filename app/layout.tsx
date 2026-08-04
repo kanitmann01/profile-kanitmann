@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TactileFeedbackProvider } from "@/components/tactile-feedback-provider";
 import { LenisProvider } from "@/components/lenis-provider";
+import { ViewTransitionsProvider } from "@/components/view-transitions-provider";
 import { CommandPalette } from "@/components/command-palette";
 import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
@@ -266,7 +267,14 @@ export default function RootLayout({
               <TactileFeedbackProvider>
                 <CommandPalette>
                   <Navigation />
-                  <main className="min-h-screen pt-16">{children}</main>
+                  {/* Exp 09: cross-route View Transitions around the route
+                      outlet. Reduced-motion users get instant navigation;
+                      browsers without the API degrade to instant too. */}
+                  <main className="min-h-screen pt-16">
+                    <ViewTransitionsProvider>
+                      {children}
+                    </ViewTransitionsProvider>
+                  </main>
                   <Footer />
                   <Toaster />
                 </CommandPalette>

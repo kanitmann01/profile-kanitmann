@@ -200,6 +200,38 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  /* Exp 09: kill View Transitions outright (the universal selector above
+     does not match ::view-transition pseudo-elements). This is the second
+     line of defense — the provider already skips the wrapper under reduced
+     motion, covering the one-frame window before the hook settles. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Exp 09: View Transitions between routes (React <ViewTransition> via
+   Next 16). Subtle by design: ~250ms ease crossfade, no wild transforms.
+   Named elements (project card image -> detail hero, nav logo) morph in
+   place over the same window. Browsers without the View Transitions API
+   ignore these rules and navigation stays instant. */
+::view-transition-group(*) {
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+
+/* Keep the nav logo rock-steady while the page crossfades: it is identical
+   in both snapshots, so its own group never visibly animates (without a
+   name it would fade out and back in with the root crossfade). */
+.vt-logo {
+  view-transition-name: site-logo;
 }
 
 /* Lenis smooth scroll (Exp 07). The provider only mounts Lenis when motion

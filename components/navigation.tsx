@@ -76,7 +76,7 @@ export function Navigation() {
               alt=""
               width={22}
               height={22}
-              className="rounded-sm"
+              className="rounded-sm vt-logo"
             />
             <span className="font-serif text-2xl text-foreground hover:text-primary transition-colors">
               KANIT
