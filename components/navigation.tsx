@@ -10,7 +10,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { TapRipple } from "@/components/tap-ripple";
 import { MagneticButton } from "@/components/magnetic-button";
 import { useTactileFeedback } from "@/components/tactile-feedback-provider";
-import { useCommandPalette } from "@/components/command-palette";
+import { useCommandPalette } from "@/components/command-palette-context";
 import { useState, useEffect } from "react";
 
 export function Navigation() {

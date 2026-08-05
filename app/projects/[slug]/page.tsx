@@ -1,6 +1,9 @@
 import { RelatedProjects } from "@/components/related-projects";
 import { CaseStudyContent } from "@/components/case-study-content";
-import { ArrowLeft, Github, ExternalLink } from "lucide-react";
+import { TechChip } from "@/components/tech-chip";
+import { PrevNextNav } from "@/components/prev-next-nav";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -135,14 +138,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         ) : (
           <>
             <div className="mb-16">
-              <div className="flex flex-wrap gap-3 font-mono text-xs uppercase tracking-wider">
+              <div className="flex flex-wrap gap-3">
                 {techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1.5 border border-primary/30 text-primary rounded-sm"
-                  >
-                    {tech}
-                  </span>
+                  <TechChip key={tech} label={tech} />
                 ))}
               </div>
             </div>
@@ -151,7 +149,32 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </>
         )}
 
+        {/* Wave C: contact CTA at the end of every case study. */}
+        {isCaseStudy && (
+          <div className="mt-20 border-t border-border pt-10 text-center">
+            <p className="font-serif text-2xl md:text-3xl text-foreground mb-6">
+              Building something similar?
+            </p>
+            <Button size="lg" asChild>
+              <Link href="/contact">
+                Let&apos;s talk <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        )}
+
         <RelatedProjects currentProject={project} allProjects={projects} />
+
+        <PrevNextNav
+          currentSlug={project.slug}
+          ariaLabel="Previous and next project"
+          entries={projects.map((p) => ({
+            slug: p.slug,
+            title: p.title,
+            href: p.href,
+            sortValue: p.order,
+          }))}
+        />
       </div>
     </div>
   );

@@ -20,6 +20,10 @@ export function MuseumHero() {
       <h1 className="font-serif text-5xl md:text-7xl text-foreground leading-tight mb-6">
         The Fable 5 Digital Museum
       </h1>
+      <p className="font-sans text-sm text-muted-foreground max-w-2xl mx-auto mb-4">
+        Claude Fable 5 is Anthropic&apos;s next-gen coding model — this is a
+        gallery of what builders shipped with it.
+      </p>
       <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12">
         A living gallery of what people have built with Claude Fable 5 —
         one-shot websites, Three.js simulations, single-file operating systems,

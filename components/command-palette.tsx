@@ -30,9 +30,12 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { CommandPaletteContext } from "@/components/command-palette-context";
 import { useToast } from "@/hooks/use-toast";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useLenis } from "lenis/react";
+
+export { useCommandPalette } from "@/components/command-palette-context";
 
 const EMAIL = "mannkanit@gmail.com";
 const RESUME_URL = "/Kanit Mann - Resume.pdf";
@@ -62,18 +65,6 @@ const themeOptions = [
   { label: "System", value: "system", icon: Monitor },
 ] as const;
 
-type CommandPaletteContextValue = {
-  openPalette: () => void;
-};
-
-const CommandPaletteContext = React.createContext<CommandPaletteContextValue>({
-  openPalette: () => {},
-});
-
-export function useCommandPalette() {
-  return React.useContext(CommandPaletteContext);
-}
-
 declare global {
   interface Window {
     Calendly?: {
@@ -82,8 +73,20 @@ declare global {
   }
 }
 
-export function CommandPalette({ children }: { children?: React.ReactNode }) {
-  const [open, setOpen] = React.useState(false);
+interface CommandPaletteProps {
+  children?: React.ReactNode;
+  /** Controlled open state — used by the lazy-mount provider. */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export function CommandPalette({
+  children,
+  open: openProp,
+  onOpenChange,
+}: CommandPaletteProps) {
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const open = openProp ?? internalOpen;
   const restoreFocusRef = React.useRef<HTMLElement | null>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -100,7 +103,11 @@ export function CommandPalette({ children }: { children?: React.ReactNode }) {
       // remember where focus was and return it there on close.
       restoreFocusRef.current = document.activeElement as HTMLElement | null;
     }
-    setOpen(nextOpen);
+    if (onOpenChange) {
+      onOpenChange(nextOpen);
+    } else {
+      setInternalOpen(nextOpen);
+    }
   };
 
   React.useEffect(() => {

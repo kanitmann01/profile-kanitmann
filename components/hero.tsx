@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MagneticButton } from "@/components/magnetic-button";
 import { ShaderHero } from "@/components/shader-hero";
+import { Button } from "@/components/ui/button";
 
 /**
  * Exp 12 / Wave A+B: the main H1 ("Kanit Mann") is static text — no
@@ -64,6 +65,9 @@ function openCalendly() {
     });
   }
 }
+
+/** Resume PDF — co-primary CTA in the hero (Wave C recruiter flip). */
+const RESUME_URL = "/Kanit%20Mann%20-%20Resume.pdf";
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -148,9 +152,16 @@ export function Hero() {
           transition={{ delay: 1.3, duration: 0.5 }}
           className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mt-10"
         >
-          <MagneticButton size="lg" onClick={openCalendly}>
-            Book a call
-          </MagneticButton>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button asChild size="lg">
+              <Link href={RESUME_URL} target="_blank" rel="noopener noreferrer">
+                Résumé
+              </Link>
+            </Button>
+            <MagneticButton size="lg" onClick={openCalendly}>
+              Book a call
+            </MagneticButton>
+          </div>
           <Link
             href="/projects"
             className="font-sans text-sm text-muted-foreground max-w-sm leading-relaxed underline-offset-4 hover:text-foreground hover:underline transition-colors"
