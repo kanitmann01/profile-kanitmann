@@ -3,7 +3,6 @@ import { CaseStudyContent } from "@/components/case-study-content";
 import { ArrowLeft, Github, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Script from "next/script";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects } from "@/data/projects";
@@ -50,20 +49,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Script
+      <script
         id={`ld-breadcrumb-${slug}`}
         type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {JSON.stringify(buildBreadcrumbSchema(project))}
-      </Script>
-      <Script
-        id={`ld-article-${slug}`}
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildBreadcrumbSchema(project)),
+        }}
+      />
+      <script
+        id={`ld-software-${slug}`}
         type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {JSON.stringify(buildProjectSchema(project))}
-      </Script>
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildProjectSchema(project)),
+        }}
+      />
 
       <div className="relative w-full min-h-[70vh] flex items-end overflow-hidden">
         {/* Exp 09: named view-transition element — morphs from the project

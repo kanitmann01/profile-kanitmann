@@ -36,14 +36,16 @@ describe("Case-study project page (/projects/[slug], Exp 14)", () => {
     expect(svg).not.toBeNull();
   });
 
-  it("emits Article JSON-LD with case-study signals", async () => {
+  it("emits SoftwareApplication JSON-LD with breadcrumbs", async () => {
     const { container } = await renderPage("ericsson");
 
     const text = container.textContent ?? "";
-    expect(text).toContain('"@type":"Article"');
-    expect(text).toContain('"articleSection":"Case Study"');
-    expect(text).toContain('"keywords"');
+    expect(text).toContain('"@type":"SoftwareApplication"');
+    expect(text).toContain('"applicationCategory":"DeveloperApplication"');
+    expect(text).toContain('"featureList"');
     expect(text).toContain("Ericsson");
+    // BreadcrumbList is kept alongside the software schema.
+    expect(text).toContain('"@type":"BreadcrumbList"');
   });
 
   it("keeps classic slugs on the legacy content path", async () => {

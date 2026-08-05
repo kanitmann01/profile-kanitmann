@@ -75,7 +75,7 @@ describe("project metadata builders", () => {
 
     it("keeps title, description in OG and Twitter with correct format", () => {
       const md = buildProjectMetadata(project);
-      const expectedTitle = `${project.title} - Project | Kanit Mann`;
+      const expectedTitle = `${project.title} | Kanit Mann`;
       const twitter = md.twitter as
         | { card?: string; title?: string }
         | undefined;
@@ -96,14 +96,17 @@ describe("project metadata builders", () => {
   });
 
   describe("buildProjectSchema", () => {
-    it("emits a schema.org Article rooted at the preview URL when env is set", () => {
+    it("emits a schema.org SoftwareApplication rooted at the preview URL when env is set", () => {
       process.env.NEXT_PUBLIC_SITE_URL = "https://preview.example.com";
       const schema = buildProjectSchema(project);
-      expect(schema["@type"]).toBe("Article");
-      expect(schema.mainEntityOfPage["@id"]).toBe(
+      expect(schema["@type"]).toBe("SoftwareApplication");
+      expect(schema.url).toBe(
         "https://preview.example.com/projects/unified-bharat"
       );
-      expect(schema.image).toBe(
+      expect(schema.applicationCategory).toBe("DeveloperApplication");
+      expect(schema.featureList).toEqual(project.tags);
+      expect(schema.codeRepository).toBe(project.github);
+      expect(schema.screenshot).toBe(
         "https://preview.example.com/images/case-studies/unified-bharat.png"
       );
     });
@@ -111,9 +114,13 @@ describe("project metadata builders", () => {
     it("falls back to kanitmann.com when env is unset", () => {
       delete process.env.NEXT_PUBLIC_SITE_URL;
       const schema = buildProjectSchema(project);
-      expect(schema.mainEntityOfPage["@id"]).toBe(
-        "https://kanitmann.com/projects/unified-bharat"
-      );
+      expect(schema.url).toBe("https://kanitmann.com/projects/unified-bharat");
+    });
+
+    it("omits codeRepository for projects without a repo", () => {
+      delete process.env.NEXT_PUBLIC_SITE_URL;
+      const noRepo = buildProjectSchema({ ...project, github: undefined });
+      expect(noRepo).not.toHaveProperty("codeRepository");
     });
 
     it("uses lastUpdated as datePublished when available", () => {

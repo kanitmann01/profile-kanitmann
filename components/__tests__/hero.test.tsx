@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Hero } from "@/components/hero";
 
 /** Full headline text as rendered in the hero. */
-const HEADLINE = "Hi, I'm Kanit!";
+const HEADLINE = "Kanit Mann";
 
 /** Stubs the jsdom matchMedia mock the setup installs (matches: false). */
 function stubPrefersReducedMotion(matches: boolean) {
@@ -30,7 +30,7 @@ afterEach(() => {
 describe("Hero", () => {
   it("renders the heading with name Kanit", () => {
     render(<Hero />);
-    const heading = screen.getByRole("heading", { name: /Kanit!/i });
+    const heading = screen.getByRole("heading", { name: /Kanit Mann/i });
     expect(heading).toBeInTheDocument();
   });
 
@@ -97,7 +97,7 @@ describe("Hero", () => {
     expect(heading.textContent).toBe(HEADLINE);
     const chars = heading.querySelectorAll("span[aria-hidden='true']");
     expect(chars).toHaveLength(HEADLINE.length);
-    expect(chars[0].textContent).toBe("H");
+    expect(chars[0].textContent).toBe("K");
   });
 
   it("renders the headline as a single static element under reduced motion", async () => {

@@ -1,0 +1,49 @@
+# https://kanitmann.com/robots.txt
+# Generated as a static file (not a metadata route) so advisory lines such as
+# Content-Signal can ship verbatim.
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /imat
+
+# AI crawlers: content is open to AI training input, but the private IMAT
+# study notes are excluded for every bot above and beyond the * rule.
+User-agent: GPTBot
+Allow: /
+Disallow: /imat
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /imat
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /imat
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /imat
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /imat
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /imat
+
+User-agent: CCBot
+Allow: /
+Disallow: /imat
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /imat
+
+# Content-Signal (advisory): search yes, AI input yes.
+Content-Signal: search=yes, ai-input=yes
+
+Sitemap: https://kanitmann.com/sitemap.xml

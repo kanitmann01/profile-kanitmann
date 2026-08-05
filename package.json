@@ -7,6 +7,8 @@
     "build": "next build",
     "preview": "opennextjs-cloudflare build && wrangler dev",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "postdeploy": "npm run indexnow:ping",
+    "indexnow:ping": "npx tsx scripts/indexnow-ping.ts",
     "upload": "opennextjs-cloudflare build && wrangler deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
     "dev": "next dev",

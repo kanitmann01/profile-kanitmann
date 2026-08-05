@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Script from "next/script";
 import { ArrowLeft } from "lucide-react";
 import { FadeIn } from "@/components/animations/fade-in";
 import { ArticleHeader } from "@/components/article-header";
@@ -40,20 +39,22 @@ export default async function ArticlePage({ params }: Params) {
 
   return (
     <>
-      <Script
+      <script
         id={`ld-article-${slug}`}
         type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {JSON.stringify(articleSchema)}
-      </Script>
-      <Script
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema),
+        }}
+      />
+      <script
         id={`ld-breadcrumb-${slug}`}
         type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {JSON.stringify(breadcrumbSchema)}
-      </Script>
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
 
       <div className="min-h-screen bg-background py-8 px-2 sm:py-12 sm:px-6">
         <div className="container mx-auto max-w-4xl w-full lg:mr-80 xl:mr-72">

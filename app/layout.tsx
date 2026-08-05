@@ -159,90 +159,91 @@ export default function RootLayout({
           </>
         ) : null}
         {/* Structured Data: WebSite */}
-        <Script
+        <script
           id="ld-website"
           type="application/ld+json"
-          strategy="afterInteractive"
-        >
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Kanit Mann",
-            url: siteUrl,
-            publisher: {
-              "@type": "Person",
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
               name: "Kanit Mann",
-            },
-            inLanguage: "en-US",
-          })}
-        </Script>
-        {/* Structured Data: Person */}
-        <Script
+              url: siteUrl,
+              publisher: {
+                "@type": "Person",
+                name: "Kanit Mann",
+              },
+              inLanguage: "en-US",
+            }),
+          }}
+        />
+        {/* Structured Data: Person. One canonical identity — a single GitHub
+            handle, no LinkedIn mirror, so crawlers see one Person node. */}
+        <script
           id="ld-person"
           type="application/ld+json"
-          strategy="afterInteractive"
-        >
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Kanit Mann",
-            jobTitle: "Data, ML & AI Engineer",
-            url: siteUrl,
-            sameAs: [
-              "https://github.com/kanitmann01",
-              "https://linkedin.com/in/kanitmann",
-            ],
-          })}
-        </Script>
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Kanit Mann",
+              jobTitle: "Data, ML & AI Engineer",
+              url: siteUrl,
+              sameAs: ["https://github.com/kanitmann01"],
+            }),
+          }}
+        />
         {/* Structured Data: Site Navigation */}
-        <Script
+        <script
           id="ld-sitenav"
           type="application/ld+json"
-          strategy="afterInteractive"
-        >
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            itemListElement: [
-              {
-                "@type": "SiteNavigationElement",
-                position: 1,
-                name: "Home",
-                url: `${siteUrl}/`,
-              },
-              {
-                "@type": "SiteNavigationElement",
-                position: 2,
-                name: "Projects",
-                url: `${siteUrl}/projects`,
-              },
-              {
-                "@type": "SiteNavigationElement",
-                position: 3,
-                name: "Articles",
-                url: `${siteUrl}/articles`,
-              },
-              {
-                "@type": "SiteNavigationElement",
-                position: 4,
-                name: "About",
-                url: `${siteUrl}/about`,
-              },
-              {
-                "@type": "SiteNavigationElement",
-                position: 5,
-                name: "Contact",
-                url: `${siteUrl}/contact`,
-              },
-              {
-                "@type": "SiteNavigationElement",
-                position: 6,
-                name: "Resume",
-                url: `${siteUrl}/Kanit%20Mann%20-%20Resume.pdf`,
-              },
-            ],
-          })}
-        </Script>
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              itemListElement: [
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 1,
+                  name: "Home",
+                  url: `${siteUrl}/`,
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 2,
+                  name: "Projects",
+                  url: `${siteUrl}/projects`,
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 3,
+                  name: "Articles",
+                  url: `${siteUrl}/articles`,
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 4,
+                  name: "About",
+                  url: `${siteUrl}/about`,
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 5,
+                  name: "Contact",
+                  url: `${siteUrl}/contact`,
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 6,
+                  name: "Resume",
+                  url: `${siteUrl}/Kanit%20Mann%20-%20Resume.pdf`,
+                },
+              ],
+            }),
+          }}
+        />
         {/* Feed discovery */}
         <link
           rel="alternate"

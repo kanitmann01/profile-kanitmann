@@ -1,2 +1,9 @@
+# HTTPS + HSTS: force secure transport on every response. Served by the
+# hosting edge for both apex and www (both terminate TLS in front of the
+# worker). `preload` is the flag the HSTS preload list checks.
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+# Immutable hashed assets — keep long cache, never revalidate.
 /_next/static/*
   Cache-Control: public,max-age=31536000,immutable

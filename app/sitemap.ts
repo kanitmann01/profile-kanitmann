@@ -3,42 +3,74 @@ import { getSiteUrl } from "@/lib/site";
 import { projects } from "@/data/projects";
 import { articles } from "@/data/articles";
 
+/**
+ * Fresh-domain launch date (kanitmann.com went live 2026-08-03, replacing
+ * kanit.codes). Static pages that carry no data-driven date use this as an
+ * honest lastmod instead of `new Date()` (build-time clock is a lie).
+ */
+const SITE_LAUNCH_LASTMOD = "2026-08-03";
+
+function isoDate(value: string): string {
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? SITE_LAUNCH_LASTMOD : value;
+}
+
+// Sitemap honesty: lastmod comes from real content dates, never from the
+// build clock. `lastUpdated ?? period` / `updatedAt ?? publishedAt` fall back
+// to the launch date only if the data itself is unparsable.
+function projectLastmod(project: (typeof projects)[number]): string {
+  return isoDate(project.lastUpdated ?? project.period);
+}
+
+function articleLastmod(article: (typeof articles)[number]): string {
+  return isoDate(article.updatedAt ?? article.publishedAt);
+}
+
+function latestLastmod(values: string[]): string {
+  const maxTs = values.reduce(
+    (max, v) => Math.max(max, new Date(v).getTime()),
+    0
+  );
+  return new Date(maxTs).toISOString();
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getSiteUrl();
 
-  // Top-level routes — section hubs refresh more often than leaf pages.
-  const sectionRoutes = ["", "/about", "/projects", "/articles", "/contact"];
+  const projectLastmods = projects.map(projectLastmod);
+  const articleLastmods = articles.map(articleLastmod);
 
-  // Derive leaf routes from the data modules so the sitemap can't drift.
-  const projectRoutes = projects.map((p) => `/projects/${p.slug}`);
-  // Article canonical paths already encode the correct route per article
-  // (e.g. "/fable-5" for the museum, "/articles/..." for the rest).
-  const articleRoutes = articles.map((a) => a.canonicalPath);
-
-  const now = new Date().toISOString();
+  // Section hubs derive lastmod from their content; static pages use the
+  // launch date. No changeFrequency/priority — Google ignores them and
+  // honest dates are the only signal that matters.
+  const sectionRoutes = [
+    {
+      route: "",
+      lastmod: latestLastmod([...projectLastmods, ...articleLastmods]),
+    },
+    { route: "/about", lastmod: SITE_LAUNCH_LASTMOD },
+    { route: "/projects", lastmod: latestLastmod(projectLastmods) },
+    { route: "/articles", lastmod: latestLastmod(articleLastmods) },
+    { route: "/contact", lastmod: SITE_LAUNCH_LASTMOD },
+  ];
 
   const entries: MetadataRoute.Sitemap = [
-    ...sectionRoutes.map((route) => ({
+    ...sectionRoutes.map(({ route, lastmod }) => ({
       url: `${baseUrl}${route}`,
-      lastModified: now,
-      changeFrequency: (route === "" ||
-      route === "/projects" ||
-      route === "/articles"
-        ? "weekly"
-        : "monthly") as MetadataRoute.Sitemap[number]["changeFrequency"],
-      priority:
-        route === ""
-          ? 1
-          : route === "/projects" || route === "/articles"
-            ? 0.9
-            : 0.8,
+      lastModified: lastmod,
+      images: [`${baseUrl}/og-image.png`],
     })),
-    ...[...projectRoutes, ...articleRoutes].map((route) => ({
-      url: `${baseUrl}${route}`,
-      lastModified: now,
-      changeFrequency:
-        "monthly" as MetadataRoute.Sitemap[number]["changeFrequency"],
-      priority: 0.7,
+    ...projects.map((project) => ({
+      url: `${baseUrl}/projects/${project.slug}`,
+      lastModified: projectLastmod(project),
+      images: [new URL(project.image, baseUrl).toString()],
+    })),
+    ...articles.map((article) => ({
+      url: `${baseUrl}${article.canonicalPath}`,
+      lastModified: articleLastmod(article),
+      ...(article.heroImage
+        ? { images: [new URL(article.heroImage, baseUrl).toString()] }
+        : {}),
     })),
   ];
 
