@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useScrollTo } from "@/hooks/use-scroll-to";
 
 interface AboutNavProps {
   sections: { id: string; label: string }[];
@@ -8,6 +9,9 @@ interface AboutNavProps {
 
 export function AboutNav({ sections }: AboutNavProps) {
   const [activeId, setActiveId] = useState<string>("");
+  // Wave E.5: glide via Lenis when smooth scroll is active; native jump
+  // under reduced motion or on touch (no Lenis).
+  const scrollToSection = useScrollTo();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -29,14 +33,6 @@ export function AboutNav({ sections }: AboutNavProps) {
     return () => observer.disconnect();
   }, [sections]);
 
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-  };
-
   return (
     <nav className="p-4 border rounded-lg bg-background">
       <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">
@@ -46,7 +42,7 @@ export function AboutNav({ sections }: AboutNavProps) {
         {sections.map(({ id, label }) => (
           <li key={id}>
             <button
-              onClick={() => scrollTo(id)}
+              onClick={() => scrollToSection(id)}
               className={`text-left font-mono text-xs uppercase tracking-wider hover:text-primary-text transition-colors border-l-2 pl-3 ${
                 activeId === id
                   ? "border-primary text-primary-text"

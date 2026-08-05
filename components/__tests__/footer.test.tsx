@@ -1,10 +1,14 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Footer } from "../footer";
 
 describe("Footer", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("renders the name KANIT MANN", () => {
@@ -56,9 +60,23 @@ describe("Footer", () => {
     expect(screen.getByText("KANIT")).toBeInTheDocument();
   });
 
-  it("does not render any SVG icons", () => {
-    const { container } = render(<Footer />);
-    expect(container.querySelectorAll("svg").length).toBe(0);
+  it("renders a back-to-top button with an icon and label", () => {
+    render(<Footer />);
+    const button = screen.getByRole("button", { name: /back to top/i });
+    expect(button).toBeInTheDocument();
+    expect(button.textContent).toContain("Top");
+    expect(button.querySelector("svg")).toBeInTheDocument();
+  });
+
+  it("scrolls to the top when the back-to-top button is clicked", () => {
+    // No Lenis provider in tests → useScrollTo falls back to native window
+    // scroll (jsdom does not implement it, so spy).
+    const scrollToSpy = vi
+      .spyOn(window, "scrollTo")
+      .mockImplementation(() => {});
+    render(<Footer />);
+    fireEvent.click(screen.getByRole("button", { name: /back to top/i }));
+    expect(scrollToSpy).toHaveBeenCalledWith({ top: 0, behavior: "auto" });
   });
 
   it("renders magnific.com logo attribution as an external link", () => {

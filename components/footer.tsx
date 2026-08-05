@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useScrollTo } from "@/hooks/use-scroll-to";
 
 const socialLinks = [
   { label: "Email", href: "mailto:mannkanit@gmail.com" },
@@ -16,6 +18,9 @@ const socialLinks = [
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  // Wave E.5: Lenis glide to top when smooth scroll is active; native instant
+  // jump under reduced motion / touch.
+  const scrollToTop = useScrollTo();
 
   return (
     <footer className="relative border-t-2 border-primary bg-card overflow-hidden">
@@ -66,7 +71,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-border/30">
+        <div className="mt-12 pt-6 border-t border-border/30 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-mono text-xs text-muted-foreground text-center">
             &copy; {currentYear} Kanit Mann. All rights reserved. Logo by{" "}
             <Link
@@ -79,6 +84,15 @@ export function Footer() {
             </Link>
             .
           </p>
+          <button
+            type="button"
+            onClick={() => scrollToTop(0)}
+            aria-label="Back to top"
+            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors min-h-[44px] px-4 hover:text-primary hover:border-primary"
+          >
+            <ArrowUp className="h-4 w-4" aria-hidden="true" />
+            Top
+          </button>
         </div>
       </div>
     </footer>
