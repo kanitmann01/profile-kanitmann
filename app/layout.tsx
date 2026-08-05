@@ -10,7 +10,7 @@ import { TactileFeedbackProvider } from "@/components/tactile-feedback-provider"
 import { LenisProvider } from "@/components/lenis-provider";
 import { ViewTransitionsProvider } from "@/components/view-transitions-provider";
 import { CursorSpotlight } from "@/components/cursor-spotlight";
-import { CommandPalette } from "@/components/command-palette";
+import { CommandPaletteProvider } from "@/components/command-palette-provider";
 import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
 import { getSiteUrl } from "@/lib/site";
@@ -300,7 +300,9 @@ export default function RootLayout({
                   scrolling is never hijacked. */}
               <LenisProvider>
                 <TactileFeedbackProvider>
-                  <CommandPalette>
+                  {/* Exp 17 (Wave C): CommandPalette mounts lazily — cmdk +
+                      lucide leave the initial bundle until the first ⌘K. */}
+                  <CommandPaletteProvider>
                     <Navigation />
                     {/* Exp 09: cross-route View Transitions around the route
                         outlet. Reduced-motion users get instant navigation;
@@ -312,7 +314,7 @@ export default function RootLayout({
                     </main>
                     <Footer />
                     <Toaster />
-                  </CommandPalette>
+                  </CommandPaletteProvider>
                 </TactileFeedbackProvider>
               </LenisProvider>
             </MotionConfig>
