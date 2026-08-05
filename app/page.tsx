@@ -17,6 +17,7 @@ import {
   StaggerItem,
 } from "@/components/animations/stagger-container";
 import { ScaleOnHover } from "@/components/animations/scale-on-hover";
+import { VelocitySkew } from "@/components/animations/velocity-skew";
 import { ProjectCard } from "@/components/project-card";
 import { Hero } from "@/components/hero";
 import { HeroStatsStrip } from "@/components/hero-stats-strip";
@@ -96,9 +97,9 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="font-serif text-4xl text-foreground mb-4">
+              <VelocitySkew className="font-serif text-4xl text-foreground mb-4">
                 Featured <em className="font-serif-italic">Projects</em>
-              </h2>
+              </VelocitySkew>
               <p className="text-lg text-muted-foreground">
                 Deep dives into projects that showcase technical expertise and
                 business impact
@@ -121,9 +122,9 @@ export default function Home() {
         <div className="container mx-auto max-w-4xl">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="font-serif text-4xl text-foreground mb-4">
+              <VelocitySkew className="font-serif text-4xl text-foreground mb-4">
                 Featured <em className="font-serif-italic">Articles</em>
-              </h2>
+              </VelocitySkew>
               <p className="text-lg text-muted-foreground">
                 Insights and analysis on data science, technology, and
                 innovation
