@@ -22,6 +22,16 @@ const nextConfig = {
         destination: "/fable-5",
         permanent: true,
       },
+      // Tier 0: collapse the www host onto the apex origin. The exact
+      // Cloudflare edge rule lives in docs/seo/domain-migration.md; this
+      // belt-and-suspenders worker-level redirect covers any request that
+      // reaches the origin with the wrong host (e.g. direct origin hits).
+      {
+        source: "/:path*",
+        destination: "https://kanitmann.com/:path*",
+        permanent: true, // emits 308
+        has: [{ type: "header", key: "host", value: "www.kanitmann.com" }],
+      },
     ];
   },
 };
