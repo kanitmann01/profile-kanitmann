@@ -75,6 +75,13 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Full-bleed scrollytelling sections (Wave E.2) use a 100vw breakout;
+     clip (not hidden) prevents a horizontal scrollbar without creating a
+     scroll container, so position: sticky keeps working. */
+  html,
+  body {
+    overflow-x: clip;
+  }
 }
 
 /* Global theme-aware text utilities */
@@ -583,6 +590,88 @@ html.lenis body {
 
     .rv-slide {
       animation-name: scroll-reveal-slide;
+    }
+  }
+}
+
+/* Wave E.2 — NetSTAR loss-landscape scrubbing (scroll-driven charts).
+ *
+ * Same progressive-enhancement contract as the .rv-* reveals above: the
+ * hidden start state exists ONLY under
+ *   @supports (animation-timeline: view())
+ *   + prefers-reduced-motion: no-preference
+ *   + min-width: 768px (mobile charts are static)
+ * so reduced-motion users, unsupported browsers, and small screens all get
+ * the final static chart. Chromium/Safari scrub each chart as its figure
+ * travels through the viewport; Firefox falls back to Motion useScroll +
+ * useTransform in the component.
+ */
+@keyframes nsl-draw {
+  from {
+    stroke-dashoffset: var(--nsl-dash, 1);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes nsl-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes nsl-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @media (min-width: 768px) {
+      /* 01 — loss curve draws itself in as it enters the viewport. */
+      .nsl-loss-train {
+        animation: nsl-draw linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 80%;
+      }
+
+      .nsl-loss-val {
+        animation: nsl-draw linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 75%;
+      }
+
+      /* 03 — bars grow from their baseline. */
+      .nsl-bar {
+        transform-box: fill-box;
+        transform-origin: bottom;
+        animation: nsl-grow linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 65%;
+      }
+
+      /* 02 — misclassified-URL dots fade in, class groups staggered. */
+      .nsl-dot {
+        animation: nsl-fade linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 70%;
+      }
+
+      .nsl-dot-legitimate {
+        animation-range: entry 5% cover 75%;
+      }
+
+      .nsl-dot-spoof {
+        animation-range: entry 10% cover 80%;
+      }
     }
   }
 }

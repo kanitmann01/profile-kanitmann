@@ -2,23 +2,29 @@ import type { Project, ProjectMetric } from "@/data/projects";
 import { projectDiagrams } from "@/data/diagram-content";
 import { Github, ExternalLink } from "lucide-react";
 import { NetstarClassifierDemo } from "@/components/netstar-classifier-demo";
+import { NetstarLossLandscape } from "@/components/netstar/loss-landscape";
+import { buildNetstarLossLandscape } from "@/lib/loss-landscape/netstar";
 import { TechChip } from "@/components/tech-chip";
 
 /**
  * Metric-led case-study layout (Exp 14). Renders the `caseStudy` schema in a
  * fixed editorial order: problem → approach → outcome metrics strip →
- * live demo (NetSTAR only) → pipeline diagram → evaluation → retrospective →
- * tech chips → links.
+ * live demo (NetSTAR only) → pipeline diagram → loss-landscape scrollytelling
+ * (NetSTAR only, Wave E.2) → evaluation → retrospective → tech chips → links.
  *
  * Server component: the pipeline diagram is a static, build-time-rendered
  * SVG inlined from data/diagram-content.ts — no client JS for diagrams. The
- * NetSTAR demo is the one client island on case-study pages (Exp 13).
+ * NetSTAR demo is the one client island on case-study pages (Exp 13); the
+ * loss landscape is the second (Wave E.2) — its d3 geometry is precomputed
+ * server-side and serialized, so the island ships plain SVG + scrub JS only.
  */
 export function CaseStudyContent({ project }: { project: Project }) {
   const study = project.caseStudy;
   if (!study) return null;
 
   const diagram = projectDiagrams[project.slug];
+  const lossLandscape =
+    project.slug === "netstar" ? buildNetstarLossLandscape(project) : null;
 
   return (
     <>
@@ -86,6 +92,12 @@ export function CaseStudyContent({ project }: { project: Project }) {
             </figcaption>
           </figure>
         </>
+      )}
+
+      {lossLandscape && (
+        <div className="mb-20">
+          <NetstarLossLandscape data={lossLandscape} />
+        </div>
       )}
 
       {study.evaluation && (
