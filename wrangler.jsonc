@@ -4,5 +4,9 @@
   "name": "profile-kanitmann",
   "compatibility_date": "2026-08-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" }
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  // Wave E.1 "Ask Kanit" bindings (see docs/agent-setup.md):
+  //   "ai": { "binding": "AI" }
+  //   CF_TURNSTILE_SECRET should be set via `npx wrangler secret put CF_TURNSTILE_SECRET`,
+  //   not committed here.
 }

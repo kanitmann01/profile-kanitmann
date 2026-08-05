@@ -11,6 +11,7 @@ import { TapRipple } from "@/components/tap-ripple";
 import { MagneticButton } from "@/components/magnetic-button";
 import { useTactileFeedback } from "@/components/tactile-feedback-provider";
 import { useCommandPalette } from "@/components/command-palette-context";
+import { useAskPanel } from "@/components/ask-panel-context";
 import { useState, useEffect } from "react";
 
 export function Navigation() {
@@ -19,6 +20,7 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { isMuted, toggleMute } = useTactileFeedback();
   const { openPalette } = useCommandPalette();
+  const { openAsk } = useAskPanel();
 
   const navItems = [
     { href: "/projects", label: "WORK" },
@@ -102,6 +104,16 @@ export function Navigation() {
                 />
               </TapRipple>
             ))}
+            <TapRipple>
+              <button
+                type="button"
+                onClick={openAsk}
+                className="relative font-mono text-xs uppercase tracking-wider transition-colors py-2 text-muted-foreground hover:text-foreground active:scale-95"
+                aria-label="Ask Kanit — grounded portfolio assistant (⌘J)"
+              >
+                ASK
+              </button>
+            </TapRipple>
             <button
               onClick={toggleMute}
               className="p-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
@@ -224,6 +236,30 @@ export function Navigation() {
                       ⌘K
                     </kbd>
                   </MagneticButton>
+                </m.div>
+                <m.div
+                  key="ask"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    delay: (navItems.length + 1) * 0.1,
+                    duration: 0.3,
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      closeMobileMenu();
+                      openAsk();
+                    }}
+                    className="font-serif text-4xl text-foreground transition-colors hover:text-primary-text active:scale-95 min-h-[44px] inline-flex items-center"
+                  >
+                    Ask Kanit
+                    <kbd className="ml-3 font-mono text-xs uppercase tracking-wider text-muted-foreground border border-border/50 rounded px-1.5 py-0.5">
+                      ⌘J
+                    </kbd>
+                  </button>
                 </m.div>
               </nav>
             </div>
