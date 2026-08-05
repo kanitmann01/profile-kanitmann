@@ -1,23 +1,56 @@
 /**
  * Wave E.1 retrieval layer: brute-force cosine search over the build-time
- * embeddings baked into the Worker bundle.
+ * embeddings served as a STATIC ASSET (public/data/embeddings.json), not
+ * bundled into the Worker.
  *
- * The embeddings.json snapshot is generated at build time by
- * scripts/generate-embeddings.ts and statically imported here, so it ships
- * inside the Worker bundle ("loaded into Worker global") — no client-side
- * model weights, no per-request corpus embedding, no KV/Vectorize to
- * provision on the hot path.
+ * Why static-asset loading (revised after the 3 MiB free-tier cap was hit):
+ * the embeddings file is ~800 KB. Importing it inline shipped those bytes
+ * inside the Worker script and pushed the bundle over the cap. Loading it
+ * lazily via `env.ASSETS.fetch("/data/embeddings.json")` at request time
+ * keeps the bytes in the free, unlimited static-asset layer and out of the
+ * Worker bundle. The file is generated at build time by
+ * scripts/generate-embeddings.ts and lives in public/data/.
+ *
+ * No client-side model weights, no per-request corpus embedding, no
+ * KV/Vectorize to provision on the hot path.
  */
 
-import embeddingsFile from "@/public/data/embeddings.json";
 import type { AskChunk, AskEmbeddedChunk, AskEmbeddingsFile } from "./types";
 
-export const embeddingsData = embeddingsFile as unknown as AskEmbeddingsFile;
+let cachedCorpus: AskEmbeddedChunk[] | null = null;
+let cachedAt = 0;
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 min — the file only changes on deploy
 
+/**
+ * Load the embeddings corpus from the static-asset binding. Cached on the
+ * Worker global for CACHE_TTL_MS so repeated requests in the same isolate
+ * don't re-fetch. Returns an empty array if the asset binding is missing
+ * (e.g. local dev without OpenNext) — callers treat that as "no corpus,
+ * stream the coming-soon stub".
+ */
+export async function loadCorpus(
+  assetsBinding: { fetch: (input: string) => Promise<Response> } | undefined
+): Promise<AskEmbeddedChunk[]> {
+  if (!assetsBinding) return [];
+  const now = Date.now();
+  if (cachedCorpus !== null && now - cachedAt < CACHE_TTL_MS) {
+    return cachedCorpus;
+  }
+  try {
+    const response = await assetsBinding.fetch("/data/embeddings.json");
+    if (!response.ok) return [];
+    const file = (await response.json()) as AskEmbeddingsFile;
+    cachedCorpus = Array.isArray(file.chunks) ? file.chunks : [];
+    cachedAt = now;
+    return cachedCorpus;
+  } catch {
+    return [];
+  }
+}
+
+/** Synchronous corpus size hint — only nonzero after a prior loadCorpus(). */
 export function getCorpusSize(): number {
-  return Array.isArray(embeddingsData.chunks)
-    ? embeddingsData.chunks.length
-    : 0;
+  return cachedCorpus?.length ?? 0;
 }
 
 export function cosineSimilarity(a: number[], b: number[]): number {
@@ -43,7 +76,7 @@ export type RetrievedChunk = {
 export function topKChunks(
   queryEmbedding: number[],
   k = 5,
-  chunks: AskEmbeddedChunk[] = embeddingsData.chunks
+  chunks: AskEmbeddedChunk[] = cachedCorpus ?? []
 ): RetrievedChunk[] {
   return chunks
     .map((chunk) => ({

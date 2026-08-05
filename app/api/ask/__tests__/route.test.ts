@@ -54,6 +54,35 @@ function makeFakeAi() {
   };
 }
 
+/** Fake ASSETS binding returning a 6-chunk corpus whose embeddings match the
+ * fake AI's query embedding ([0.001]*768) so cosineSimilarity is 1 for every
+ * chunk — top-5 picks the first 5 deterministically. */
+function makeFakeAssets() {
+  const chunks = Array.from({ length: 6 }, (_, i) => ({
+    slug: `slug-${i}`,
+    title: `Chunk ${i}`,
+    type: i % 2 === 0 ? "project" : "article",
+    url: `https://kanitmann.com/chunk-${i}`,
+    text: `chunk text ${i}`,
+    embedding: new Array<number>(768).fill(0.001),
+  }));
+  return {
+    fetch: async (input: string) => {
+      if (input !== "/data/embeddings.json") {
+        return new Response("not found", { status: 404 });
+      }
+      return new Response(
+        JSON.stringify({
+          model: EMBEDDING_MODEL,
+          dim: 768,
+          chunks,
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    },
+  };
+}
+
 async function post(
   body: unknown,
   ip: string,
@@ -184,7 +213,8 @@ describe("POST /api/ask — streaming behavior", () => {
     mockEnv.env = {
       AI: makeFakeAi() as unknown as NonNullable<AskEnv["AI"]>,
       CF_TURNSTILE_SECRET: undefined,
-    };
+      ASSETS: makeFakeAssets(),
+    } as unknown as AskEnv;
     const response = await post(
       { message: "What did Kanit build at Ericsson?" },
       "ip-stream"

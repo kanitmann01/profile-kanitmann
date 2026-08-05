@@ -3,7 +3,7 @@
   "model": "@cf/baai/bge-base-en-v1.5",
   "dim": 768,
   "source": "local-fallback",
-  "generatedAt": "2026-08-05T15:47:47.789Z",
+  "generatedAt": "2026-08-05T16:41:00.517Z",
   "chunkCount": 108,
   "chunks": [
     {

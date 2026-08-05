@@ -9,7 +9,7 @@ import {
   type AskEnv,
   type AskSseEvent,
 } from "@/lib/ask/types";
-import { buildContextPrompt, getCorpusSize, topKChunks } from "@/lib/ask/rag";
+import { buildContextPrompt, loadCorpus, topKChunks } from "@/lib/ask/rag";
 import { askRateLimiter } from "@/lib/ask/rate-limit";
 import { verifyTurnstile } from "@/lib/ask/turnstile";
 
@@ -160,13 +160,17 @@ async function* generateStream(
  */
 function buildAnswerStream(
   env: AskEnv | undefined,
+  assetsBinding: { fetch: (input: string) => Promise<Response> } | undefined,
   query: string
 ): ReadableStream<Uint8Array> {
   return new ReadableStream<Uint8Array>({
     async start(controller) {
       const push = (event: AskSseEvent) => controller.enqueue(encodeSse(event));
 
-      if (!env?.AI || getCorpusSize() === 0) {
+      // Load the embeddings corpus lazily from the static-asset binding.
+      // Empty corpus (no binding, missing file, dev mode) → stub response.
+      const corpus = await loadCorpus(assetsBinding);
+      if (!env?.AI || corpus.length === 0) {
         push({ type: "citations", citations: [] });
         push({ type: "delta", text: STUB_RESPONSE });
         push({ type: "done" });
@@ -186,7 +190,7 @@ function buildAnswerStream(
           return;
         }
 
-        const retrieved = topKChunks(queryEmbedding, 5);
+        const retrieved = topKChunks(queryEmbedding, 5, corpus);
         const citations: AskChunk[] = retrieved.map((r) => r.chunk);
         push({ type: "citations", citations });
 
@@ -228,13 +232,22 @@ function buildAnswerStream(
 export async function POST(request: Request): Promise<Response> {
   // Resolve the Cloudflare context lazily; absence of bindings (tests, dev
   // without wrangler proxy) degrades to the static stub rather than throwing.
+  // The ASSETS binding is the static-asset store — embeddings.json is served
+  // from there (not bundled into the Worker) to stay under the 3 MiB cap.
   let env: AskEnv | undefined;
+  let assetsBinding:
+    | { fetch: (input: string) => Promise<Response> }
+    | undefined;
   try {
     const ctx = await getCloudflareContext({ async: true });
     env = {
       AI: ctx.env.AI,
       CF_TURNSTILE_SECRET: ctx.env.CF_TURNSTILE_SECRET,
     };
+    const assets = (ctx.env as { ASSETS?: unknown }).ASSETS;
+    if (assets && typeof (assets as { fetch?: unknown }).fetch === "function") {
+      assetsBinding = assets as { fetch: (input: string) => Promise<Response> };
+    }
   } catch {
     env = undefined;
   }
@@ -265,7 +278,7 @@ export async function POST(request: Request): Promise<Response> {
     return errorJson("Rate limit exceeded. Try again in a bit.", 429);
   }
 
-  return sseResponse(buildAnswerStream(env, parsed));
+  return sseResponse(buildAnswerStream(env, assetsBinding, parsed));
 }
 
 export function GET(): NextResponse {

@@ -2,34 +2,66 @@ import { describe, it, expect } from "vitest";
 import {
   buildContextPrompt,
   cosineSimilarity,
-  getCorpusSize,
+  loadCorpus,
   topKChunks,
-  embeddingsData,
 } from "../rag";
 import type { AskEmbeddedChunk } from "../types";
 
-describe("embeddings.json (build-time snapshot)", () => {
-  it("exists with a non-empty chunk set (Wave E.1 acceptance)", () => {
-    expect(getCorpusSize()).toBeGreaterThan(0);
-    expect(embeddingsData.model).toBe("@cf/baai/bge-base-en-v1.5");
-    expect(embeddingsData.dim).toBe(768);
+/**
+ * Wave E.1 retrieval layer.
+ *
+ * The build-time snapshot (embeddings.json) is no longer imported into the
+ * Worker bundle — it's served as a static asset and loaded lazily via the
+ * ASSETS binding. The corpus shape itself is validated at build time by
+ * scripts/__tests__/generate-embeddings.test.ts. These tests cover the
+ * runtime retrieval primitives: lazy loading, cosine, topK, prompt building.
+ */
+
+describe("loadCorpus", () => {
+  it("returns an empty array when no assets binding is provided", async () => {
+    const corpus = await loadCorpus(undefined);
+    expect(corpus).toEqual([]);
   });
 
-  it("every chunk has provenance metadata + a full-dimension embedding", () => {
-    for (const chunk of embeddingsData.chunks) {
-      expect(chunk.slug).toBeTruthy();
-      expect(chunk.title).toBeTruthy();
-      expect(["project", "article", "experience"]).toContain(chunk.type);
-      expect(chunk.url).toMatch(/^https:\/\//);
-      expect(chunk.text.length).toBeGreaterThan(0);
-      expect(chunk.embedding).toHaveLength(embeddingsData.dim);
-    }
+  it("returns an empty array when the asset fetch fails", async () => {
+    const failing = {
+      fetch: async () => new Response("not found", { status: 404 }),
+    };
+    const corpus = await loadCorpus(failing);
+    expect(corpus).toEqual([]);
   });
 
-  it("chunks are within the ≤200-token budget (characters/4 heuristic)", () => {
-    for (const chunk of embeddingsData.chunks) {
-      expect(Math.ceil(chunk.text.length / 4)).toBeLessThanOrEqual(200);
-    }
+  it("loads + caches chunks from the asset binding", async () => {
+    const chunks: AskEmbeddedChunk[] = [
+      {
+        slug: "a",
+        title: "A",
+        type: "project",
+        url: "https://example.com/a",
+        text: "alpha",
+        embedding: [1, 0],
+      },
+    ];
+    let calls = 0;
+    const assets = {
+      fetch: async () => {
+        calls++;
+        return new Response(
+          JSON.stringify({
+            model: "@cf/baai/bge-base-en-v1.5",
+            dim: 2,
+            chunks,
+          }),
+          { status: 200 }
+        );
+      },
+    };
+    const first = await loadCorpus(assets);
+    const second = await loadCorpus(assets);
+    expect(first).toEqual(chunks);
+    expect(second).toEqual(chunks);
+    // Cached on the isolate — only one fetch for two calls.
+    expect(calls).toBe(1);
   });
 });
 
