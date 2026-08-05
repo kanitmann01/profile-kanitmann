@@ -271,6 +271,12 @@ export default function RootLayout({
       <body
         className={`${instrumentSerif.variable} ${jetbrainsMono.variable} ${geistSans.variable} font-sans`}
       >
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-3 focus:rounded-md focus:bg-background focus:text-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        >
+          Skip to content
+        </a>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -299,7 +305,7 @@ export default function RootLayout({
                     {/* Exp 09: cross-route View Transitions around the route
                         outlet. Reduced-motion users get instant navigation;
                         browsers without the API degrade to instant too. */}
-                    <main className="min-h-screen pt-16">
+                    <main id="main" className="min-h-screen pt-16">
                       <ViewTransitionsProvider>
                         {children}
                       </ViewTransitionsProvider>

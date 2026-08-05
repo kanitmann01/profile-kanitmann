@@ -49,12 +49,18 @@ export function Navigation() {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
+  // Active nav = exact route OR a nested child route (e.g. /projects/netstar
+  // keeps WORK highlighted).
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(href + "/");
+
   return (
     <>
       <m.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
+        aria-label="Primary"
         className={cn(
           "fixed top-0 left-0 right-0 z-50 backdrop-blur-md transition-all duration-300 h-16",
           isScrolled
@@ -92,7 +98,7 @@ export function Navigation() {
                 <NavLink
                   href={item.href}
                   label={item.label}
-                  isActive={pathname === item.href}
+                  isActive={isActive(item.href)}
                 />
               </TapRipple>
             ))}
@@ -185,7 +191,7 @@ export function Navigation() {
                       onClick={closeMobileMenu}
                       className={cn(
                         "font-serif text-4xl transition-colors hover:text-primary-text active:scale-95 min-h-[44px] inline-flex items-center",
-                        pathname === item.href
+                        isActive(item.href)
                           ? "text-primary-text"
                           : "text-foreground"
                       )}

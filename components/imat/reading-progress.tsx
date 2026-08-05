@@ -1,43 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { m, useScroll, useTransform } from "framer-motion";
 
 export function ReadingProgress() {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    let ticking = false;
-
-    const updateProgress = () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      setProgress(Math.min(100, Math.max(0, scrollPercent)));
-      ticking = false;
-    };
-
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(updateProgress);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    updateProgress();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Wave B: no React re-render per frame — useScroll drives a MotionValue
+  // that writes transform: scaleX directly on the compositor.
+  const { scrollYProgress } = useScroll();
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <div
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 h-1 origin-left transition-transform duration-150 ease-out",
-        "bg-gradient-to-r from-primary via-primary/80 to-primary/60"
-      )}
-      style={{ transform: `scaleX(${progress / 100})` }}
+    <m.div
+      className="fixed top-0 left-0 right-0 z-50 h-1 origin-left bg-gradient-to-r from-primary via-primary/80 to-primary/60"
+      style={{ scaleX }}
     />
   );
 }

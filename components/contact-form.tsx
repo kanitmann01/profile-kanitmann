@@ -76,7 +76,7 @@ export function ContactForm() {
             name="firstName"
             placeholder="John"
             autoComplete="given-name"
-            className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+            className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
           />
           {errors.firstName && (
             <p className="text-sm text-destructive">{errors.firstName[0]}</p>
@@ -94,7 +94,7 @@ export function ContactForm() {
             name="lastName"
             placeholder="Doe"
             autoComplete="family-name"
-            className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+            className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
           />
           {errors.lastName && (
             <p className="text-sm text-destructive">{errors.lastName[0]}</p>
@@ -115,7 +115,7 @@ export function ContactForm() {
           type="email"
           placeholder="your.email@example.com"
           autoComplete="email"
-          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
         />
         {errors.email && (
           <p className="text-sm text-destructive">{errors.email[0]}</p>
@@ -134,7 +134,7 @@ export function ContactForm() {
           name="company"
           placeholder="Your Company"
           autoComplete="organization"
-          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
         />
       </div>
 
@@ -149,7 +149,7 @@ export function ContactForm() {
           id="subject"
           name="subject"
           placeholder="Project collaboration opportunity"
-          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors"
+          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
         />
       </div>
 
@@ -165,7 +165,7 @@ export function ContactForm() {
           name="message"
           placeholder="Tell me about your project, idea, or how we might work together..."
           rows={4}
-          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none transition-colors resize-none"
+          className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors resize-none"
         />
         {errors.message && (
           <p className="text-sm text-destructive">{errors.message[0]}</p>

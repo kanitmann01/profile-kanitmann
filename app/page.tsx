@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -64,7 +65,27 @@ export default function Home() {
               <BentoTechStackCard />
             </BentoCardLift>
             <BentoCardLift className="md:grid md:grid-cols-[1fr] md:grid-rows-[1fr] md:col-span-1 hover:shadow-lg transition-shadow">
-              <BentoGitHubCard />
+              {/* Wave B: the GitHub card awaits api.github.com — without a
+                  cache on OpenNext that blocks every home request. Streaming
+                  it in a Suspense boundary keeps the shell TTFB fast and the
+                  card pops in when the fetch resolves. */}
+              <Suspense
+                fallback={
+                  <div
+                    className="rounded-xl border border-border bg-card p-6 shadow-sm animate-pulse"
+                    aria-label="Loading GitHub stats"
+                  >
+                    <div className="h-5 w-24 bg-muted rounded mb-6" />
+                    <div className="flex flex-col items-center text-center gap-4">
+                      <div className="h-10 w-10 rounded-full bg-muted" />
+                      <div className="h-4 w-56 bg-muted rounded" />
+                      <div className="h-3 w-40 bg-muted rounded" />
+                    </div>
+                  </div>
+                }
+              >
+                <BentoGitHubCard />
+              </Suspense>
             </BentoCardLift>
           </div>
         </div>

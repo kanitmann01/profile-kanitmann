@@ -1,17 +1,16 @@
 "use client";
 
-import { m, useScroll, useTransform } from "framer-motion";
+import { m, useScroll } from "framer-motion";
 
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-  const width = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <m.div
       role="progressbar"
       aria-label="Scroll progress"
-      className="fixed top-0 left-0 z-50 h-[2px] bg-primary"
-      style={{ width }}
+      className="fixed top-0 left-0 right-0 z-50 h-[2px] bg-primary origin-left"
+      style={{ scaleX: scrollYProgress }}
     />
   );
 }

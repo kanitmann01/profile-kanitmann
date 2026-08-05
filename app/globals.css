@@ -56,7 +56,7 @@
     --muted-foreground: 40 15% 65%;
     --accent: 12 75% 63%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 80% 60%;
     --destructive-foreground: 210 40% 98%;
     --border: 30 10% 20%;
     --input: 30 10% 20%;
@@ -90,10 +90,6 @@
   .text-muted {
     @apply text-muted-foreground;
   }
-
-  .text-primary-text {
-    @apply text-primary;
-  }
 }
 
 /* Theme-aware styling for specific SVGs only */
@@ -126,6 +122,16 @@
   z-index: 9999;
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Grain is a decorative noise wash — hide it on small screens (CPU/bandwidth
+   cost with no visible payoff) and for reduced-motion users (static
+   animation noise can trigger discomfort). The footer keeps the single mount
+   point. */
+@media (max-width: 640px), (prefers-reduced-motion: reduce) {
+  .grain-overlay {
+    display: none;
+  }
 }
 
 /* Typography utilities */
