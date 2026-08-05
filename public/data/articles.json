@@ -18,7 +18,8 @@
       "claude code"
     ],
     "featuredOnHome": false,
-    "kind": "museum"
+    "kind": "museum",
+    "relatedArticleSlugs": ["three-line-skill"]
   },
   {
     "slug": "three-line-skill",
@@ -39,7 +40,8 @@
       "ai agent workflow",
       "tdd ai"
     ],
-    "featuredOnHome": true
+    "featuredOnHome": true,
+    "relatedArticleSlugs": ["fable-5"]
   },
   {
     "slug": "data-viz-analysis",
@@ -60,7 +62,9 @@
       "R",
       "data presentation"
     ],
-    "featuredOnHome": true
+    "featuredOnHome": true,
+    "relatedArticleSlugs": ["ccrb-allegations-analysis"],
+    "relatedProjectSlugs": ["college-major-shift-analysis", "echo-effect"]
   },
   {
     "slug": "technical-blog-3",
@@ -73,6 +77,7 @@
     "updatedAt": "2025-09-21",
     "readTime": "4 min read",
     "tags": ["Windows", "Automation", "Productivity"],
+    "relatedArticleSlugs": ["technical-blog-2", "bios-issues-ubuntu"],
     "keywords": [
       "windows registry",
       "automation",
@@ -92,6 +97,7 @@
     "updatedAt": "2025-09-14",
     "readTime": "5 min read",
     "tags": ["CLI", "GUI", "Workflow"],
+    "relatedArticleSlugs": ["technical-blog-3", "bios-issues-ubuntu"],
     "keywords": [
       "command line interface",
       "graphical user interface",
@@ -111,6 +117,8 @@
     "updatedAt": "2025-09-08",
     "readTime": "7 min read",
     "tags": ["Data Analysis", "CCRB", "NYC"],
+    "relatedArticleSlugs": ["data-viz-analysis"],
+    "relatedProjectSlugs": ["netstar", "unified-bharat"],
     "keywords": [
       "CCRB",
       "NYPD",
@@ -133,6 +141,7 @@
     "updatedAt": "2025-09-08",
     "readTime": "5 min read",
     "tags": ["Linux", "Ubuntu", "Firmware"],
+    "relatedArticleSlugs": ["technical-blog-2", "technical-blog-3"],
     "keywords": [
       "Ubuntu",
       "BIOS",
