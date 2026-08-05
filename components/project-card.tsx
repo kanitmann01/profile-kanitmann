@@ -40,7 +40,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <ScaleOnHover>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col cursor-pointer group">
         <Link href={project.href} className="flex-1 flex flex-col">
-          <div className="relative h-48 overflow-hidden">
+          {/* Wave E.3: named view-transition element — morphs into the case-study
+              hero image on /projects/[slug] (same slug name). Names are unique
+              per page: each featured card has a distinct slug. */}
+          <div
+            className="relative h-48 overflow-hidden"
+            style={{ viewTransitionName: `project-image-${project.slug}` }}
+          >
             <Image
               src={project.image}
               alt={project.title}

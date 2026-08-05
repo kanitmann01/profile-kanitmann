@@ -255,6 +255,16 @@
   }
 }
 
+/* Wave E.3: cross-document View Transitions. `navigation: auto` opts the
+   document into the native same-origin transition for full-document
+   navigations (reload, address-bar, JS-disabled). Same-document App Router
+   navigations are NOT affected — those keep going through the
+   ViewTransitionsProvider below. Must be declared on both the outgoing and
+   incoming documents; globals.css is global so both ends have it. */
+@view-transition {
+  navigation: auto;
+}
+
 /* Exp 09: View Transitions between routes (React <ViewTransition> via
    Next 16). Subtle by design: ~250ms ease crossfade, no wild transforms.
    Named elements (project card image -> detail hero, nav logo) morph in

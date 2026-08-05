@@ -74,6 +74,27 @@ function ProjectsContent() {
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
+      {/* Wave E.3: Speculation Rules API — eager-prefetch every case-study
+          page so clicking a card (and its thumbnail -> hero morph) is
+          instant. All /projects/[slug] pages are statically pre-rendered, so
+          prefetch is cheap HTML + a few subresources. Browsers without the
+          API ignore the script entirely; client-side navigation is untouched
+          (React's <ViewTransition> still owns the morph). */}
+      <script
+        type="application/speculationrules"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            prefetch: [
+              {
+                source: "document",
+                where: { href_matches: "/projects/*" },
+                eagerness: "eager",
+              },
+            ],
+          }),
+        }}
+      />
       <div className="container mx-auto max-w-5xl">
         <FadeIn>
           <div className="mb-8">
