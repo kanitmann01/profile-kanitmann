@@ -56,8 +56,9 @@ export function CaseStudyContent({ project }: { project: Project }) {
           <p className="font-sans text-muted-foreground leading-relaxed mb-8">
             The classifier below is the FastText model from this project,
             retrained from the NetSTAR-labeled URL corpus and quantized to int8
-            so it runs entirely on the edge. Type a URL — the verdict,
-            confidence, and latency you see are computed live on this request.
+            so it runs entirely on the edge. The live demo is temporarily
+            offline for backend work and will be back soon — the research and
+            architecture on this page are unaffected.
           </p>
           <div className="mb-20">
             <NetstarClassifierDemo />
