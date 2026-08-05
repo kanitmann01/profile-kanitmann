@@ -130,6 +130,9 @@ vi.mock("framer-motion", () => {
     motionValue,
     useTransform: (_value: any, _input: number[], output: number[]) =>
       output[0],
+    // Pass-through spring: tests keep driving the underlying motionValue via
+    // its `.set()` and the spring mirrors it immediately.
+    useSpring: (value: any) => value,
     // vi.fn so individual tests can override per-path (see
     // components/__tests__/hero-stats-strip.test.tsx).
     useReducedMotion: vi.fn(() => false),

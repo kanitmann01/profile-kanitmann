@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { FadeIn } from "@/components/animations/fade-in";
 import { ArticleHeader } from "@/components/article-header";
+import { ReadingProgressRing } from "@/components/reading-progress-ring";
 import { TableOfContents } from "@/components/table-of-contents";
 import { Button } from "@/components/ui/button";
 import { RelatedArticles } from "@/components/related-articles";
@@ -60,31 +61,32 @@ export default async function ArticlePage({ params }: Params) {
         }}
       />
 
-      <div className="min-h-screen bg-background py-8 px-2 sm:py-12 sm:px-6">
-        <div className="container mx-auto max-w-4xl w-full lg:mr-80 xl:mr-72">
-          <div className="mb-8">
-            <Button variant="ghost" size="sm" asChild className="gap-2">
-              <Link href="/articles">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Articles
-              </Link>
-            </Button>
-          </div>
+      <ReadingProgressRing>
+        <div className="min-h-screen bg-background py-8 px-2 sm:py-12 sm:px-6">
+          <div className="container mx-auto max-w-4xl w-full lg:mr-80 xl:mr-72">
+            <div className="mb-8">
+              <Button variant="ghost" size="sm" asChild className="gap-2">
+                <Link href="/articles">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Articles
+                </Link>
+              </Button>
+            </div>
 
-          <FadeIn className="mb-16">
-            <ArticleHeader
-              title={article.title}
-              description={article.summary}
-              publishedAt={article.publishedAt}
-              readTime={article.readTime}
-            />
-          </FadeIn>
+            <FadeIn className="mb-16">
+              <ArticleHeader
+                title={article.title}
+                description={article.summary}
+                publishedAt={article.publishedAt}
+                readTime={article.readTime}
+              />
+            </FadeIn>
 
-          <TableOfContents containerId="article-content" />
+            <TableOfContents containerId="article-content" />
 
-          <article id="article-content" className="max-w-prose mx-auto">
-            <ContentComponent />
-          </article>
+            <article id="article-content" className="max-w-prose mx-auto">
+              <ContentComponent />
+            </article>
 
           <RelatedWork article={article} allProjects={projects} />
           <RelatedArticles currentArticle={article} allArticles={articles} />
@@ -98,8 +100,9 @@ export default async function ArticlePage({ params }: Params) {
               sortValue: a.publishedAt,
             }))}
           />
+          </div>
         </div>
-      </div>
+      </ReadingProgressRing>
     </>
   );
 }
