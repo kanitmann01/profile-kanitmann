@@ -14,6 +14,10 @@ export type ArticleMeta = {
   keywords?: string[];
   featuredOnHome?: boolean;
   kind?: ArticleKind;
+  /** Hand-curated same-topic articles, rendered by RelatedArticles. */
+  relatedArticleSlugs?: string[];
+  /** Cross-linked projects, rendered in the "Related work" block. */
+  relatedProjectSlugs?: string[];
 };
 
 // No hardcoded hero: the articles page now falls back to the first
@@ -48,6 +52,7 @@ export const articles: ArticleMeta[] = [
     // articles list and its own page.
     featuredOnHome: false,
     kind: "museum",
+    relatedArticleSlugs: ["three-line-skill"],
   },
   {
     slug: "three-line-skill",
@@ -71,6 +76,7 @@ export const articles: ArticleMeta[] = [
       "tdd ai",
     ],
     featuredOnHome: true,
+    relatedArticleSlugs: ["fable-5"],
   },
   {
     slug: "data-viz-analysis",
@@ -94,6 +100,8 @@ export const articles: ArticleMeta[] = [
       "data presentation",
     ],
     featuredOnHome: true,
+    relatedArticleSlugs: ["ccrb-allegations-analysis"],
+    relatedProjectSlugs: ["college-major-shift-analysis", "echo-effect"],
   },
   {
     slug: "technical-blog-3",
@@ -108,6 +116,7 @@ export const articles: ArticleMeta[] = [
     updatedAt: "2025-09-21",
     readTime: "4 min read",
     tags: ["Windows", "Automation", "Productivity"],
+    relatedArticleSlugs: ["technical-blog-2", "bios-issues-ubuntu"],
     keywords: [
       "windows registry",
       "automation",
@@ -130,6 +139,7 @@ export const articles: ArticleMeta[] = [
     updatedAt: "2025-09-14",
     readTime: "5 min read",
     tags: ["CLI", "GUI", "Workflow"],
+    relatedArticleSlugs: ["technical-blog-3", "bios-issues-ubuntu"],
     keywords: [
       "command line interface",
       "graphical user interface",
@@ -151,6 +161,8 @@ export const articles: ArticleMeta[] = [
     updatedAt: "2025-09-08",
     readTime: "7 min read",
     tags: ["Data Analysis", "CCRB", "NYC"],
+    relatedArticleSlugs: ["data-viz-analysis"],
+    relatedProjectSlugs: ["netstar", "unified-bharat"],
     keywords: [
       "CCRB",
       "NYPD",
@@ -175,6 +187,7 @@ export const articles: ArticleMeta[] = [
     updatedAt: "2025-09-08",
     readTime: "5 min read",
     tags: ["Linux", "Ubuntu", "Firmware"],
+    relatedArticleSlugs: ["technical-blog-2", "technical-blog-3"],
     keywords: [
       "Ubuntu",
       "BIOS",

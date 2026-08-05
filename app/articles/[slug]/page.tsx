@@ -5,7 +5,11 @@ import { FadeIn } from "@/components/animations/fade-in";
 import { ArticleHeader } from "@/components/article-header";
 import { TableOfContents } from "@/components/table-of-contents";
 import { Button } from "@/components/ui/button";
+import { RelatedArticles } from "@/components/related-articles";
+import { RelatedWork } from "@/components/related-work";
+import { PrevNextNav } from "@/components/prev-next-nav";
 import { articles, getArticleBySlug } from "@/data/articles";
+import { projects } from "@/data/projects";
 import { articleContent } from "@/data/article-content";
 import {
   buildArticleMetadata,
@@ -81,6 +85,19 @@ export default async function ArticlePage({ params }: Params) {
           <article id="article-content" className="max-w-prose mx-auto">
             <ContentComponent />
           </article>
+
+          <RelatedWork article={article} allProjects={projects} />
+          <RelatedArticles currentArticle={article} allArticles={articles} />
+          <PrevNextNav
+            currentSlug={article.slug}
+            ariaLabel="Previous and next article"
+            entries={articles.map((a) => ({
+              slug: a.slug,
+              title: a.title,
+              href: a.canonicalPath,
+              sortValue: a.publishedAt,
+            }))}
+          />
         </div>
       </div>
     </>
