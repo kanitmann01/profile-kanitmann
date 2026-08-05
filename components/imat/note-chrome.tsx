@@ -20,6 +20,7 @@ import { FocusModeProvider, useFocusMode } from "@/hooks/use-focus-mode";
 import { ShortcutsCheatsheet } from "@/components/imat/shortcuts-cheatsheet";
 import { useSwipeNavigation } from "@/hooks/use-swipe-navigation";
 import { BookmarksPanel } from "@/components/imat/bookmarks-panel";
+import { useScrollTo } from "@/hooks/use-scroll-to";
 import { formatSlug } from "@/lib/imat-slugs";
 
 type NoteChromeProps = {
@@ -42,6 +43,9 @@ function NoteChromeInner({
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [mobileToCOpen, setMobileToCOpen] = useState(false);
   const [mobileBookmarksOpen, setMobileBookmarksOpen] = useState(false);
+  // Wave E.5: Lenis glide to top when smooth scroll is active; native jump
+  // under reduced motion / touch.
+  const scrollToTop = useScrollTo();
 
   const topicTitle = formatSlug(topicSlug);
 
@@ -178,7 +182,7 @@ function NoteChromeInner({
         <MobileBottomBar
           onToggleToC={() => setMobileToCOpen((prev) => !prev)}
           onToggleBookmarks={() => setMobileBookmarksOpen((prev) => !prev)}
-          onScrollToTop={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onScrollToTop={() => scrollToTop(0)}
           hasPrev={!!prevNote}
           hasNext={!!nextNote}
           onPrev={handlePrev}
@@ -186,7 +190,10 @@ function NoteChromeInner({
         />
       )}
       {mobileToCOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur overflow-y-auto">
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur overflow-y-auto"
+          data-lenis-prevent
+        >
           <div className="flex justify-end p-4">
             <button
               onClick={() => setMobileToCOpen(false)}
@@ -201,7 +208,10 @@ function NoteChromeInner({
         </div>
       )}
       {mobileBookmarksOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur overflow-y-auto">
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur overflow-y-auto"
+          data-lenis-prevent
+        >
           <div className="flex justify-between items-center p-4">
             <h2 className="font-serif text-xl">Bookmarks</h2>
             <button

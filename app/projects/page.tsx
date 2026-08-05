@@ -1,9 +1,11 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { m } from "framer-motion";
+import { useLenis } from "lenis/react";
+import Snap from "lenis/snap";
 import { FadeIn } from "@/components/animations/fade-in";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { LinkChip } from "@/components/link-chip";
@@ -12,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { TechChip } from "@/components/tech-chip";
 import { projects } from "@/data/projects";
 import { useListFilter } from "@/hooks/use-list-filter";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { filterProjects, uniqueChips } from "@/lib/list-filter";
 
 const stackChips = uniqueChips(projects.flatMap((project) => project.tags));
@@ -23,9 +26,51 @@ function ProjectsContent() {
     validValues: stackValues,
   });
 
+  const lenis = useLenis();
+  const prefersReducedMotion = useReducedMotion();
+  const filterBarRef = useRef<HTMLDivElement>(null);
+
   const filteredProjects = filterProjects(projects, selected, query).sort(
     (a, b) => b.order - a.order
   );
+
+  // Wave E.5: `lenis/snap` proximity snapping on the editorial deck — each
+  // project heading becomes a snap point. Desktop + pointer:fine only, with a
+  // full reduced-motion bypass (matching the Lenis provider).
+  useEffect(() => {
+    if (!lenis || prefersReducedMotion) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+
+    const snap = new Snap(lenis, { type: "proximity", debounce: 500 });
+    const unsubscribe: Array<() => void> = [];
+    document
+      .querySelectorAll<HTMLElement>("[data-project-title]")
+      .forEach((el) => unsubscribe.push(snap.addElement(el)));
+
+    return () => {
+      unsubscribe.forEach((fn) => fn());
+      snap.destroy();
+    };
+  }, [lenis, prefersReducedMotion, selected, query]);
+
+  // Wave E.5: while the filter bar holds focus (chips / search input), pause
+  // Lenis entirely so typing and chip selection never fight the snap layer.
+  useEffect(() => {
+    if (!lenis || prefersReducedMotion) return;
+    const bar = filterBarRef.current;
+    if (!bar) return;
+
+    const onFocusIn = () => lenis.stop();
+    const onFocusOut = (e: FocusEvent) => {
+      if (!bar.contains(e.relatedTarget as Node | null)) lenis.start();
+    };
+    bar.addEventListener("focusin", onFocusIn);
+    bar.addEventListener("focusout", onFocusOut);
+    return () => {
+      bar.removeEventListener("focusin", onFocusIn);
+      bar.removeEventListener("focusout", onFocusOut);
+    };
+  }, [lenis, prefersReducedMotion]);
 
   return (
     <div className="min-h-screen bg-background py-20 px-6">
@@ -41,18 +86,20 @@ function ProjectsContent() {
           </div>
         </FadeIn>
 
-        <ListFilterBar
-          chips={stackChips}
-          selected={selected}
-          onToggle={toggle}
-          searchQuery={query}
-          onSearch={setQuery}
-          searchPlaceholder="Search projects…"
-          searchLabel="Search projects"
-          label="Filter by stack"
-          onClear={clear}
-          showClear={filteredProjects.length > 0}
-        />
+        <div ref={filterBarRef}>
+          <ListFilterBar
+            chips={stackChips}
+            selected={selected}
+            onToggle={toggle}
+            searchQuery={query}
+            onSearch={setQuery}
+            searchPlaceholder="Search projects…"
+            searchLabel="Search projects"
+            label="Filter by stack"
+            onClear={clear}
+            showClear={filteredProjects.length > 0}
+          />
+        </div>
 
         <div className="flex items-center justify-between mb-8 border-b border-border pb-6">
           <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">

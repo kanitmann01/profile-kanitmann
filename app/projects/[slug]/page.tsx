@@ -2,6 +2,7 @@ import { RelatedProjects } from "@/components/related-projects";
 import { CaseStudyContent } from "@/components/case-study-content";
 import { TechChip } from "@/components/tech-chip";
 import { PrevNextNav } from "@/components/prev-next-nav";
+import { ReadingProgressRing } from "@/components/reading-progress-ring";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
@@ -51,131 +52,134 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const techStack = project.tags;
 
   return (
-    <div className="min-h-screen bg-background">
-      <script
-        id={`ld-breadcrumb-${slug}`}
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(buildBreadcrumbSchema(project)),
-        }}
-      />
-      <script
-        id={`ld-software-${slug}`}
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(buildProjectSchema(project)),
-        }}
-      />
-
-      <div className="relative w-full min-h-[70vh] flex items-end overflow-hidden">
-        {/* Exp 09: named view-transition element — morphs from the project
-            card image on the list page (same slug name). */}
-        <div
-          className="absolute inset-0"
-          style={{ viewTransitionName: `project-image-${project.slug}` }}
-        >
-          <Image
-            src={project.image}
-            alt={`${project.title} Dashboard`}
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
-        </div>
-        <div className="relative z-10 w-full px-6 pb-16 pt-24">
-          <div className="mx-auto max-w-[680px]">
-            <Link
-              href="/projects"
-              className="mb-8 inline-flex items-center gap-2 text-sm font-mono uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Projects
-            </Link>
-            <h1 className="font-serif text-5xl md:text-6xl text-foreground mb-6 leading-tight">
-              {project.title}
-            </h1>
-            <p className="font-sans text-lg text-muted-foreground leading-relaxed max-w-[580px]">
-              {project.description}
-            </p>
-            {/* Case-study pages (Exp 14) render tech chips and links at the
-                end of the body; classic pages keep them in the hero. */}
-            {!isCaseStudy && (
-              <div className="flex flex-wrap gap-4 mt-8">
-                {project.demo && (
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md text-sm font-sans hover:opacity-90 transition-opacity"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Live Demo
-                  </a>
-                )}
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-border rounded-md text-sm font-sans text-foreground hover:border-primary hover:text-primary transition-colors"
-                  >
-                    <Github className="h-4 w-4" />
-                    GitHub Repo
-                  </a>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-auto max-w-[680px] px-6 py-20">
-        {isCaseStudy ? (
-          <CaseStudyContent project={project} />
-        ) : (
-          <>
-            <div className="mb-16">
-              <div className="flex flex-wrap gap-3">
-                {techStack.map((tech) => (
-                  <TechChip key={tech} label={tech} />
-                ))}
-              </div>
-            </div>
-
-            <ContentComponent />
-          </>
-        )}
-
-        {/* Wave C: contact CTA at the end of every case study. */}
-        {isCaseStudy && (
-          <div className="mt-20 border-t border-border pt-10 text-center">
-            <p className="font-serif text-2xl md:text-3xl text-foreground mb-6">
-              Building something similar?
-            </p>
-            <Button size="lg" asChild>
-              <Link href="/contact">
-                Let&apos;s talk <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        )}
-
-        <RelatedProjects currentProject={project} allProjects={projects} />
-
-        <PrevNextNav
-          currentSlug={project.slug}
-          ariaLabel="Previous and next project"
-          entries={projects.map((p) => ({
-            slug: p.slug,
-            title: p.title,
-            href: p.href,
-            sortValue: p.order,
-          }))}
+    <ReadingProgressRing>
+      <div className="min-h-screen bg-background">
+        {/* Wave A: server-rendered JSON-LD (no afterInteractive Script). */}
+        <script
+          id={`ld-breadcrumb-${slug}`}
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildBreadcrumbSchema(project)),
+          }}
         />
+        <script
+          id={`ld-software-${slug}`}
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildProjectSchema(project)),
+          }}
+        />
+
+        <div className="relative w-full min-h-[70vh] flex items-end overflow-hidden">
+          {/* Exp 09: named view-transition element — morphs from the project
+              card image on the list page (same slug name). */}
+          <div
+            className="absolute inset-0"
+            style={{ viewTransitionName: `project-image-${project.slug}` }}
+          >
+            <Image
+              src={project.image}
+              alt={`${project.title} Dashboard`}
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+          </div>
+          <div className="relative z-10 w-full px-6 pb-16 pt-24">
+            <div className="mx-auto max-w-[680px]">
+              <Link
+                href="/projects"
+                className="mb-8 inline-flex items-center gap-2 text-sm font-mono uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Projects
+              </Link>
+              <h1 className="font-serif text-5xl md:text-6xl text-foreground mb-6 leading-tight">
+                {project.title}
+              </h1>
+              <p className="font-sans text-lg text-muted-foreground leading-relaxed max-w-[580px]">
+                {project.description}
+              </p>
+              {/* Case-study pages (Exp 14) render tech chips and links at the
+                end of the body; classic pages keep them in the hero. */}
+              {!isCaseStudy && (
+                <div className="flex flex-wrap gap-4 mt-8">
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md text-sm font-sans hover:opacity-90 transition-opacity"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      Live Demo
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-border rounded-md text-sm font-sans text-foreground hover:border-primary hover:text-primary transition-colors"
+                    >
+                      <Github className="h-4 w-4" />
+                      GitHub Repo
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-[680px] px-6 py-20">
+          {isCaseStudy ? (
+            <CaseStudyContent project={project} />
+          ) : (
+            <>
+              <div className="mb-16">
+                <div className="flex flex-wrap gap-3">
+                  {techStack.map((tech) => (
+                    <TechChip key={tech} label={tech} />
+                  ))}
+                </div>
+              </div>
+
+              <ContentComponent />
+            </>
+          )}
+
+          {/* Wave C: contact CTA at the end of every case study. */}
+          {isCaseStudy && (
+            <div className="mt-20 border-t border-border pt-10 text-center">
+              <p className="font-serif text-2xl md:text-3xl text-foreground mb-6">
+                Building something similar?
+              </p>
+              <Button size="lg" asChild>
+                <Link href="/contact">
+                  Let&apos;s talk <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          )}
+
+          <RelatedProjects currentProject={project} allProjects={projects} />
+
+          <PrevNextNav
+            currentSlug={project.slug}
+            ariaLabel="Previous and next project"
+            entries={projects.map((p) => ({
+              slug: p.slug,
+              title: p.title,
+              href: p.href,
+              sortValue: p.order,
+            }))}
+          />
+        </div>
       </div>
-    </div>
+    </ReadingProgressRing>
   );
 }

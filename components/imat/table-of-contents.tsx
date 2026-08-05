@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { List, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useScrollTo } from "@/hooks/use-scroll-to";
 
 type Heading = { id: string; text: string; level: 2 | 3 };
 type TableOfContentsProps = { headings: Heading[] };
@@ -12,6 +13,8 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  // Wave E.5: Lenis glide when smooth scroll is active; native jump otherwise.
+  const scrollToSection = useScrollTo();
 
   useEffect(() => {
     const elements = headings
@@ -42,16 +45,11 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     return () => observerRef.current?.disconnect();
   }, [headings]);
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      setIsOpen(false);
-    }
-  };
-
   const desktopContent = (
-    <nav className="hidden lg:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
+    <nav
+      className="hidden lg:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto"
+      data-lenis-prevent
+    >
       <h2 className="text-sm font-semibold mb-3 text-muted-foreground">
         On this page
       </h2>
@@ -131,6 +129,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
               "w-72 max-h-[70vh] overflow-y-auto",
               "rounded-xl border bg-background shadow-xl p-4"
             )}
+            data-lenis-prevent
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -151,7 +150,10 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
               {headings.map((heading) => (
                 <li key={heading.id}>
                   <button
-                    onClick={() => scrollToSection(heading.id)}
+                    onClick={() => {
+                      scrollToSection(heading.id);
+                      setIsOpen(false);
+                    }}
                     className={cn(
                       "block w-full text-left text-sm py-2 px-3 rounded-md transition-colors min-h-[44px] flex items-center",
                       heading.level === 3 && "pl-6",

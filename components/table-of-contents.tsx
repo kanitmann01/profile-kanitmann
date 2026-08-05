@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useScrollTo } from "@/hooks/use-scroll-to";
 
 interface Heading {
   id: string;
@@ -18,6 +19,8 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState(false);
+  // Wave E.5: Lenis glide when smooth scroll is active; native jump otherwise.
+  const scrollToHeading = useScrollTo();
 
   useEffect(() => {
     const container = containerId
@@ -59,13 +62,6 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
 
     return () => observer.disconnect();
   }, [containerId]);
-
-  const scrollToHeading = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
 
   if (headings.length === 0) {
     return null;
@@ -113,7 +109,10 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
       </div>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block fixed right-8 top-32 w-64 max-h-[calc(100vh-8rem)] overflow-y-auto">
+      <aside
+        className="hidden lg:block fixed right-8 top-32 w-64 max-h-[calc(100vh-8rem)] overflow-y-auto"
+        data-lenis-prevent
+      >
         <nav className="p-4 border rounded-lg bg-background">
           <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">
             Table of Contents

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useCallback } from "react";
+import { useScrollTo } from "@/hooks/use-scroll-to";
 
 type UseIMATShortcutsProps = {
   sectionIds: string[];
@@ -11,6 +12,9 @@ export function useIMATShortcuts({
   sectionIds,
   onClose,
 }: UseIMATShortcutsProps) {
+  // Wave E.5: Lenis glide when smooth scroll is active; native jump otherwise.
+  const scrollToSection = useScrollTo();
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
@@ -53,10 +57,10 @@ export function useIMATShortcuts({
           targetIndex = Math.max(currentIndex - 1, 0);
         }
 
-        visibleSections[targetIndex].el.scrollIntoView({ behavior: "smooth" });
+        scrollToSection(visibleSections[targetIndex].el);
       }
     },
-    [sectionIds, onClose]
+    [sectionIds, onClose, scrollToSection]
   );
 
   useEffect(() => {

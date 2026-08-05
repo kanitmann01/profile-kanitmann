@@ -73,7 +73,10 @@ export function InteractiveBottomSheet({
                   <X className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="overflow-auto h-[calc(100%-3.5rem)] p-4">
+              <div
+                className="overflow-auto h-[calc(100%-3.5rem)] p-4"
+                data-lenis-prevent
+              >
                 {children}
               </div>
             </m.div>
