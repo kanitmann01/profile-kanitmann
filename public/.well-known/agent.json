@@ -1,0 +1,11 @@
+{
+  "name": "kanitmann.com",
+  "description": "Kanit Mann — Data, ML & AI Engineer. Personal portfolio: projects, articles, experience, resume, and a /now page.",
+  "url": "https://kanitmann.com",
+  "search_url": "https://kanitmann.com/llms.txt",
+  "capabilities": {
+    "projects": "https://kanitmann.com/data/projects.json",
+    "articles": "https://kanitmann.com/data/articles.json",
+    "contact": "https://kanitmann.com/contact"
+  }
+}

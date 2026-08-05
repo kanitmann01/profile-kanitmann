@@ -52,6 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { route: "/projects", lastmod: latestLastmod(projectLastmods) },
     { route: "/articles", lastmod: latestLastmod(articleLastmods) },
     { route: "/contact", lastmod: SITE_LAUNCH_LASTMOD },
+    { route: "/now", lastmod: SITE_LAUNCH_LASTMOD },
   ];
 
   const entries: MetadataRoute.Sitemap = [
