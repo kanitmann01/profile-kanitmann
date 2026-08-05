@@ -6,13 +6,15 @@ export function buildProjectMetadata(project: Project): Metadata {
   const siteUrl = getSiteUrl();
   const canonicalUrl = new URL(`/projects/${project.slug}`, siteUrl).toString();
   const imageUrl = new URL(project.image, siteUrl).toString();
+  // Case-study titles drop the " - Project " infix to stay under ~60 chars.
+  const title = `${project.title} | Kanit Mann`;
 
   return {
-    title: `${project.title} - Project | Kanit Mann`,
+    title,
     description: project.description,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
-      title: `${project.title} - Project | Kanit Mann`,
+      title,
       description: project.description,
       url: canonicalUrl,
       images: [{ url: imageUrl }],
@@ -20,7 +22,7 @@ export function buildProjectMetadata(project: Project): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} - Project | Kanit Mann`,
+      title,
       description: project.description,
       images: [imageUrl],
     },
@@ -34,33 +36,15 @@ export function buildProjectSchema(project: Project) {
 
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: project.title,
+    "@type": "SoftwareApplication",
+    name: project.title,
     description: project.description,
-    image: imageUrl,
-    author: { "@type": "Person", name: "Kanit Mann" },
-    publisher: {
-      "@type": "Organization",
-      name: "Kanit Mann Portfolio",
-      logo: {
-        "@type": "ImageObject",
-        url: new URL("/images/profile/kanit-mann.png", siteUrl).toString(),
-      },
-    },
+    url: canonicalUrl,
+    applicationCategory: "DeveloperApplication",
+    ...(project.github ? { codeRepository: project.github } : {}),
+    featureList: project.tags,
+    screenshot: imageUrl,
     datePublished: project.lastUpdated ?? project.period,
-    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
-    keywords: project.tags,
-    // Exp 14: case-study pages carry the metric-led schema; signal it to
-    // search engines via articleSection.
-    ...(project.caseStudy
-      ? {
-          articleSection: "Case Study",
-          articleBody: [
-            project.caseStudy.problem,
-            project.caseStudy.retrospective,
-          ].join(" "),
-        }
-      : {}),
   };
 }
 

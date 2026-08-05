@@ -157,10 +157,7 @@ export default function Home() {
             url: siteUrl,
             image: `${siteUrl}/images/profile/kanit-mann.png`,
             email: "mannkanit@gmail.com",
-            sameAs: [
-              "https://github.com/kanitmann01",
-              "https://linkedin.com/in/kanitmann",
-            ],
+            sameAs: ["https://github.com/kanitmann01"],
             knowsAbout: [
               "Data Science",
               "Machine Learning",
