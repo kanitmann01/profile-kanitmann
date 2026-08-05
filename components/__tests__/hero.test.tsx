@@ -69,6 +69,15 @@ describe("Hero", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders the Résumé CTA as a co-primary link beside Book a call", () => {
+    render(<Hero />);
+    const resume = screen.getByRole("link", { name: /Résumé/i });
+    expect(resume).toHaveAttribute("href", "/Kanit%20Mann%20-%20Resume.pdf");
+    expect(
+      screen.getByRole("button", { name: /Book a call/i })
+    ).toBeInTheDocument();
+  });
+
   it("renders the supporting link to projects", () => {
     render(<Hero />);
     expect(
