@@ -88,16 +88,16 @@ describe("Hero", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("splits the headline into aria-hidden character spans with the full text kept in the DOM", () => {
+  it("renders the headline as static text (no char-split kinetic animation)", () => {
     render(<Hero />);
     const heading = screen.getByRole("heading", { name: /Kanit/i });
-    // The wrapper carries the accessible name; the split chars stay in the
-    // DOM (SEO) but are hidden from assistive tech.
-    expect(heading).toHaveAttribute("aria-label", HEADLINE);
+    // Wave B LCP: the H1 is a plain static element — full text in the DOM,
+    // no aria juggling, no opacity:0/blur start that delays first paint.
     expect(heading.textContent).toBe(HEADLINE);
-    const chars = heading.querySelectorAll("span[aria-hidden='true']");
-    expect(chars).toHaveLength(HEADLINE.length);
-    expect(chars[0].textContent).toBe("K");
+    expect(heading).not.toHaveAttribute("aria-label");
+    expect(heading.querySelectorAll("span[aria-hidden='true']")).toHaveLength(
+      0
+    );
   });
 
   it("renders the headline as a single static element under reduced motion", async () => {

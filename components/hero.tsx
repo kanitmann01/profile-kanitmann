@@ -1,44 +1,20 @@
 "use client";
 
 import { useRef } from "react";
-import { m, useScroll, useTransform, type Variants } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { MagneticButton } from "@/components/magnetic-button";
 import { ShaderHero } from "@/components/shader-hero";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 /**
- * Exp 12: kinetic headline. Chars rise, fade, and unblur in a ~30ms stagger
- * (ease-out) — the full sequence lands in under 800ms so the role line and
- * CTAs never wait on it. Animation is transform/filter-only.
- *
- * a11y pattern: standard kinetic-type markup — the h1 wrapper carries the
- * full text via aria-label, the per-char spans are aria-hidden. H1 semantics
- * (role + accessible name) stay intact for AT and SEO; the full text remains
- * in the DOM. Under prefers-reduced-motion the headline renders as one
- * static element (no split, no stagger, no aria juggling).
- *
- * H1 is the real name; the role line below reads as the sub-headline.
+ * Exp 12 / Wave A+B: the main H1 ("Kanit Mann") is static text — no
+ * char-split, no opacity:0/blur(8px) start — so the LCP text paints
+ * immediately (<300ms). The only kinetic headline motion is the sub-line
+ * entrance below, which MotionConfig reducedMotion="user" (layout.tsx)
+ * collapses to the final state for reduced-motion users.
  */
 const HEADLINE = "Kanit Mann";
-
-const HEADLINE_CONTAINER_VARIANTS: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.03 },
-  },
-};
-
-const HEADLINE_CHAR_VARIANTS: Variants = {
-  hidden: { y: "0.5em", opacity: 0, filter: "blur(8px)" },
-  visible: {
-    y: 0,
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: { duration: 0.4, ease: [0.22, 0.61, 0.36, 1] },
-  },
-};
 
 declare global {
   interface Window {
@@ -91,7 +67,6 @@ function openCalendly() {
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -106,7 +81,6 @@ export function Hero() {
       ref={containerRef}
       className="relative flex min-h-screen flex-col items-start justify-center overflow-hidden px-6 md:px-12 lg:px-20"
     >
-      <div className="grain-overlay" />
       <div className="hero-gradient-bg absolute inset-0 z-0" />
       {/* Exp 15: shader accent — z-[1], behind photo (z-[2]) and content
           (z-10), low opacity, never competes with text contrast. */}
@@ -121,9 +95,10 @@ export function Hero() {
       >
         <div className="relative w-full h-full">
           <Image
-            src="/images/profile/kanit-mann.png"
+            src="/images/profile/kanit-mann.webp"
             alt="Kanit Mann"
             fill
+            sizes="(min-width: 768px) 50vw"
             className="object-cover object-left"
             priority
           />
@@ -132,29 +107,9 @@ export function Hero() {
 
       <div className="relative z-10 flex flex-col items-start text-left w-full max-w-5xl">
         <m.div style={{ scale: contentScale, opacity: contentOpacity }}>
-          {reducedMotion ? (
-            <h1 className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground">
-              {HEADLINE}
-            </h1>
-          ) : (
-            <m.h1
-              aria-label={HEADLINE}
-              className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground"
-              initial="hidden"
-              animate="visible"
-              variants={HEADLINE_CONTAINER_VARIANTS}
-            >
-              {HEADLINE.split("").map((char, index) => (
-                <m.span
-                  key={index}
-                  aria-hidden="true"
-                  variants={HEADLINE_CHAR_VARIANTS}
-                >
-                  {char}
-                </m.span>
-              ))}
-            </m.h1>
-          )}
+          <h1 className="font-sans text-[clamp(3rem,10vw,7rem)] leading-[1.1] tracking-tight text-foreground">
+            {HEADLINE}
+          </h1>
         </m.div>
 
         <m.div
