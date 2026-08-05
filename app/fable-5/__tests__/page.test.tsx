@@ -36,6 +36,13 @@ describe("Fable 5 Museum page", () => {
     expect(heading.textContent).toContain("Fable 5");
   });
 
+  it("renders the Fable 5 context line below the headline", () => {
+    render(<Fable5MuseumPage />);
+    expect(
+      screen.getByText(/Claude Fable 5 is Anthropic's next-gen coding model/i)
+    ).toBeInTheDocument();
+  });
+
   it("renders the total site count from the data", () => {
     render(<Fable5MuseumPage />);
     const total = fable5Sites.length;
