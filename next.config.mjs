@@ -24,14 +24,44 @@ const nextConfig = {
       },
       // Tier 0: collapse the www host onto the apex origin. The exact
       // Cloudflare edge rule lives in docs/seo/domain-migration.md; this
-      // belt-and-suspenders worker-level redirect covers any request that
-      // reaches the origin with the wrong host (e.g. direct origin hits).
-      {
-        source: "/:path*",
-        destination: "https://kanitmann.com/:path*",
-        permanent: true, // emits 308
+      // worker-level redirect is a belt-and-suspenders fallback. NOTE:
+      // opennextjs-cloudflare does not substitute Next's `:path*` template in
+      // the destination, so we match each common path explicitly and let the
+      // CF edge rule handle the rest. The `has: host=www.*` condition scopes
+      // every rule to www hits only — apex requests are never affected.
+      ...[
+        "",
+        "/",
+        "/about",
+        "/projects",
+        "/projects/",
+        "/articles",
+        "/articles/",
+        "/contact",
+        "/now",
+        "/fable-5",
+        "/llms.txt",
+        "/llms-full.txt",
+        "/sitemap.xml",
+        "/rss.xml",
+        "/atom.xml",
+      ].flatMap((path) => [
+        {
+          source: path || "/",
+          destination: `https://kanitmann.com${path || "/"}`,
+          permanent: true,
+          has: [{ type: "header", key: "host", value: "www.kanitmann.com" }],
+        },
+      ]),
+      // Project + article slugs — explicit pattern covers every data-driven
+      // leaf route. Keep in sync with data/projects.ts and data/articles.ts
+      // or rely on the CF edge rule for new slugs.
+      ...["/projects/:slug", "/articles/:slug"].map((source) => ({
+        source,
+        destination: `https://kanitmann.com${source}`,
+        permanent: true,
         has: [{ type: "header", key: "host", value: "www.kanitmann.com" }],
-      },
+      })),
     ];
   },
 };
