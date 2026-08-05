@@ -21,7 +21,8 @@ interface ExperienceTimelineProps {
  * API (`animation-timeline: view()`, classes `rv-rise` / `rv-rise-soft` /
  * `rv-slide` in globals.css) with Motion `whileInView` as the unsupported-
  * browser fallback. Deliberately left on Motion: the per-achievement stagger
- * (`delay: idx * 0.1`) and the AnimatePresence expand/collapse exit.
+ * (`delay: Math.min(idx, 3) * 0.05`, capped) and the AnimatePresence
+ * expand/collapse exit.
  */
 
 const roleVariants = {
@@ -68,7 +69,7 @@ function AchievementItem({
       initial={{ opacity: 0, x: -10 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{ duration: 0.5, delay: Math.min(index, 3) * 0.05 }}
     >
       <span className="text-primary mt-0.5 flex-shrink-0">—</span>
       <span>{achievement}</span>
