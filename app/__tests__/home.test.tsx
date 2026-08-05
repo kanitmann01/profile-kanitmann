@@ -11,9 +11,9 @@ vi.mock("@/components/bento-github-card", () => ({
 }));
 
 describe("Home page", () => {
-  it("renders the hero section with Kanit", () => {
+  it("renders the hero section with the name as H1", () => {
     render(<Home />);
-    const heading = screen.getByRole("heading", { name: /Kanit!/i });
+    const heading = screen.getByRole("heading", { name: /Kanit Mann/i });
     expect(heading).toBeInTheDocument();
   });
 

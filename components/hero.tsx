@@ -18,8 +18,10 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  * (role + accessible name) stay intact for AT and SEO; the full text remains
  * in the DOM. Under prefers-reduced-motion the headline renders as one
  * static element (no split, no stagger, no aria juggling).
+ *
+ * H1 is the real name; the role line below reads as the sub-headline.
  */
-const HEADLINE = "Hi, I'm Kanit!";
+const HEADLINE = "Kanit Mann";
 
 const HEADLINE_CONTAINER_VARIANTS: Variants = {
   hidden: {},
