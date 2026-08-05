@@ -2,6 +2,7 @@ import type { Project, ProjectMetric } from "@/data/projects";
 import { projectDiagrams } from "@/data/diagram-content";
 import { Github, ExternalLink } from "lucide-react";
 import { NetstarClassifierDemo } from "@/components/netstar-classifier-demo";
+import { TechChip } from "@/components/tech-chip";
 
 /**
  * Metric-led case-study layout (Exp 14). Renders the `caseStudy` schema in a
@@ -102,14 +103,9 @@ export function CaseStudyContent({ project }: { project: Project }) {
       </p>
 
       <SectionHeading id="tech-stack" title="Tech Stack" />
-      <div className="flex flex-wrap gap-3 font-mono text-xs uppercase tracking-wider mb-20">
+      <div className="flex flex-wrap gap-3 mb-20">
         {project.tags.map((tech) => (
-          <span
-            key={tech}
-            className="px-3 py-1.5 border border-primary/30 text-primary rounded-sm"
-          >
-            {tech}
-          </span>
+          <TechChip key={tech} label={tech} />
         ))}
       </div>
 

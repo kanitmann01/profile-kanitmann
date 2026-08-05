@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
 vi.mock("next/navigation", () => ({
@@ -61,5 +61,36 @@ describe("Case-study project page (/projects/[slug], Exp 14)", () => {
     expect(screen.getAllByText("Flask").length).toBeGreaterThan(0);
     // ...but no mermaid diagram (SVGs like lucide icons are fine)
     expect(container.querySelector("svg[aria-roledescription]")).toBeNull();
+  });
+
+  it("renders the contact CTA at the end of a case study", async () => {
+    await renderPage("netstar");
+
+    expect(screen.getByText("Building something similar?")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Let's talk/i })).toHaveAttribute(
+      "href",
+      "/contact"
+    );
+  });
+
+  it("does not render the contact CTA on classic pages", async () => {
+    await renderPage("titanic");
+    expect(
+      screen.queryByText("Building something similar?")
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders prev/next project navigation at the bottom", async () => {
+    await renderPage("netstar");
+
+    const nav = screen.getByRole("navigation", {
+      name: "Previous and next project",
+    });
+    const links = within(nav).getAllByRole("link");
+    expect(links.length).toBe(2);
+    // Both links point at other project detail pages.
+    links.forEach((link) => {
+      expect(link.getAttribute("href")).toMatch(/^\/projects\//);
+    });
   });
 });

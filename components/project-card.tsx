@@ -1,49 +1,56 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Github, ExternalLink } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { ScaleOnHover } from "@/components/animations/scale-on-hover"
-import { LinkChip } from "@/components/link-chip"
-import { ProjectCardInteractive } from "@/components/project-card-interactive"
-import type { Project } from "@/data/projects"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Github, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { ScaleOnHover } from "@/components/animations/scale-on-hover";
+import { LinkChip } from "@/components/link-chip";
+import { ProjectCardInteractive } from "@/components/project-card-interactive";
+import { TechChip } from "@/components/tech-chip";
+import type { Project } from "@/data/projects";
 
 interface ProjectCardProps {
-  project: Project
+  project: Project;
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "Live":
-        return "bg-green-600"
+        return "bg-green-600";
       case "In Progress":
-        return "bg-yellow-600"
+        return "bg-yellow-600";
       case "Completed":
-        return "bg-blue-600"
+        return "bg-blue-600";
       default:
-        return "bg-gray-600"
+        return "bg-gray-600";
     }
-  }
+  };
 
   return (
     <ScaleOnHover>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col cursor-pointer group">
         <Link href={project.href} className="flex-1 flex flex-col">
           <div className="relative h-48 overflow-hidden">
-            <Image 
-              src={project.image} 
-              alt={project.title} 
-              fill 
-              className="object-cover group-hover:scale-105 transition-transform duration-300" 
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
             {/* Status badge */}
             {project.status && (
               <div className="absolute top-3 right-3">
-                <Badge 
+                <Badge
                   className={`${getStatusBadgeColor(project.status)} text-white font-medium px-2 py-1 text-xs`}
                 >
                   {project.status}
@@ -56,21 +63,23 @@ export function ProjectCard({ project }: ProjectCardProps) {
               {project.title}
               <LinkChip path={project.href} />
             </CardTitle>
-            <CardDescription className="text-base">{project.description}</CardDescription>
+            <CardDescription className="text-base">
+              {project.description}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2 mb-4">
               {project.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
-                  {tag}
-                </Badge>
+                <TechChip key={tag} label={tag} />
               ))}
             </div>
           </CardContent>
         </Link>
         <CardContent className="pt-0">
           <div className="flex flex-col sm:flex-row gap-2 mb-3">
-            <span className="text-sm text-muted-foreground flex-1">Click to read</span>
+            <span className="text-sm text-muted-foreground flex-1">
+              Click to read
+            </span>
             <ProjectCardInteractive>
               <div className="flex gap-2">
                 {project.github && (
@@ -90,9 +99,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </div>
             </ProjectCardInteractive>
           </div>
-
         </CardContent>
       </Card>
     </ScaleOnHover>
-  )
-} 
+  );
+}

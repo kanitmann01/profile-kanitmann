@@ -9,6 +9,7 @@ import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { LinkChip } from "@/components/link-chip";
 import { ListFilterBar } from "@/components/list-filter-bar";
 import { Button } from "@/components/ui/button";
+import { TechChip } from "@/components/tech-chip";
 import { projects } from "@/data/projects";
 import { useListFilter } from "@/hooks/use-list-filter";
 import { filterProjects, uniqueChips } from "@/lib/list-filter";
@@ -160,12 +161,7 @@ function ProjectsContent() {
                           className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-wider"
                         >
                           {project.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-muted-foreground/70 border-b border-transparent group-hover:border-primary/30 group-hover:text-muted-foreground transition-colors duration-300 pb-0.5"
-                            >
-                              {tag}
-                            </span>
+                            <TechChip key={tag} label={tag} />
                           ))}
                         </div>
                       </div>
