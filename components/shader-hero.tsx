@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
+import { useLenis } from "lenis/react";
 
 /**
  * Exp 15: lightweight shader hero accent.
@@ -39,15 +40,32 @@ export const MOBILE_MAX_WIDTH = 767;
  * rate on Retina-class phones/laptops. */
 export const MAX_DPR = 1.5;
 
+/** Wave E.4: Lenis scroll velocity is clamped to ±this before it reaches
+ * the shader (also re-clamped to 0..5 inside the vertex shader). */
+export const SCROLL_VELOCITY_CLAMP = 10;
+
+/** Wave E.4: the RAF loop parks itself once velocity has been ~0 for this
+ * long (free perf win — a static hero needs zero frames/sec). */
+export const VELOCITY_IDLE_MS = 1000;
+
+/** |velocity| below this counts as "steady at 0" for the idle pause. */
+export const VELOCITY_IDLE_EPSILON = 0.5;
+
 type Mode = "idle" | "suspended" | "static" | "webgl";
 
 const VERTEX = /* glsl */ `
 attribute vec2 position;
 attribute vec2 uv;
 varying vec2 vUv;
+uniform float uScrollVelocity;
 void main() {
   vUv = uv;
-  gl_Position = vec4(position, 0.0, 1.0);
+  vec3 pos = vec3(position, 0.0);
+  // Wave E.4: Lenis-driven warp. sin(uv.x * PI) peaks mid-plane and is zero
+  // at both edges; velocity is clamped to [-10, 10] on the JS side and again
+  // here (abs, 0..5) so full tilt bends the plane by 0.25 in NDC.
+  pos.y += sin(uv.x * 3.14159265) * clamp(abs(uScrollVelocity), 0.0, 5.0) * 0.05;
+  gl_Position = vec4(pos, 1.0);
 }
 `;
 
@@ -149,6 +167,18 @@ export function ShaderHero() {
   const reducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<Mode>("idle");
+  // Set once the WebGL program exists; Lenis scroll feeds it through here.
+  const setVelocityRef = useRef<((velocity: number) => void) | null>(null);
+
+  const onLenisScroll = useCallback(({ velocity }: { velocity: number }) => {
+    const setter = setVelocityRef.current;
+    if (setter) setter(velocity);
+  }, []);
+
+  // Wave E.4: bind the scroll-velocity uniform via Lenis — but ONLY when
+  // Lenis is actually mounted. Under reduced-motion the provider unmounts
+  // Lenis, so we skip the binding entirely (no callback registered).
+  useLenis(reducedMotion ? undefined : onLenisScroll);
 
   useEffect(() => {
     // Suspend first: reduced motion OR data-saver → nothing at all.
@@ -180,6 +210,8 @@ export function ShaderHero() {
     let onVisibility: (() => void) | null = null;
     let resizeObserver: ResizeObserver | null = null;
     let paused = false;
+    let lastVelocity = 0;
+    let lastVelocityAt = performance.now();
 
     const startLoop = () => {
       if (cancelled) return;
@@ -194,6 +226,16 @@ export function ShaderHero() {
           renderer.render({ scene: mesh });
         } catch {
           // One bad frame must never take the tab down; loop keeps going.
+        }
+        // Wave E.4 free perf win: once scroll velocity has been ~0 for a
+        // full second, stop scheduling frames. Any nonzero velocity (or a
+        // visibility change) restarts the loop via the velocity setter.
+        if (
+          Math.abs(lastVelocity) < VELOCITY_IDLE_EPSILON &&
+          performance.now() - lastVelocityAt > VELOCITY_IDLE_MS
+        ) {
+          paused = true;
+          return;
         }
         rafId = requestAnimationFrame(loop);
       };
@@ -268,6 +310,7 @@ export function ShaderHero() {
           fragment: FRAGMENT,
           uniforms: {
             uTime: { value: 0 },
+            uScrollVelocity: { value: 0 },
             uColorA: { value: new Vec3(...colorA) },
             uColorB: { value: new Vec3(...colorB) },
             uColorC: { value: new Vec3(...colorC) },
@@ -281,6 +324,20 @@ export function ShaderHero() {
           container.removeChild(canvas);
           return;
         }
+
+        // Wave E.4: Lenis scroll velocity → uScrollVelocity (clamped to
+        // ±SCROLL_VELOCITY_CLAMP), plus the idle-pause resume signal.
+        setVelocityRef.current = (velocity: number) => {
+          lastVelocity = Math.max(
+            -SCROLL_VELOCITY_CLAMP,
+            Math.min(SCROLL_VELOCITY_CLAMP, velocity)
+          );
+          lastVelocityAt = performance.now();
+          if (mesh?.program?.uniforms?.uScrollVelocity) {
+            mesh.program.uniforms.uScrollVelocity.value = lastVelocity;
+          }
+          if (paused && !document.hidden) startLoop();
+        };
 
         onVisibility = () => {
           if (document.hidden) {
@@ -299,6 +356,7 @@ export function ShaderHero() {
 
     return () => {
       cancelled = true;
+      setVelocityRef.current = null;
       stopLoop();
       if (onVisibility) {
         document.removeEventListener("visibilitychange", onVisibility);

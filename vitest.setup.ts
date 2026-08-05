@@ -128,6 +128,8 @@ vi.mock("framer-motion", () => {
       useEffect(() => value.on(event, callback), [value, event, callback]);
     },
     motionValue,
+    // Hook form of the factory above (used by velocity-skew / Wave E.4).
+    useMotionValue: motionValue,
     useTransform: (_value: any, _input: number[], output: number[]) =>
       output[0],
     // Pass-through spring: tests keep driving the underlying motionValue via

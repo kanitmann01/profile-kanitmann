@@ -1,8 +1,13 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { useReducedMotion } from "framer-motion";
 
-import { ShaderHero, MAX_DPR, hslToRgb } from "@/components/shader-hero";
+import {
+  ShaderHero,
+  MAX_DPR,
+  SCROLL_VELOCITY_CLAMP,
+  hslToRgb,
+} from "@/components/shader-hero";
 
 /**
  * Exp 15 suspend/fallback coverage:
@@ -12,7 +17,24 @@ import { ShaderHero, MAX_DPR, hslToRgb } from "@/components/shader-hero";
  *  - visibility-hidden → RAF loop paused, resumed on visible
  *  - WebGL unavailable → static gradient fallback
  *  - desktop + motion allowed → live shader, dpr capped
+ * Wave E.4 adds:
+ *  - Lenis scroll-velocity binding (clamped ±10) feeding uScrollVelocity
+ *  - reduced-motion → binding skipped entirely
+ *  - RAF loop parks itself once velocity is steady at 0 for >1s
  */
+
+const { lenisCallbacks } = vi.hoisted(() => ({
+  lenisCallbacks: [] as Array<
+    ((lenis: { velocity: number }) => void) | undefined
+  >,
+}));
+
+vi.mock("lenis/react", () => ({
+  useLenis: (callback?: (lenis: { velocity: number }) => void) => {
+    lenisCallbacks.push(callback);
+    return undefined;
+  },
+}));
 
 const { rendererOpts, renderSpy, setSizeSpy, meshPrograms, resizeObservers } =
   vi.hoisted(() => {
@@ -140,6 +162,7 @@ afterEach(() => {
   setSizeSpy.mockClear();
   meshPrograms.length = 0;
   resizeObservers.length = 0;
+  lenisCallbacks.length = 0;
 });
 
 describe("ShaderHero — suspend paths", () => {
@@ -228,6 +251,8 @@ describe("ShaderHero — live shader", () => {
     const uniforms = meshPrograms[0]?.uniforms;
     expect(uniforms).toBeDefined();
     expect(uniforms.uTime).toBeDefined();
+    expect(uniforms.uScrollVelocity).toBeDefined();
+    expect(uniforms.uScrollVelocity.value).toBe(0);
     expect(uniforms.uColorA).toBeDefined();
     expect(uniforms.uColorB).toBeDefined();
     expect(uniforms.uColorC).toBeDefined();
@@ -341,6 +366,114 @@ describe("ShaderHero — visibility pause", () => {
     expect(vi.mocked(requestAnimationFrame).mock.calls.length).toBeGreaterThan(
       scheduledAfterHide
     );
+  });
+});
+
+describe("ShaderHero — scroll velocity warp (Wave E.4)", () => {
+  it("registers a Lenis scroll callback when motion is allowed", async () => {
+    stubWebGLAvailable(true);
+    render(<ShaderHero />);
+    await waitFor(() => {
+      expect(getCanvas()).not.toBeNull();
+    });
+    // Called with a function → binding is live.
+    expect(lenisCallbacks.length).toBeGreaterThan(0);
+    expect(typeof lenisCallbacks.at(-1)).toBe("function");
+  });
+
+  it("skips the Lenis binding entirely under reduced motion", async () => {
+    vi.mocked(useReducedMotion).mockReturnValue(true);
+    render(<ShaderHero />);
+    await waitFor(() => {
+      expect(document.querySelector(".shader-hero-layer")).toBeNull();
+    });
+    // useLenis is invoked with `undefined` → no callback registered.
+    expect(lenisCallbacks.length).toBeGreaterThan(0);
+    expect(lenisCallbacks.at(-1)).toBeUndefined();
+  });
+
+  it("clamps Lenis velocity to ±10 and feeds uScrollVelocity", async () => {
+    stubWebGLAvailable(true);
+    render(<ShaderHero />);
+    await waitFor(() => {
+      expect(getCanvas()).not.toBeNull();
+    });
+    const callback = lenisCallbacks.at(-1);
+    const uniforms = meshPrograms.at(-1)?.uniforms;
+    expect(typeof callback).toBe("function");
+    expect(uniforms).toBeDefined();
+
+    await act(async () => {
+      callback!({ velocity: 50 });
+    });
+    expect(uniforms.uScrollVelocity.value).toBe(SCROLL_VELOCITY_CLAMP);
+
+    await act(async () => {
+      callback!({ velocity: -25 });
+    });
+    expect(uniforms.uScrollVelocity.value).toBe(-SCROLL_VELOCITY_CLAMP);
+
+    await act(async () => {
+      callback!({ velocity: 3.2 });
+    });
+    expect(uniforms.uScrollVelocity.value).toBe(3.2);
+
+    await act(async () => {
+      callback!({ velocity: 0 });
+    });
+    expect(uniforms.uScrollVelocity.value).toBe(0);
+  });
+
+  it("parks the RAF loop once velocity stays ~0 for >1s", async () => {
+    stubWebGLAvailable(true);
+    stubMatchMedia();
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      value: false,
+    });
+
+    // Controllable rAF: each schedule advances the clock by 200ms so the
+    // loop's idle window (>1s since the last velocity update at t=0) closes.
+    const frames: Array<{ cb: FrameRequestCallback; at: number }> = [];
+    let clock = 0;
+    vi.stubGlobal(
+      "requestAnimationFrame",
+      vi.fn((cb: FrameRequestCallback) => {
+        clock += 200;
+        frames.push({ cb, at: clock });
+        return frames.length;
+      })
+    );
+    vi.stubGlobal(
+      "cancelAnimationFrame",
+      vi.fn(() => {})
+    );
+    const nowSpy = vi.spyOn(performance, "now").mockImplementation(() => clock);
+
+    render(<ShaderHero />);
+    await waitFor(() => {
+      expect(getCanvas()).not.toBeNull();
+    });
+
+    // Run every scheduled frame (times 200ms, 400ms, … 1200ms). No scroll
+    // happens, so after 1000ms of idle the loop must park itself.
+    let framesRan = 0;
+    while (frames.length > 0 && framesRan < 20) {
+      const frame = frames.shift()!;
+      frame.cb(frame.at);
+      framesRan++;
+    }
+    expect(framesRan).toBeGreaterThan(0); // loop ran
+    expect(frames.length).toBe(0); // and parked (nothing left scheduled)
+
+    // A nonzero velocity restarts the loop.
+    const callback = lenisCallbacks.at(-1)!;
+    await act(async () => {
+      callback({ velocity: 4 });
+    });
+    expect(frames.length).toBeGreaterThan(0);
+
+    nowSpy.mockRestore();
   });
 });
 
