@@ -1,6 +1,11 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Instrument_Serif, JetBrains_Mono, Geist } from "next/font/google";
+import {
+  Instrument_Serif,
+  JetBrains_Mono,
+  Geist,
+  Space_Grotesk,
+} from "next/font/google";
 import { LazyMotion, domAnimation, MotionConfig } from "framer-motion";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
@@ -31,6 +36,14 @@ const jetbrainsMono = JetBrains_Mono({
 const geistSans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
+});
+
+// Exp: /void immersive page — geometric sans substitute for the design doc's
+// nbarchitekt (nav, button labels, micro-labels).
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-grotesk",
 });
 
 export const metadata: Metadata = {
@@ -270,7 +283,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${instrumentSerif.variable} ${jetbrainsMono.variable} ${geistSans.variable} font-sans`}
+        className={`${instrumentSerif.variable} ${jetbrainsMono.variable} ${geistSans.variable} ${spaceGrotesk.variable} font-sans`}
       >
         <a
           href="#main"

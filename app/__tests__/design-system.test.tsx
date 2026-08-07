@@ -24,6 +24,10 @@ vi.mock("next/font/google", () => ({
   }),
   JetBrains_Mono: () => ({ className: "font-mono", variable: "--font-mono" }),
   Geist: () => ({ className: "font-sans", variable: "--font-sans" }),
+  Space_Grotesk: () => ({
+    className: "font-grotesk",
+    variable: "--font-grotesk",
+  }),
 }));
 
 // CommandPalette (mounted in the root layout) uses the App Router hooks.
