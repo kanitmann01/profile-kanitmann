@@ -22,13 +22,6 @@ export function Navigation() {
   const { openPalette } = useCommandPalette();
   const { openAsk } = useAskPanel();
 
-  const navItems = [
-    { href: "/projects", label: "WORK" },
-    { href: "/about", label: "ABOUT" },
-    { href: "/articles", label: "ARTICLES" },
-    { href: "/contact", label: "CONTACT" },
-  ];
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -47,6 +40,18 @@ export function Navigation() {
       document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
+
+  // Suppress global chrome on the immersive /void page — it renders its own
+  // ghost nav. Only /void is affected. Kept AFTER all hooks so the Rules of
+  // Hooks hold across route transitions (this component persists in layout).
+  if (pathname === "/void") return null;
+
+  const navItems = [
+    { href: "/projects", label: "WORK" },
+    { href: "/about", label: "ABOUT" },
+    { href: "/articles", label: "ARTICLES" },
+    { href: "/contact", label: "CONTACT" },
+  ];
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);

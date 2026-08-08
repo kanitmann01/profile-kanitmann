@@ -4,6 +4,7 @@ vi.mock("next/font/google", () => ({
   Instrument_Serif: () => ({ variable: "--font-serif" }),
   JetBrains_Mono: () => ({ variable: "--font-mono" }),
   Geist: () => ({ variable: "--font-sans" }),
+  Space_Grotesk: () => ({ variable: "--font-grotesk" }),
 }));
 
 vi.mock("next/script", () => ({

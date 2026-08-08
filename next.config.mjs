@@ -13,6 +13,41 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
   },
+  // three.js is browser-only (WebGL) and is dynamic-imported inside the
+  // client-only VoidScene component. Without excluding it from the server
+  // bundle it gets pulled into the OpenNext handler and blows the Cloudflare
+  // Worker 3 MiB budget. The VoidScene component renders null on the server
+  // (mode starts at "idle"), so the three import is only ever evaluated in the
+  // browser. Turbopack's resolveAlias supports ONLY a `browser` condition, so
+  // we point the default (server) resolution at an empty stub and let the
+  // browser condition resolve to the real package. (serverExternalPackages
+  // was the cleaner option but OpenNext on Windows symlinks the package,
+  // which needs admin privileges.)
+  turbopack: {
+    resolveAlias: {
+      // Default (server) → empty stub; browser → real three. Must also stub
+      // the deep post-processing submodule imports ("three/examples/jsm/*")
+      // because those modules themselves import "three" — without stubbing
+      // them the full three core gets pulled into the server bundle.
+      three: { browser: "three", default: "./scripts/empty-module.js" },
+      "three/examples/jsm/postprocessing/EffectComposer.js": {
+        browser: "three/examples/jsm/postprocessing/EffectComposer.js",
+        default: "./scripts/empty-module.js",
+      },
+      "three/examples/jsm/postprocessing/RenderPass.js": {
+        browser: "three/examples/jsm/postprocessing/RenderPass.js",
+        default: "./scripts/empty-module.js",
+      },
+      "three/examples/jsm/postprocessing/UnrealBloomPass.js": {
+        browser: "three/examples/jsm/postprocessing/UnrealBloomPass.js",
+        default: "./scripts/empty-module.js",
+      },
+      "three/examples/jsm/postprocessing/OutputPass.js": {
+        browser: "three/examples/jsm/postprocessing/OutputPass.js",
+        default: "./scripts/empty-module.js",
+      },
+    },
+  },
   // Enable compression
   compress: true,
   async redirects() {

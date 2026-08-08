@@ -234,6 +234,32 @@
     );
 }
 
+/* /void immersive page: full-bleed WebGL canvas with ghost chrome. Mirrors
+   the shader-hero pattern — the live ogl scene mounts only when WebGL is
+   available and motion/data are allowed; the emblem below is the static CSS
+   stand-in (mobile, reduced motion, WebGL failure). */
+.void-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.void-static-emblem {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      55% 45% at 25% 25%,
+      rgba(34, 197, 94, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(34, 211, 238, 0.12),
+      transparent 60%
+    );
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-gradient-bg {
     animation: none;

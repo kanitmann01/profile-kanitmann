@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useScrollTo } from "@/hooks/use-scroll-to";
@@ -17,10 +18,15 @@ const socialLinks = [
 ];
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
   // Wave E.5: Lenis glide to top when smooth scroll is active; native instant
   // jump under reduced motion / touch.
   const scrollToTop = useScrollTo();
+  // Suppress global chrome on the immersive /void page — it renders its own
+  // ghost nav and footer hint. Only /void is affected. Kept AFTER all hooks
+  // so the Rules of Hooks hold across route transitions (persists in layout).
+  if (pathname === "/void") return null;
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="relative border-t-2 border-primary bg-card overflow-hidden">
