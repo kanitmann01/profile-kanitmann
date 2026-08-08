@@ -135,7 +135,8 @@ vi.mock("three", () => {
   }
   class PerspectiveCamera {
     aspect = 1;
-    position = { set: vi.fn() };
+    position = { x: 0, y: 0, z: 0, set: vi.fn() };
+    lookAt = vi.fn();
     updateProjectionMatrix = vi.fn();
   }
   // Geometry stand-ins: just capture that they were constructed.

@@ -104,7 +104,7 @@ export function VoidScene() {
     let scene: any;
     let camera: any;
     let onVisibility: (() => void) | null = null;
-    let onPointerMove: (() => void) | null = null;
+    let onPointerMove: ((e: PointerEvent) => void) | null = null;
     let onContextLost: ((e: Event) => void) | null = null;
     let onContextRestored: (() => void) | null = null;
     let resizeObserver: ResizeObserver | null = null;
@@ -113,6 +113,11 @@ export function VoidScene() {
     let lastActivityAt = performance.now();
     // Clock for animation; created once three is imported.
     let clock: any;
+    // Pointer parallax: normalized cursor position (-1..1 on each axis) drives
+    // a camera offset that lerps toward target each frame, so moving the mouse
+    // visibly tilts the portal toward the cursor. This is the "explore"
+    // interaction the footer hint promises.
+    const pointer = { tx: 0, ty: 0, x: 0, y: 0 };
 
     const startLoop = () => {
       if (cancelled || contextLost) return;
@@ -121,6 +126,15 @@ export function VoidScene() {
         if (cancelled || paused) return;
         try {
           const t = clock.getElapsedTime();
+          // Pointer parallax: ease the camera toward the cursor target so the
+          // portal tilts as you move. A gentle lerp (0.05) keeps it floaty.
+          pointer.x += (pointer.tx - pointer.x) * 0.05;
+          pointer.y += (pointer.ty - pointer.y) * 0.05;
+          if (camera) {
+            camera.position.x = pointer.x * 0.8;
+            camera.position.y = pointer.y * 0.6;
+            camera.lookAt(0, 0, 0);
+          }
           // Animate portal: counter-rotating rings, pulsing core.
           const core = scene.getObjectByName("portal-core");
           const ringOuter = scene.getObjectByName("ring-outer");
@@ -494,8 +508,12 @@ export function VoidScene() {
         };
         document.addEventListener("visibilitychange", onVisibility);
 
-        onPointerMove = () => {
+        onPointerMove = (e: Event) => {
           lastActivityAt = performance.now();
+          // Record normalized cursor position (-1..1) for the parallax camera.
+          const ev = e as PointerEvent;
+          pointer.tx = (ev.clientX / window.innerWidth) * 2 - 1;
+          pointer.ty = -((ev.clientY / window.innerHeight) * 2 - 1);
           if (paused && !document.hidden) startLoop();
         };
         window.addEventListener("pointermove", onPointerMove);
