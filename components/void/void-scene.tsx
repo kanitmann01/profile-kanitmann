@@ -6,49 +6,48 @@ import { useReducedMotion } from "framer-motion";
 /**
  * Void page: ambient WebGL backdrop — the Active Theory "iconic brand emblem".
  *
- * Full-bleed scene behind the /void chrome: a circular wireframe portal with
- * a cyan-to-magenta rim glow at viewport center, a particle fountain of
- * green/gold/cyan specks bursting downward from it, and a faint green aurora
- * wash bleeding from the top-left corner. Pure #000 canvas color; the page
- * background stays black and the GL buffer clears transparent.
+ * Full-bleed scene behind the /void chrome: a luminous portal at viewport
+ * center — a faceted icosahedron core wrapped in two counter-rotating
+ * cyan→magenta torus rings, dense green/gold/cyan particle fountain bursting
+ * downward, and a green aurora wash bleeding from the top-left. Pure #000
+ * canvas; the page background stays black and the GL buffer clears transparent.
  *
- * Scene structure (three layered passes, one renderer.render per frame):
- *   (a) AURORA   — full-screen Triangle running the domain-warped fbm shader
- *                  (ported from shader-hero) retinted dim teal-green with a
- *                  top-left corner falloff. Atmosphere, never the subject.
- *   (b) PORTAL   — custom ring geometries drawn as LINES: an outer rim +
- *                  inner ring rotating one way, a faceted hexagon core mark
- *                  rotating the other. Gradient rim from aRim per-vertex
- *                  factor, cyan -> magenta, additive for a soft glow.
- *   (c) PARTICLES— 300 point sprites (soft rounds via gl_PointCoord) in
- *                  additive blend. CPU physics (mirroring museum-particles):
- *                  downward drift from the portal center, toroidal X wrap,
- *                  bottom respawn feeds the fountain back through the emblem.
+ * Scene structure (three.js, rendered through an UnrealBloomPass for the glow):
+ *   (a) PORTAL   — a low-poly icosahedron core (flat-shaded, emissive) inside
+ *                  two wireframe + solid torus rings, counter-rotating. Rim
+ *                  color animated cyan → magenta. The bloom makes the rim
+ *                  genuinely luminous, not a flat alpha blend.
+ *   (b) PARTICLES— ~1500 additive points in a downward fountain from the core,
+ *                  green/gold/cyan, with size attenuation and a soft round
+ *                  alpha falloff in the shader. GPU-side drift (no per-frame
+ *                  CPU upload).
+ *   (c) AURORA   — a full-screen fbm plane behind everything, retinted faint
+ *                  teal-green, top-left corner falloff. Atmosphere.
  *
- * Perf / battery gates (all client-side, decided in an effect so the SSR and
- * first client render stay hydration-safe as `null`):
+ * The bloom (EffectComposer + UnrealBloomPass) is what separates this from the
+ * previous cheap-looking ogl pass: bright emissive geometry blooms outward into
+ * a real halo, exactly the Active Theory "luminous portal" quality.
+ *
+ * Perf / battery gates (all client-side, decided in an effect so SSR and first
+ * client render stay hydration-safe as `null`):
  *
  *  1. MOBILE (max-width 767px) — WebGL is SKIPPED entirely. A phone gets the
- *     CSS `.void-static-emblem` fallback instead; no context, no RAF, no GPU.
+ *     CSS `.void-static-emblem` fallback; no context, no RAF, no GPU.
  *  2. prefers-reduced-motion — fully suspended, renders nothing.
- *  3. prefers-reduced-data (data-saver) — fully suspended, same as above.
+ *  3. prefers-reduced-data (data-saver) — fully suspended.
  *  4. Tab hidden (visibilitychange) — RAF loop paused, resumed on visible.
- *  5. Ambient idle-park: no pointer activity for VOID_IDLE_MS (3s) stops
- *     scheduling frames entirely; any pointer move wakes it. This scene is
- *     NOT scroll-coupled (single-viewport page), so it parks on pointer
- *     activity instead of Lenis velocity. The listener lives on `window`
- *     because the container is pointer-events-none and the scene IS the
- *     viewport — any pointer move anywhere counts as activity.
- *  6. dpr capped at 1.5, low-power context, no depth/stencil/antialias,
- *     ~500 total GL primitives. ogl is dynamic-imported inside the mount
- *     effect, so the lib lands in a post-paint chunk — never blocks LCP.
+ *  5. AMBIENT: the loop runs continuously for VOID_ALWAYS_ON_MS (30s) after
+ *     load or any activity, THEN parks until the next pointer move / visibility
+ *     resume. This fixes the "feels broken on load" issue — the portal is
+ *     always alive on landing — while still saving battery on long-idle tabs.
+ *  6. dpr capped at 1.5, low-power context, antialias false (bloom softens
+ *     edges). three.js is dynamic-imported in the mount effect so the ~600KB
+ *     lib lands in a post-paint chunk — never blocks first paint or LCP.
  *  7. No WebGL (or init failure) — graceful static fallback.
- *  8. CONTEXT LOSS — `webglcontextlost` is prevented, the loop stops, and
- *     the scene degrades one-way to `"static"` for the session. Rebuilding
- *     three programs/geometries/uniforms on `webglcontextrestored` is
- *     complex for a rare GPU-reset event, so we deliberately do NOT restore;
- *     the CSS fallback is safe and visually acceptable. `contextrestored`
- *     is still listened for (and ignored) to document the choice.
+ *  8. CONTEXT LOSS — prevented, loop stops, one-way degrade to `"static"`.
+ *     Rebuilding the composer + scene graph on restore is high-complexity for
+ *     a rare GPU-reset event; the CSS fallback is safe. `contextrestored` is
+ *     still listened for (and ignored) to document the choice.
  */
 
 /** Below this viewport width the live scene never mounts. */
@@ -57,240 +56,26 @@ export const MOBILE_MAX_WIDTH = 767;
 /** dpr never exceeds this — halves fill rate on Retina-class screens. */
 export const MAX_DPR = 1.5;
 
-/** Ambient idle: after this long without pointer activity the RAF loop
- * parks itself (a static backdrop needs zero frames/sec). Longer than
- * shader-hero's 1s — this scene isn't scroll-coupled, it's ambient. */
-export const VOID_IDLE_MS = 3000;
+/** Particle count — dense enough to read as a fountain, not so dense it
+ *  tanks mobile/low-end GPUs (mobile never reaches here — see gate 1). */
+export const PARTICLE_COUNT = 1500;
 
-/** Particle fountain size — matches museum-particles' PARTICLE_COUNT. */
-export const PARTICLE_COUNT = 300;
+/** Portal core + ring radii in world units (scene is ~aspect-scaled). */
+export const PORTAL_RADIUS = 1.0;
 
-/** Portal radius as a fraction of viewport half-height (NDC y is unscaled). */
-export const PORTAL_RADIUS = 0.3;
-
-/** Margin (CSS px) past which particles wrap / respawn. */
-const PARTICLE_MARGIN = 40;
+/** After load or any activity, the loop runs continuously for this long, then
+ *  parks until the next pointer move / visibility resume. 30s = always-alive
+ *  on landing without keeping the GPU warm on truly idle tabs. */
+export const VOID_ALWAYS_ON_MS = 30_000;
 
 type Mode = "idle" | "suspended" | "static" | "webgl";
 
-/* ---------------------------------------------------------------------------
- * (a) Aurora — fbm fragment, ported from shader-hero (5 octaves, same domain
- * warp), retinted to a faint green and faded toward the bottom-right corner
- * so the wash bleeds from the top-left as the design specifies.
- * ------------------------------------------------------------------------- */
-
-const AURORA_VERTEX = /* glsl */ `
-attribute vec2 position;
-attribute vec2 uv;
-varying vec2 vUv;
-void main() {
-  vUv = uv;
-  gl_Position = vec4(position, 0.0, 1.0);
-}
-`;
-
-const AURORA_FRAGMENT = /* glsl */ `
-precision highp float;
-varying vec2 vUv;
-uniform float uTime;
-uniform vec3 uColorA;
-uniform vec3 uColorB;
-uniform vec3 uColorC;
-
-float hash(vec2 p) {
-  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
-}
-
-float noise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  f = f * f * (3.0 - 2.0 * f);
-  float a = hash(i);
-  float b = hash(i + vec2(1.0, 0.0));
-  float c = hash(i + vec2(0.0, 1.0));
-  float d = hash(i + vec2(1.0, 1.0));
-  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
-}
-
-float fbm(vec2 p) {
-  float v = 0.0;
-  float amp = 0.5;
-  for (int i = 0; i < 5; i++) {
-    v += amp * noise(p);
-    p *= 2.0;
-    amp *= 0.5;
-  }
-  return v;
-}
-
-void main() {
-  vec2 p = vUv;
-  vec2 q = vec2(
-    fbm(p + uTime * 0.07),
-    fbm(p + vec2(5.2, 1.3) + uTime * 0.05)
-  );
-  vec2 r = vec2(
-    fbm(p + 4.0 * q + vec2(1.7, 9.2) + uTime * 0.04),
-    fbm(p + 4.0 * q + vec2(8.3, 2.8) + uTime * 0.03)
-  );
-  float f = fbm(p + 4.0 * r);
-  vec3 col = mix(uColorA, uColorB, clamp(f * f * 1.6, 0.0, 1.0));
-  col = mix(uColorC, col, clamp(length(q) * 1.8, 0.0, 1.0));
-  // Top-left bleed: uv origin is bottom-left, so (1-x)*y peaks at the
-  // top-left corner and falls to zero toward the bottom-right. Very low
-  // alpha — it is atmosphere, not the subject.
-  float corner = smoothstep(0.0, 0.85, (1.0 - vUv.x) * vUv.y);
-  gl_FragColor = vec4(col, corner * 0.5);
-}
-`;
-
-/* ---------------------------------------------------------------------------
- * (b) Portal — explicit LINE-pair ring geometry. aRim is the per-vertex
- * position on a full cyan->magenta cycle around the emblem, precomputed in
- * JS (no atan in the shader). Rotation happens in the vertex shader from
- * uSpeed, and p.x /= uAspect keeps the circle circular under any aspect.
- * ------------------------------------------------------------------------- */
-
-const PORTAL_VERTEX = /* glsl */ `
-attribute vec2 position;
-attribute float aRim;
-uniform float uTime;
-uniform float uAspect;
-uniform float uSpeed;
-varying float vRim;
-void main() {
-  float ang = uTime * uSpeed;
-  float c = cos(ang);
-  float s = sin(ang);
-  vec2 p = mat2(c, -s, s, c) * position;
-  p.x /= uAspect;
-  gl_Position = vec4(p, 0.0, 1.0);
-  vRim = aRim + 0.06 * sin(uTime * 0.35);
-}
-`;
-
-const PORTAL_FRAGMENT = /* glsl */ `
-precision highp float;
-uniform float uTime;
-varying float vRim;
-void main() {
-  vec3 cyan = vec3(0.0, 0.8, 1.0);
-  vec3 magenta = vec3(1.0, 0.0, 0.6);
-  float glow = 1.0 + 0.12 * sin(uTime * 1.4);
-  vec3 col = mix(cyan, magenta, clamp(vRim, 0.0, 1.0)) * glow;
-  gl_FragColor = vec4(col, 0.92);
-}
-`;
-
-/* ---------------------------------------------------------------------------
- * (c) Particles — point sprites in CSS-pixel space (same math as
- * museum-particles: clip = pos/res * 2 - 1, y flipped). Soft round points,
- * additive blend.
- * ------------------------------------------------------------------------- */
-
-const PARTICLES_VERTEX = /* glsl */ `
-attribute vec2 aPosition;
-attribute vec3 aColor;
-attribute float aSize;
-uniform vec2 uResolution;
-uniform float uTime;
-varying vec3 vColor;
-void main() {
-  vec2 clip = (aPosition / uResolution) * 2.0 - 1.0;
-  clip.y = -clip.y;
-  gl_Position = vec4(clip, 0.0, 1.0);
-  float pulse = 1.0 + 0.35 * sin(uTime * 1.5 + aPosition.x * 0.01);
-  gl_PointSize = aSize * pulse;
-  vColor = aColor;
-}
-`;
-
-const PARTICLES_FRAGMENT = /* glsl */ `
-precision mediump float;
-varying vec3 vColor;
-void main() {
-  vec2 c = gl_PointCoord - vec2(0.5);
-  float d = length(c);
-  if (d > 0.5) discard;
-  float alpha = (1.0 - d * 2.0) * 0.45;
-  gl_FragColor = vec4(vColor, alpha);
-}
-`;
-
-/** Green / gold / cyan speck palette (design: particle field of these). */
-const PARTICLE_COLORS: ReadonlyArray<readonly [number, number, number]> = [
-  [0.25, 0.95, 0.55], // green
-  [1.0, 0.78, 0.25], // gold
-  [0.3, 0.9, 1.0], // cyan
-];
-
-/* ---------------------------------------------------------------------------
- * Theme helpers — copied from shader-hero (pure + exported for tests).
- * ------------------------------------------------------------------------- */
-
-/** hsl(triplet like "37 90% 55%") -> rgb 0..1. Pure + exported for tests. */
-export function hslToRgb(
-  h: number,
-  s: number,
-  l: number
-): [number, number, number] {
-  const hn = (((h % 360) + 360) % 360) / 360;
-  const sn = Math.min(Math.max(s, 0), 100) / 100;
-  const ln = Math.min(Math.max(l, 0), 100) / 100;
-  if (sn === 0) return [ln, ln, ln];
-  const q = ln < 0.5 ? ln * (1 + sn) : ln + sn - ln * sn;
-  const p = 2 * ln - q;
-  const hue2rgb = (t: number) => {
-    let tt = t;
-    if (tt < 0) tt += 1;
-    if (tt > 1) tt -= 1;
-    if (tt < 1 / 6) return p + (q - p) * 6 * tt;
-    if (tt < 1 / 2) return q;
-    if (tt < 2 / 3) return p + (q - p) * (2 / 3 - tt) * 6;
-    return p;
-  };
-  return [hue2rgb(hn + 1 / 3), hue2rgb(hn), hue2rgb(hn - 1 / 3)];
-}
-
-/** Read an HSL triplet CSS var off <html> (theme tokens). */
-function readCssHsl(
-  varName: string,
-  fallback: [number, number, number]
-): [number, number, number] {
-  try {
-    const raw = getComputedStyle(document.documentElement)
-      .getPropertyValue(varName)
-      .trim();
-    const parts = raw.split(/\s+/).map((part) => parseFloat(part));
-    if (parts.length === 3 && parts.every((n) => !Number.isNaN(n))) {
-      return hslToRgb(parts[0], parts[1], parts[2]);
-    }
-  } catch {
-    // getComputedStyle can throw in odd embedded contexts — fall through.
-  }
-  return fallback;
-}
-
-/** Component-wise lerp for the green retint below. */
-function mixVec(
-  a: readonly [number, number, number],
-  b: readonly [number, number, number],
-  t: number
-): [number, number, number] {
-  return [
-    a[0] + (b[0] - a[0]) * t,
-    a[1] + (b[1] - a[1]) * t,
-    a[2] + (b[2] - a[2]) * t,
-  ];
-}
-
-export function VoidScene(): JSX.Element | null {
+export function VoidScene() {
   const reducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<Mode>("idle");
 
-  // Gates: same order as shader-hero — suspension first, then mobile, then
-  // the live scene.
+  // Decide the mode up-front so the SSR + first client render stay null.
   useEffect(() => {
     if (reducedMotion) {
       setMode("suspended");
@@ -314,54 +99,59 @@ export function VoidScene(): JSX.Element | null {
 
     let cancelled = false;
     let rafId = 0;
-    let renderer: any = null;
-    let scene: any = null;
-    let canvas: HTMLCanvasElement | null = null;
+    let renderer: any;
+    let composer: any;
+    let scene: any;
+    let camera: any;
     let onVisibility: (() => void) | null = null;
     let onPointerMove: (() => void) | null = null;
     let onContextLost: ((e: Event) => void) | null = null;
     let onContextRestored: (() => void) | null = null;
     let resizeObserver: ResizeObserver | null = null;
     let paused = false;
-    let loopErrorLogged = false;
-    let lastActivityAt = performance.now();
-    let lastT = 0;
-    let dt = 0;
     let contextLost = false;
-
-    // Viewport dims in CSS px, kept current by the ResizeObserver.
-    const size = { w: 0, h: 0 };
-    // Programs we own — uTime is pushed to each one every frame.
-    const programs: any[] = [];
+    let lastActivityAt = performance.now();
+    // Clock for animation; created once three is imported.
+    let clock: any;
 
     const startLoop = () => {
       if (cancelled || contextLost) return;
       paused = false;
-      const loop = (t: number) => {
+      const loop = () => {
         if (cancelled || paused) return;
         try {
-          dt = Math.min(0.1, (t - lastT) / 1000);
-          lastT = t;
-          const time = t / 1000;
-          for (const program of programs) {
-            if (program.uniforms.uTime) {
-              program.uniforms.uTime.value = time;
+          const t = clock.getElapsedTime();
+          // Animate portal: counter-rotating rings, pulsing core.
+          const core = scene.getObjectByName("portal-core");
+          const ringOuter = scene.getObjectByName("ring-outer");
+          const ringInner = scene.getObjectByName("ring-inner");
+          if (core) {
+            core.rotation.x = t * 0.3;
+            core.rotation.y = t * 0.4;
+            const pulse = 1 + 0.06 * Math.sin(t * 1.5);
+            core.scale.setScalar(pulse);
+          }
+          if (ringOuter) {
+            ringOuter.rotation.z = t * 0.14;
+            const m = ringOuter.material;
+            if (m?.color) {
+              // Cyan → magenta drift around the rim.
+              const k = 0.5 + 0.5 * Math.sin(t * 0.4);
+              m.color.setRGB(0.0 + k * 1.0, 0.8 - k * 0.8, 1.0 - k * 0.4);
             }
           }
-          stepParticles(time);
-          renderer.render({ scene });
-        } catch (err) {
-          // One bad frame must never take the tab down; loop keeps going.
-          if (!loopErrorLogged) {
-            loopErrorLogged = true;
-            // eslint-disable-next-line no-console
-            console.error("[void-scene] render loop error:", err);
+          if (ringInner) {
+            ringInner.rotation.z = -t * 0.22;
           }
+          // composer.render() wrapper syncs all shader uniforms (glow,
+          // particles, aurora) from the clock before rendering.
+          composer.render();
+        } catch {
+          // One bad frame must never take the tab down; loop keeps going.
         }
-        // Ambient idle-park: no pointer activity for VOID_IDLE_MS → stop
-        // scheduling frames. Any pointer move (or visibility change) wakes
-        // the loop via the listeners below.
-        if (performance.now() - lastActivityAt > VOID_IDLE_MS) {
+        // Ambient: stay alive for VOID_ALWAYS_ON_MS after last activity, then
+        // park. Any pointer move (or visibility resume) bumps lastActivityAt.
+        if (performance.now() - lastActivityAt > VOID_ALWAYS_ON_MS) {
           paused = true;
           return;
         }
@@ -375,55 +165,8 @@ export function VoidScene(): JSX.Element | null {
       cancelAnimationFrame(rafId);
     };
 
-    // ---------------------------------------------------------------------
-    // Particle physics — CPU side, museum-particles style. Positions live in
-    // CSS pixels; the shader maps them to clip space via uResolution.
-    // ---------------------------------------------------------------------
-    const particleData = {
-      positions: new Float32Array(PARTICLE_COUNT * 2),
-      velocities: new Float32Array(PARTICLE_COUNT * 2),
-      phases: new Float32Array(PARTICLE_COUNT),
-    };
-    let particleGeometry: any = null;
-
-    /** Reset particle i at the portal center with a downward burst velocity
-     * (the "constellation collapsing into a fountain" feed). */
-    const spawnParticle = (i: number) => {
-      const spread = Math.min(size.w, size.h) * 0.04;
-      const angle = Math.random() * Math.PI * 2;
-      particleData.positions[i * 2] = size.w / 2 + Math.cos(angle) * spread;
-      particleData.positions[i * 2 + 1] =
-        size.h / 2 + Math.random() * size.h * 0.05;
-      particleData.velocities[i * 2] = (Math.random() - 0.5) * 10;
-      particleData.velocities[i * 2 + 1] = -(14 + Math.random() * 34);
-      particleData.phases[i] = Math.random() * Math.PI * 2;
-    };
-
-    const stepParticles = (time: number) => {
-      const pos = particleData.positions;
-      const vel = particleData.velocities;
-      const phases = particleData.phases;
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const x = i * 2;
-        const y = i * 2 + 1;
-        // Slow horizontal wander keeps the stream organic.
-        pos[x] += vel[x] * dt + Math.sin(time * 0.6 + phases[i]) * 10 * dt;
-        pos[y] += vel[y] * dt;
-        // Toroidal wrap: X wraps at the screen edges; anything that falls
-        // out of the viewport re-enters at the portal (the fountain feed).
-        if (pos[y] < -PARTICLE_MARGIN || pos[y] > size.h + PARTICLE_MARGIN) {
-          spawnParticle(i);
-        }
-        if (pos[x] < -PARTICLE_MARGIN) pos[x] += size.w + PARTICLE_MARGIN * 2;
-        else if (pos[x] > size.w + PARTICLE_MARGIN) {
-          pos[x] -= size.w + PARTICLE_MARGIN * 2;
-        }
-      }
-      particleGeometry.updateAttribute(particleGeometry.attributes.aPosition);
-    };
-
     (async () => {
-      // Cheap capability probe BEFORE pulling in ogl (~29KB chunk).
+      // Cheap capability probe BEFORE pulling in three (~600KB chunk).
       const probe = document.createElement("canvas");
       const hasWebGL =
         typeof probe.getContext === "function" &&
@@ -434,251 +177,277 @@ export function VoidScene(): JSX.Element | null {
       }
 
       try {
-        const {
-          Renderer,
-          Program,
-          Mesh,
-          Triangle,
-          Vec3,
-          Vec2,
-          Geometry,
-          Transform,
-        } = await import("ogl");
+        // Dynamic import keeps three out of the main bundle.
+        const THREE = await import("three");
+        const { EffectComposer } =
+          await import("three/examples/jsm/postprocessing/EffectComposer.js");
+        const { RenderPass } =
+          await import("three/examples/jsm/postprocessing/RenderPass.js");
+        const { UnrealBloomPass } =
+          await import("three/examples/jsm/postprocessing/UnrealBloomPass.js");
+        const { OutputPass } =
+          await import("three/examples/jsm/postprocessing/OutputPass.js");
 
-        /** Build an explicit LINE-pair ring geometry (no index buffer — the
-         * loop is closed by emitting both endpoints of every segment). */
-        const buildRingGeometry = (
-          gl: any,
-          ring: Array<{ radius: number; segments: number }>
-        ) => {
-          const positions: number[] = [];
-          const rims: number[] = [];
-          for (const { radius, segments } of ring) {
-            for (let i = 0; i < segments; i++) {
-              const a0 = (i / segments) * Math.PI * 2;
-              const a1 = ((i + 1) / segments) * Math.PI * 2;
-              const rim0 = 0.5 + 0.5 * Math.sin(a0);
-              const rim1 = 0.5 + 0.5 * Math.sin(a1);
-              positions.push(
-                Math.cos(a0) * radius,
-                Math.sin(a0) * radius,
-                Math.cos(a1) * radius,
-                Math.sin(a1) * radius
-              );
-              rims.push(rim0, rim1);
-            }
-          }
-          return new Geometry(gl, {
-            position: { size: 2, data: new Float32Array(positions) },
-            aRim: { size: 1, data: new Float32Array(rims) },
-          });
-        };
+        if (cancelled) return;
 
-        /** Faceted core mark: hexagon + spokes out to the inner ring. */
-        const buildCoreGeometry = (gl: any) => {
-          const positions: number[] = [];
-          const rims: number[] = [];
-          const hexR = PORTAL_RADIUS * 0.3;
-          const innerR = PORTAL_RADIUS * 0.64;
-          const hex: Array<[number, number]> = [];
-          for (let i = 0; i < 6; i++) {
-            const a = (i / 6) * Math.PI * 2;
-            hex.push([Math.cos(a) * hexR, Math.sin(a) * hexR]);
-          }
-          // Hexagon edges.
-          for (let i = 0; i < 6; i++) {
-            const [x0, y0] = hex[i];
-            const [x1, y1] = hex[(i + 1) % 6];
-            const rim = 0.5 + 0.5 * Math.sin((i / 6) * Math.PI * 2);
-            positions.push(x0, y0, x1, y1);
-            rims.push(rim, rim);
-          }
-          // Spokes from each vertex out to the inner ring.
-          for (let i = 0; i < 6; i++) {
-            const a = (i / 6) * Math.PI * 2;
-            const [x0, y0] = hex[i];
-            const rim = 0.5 + 0.5 * Math.sin(a);
-            positions.push(x0, y0, Math.cos(a) * innerR, Math.sin(a) * innerR);
-            rims.push(rim, rim);
-          }
-          return new Geometry(gl, {
-            position: { size: 2, data: new Float32Array(positions) },
-            aRim: { size: 1, data: new Float32Array(rims) },
-          });
-        };
-        canvas = document.createElement("canvas");
+        clock = new THREE.Clock();
+        const w = container.clientWidth || window.innerWidth;
+        const h = container.clientHeight || window.innerHeight;
+
+        const canvas = document.createElement("canvas");
         canvas.className = "void-canvas";
         canvas.setAttribute("aria-hidden", "true");
 
-        renderer = new Renderer({
+        renderer = new THREE.WebGLRenderer({
           canvas,
-          dpr: Math.min(window.devicePixelRatio || 1, MAX_DPR),
           alpha: true,
           antialias: false,
-          depth: false,
-          stencil: false,
           powerPreference: "low-power",
         });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_DPR));
+        renderer.setSize(w, h);
+        renderer.setClearColor(0x000000, 0); // transparent — page bg shows through
 
-        // ogl's Renderer defaults to 300x150 and writes inline px styles
-        // that override `.void-canvas { width/height: 100% }` in globals.css.
-        // Pin the canvas to the container via a ResizeObserver on the
-        // CONTAINER (bug-#204 lesson: window resize misses layout shifts).
-        const setCanvasSize = () => {
-          const w = container.clientWidth;
-          const h = container.clientHeight;
-          renderer.setSize(w, h);
-          size.w = w;
-          size.h = h;
-          const aspect = h > 0 ? w / h : 1;
-          for (const program of programs) {
-            if (program.uniforms.uAspect)
-              program.uniforms.uAspect.value = aspect;
-            if (program.uniforms.uResolution) {
-              program.uniforms.uResolution.value = new Vec2(
-                Math.max(w, 1),
-                Math.max(h, 1)
-              );
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+        camera.position.set(0, 0, 5);
+
+        // ── (a) PORTAL ────────────────────────────────────────────────────
+        // Faceted icosahedron core (flat-shaded, emissive cyan) — the
+        // "faceted geometric mark at its core" from the design doc.
+        const coreGeo = new THREE.IcosahedronGeometry(PORTAL_RADIUS * 0.4, 0);
+        const coreMat = new THREE.MeshBasicMaterial({
+          color: 0x66e6ff,
+          wireframe: true,
+          transparent: true,
+          opacity: 1.0,
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        core.name = "portal-core";
+        scene.add(core);
+
+        // Outer ring — solid torus, emissive, counter-rotates. Thick tube so
+        // the rim reads as a chunky luminous band once bloomed.
+        const outerGeo = new THREE.TorusGeometry(PORTAL_RADIUS, 0.045, 16, 160);
+        const outerMat = new THREE.MeshBasicMaterial({
+          color: 0x00ccff,
+          transparent: true,
+          opacity: 1.0,
+        });
+        const ringOuter = new THREE.Mesh(outerGeo, outerMat);
+        ringOuter.name = "ring-outer";
+        scene.add(ringOuter);
+
+        // Inner ring — thinner, counter-rotates, offset magenta.
+        const innerGeo = new THREE.TorusGeometry(
+          PORTAL_RADIUS * 0.66,
+          0.028,
+          12,
+          120
+        );
+        const innerMat = new THREE.MeshBasicMaterial({
+          color: 0xff0099,
+          transparent: true,
+          opacity: 0.95,
+        });
+        const ringInner = new THREE.Mesh(innerGeo, innerMat);
+        ringInner.name = "ring-inner";
+        scene.add(ringInner);
+
+        // A soft additive glow disc behind the rings so the portal reads as
+        // emanating light, not just an outline. Larger + brighter so the bloom
+        // has something to grab onto for a real halo.
+        const glowGeo = new THREE.CircleGeometry(PORTAL_RADIUS * 1.6, 64);
+        const glowMat = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          uniforms: { uTime: { value: 0 } },
+          vertexShader: /* glsl */ `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
             }
-          }
-        };
-        setCanvasSize();
-        if (typeof ResizeObserver !== "undefined") {
-          resizeObserver = new ResizeObserver(setCanvasSize);
-          resizeObserver.observe(container);
-        }
-
-        const gl = renderer.gl;
-
-        // Aurora colors: the design fixes the wash as green, so the palette
-        // is a dim teal-green / near-black / cyan-hint identity, softened
-        // only 20% toward whatever the theme tokens say.
-        const GREEN_A: [number, number, number] = [0.028, 0.14, 0.1];
-        const GREEN_B: [number, number, number] = [0.004, 0.032, 0.02];
-        const GREEN_C: [number, number, number] = [0.02, 0.1, 0.14];
-        const colorA = mixVec(readCssHsl("--primary", GREEN_A), GREEN_A, 0.8);
-        const colorB = mixVec(readCssHsl("--accent", GREEN_B), GREEN_B, 0.8);
-        const colorC = mixVec(
-          readCssHsl("--background", GREEN_C),
-          GREEN_C,
-          0.8
-        );
-
-        // (a) Aurora wash — full-screen fbm triangle behind everything.
-        const auroraProgram = new Program(gl, {
-          vertex: AURORA_VERTEX,
-          fragment: AURORA_FRAGMENT,
-          transparent: true,
-          depthTest: false,
-          uniforms: {
-            uTime: { value: 0 },
-            uColorA: { value: new Vec3(...colorA) },
-            uColorB: { value: new Vec3(...colorB) },
-            uColorC: { value: new Vec3(...colorC) },
-          },
+          `,
+          fragmentShader: /* glsl */ `
+            precision highp float;
+            varying vec2 vUv;
+            uniform float uTime;
+            void main() {
+              float d = distance(vUv, vec2(0.5));
+              float glow = smoothstep(0.5, 0.0, d);
+              glow = pow(glow, 1.6);
+              vec3 cyan = vec3(0.0, 0.85, 1.0);
+              vec3 magenta = vec3(1.0, 0.0, 0.65);
+              vec3 col = mix(cyan, magenta, 0.5 + 0.5 * sin(uTime * 0.5));
+              float pulse = 0.75 + 0.2 * sin(uTime * 1.4);
+              gl_FragColor = vec4(col * glow * pulse, glow);
+            }
+          `,
         });
-        const auroraMesh = new Mesh(gl, {
-          geometry: new Triangle(gl),
-          program: auroraProgram,
-          renderOrder: 0,
-        });
+        const glow = new THREE.Mesh(glowGeo, glowMat);
+        glow.name = "portal-glow";
+        scene.add(glow);
 
-        // (b) Portal — outer rim + inner ring rotate one way; the faceted
-        // hexagon core rotates the other. Both additive for a soft glow.
-        const portalProgram = (speed: number) =>
-          new Program(gl, {
-            vertex: PORTAL_VERTEX,
-            fragment: PORTAL_FRAGMENT,
-            transparent: true,
-            depthTest: false,
-            uniforms: {
-              uTime: { value: 0 },
-              uAspect: { value: 1 },
-              uSpeed: { value: speed },
-            },
-          });
-        const outerProgram = portalProgram(0.14);
-        outerProgram.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
-        const coreProgram = portalProgram(-0.22);
-        coreProgram.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
-        const portalOuterMesh = new Mesh(gl, {
-          geometry: buildRingGeometry(gl, [
-            { radius: PORTAL_RADIUS, segments: 96 },
-            { radius: PORTAL_RADIUS * 0.64, segments: 64 },
-          ]),
-          program: outerProgram,
-          mode: gl.LINES,
-          renderOrder: 1,
-        });
-        const portalCoreMesh = new Mesh(gl, {
-          geometry: buildCoreGeometry(gl),
-          program: coreProgram,
-          mode: gl.LINES,
-          renderOrder: 2,
-        });
-
-        // (c) Particles — 300 point sprites, CPU physics.
-        const particlesProgram = new Program(gl, {
-          vertex: PARTICLES_VERTEX,
-          fragment: PARTICLES_FRAGMENT,
-          transparent: true,
-          depthTest: false,
-          uniforms: {
-            uTime: { value: 0 },
-            uResolution: {
-              value: new Vec2(Math.max(size.w, 1), Math.max(size.h, 1)),
-            },
-          },
-        });
-        particlesProgram.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+        // ── (b) PARTICLES ─────────────────────────────────────────────────
+        // Dense downward fountain from the portal center. Positions and
+        // velocities on the CPU (one-time upload), motion on the GPU via a
+        // time-driven y-fall in the vertex shader. Additive, soft round points.
+        const positions = new Float32Array(PARTICLE_COUNT * 3);
         const colors = new Float32Array(PARTICLE_COUNT * 3);
-        const sizes = new Float32Array(PARTICLE_COUNT);
+        const seeds = new Float32Array(PARTICLE_COUNT);
+        const palette = [
+          [0.2, 1.0, 0.4], // green
+          [1.0, 0.8, 0.2], // gold
+          [0.2, 0.9, 1.0], // cyan
+        ];
         for (let i = 0; i < PARTICLE_COUNT; i++) {
-          const [r, g, b] =
-            PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
-          colors[i * 3] = r;
-          colors[i * 3 + 1] = g;
-          colors[i * 3 + 2] = b;
-          // Point sizes are in device pixels; scale by dpr so specks keep
-          // the same visual size on high-DPI screens.
-          sizes[i] = (1.6 + Math.random() * 1.8) * (renderer.dpr || 1);
-          spawnParticle(i);
+          const angle = Math.random() * Math.PI * 2;
+          const radius = Math.random() * 0.15;
+          positions[i * 3] = Math.cos(angle) * radius;
+          positions[i * 3 + 1] = Math.random() * 0.4; // start near core
+          positions[i * 3 + 2] = (Math.random() - 0.5) * 0.3;
+          const c = palette[Math.floor(Math.random() * palette.length)];
+          colors[i * 3] = c[0];
+          colors[i * 3 + 1] = c[1];
+          colors[i * 3 + 2] = c[2];
+          seeds[i] = Math.random();
         }
-        particleGeometry = new Geometry(gl, {
-          aPosition: {
-            size: 2,
-            data: particleData.positions,
-            usage: gl.DYNAMIC_DRAW,
-          },
-          aColor: { size: 3, data: colors },
-          aSize: { size: 1, data: sizes },
-        });
-        const particlesMesh = new Mesh(gl, {
-          geometry: particleGeometry,
-          program: particlesProgram,
-          mode: gl.POINTS,
-          renderOrder: 3,
-        });
+        const pGeo = new THREE.BufferGeometry();
+        pGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        pGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+        pGeo.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
 
-        // One scene graph, one render call per frame (ogl sorts children by
-        // renderOrder: aurora → portal outer → portal core → particles).
-        scene = new Transform();
-        scene.addChild(auroraMesh);
-        scene.addChild(portalOuterMesh);
-        scene.addChild(portalCoreMesh);
-        scene.addChild(particlesMesh);
-
-        programs.push(
-          auroraProgram,
-          outerProgram,
-          coreProgram,
-          particlesProgram
+        const pMat = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          uniforms: { uTime: { value: 0 } },
+          vertexShader: /* glsl */ `
+            attribute float aSeed;
+            varying vec3 vColor;
+            varying float vAlpha;
+            uniform float uTime;
+            void main() {
+              vColor = color;
+              // Each particle falls on its own clock; wraps to reuse the pool.
+              float life = 4.0;
+              float t = mod(uTime * 0.5 + aSeed * life, life);
+              float fall = t / life; // 0..1
+              vec3 pos = position;
+              pos.y -= fall * 3.0; // downward fountain
+              pos.x += sin(uTime * 0.6 + aSeed * 30.0) * 0.15 * fall;
+              pos.z += cos(uTime * 0.5 + aSeed * 20.0) * 0.12 * fall;
+              vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+              gl_PointSize = (18.0 + aSeed * 22.0) * (1.0 / -mv.z);
+              gl_Position = projectionMatrix * mv;
+              // Fade in then out over the particle's life.
+              vAlpha = sin(fall * 3.14159) * 1.0;
+            }
+          `,
+        });
+        pMat.vertexColors = true;
+        const pFrag = /* glsl */ `
+            precision highp float;
+            varying vec3 vColor;
+            varying float vAlpha;
+            void main() {
+              // Soft round point.
+              float d = distance(gl_PointCoord, vec2(0.5));
+              if (d > 0.5) discard;
+              float a = smoothstep(0.5, 0.0, d) * vAlpha;
+              gl_FragColor = vec4(vColor, a);
+            }
+          `;
+        // ShaderMaterial needs fragmentShader set explicitly.
+        (pMat as any).fragmentShader = pFrag;
+        const particles = new THREE.Points(pGeo, pMat);
+        particles.name = "particles";
+        // vertexColors flag already drives `color` attribute; ensure it's used.
+        particles.geometry.setAttribute(
+          "color",
+          new THREE.BufferAttribute(colors, 3)
         );
+        scene.add(particles);
 
-        // Re-pin now that every program exists — the first setCanvasSize ran
-        // before the uniforms were registered, so uAspect/uResolution would
-        // otherwise sit at their defaults until the first resize.
-        setCanvasSize();
+        // ── (c) AURORA ────────────────────────────────────────────────────
+        // Full-screen background plane running a faint fbm wash, top-left
+        // corner falloff. Behind everything (renderOrder + depthTest false).
+        const auroraGeo = new THREE.PlaneGeometry(2, 2);
+        const auroraMat = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          depthTest: false,
+          uniforms: { uTime: { value: 0 } },
+          vertexShader: /* glsl */ `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = vec4(position.xy, 0.0, 1.0); // full-screen
+            }
+          `,
+          fragmentShader: /* glsl */ `
+            precision highp float;
+            varying vec2 vUv;
+            uniform float uTime;
+            float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+            float noise(vec2 p){
+              vec2 i=floor(p); vec2 f=fract(p);
+              f=f*f*(3.0-2.0*f);
+              return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),
+                         mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
+            }
+            float fbm(vec2 p){
+              float v=0.0; float a=0.5;
+              for(int i=0;i<5;i++){v+=a*noise(p);p*=2.0;a*=0.5;}
+              return v;
+            }
+            void main(){
+              vec2 p=vUv;
+              vec2 q=vec2(fbm(p+uTime*0.07),fbm(p+vec2(5.2,1.3)+uTime*0.05));
+              vec2 r=vec2(fbm(p+4.0*q+vec2(1.7,9.2)+uTime*0.04),
+                          fbm(p+4.0*q+vec2(8.3,2.8)+uTime*0.03));
+              float f=fbm(p+4.0*r);
+              // Faint teal-green aurora; UV origin bottom-left so (1-x)*y
+              // peaks at the top-left corner.
+              float corner=smoothstep(0.0,0.85,(1.0-vUv.x)*vUv.y);
+              vec3 greenA=vec3(0.05,0.35,0.22);
+              vec3 greenB=vec3(0.02,0.12,0.08);
+              vec3 col=mix(greenA,greenB,clamp(f*f*1.6,0.0,1.0));
+              gl_FragColor=vec4(col,corner*0.6);
+            }
+          `,
+        });
+        const aurora = new THREE.Mesh(auroraGeo, auroraMat);
+        aurora.name = "aurora";
+        aurora.renderOrder = -1;
+        scene.add(aurora);
+
+        // ── POST-PROCESSING: bloom (the premium glow) ─────────────────────
+        composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        const bloom = new UnrealBloomPass(
+          new THREE.Vector2(w, h),
+          1.6, // strength — generous, the reference is genuinely luminous
+          0.8, // radius — wider halo
+          0.0 // threshold — bloom everything emissive
+        );
+        composer.addPass(bloom);
+        composer.addPass(new OutputPass());
+        composer.setSize(w, h);
+        composer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_DPR));
+
+        // Keep the glow + aurora uniforms in sync with time. The core/ring
+        // animation reads from the scene graph (handled in the loop above);
+        // these shader-material uniforms need explicit writes.
+        const shaderUniforms = [
+          glowMat.uniforms.uTime,
+          pMat.uniforms.uTime,
+          auroraMat.uniforms.uTime,
+        ];
+        // Stash for the loop.
+        (scene as any).userData.shaderUniforms = shaderUniforms;
 
         container.appendChild(canvas);
 
@@ -687,43 +456,62 @@ export function VoidScene(): JSX.Element | null {
           return;
         }
 
-        // Context loss: prevent the default (which would kill the buffer),
-        // stop the loop, and degrade one-way to the static CSS fallback for
-        // the session — see the header comment for the rationale.
+        // ── RESIZE ────────────────────────────────────────────────────────
+        const onResize = () => {
+          const nw = container.clientWidth || window.innerWidth;
+          const nh = container.clientHeight || window.innerHeight;
+          camera.aspect = nw / nh;
+          camera.updateProjectionMatrix();
+          renderer.setSize(nw, nh);
+          composer.setSize(nw, nh);
+        };
+        if (typeof ResizeObserver !== "undefined") {
+          resizeObserver = new ResizeObserver(onResize);
+          resizeObserver.observe(container);
+        }
+
+        // ── CONTEXT LOSS ──────────────────────────────────────────────────
         onContextLost = (e: Event) => {
           e.preventDefault();
           contextLost = true;
           stopLoop();
-          setMode("static");
+          if (!cancelled) setMode("static");
         };
         onContextRestored = () => {
-          // Deliberate no-op: we stay in "static" after a loss. Rebuilding
-          // all three programs after a GPU reset is a lot of surface for a
-          // rare event; the CSS fallback is safe and looks intentional.
+          // Deliberate no-op — see header comment (8).
         };
         canvas.addEventListener("webglcontextlost", onContextLost);
         canvas.addEventListener("webglcontextrestored", onContextRestored);
 
+        // ── VISIBILITY + ACTIVITY ─────────────────────────────────────────
         onVisibility = () => {
           if (document.hidden) {
             stopLoop();
           } else {
+            lastActivityAt = performance.now();
             startLoop();
           }
         };
         document.addEventListener("visibilitychange", onVisibility);
 
-        // Ambient wake: any pointer move bumps the idle clock and restarts a
-        // parked loop. Lives on `window` — the container is
-        // pointer-events-none, and the scene spans the whole viewport.
         onPointerMove = () => {
           lastActivityAt = performance.now();
           if (paused && !document.hidden) startLoop();
         };
         window.addEventListener("pointermove", onPointerMove);
 
+        // Sync shader time uniforms each frame via a tiny wrapper on loop:
+        // (the loop already advances these; wire the hook here for clarity)
+        const origRender = composer.render.bind(composer);
+        composer.render = () => {
+          const t = clock.getElapsedTime();
+          for (const u of shaderUniforms) u.value = t;
+          origRender();
+        };
+
         startLoop();
       } catch {
+        // Any init failure (GPU reset mid-init, OOM, bad context) → static.
         if (!cancelled) setMode("static");
       }
     })();
@@ -731,29 +519,44 @@ export function VoidScene(): JSX.Element | null {
     return () => {
       cancelled = true;
       stopLoop();
-      if (onVisibility) {
+      if (onVisibility)
         document.removeEventListener("visibilitychange", onVisibility);
-      }
-      if (onPointerMove) {
+      if (onPointerMove)
         window.removeEventListener("pointermove", onPointerMove);
+      if (onContextLost && renderer?.domElement) {
+        renderer.domElement.removeEventListener(
+          "webglcontextlost",
+          onContextLost
+        );
       }
-      if (canvas && onContextLost) {
-        canvas.removeEventListener("webglcontextlost", onContextLost);
+      if (onContextRestored && renderer?.domElement) {
+        renderer.domElement.removeEventListener(
+          "webglcontextrestored",
+          onContextRestored
+        );
       }
-      if (canvas && onContextRestored) {
-        canvas.removeEventListener("webglcontextrestored", onContextRestored);
-      }
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
-      if (canvas && container.contains(canvas)) {
-        container.removeChild(canvas);
-      }
-      // Let the GPU reclaim the context promptly.
+      if (resizeObserver) resizeObserver.disconnect();
+      // Dispose three resources to avoid GPU leaks.
       try {
-        renderer?.gl?.getExtension("WEBGL_lose_context")?.loseContext();
+        scene?.traverse((obj: any) => {
+          if (obj.geometry) obj.geometry.dispose?.();
+          if (obj.material) {
+            if (Array.isArray(obj.material))
+              obj.material.forEach((m: any) => m.dispose?.());
+            else obj.material.dispose?.();
+          }
+        });
+        composer?.dispose?.();
+        renderer?.dispose?.();
       } catch {
-        // Context may already be gone — nothing to do.
+        // Best-effort — context may already be gone.
+      }
+      const canvas = container.querySelector("canvas");
+      if (canvas && container.contains(canvas)) container.removeChild(canvas);
+      try {
+        renderer?.forceContextLoss?.();
+      } catch {
+        // Context may already be gone.
       }
     };
   }, [mode]);
