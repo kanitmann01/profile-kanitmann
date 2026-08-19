@@ -31,6 +31,12 @@ describe("BentoExperienceCard", () => {
     render(<BentoExperienceCard experiences={homeExperiences} />);
     expect(screen.getAllByText("Ericsson").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("NetSTAR Global")).toBeInTheDocument();
-    expect(screen.getByText("Trikon Technologies")).toBeInTheDocument();
+    expect(screen.getByText("Coforge")).toBeInTheDocument();
+    expect(screen.getByText("Invisible Technologies")).toBeInTheDocument();
+    expect(screen.getByText("Mercor")).toBeInTheDocument();
+    // Trikon Technologies and Syolo Consulting are featured on the data file
+    // but fall outside the top-5 slice the compact card renders.
+    expect(screen.queryByText("Trikon Technologies")).not.toBeInTheDocument();
+    expect(screen.queryByText("Syolo Consulting")).not.toBeInTheDocument();
   });
 });
