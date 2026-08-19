@@ -7,10 +7,11 @@
 ## Identity
 
 - **KEN (KANIT) MANN**: Canonical name format. Nickname first (KEN) with legal name in parentheses for search discoverability.
+- **Current role**: Associate Forward Deployed Engineer at Coforge (Full-time, On-site, Princeton NJ, Aug 2026–Present, Momentuum Blue team). Not seeking roles — surfaces state status, not availability.
 
 ## Experience
 
-- **WorkType**: Discriminated union — `"Full-time" | "Part-time" | "Internship" | "Contract"`. Apprenticeships are classified as `"Internship"`.
+- **WorkType**: Discriminated union — `"Full-time" | "Part-time" | "Internship" | "Contract" | "Apprenticeship"`. Apprenticeships (e.g. NetSTAR) carry their own literal.
 
 ## Architecture
 
