@@ -2,7 +2,8 @@
  * Content for the /now page (build-time static).
  *
  * "Currently building" and "Reading" are free text — edit this file directly.
- * "Available for" mirrors the site's hero/contact positioning. The page's
+ * "Available for" states the current availability status and still pairs
+ * with the site's hero/contact positioning. The page's
  * "Last updated" timestamp is stamped at build time, not stored here.
  */
 export type NowReading = {
@@ -29,5 +30,5 @@ export const now = {
     },
   ],
   availableFor:
-    "Full-time Data, ML & AI engineering roles — and open to contract and consulting engagements.",
+    "Nothing right now — I'm full-time as an Associate Forward Deployed Engineer at Coforge. Open to interesting conversations, just not job opportunities.",
 } as const;

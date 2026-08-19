@@ -39,6 +39,27 @@ export type Experience = {
 
 export const experiences: Experience[] = [
   {
+    id: "coforge",
+    company: "Coforge",
+    position: "Associate Forward Deployed Engineer",
+    type: "Full-time",
+    location: "Princeton, New Jersey, United States",
+    startDate: "Aug 2026",
+    endDate: "Present",
+    duration: "1 mo",
+    workMode: "On-site",
+    description:
+      "Building and optimizing advanced AI orchestration and multi-agent development frameworks on Coforge's Momentuum Blue team. Designing cost-efficient API deployment strategies, local large language model (LLM) execution, and prompt caching optimizations to drive enterprise AI solutions.",
+    skills: [
+      "AI Orchestration",
+      "Multi-Agent Systems",
+      "LLM Deployment",
+      "Prompt Caching",
+      "Enterprise AI",
+    ],
+    featuredOnHome: true,
+  },
+  {
     id: "invisible-technologies",
     company: "Invisible Technologies",
     position: "AI Evaluator and Trainer",
