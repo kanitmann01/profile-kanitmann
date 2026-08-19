@@ -133,11 +133,11 @@ export async function GET() {
   parts.push("## Bio");
   parts.push("");
   parts.push(
-    "Data, ML & AI Engineer with 3+ years of production experience spanning cloud infrastructure, machine learning, and data pipelines — from migrating 2,000 servers at Ericsson to building real-time analytics systems. Master of Science in Data Science, University of Arizona (GPA 3.75)."
+    "Data, ML & AI Engineer with 3+ years of production experience spanning cloud infrastructure, machine learning, and data pipelines — from migrating 2,000 servers at Ericsson to building real-time analytics systems. Currently an Associate Forward Deployed Engineer at Coforge (Princeton, NJ), building AI orchestration and multi-agent frameworks on the Momentuum Blue team. Master of Science in Data Science, University of Arizona (GPA 3.75)."
   );
   parts.push("");
   parts.push(
-    "Started in firmware and full-stack web development before moving into data science, combining an engineering background with a passion for building intelligent solutions from complex algorithms and practical applications. Recently completed the MS in Data Science and is ready to put machine learning and visualization to work on products people actually use."
+    "Started in firmware and full-stack web development before moving into data science, combining an engineering background with a passion for building intelligent solutions from complex algorithms and practical applications. Recently completed the MS in Data Science and now puts machine learning and visualization to work on enterprise AI at Coforge."
   );
   parts.push("");
 

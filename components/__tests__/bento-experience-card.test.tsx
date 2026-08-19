@@ -31,6 +31,14 @@ describe("BentoExperienceCard", () => {
     render(<BentoExperienceCard experiences={homeExperiences} />);
     expect(screen.getAllByText("Ericsson").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("NetSTAR Global")).toBeInTheDocument();
+    expect(screen.getByText("Coforge")).toBeInTheDocument();
     expect(screen.getByText("Trikon Technologies")).toBeInTheDocument();
+    expect(screen.getByText("Syolo Consulting")).toBeInTheDocument();
+    // The ended Invisible Technologies and Mercor contracts are removed
+    // from the data file entirely.
+    expect(
+      screen.queryByText("Invisible Technologies")
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Mercor")).not.toBeInTheDocument();
   });
 });

@@ -149,15 +149,14 @@ export function HeroStatsStrip() {
             ))}
           </dl>
 
-          {/* Availability + authorization line */}
+          {/* Current role + location line */}
           <div className="mt-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <p className="font-sans text-sm text-muted-foreground max-w-2xl leading-relaxed">
-              Seeking{" "}
+              Currently an{" "}
               <span className="text-foreground font-medium">
-                ML Engineer / Data Engineer / Data Analyst
+                Associate Forward Deployed Engineer at Coforge
               </span>{" "}
-              roles · US-based · Remote &amp; Hybrid · W2 contract OK ·
-              Authorized to work in the US (STEM OPT through May 2029).
+              · Princeton, NJ · On-site
             </p>
             <div className="flex flex-shrink-0 items-center gap-3">
               <Link

@@ -52,9 +52,9 @@ describe("Hero", () => {
     expect(screen.getByText(/MS, University of Arizona/)).toBeInTheDocument();
   });
 
-  it("renders the seeking status badge", () => {
+  it("renders the current role badge", () => {
     render(<Hero />);
-    expect(screen.getByText(/Seeking full-time roles/)).toBeInTheDocument();
+    expect(screen.getByText(/Associate FDE @ Coforge/)).toBeInTheDocument();
   });
 
   it("renders the profile image", () => {

@@ -102,7 +102,9 @@ export default function About() {
                   with 3+ years of production experience spanning cloud
                   infrastructure, machine learning, and data pipelines — from
                   migrating 2,000 servers at Ericsson to building real-time
-                  analytics systems.
+                  analytics systems. Currently an Associate Forward Deployed
+                  Engineer at Coforge, building AI orchestration and
+                  multi-agent frameworks.
                 </p>
                 <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
                   My journey into data science began with a foundation in
@@ -366,9 +368,10 @@ export default function About() {
                     Let's Build Something That Works
                   </h2>
                   <p className="font-sans text-muted-foreground max-w-prose mx-auto">
-                    I'm looking for teams that ship data products end-to-end —
-                    from pipeline to dashboard. If that sounds like your stack,
-                    I'd love to talk.
+                    I build in the open and love talking shop with people who
+                    care about shipping data products end-to-end — pipelines,
+                    dashboards, and the agents around them. If you're building
+                    something interesting, let's talk.
                   </p>
                 </div>
               </FadeIn>
