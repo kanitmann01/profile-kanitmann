@@ -23,14 +23,15 @@ describe("experiences data file (order is the source of truth)", () => {
   });
 
   it("puts the five companies the home card slices first", () => {
-    expect(homeExperiences.slice(0, 5).map((experience) => experience.id)).toEqual(
-      [
-        "coforge",
-        "invisible-technologies",
-        "mercor",
-        "netstar",
-        "ericsson",
-      ]
-    );
+    expect(
+      homeExperiences.slice(0, 5).map((experience) => experience.id)
+    ).toEqual(["coforge", "netstar", "ericsson", "trikon", "syolo"]);
+  });
+
+  it("drops the ended Invisible Technologies and Mercor contracts", () => {
+    const ids = experiences.map((experience) => experience.id);
+    expect(ids).not.toContain("invisible-technologies");
+    expect(ids).not.toContain("mercor");
+    expect(ids).toHaveLength(7);
   });
 });

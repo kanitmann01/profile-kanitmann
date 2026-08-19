@@ -32,11 +32,13 @@ describe("BentoExperienceCard", () => {
     expect(screen.getAllByText("Ericsson").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("NetSTAR Global")).toBeInTheDocument();
     expect(screen.getByText("Coforge")).toBeInTheDocument();
-    expect(screen.getByText("Invisible Technologies")).toBeInTheDocument();
-    expect(screen.getByText("Mercor")).toBeInTheDocument();
-    // Trikon Technologies and Syolo Consulting are featured on the data file
-    // but fall outside the top-5 slice the compact card renders.
-    expect(screen.queryByText("Trikon Technologies")).not.toBeInTheDocument();
-    expect(screen.queryByText("Syolo Consulting")).not.toBeInTheDocument();
+    expect(screen.getByText("Trikon Technologies")).toBeInTheDocument();
+    expect(screen.getByText("Syolo Consulting")).toBeInTheDocument();
+    // The ended Invisible Technologies and Mercor contracts are removed
+    // from the data file entirely.
+    expect(
+      screen.queryByText("Invisible Technologies")
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Mercor")).not.toBeInTheDocument();
   });
 });
