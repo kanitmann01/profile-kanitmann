@@ -90,7 +90,7 @@ export function Navigation() {
               KANIT
             </span>
             <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full border border-primary/30 font-mono text-[10px] uppercase tracking-wider text-primary">
-              Seeking Full-Time Roles
+              Associate FDE @ Coforge
             </span>
           </Link>
 

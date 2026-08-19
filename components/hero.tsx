@@ -142,7 +142,7 @@ export function Hero() {
           </p>
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-sm font-mono text-muted-foreground">
             <span className="w-2 h-2 rounded-full bg-green-500" />
-            Seeking full-time roles
+            Associate FDE @ Coforge
           </span>
         </m.div>
 

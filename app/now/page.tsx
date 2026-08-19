@@ -12,12 +12,12 @@ export const dynamic = "force-static";
 export const metadata: Metadata = {
   title: "Now - Kanit Mann",
   description:
-    "What Kanit Mann is currently building, reading, and available for.",
+    "What Kanit Mann is currently building and reading, plus current status.",
   alternates: { canonical: "/now" },
   openGraph: {
     title: "Now - Kanit Mann",
     description:
-      "What Kanit Mann is currently building, reading, and available for.",
+      "What Kanit Mann is currently building and reading, plus current status.",
     url: getSiteUrl() + "/now",
     type: "website",
   },
@@ -75,7 +75,7 @@ export default function NowPage() {
 
         <section className="mb-12">
           <h2 className="font-serif text-2xl text-foreground mb-4">
-            Available for
+            Status
           </h2>
           <p className="text-muted-foreground leading-relaxed">
             {now.availableFor}
