@@ -190,6 +190,10 @@ export default function RootLayout({
               "@type": "Person",
               name: "Kanit Mann",
               jobTitle: "Data, ML & AI Engineer",
+              worksFor: {
+                "@type": "Organization",
+                name: "Coforge",
+              },
               url: siteUrl,
               sameAs: ["https://github.com/kanitmann01"],
             }),

@@ -47,7 +47,7 @@ export async function GET() {
   parts.push("# Kanit Mann");
   parts.push("");
   parts.push(
-    "> Kanit Mann — Data, ML & AI Engineer. Portfolio of projects, articles, experience, and resume, with a machine-readable JSON snapshot and a /now page. MS in Data Science, University of Arizona."
+    "> Kanit Mann — Data, ML & AI Engineer. Currently an Associate Forward Deployed Engineer at Coforge (Princeton, NJ), building AI orchestration and multi-agent frameworks on the Momentuum Blue team. Portfolio of projects, articles, experience, and resume, with a machine-readable JSON snapshot and a /now page. MS in Data Science, University of Arizona."
   );
   parts.push("");
 
@@ -57,7 +57,7 @@ export async function GET() {
     line(
       "About Kanit Mann",
       `${baseUrl}/about`,
-      "Data, ML & AI Engineer with 3+ years of production experience across cloud infrastructure, machine learning, and data pipelines."
+      "Currently an Associate Forward Deployed Engineer at Coforge (Princeton, NJ), building AI orchestration and multi-agent frameworks on the Momentuum Blue team. Data, ML & AI Engineer with 3+ years of production experience across cloud infrastructure, machine learning, and data pipelines."
     )
   );
   parts.push("");
@@ -146,7 +146,7 @@ export async function GET() {
     line(
       "What I'm up to now",
       `${baseUrl}/now`,
-      "Currently building, reading, and available for — with a build timestamp."
+      "Currently building, reading, and current status — with a build timestamp."
     )
   );
   parts.push("");

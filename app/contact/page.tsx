@@ -93,12 +93,12 @@ export default function Contact() {
 export const metadata: Metadata = {
   title: "Contact - Kanit Mann",
   description:
-    "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+    "Get in touch with Kanit Mann for projects and collaborations.",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact - Kanit Mann",
     description:
-      "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+      "Get in touch with Kanit Mann for projects and collaborations.",
     url: getSiteUrl() + "/contact",
     type: "website",
   },
@@ -106,6 +106,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Contact - Kanit Mann",
     description:
-      "Get in touch with Kanit Mann for projects, collaborations, or opportunities.",
+      "Get in touch with Kanit Mann for projects and collaborations.",
   },
 };

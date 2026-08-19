@@ -174,6 +174,10 @@ export default function Home() {
             "@type": "Person",
             name: "Kanit Mann",
             jobTitle: "Data, ML & AI Engineer",
+            worksFor: {
+              "@type": "Organization",
+              name: "Coforge",
+            },
             description:
               "Data, ML & AI Engineer with an MS in Data Science from the University of Arizona — pipelines, ML systems, and analytics built end-to-end.",
             url: siteUrl,
