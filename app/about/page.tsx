@@ -80,20 +80,20 @@ export default function About() {
 
         <section id="story" className="mb-32 scroll-mt-20">
           <div className="grid md:grid-cols-12 gap-12 items-start">
-            <SlideIn direction="right" className="md:col-span-4 md:col-start-1">
+            <SlideIn direction="right" className="md:col-span-5 md:col-start-1">
               <div className="relative">
                 <Image
                   src="/images/profile/kanit-mann.png"
                   alt="Kanit Mann"
-                  width={400}
-                  height={500}
-                  className="rounded-sm"
+                  width={520}
+                  height={650}
+                  className="rounded-sm border border-border/60"
                 />
                 <div className="absolute inset-0 rounded-sm opacity-[0.04] pointer-events-none bg-[url('data:image/svg+xml,%3Csvg%20viewBox=%270%200%20200%20200%27%20xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%270.85%27%20numOctaves=%274%27%20stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect%20width=%27100%25%27%20height=%27100%25%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E')]" />
               </div>
             </SlideIn>
 
-            <SlideIn direction="left" className="md:col-span-7 md:col-start-6">
+            <SlideIn direction="left" className="md:col-span-6 md:col-start-7">
               <div className="max-w-prose">
                 <p className="font-sans text-foreground leading-relaxed mb-6 text-lg font-medium">
                   <em className="font-serif-italic font-normal">
@@ -103,8 +103,8 @@ export default function About() {
                   infrastructure, machine learning, and data pipelines — from
                   migrating 2,000 servers at Ericsson to building real-time
                   analytics systems. Currently an Associate Forward Deployed
-                  Engineer at Coforge, building AI orchestration and
-                  multi-agent frameworks.
+                  Engineer at Coforge, building AI orchestration and multi-agent
+                  frameworks.
                 </p>
                 <p className="font-sans text-muted-foreground leading-relaxed mb-6 text-lg">
                   My journey into data science began with a foundation in

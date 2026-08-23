@@ -83,18 +83,42 @@ export function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative flex min-h-screen flex-col items-start justify-center overflow-hidden px-6 md:px-12 lg:px-20"
+      className="relative flex min-h-[88svh] md:min-h-screen flex-col items-start justify-center overflow-hidden px-6 md:px-12 lg:px-20"
     >
       <div className="hero-gradient-bg absolute inset-0 z-0" />
       {/* Exp 15: shader accent — z-[1], behind photo (z-[2]) and content
-          (z-10), low opacity, never competes with text contrast. */}
+            (z-10), low opacity, never competes with text contrast. */}
       <ShaderHero />
+
+      {/* Mobile portrait — <md only. Without it the hero is an empty brown
+            void above the name. Compact, two-axis masked block (top + right
+            fades) so it reads as a deliberate band, not a cropped photo. */}
+      <div
+        className="absolute inset-x-0 top-0 h-[42svh] z-[2] overflow-hidden md:hidden pointer-events-none"
+        style={{
+          maskImage: `linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 8%, black 40%)`,
+          WebkitMaskImage: `linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 8%, black 40%)`,
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
+        }}
+      >
+        <Image
+          src="/images/profile/kanit-mann.webp"
+          alt="Kanit Mann, portrait"
+          fill
+          sizes="100vw"
+          className="object-cover object-top"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
+      </div>
 
       <div
         className="absolute inset-y-0 right-0 w-[55%] z-[2] overflow-hidden hidden md:block pointer-events-none"
         style={{
-          mask: `linear-gradient(to right, transparent 25%, black 60%)`,
-          WebkitMask: `linear-gradient(to right, transparent 25%, black 60%)`,
+          maskImage: `linear-gradient(to right, transparent 25%, black 60%), linear-gradient(to top, transparent 4%, black 38%)`,
+          WebkitMaskImage: `linear-gradient(to right, transparent 25%, black 60%), linear-gradient(to top, transparent 4%, black 38%)`,
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
         }}
       >
         <div className="relative w-full h-full">
@@ -106,6 +130,9 @@ export function Hero() {
             className="object-cover object-left"
             priority
           />
+          {/* Bottom scrim — softens the hard crop where the photo meets the
+                CTA row, plus a hairline warm tint so the seam isn't a hard line. */}
+          <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background to-transparent" />
         </div>
       </div>
 
@@ -158,7 +185,7 @@ export function Hero() {
                 Résumé
               </Link>
             </Button>
-            <MagneticButton size="lg" onClick={openCalendly}>
+            <MagneticButton size="lg" variant="outline" onClick={openCalendly}>
               Book a call
             </MagneticButton>
           </div>

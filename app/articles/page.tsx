@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { articles, topArticleSlug, type ArticleMeta } from "@/data/articles";
-import { LinkChip } from "@/components/link-chip";
 import { ListFilterBar } from "@/components/list-filter-bar";
 import { Button } from "@/components/ui/button";
 import { useListFilter } from "@/hooks/use-list-filter";
@@ -53,10 +52,9 @@ function ArticlesContent() {
     <div className="min-h-screen bg-background py-20 px-6">
       <div className="container mx-auto max-w-4xl">
         <header className="mb-8">
-          <h1 className="font-serif text-5xl text-foreground mb-4">Articles</h1>
-          <p className="font-sans text-lg text-muted-foreground max-w-2xl">
-            Insights and analysis on data science, technology, and the stories
-            hidden in data
+          <h1 className="font-serif text-6xl text-foreground mb-4">Articles</h1>
+          <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground max-w-2xl">
+            Data science, technology, and the stories hidden in data
           </p>
         </header>
 
@@ -101,18 +99,17 @@ function ArticlesContent() {
                     className="object-cover"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-transparent" />
                 </div>
                 <div className="relative mt-[-120px] px-2 pb-4">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs text-primary uppercase tracking-wider">
+                    <span className="font-mono text-xs uppercase tracking-wider bg-primary/15 text-primary-text border border-primary-text/20 px-2 py-1 rounded-sm">
                       Featured
                     </span>
                     {topArticle.kind === "museum" && <MuseumBadge />}
                   </div>
-                  <h2 className="font-serif text-4xl md:text-5xl text-foreground mt-3 mb-4 leading-tight group-hover:text-primary transition-colors duration-300">
+                  <h2 className="font-serif text-4xl md:text-5xl text-foreground mt-3 mb-4 leading-tight group-hover:text-primary-text transition-colors duration-300">
                     {topArticle.title}
-                    <LinkChip path={topArticle.canonicalPath} />
                   </h2>
                   <p className="font-serif text-lg text-muted-foreground italic max-w-2xl mb-4">
                     {topArticle.description}
@@ -136,11 +133,10 @@ function ArticlesContent() {
                   <article>
                     <div className="flex items-start justify-between gap-6">
                       <div className="flex-1">
-                        <h3 className="font-serif text-2xl text-foreground mb-2 leading-snug group-hover:text-primary transition-colors duration-300 relative">
+                        <h3 className="font-serif text-2xl text-foreground mb-2 leading-snug group-hover:text-primary-text transition-colors duration-300 relative">
                           {article.title}
                           {article.kind === "museum" && <MuseumBadge />}
-                          <LinkChip path={article.canonicalPath} />
-                          <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
+                          <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-primary-text transition-all duration-300 group-hover:w-full" />
                         </h3>
                         <p className="font-sans text-sm text-muted-foreground mb-3 line-clamp-2">
                           {article.summary}

@@ -87,13 +87,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               priority
               fetchPriority="high"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/45" />
           </div>
           <div className="relative z-10 w-full px-6 pb-16 pt-24">
             <div className="mx-auto max-w-[680px]">
               <Link
                 href="/projects"
-                className="mb-8 inline-flex items-center gap-2 text-sm font-mono uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+                className="mb-8 inline-flex items-center gap-2 text-sm font-mono uppercase tracking-wider text-muted-foreground hover:text-primary-text transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Projects

@@ -13,7 +13,6 @@ import { ArrowRight, Github, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ScaleOnHover } from "@/components/animations/scale-on-hover";
-import { LinkChip } from "@/components/link-chip";
 import { ProjectCardInteractive } from "@/components/project-card-interactive";
 import { TechChip } from "@/components/tech-chip";
 import type { Project } from "@/data/projects";
@@ -23,19 +22,6 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const getStatusBadgeColor = (status: string) => {
-    switch (status) {
-      case "Live":
-        return "bg-green-600";
-      case "In Progress":
-        return "bg-yellow-600";
-      case "Completed":
-        return "bg-blue-600";
-      default:
-        return "bg-gray-600";
-    }
-  };
-
   return (
     <ScaleOnHover>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col cursor-pointer group">
@@ -44,31 +30,28 @@ export function ProjectCard({ project }: ProjectCardProps) {
               hero image on /projects/[slug] (same slug name). Names are unique
               per page: each featured card has a distinct slug. */}
           <div
-            className="relative h-48 overflow-hidden"
+            className="relative h-48 overflow-hidden ring-1 ring-inset ring-black/5 dark:ring-white/10 border-b border-border/60"
             style={{ viewTransitionName: `project-image-${project.slug}` }}
           >
             <Image
               src={project.image}
               alt={project.title}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              className="object-cover group-hover:scale-105 transition-transform duration-300 dark:brightness-[0.92] dark:contrast-[0.98]"
             />
-            {/* Status badge */}
+            {/* Status badge — theme-aware mono chip, converged with the
+                /projects editorial deck (no raw palette hexes). Sits on a
+                semi-opaque backing so it stays legible over any cover art. */}
             {project.status && (
               <div className="absolute top-3 right-3">
-                <Badge
-                  className={`${getStatusBadgeColor(project.status)} text-white font-medium px-2 py-1 text-xs`}
-                >
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground border border-border bg-background/85 backdrop-blur-[2px] px-2 py-1 rounded-sm">
                   {project.status}
-                </Badge>
+                </span>
               </div>
             )}
           </div>
           <CardHeader className="flex-1">
-            <CardTitle className="text-xl">
-              {project.title}
-              <LinkChip path={project.href} />
-            </CardTitle>
+            <CardTitle className="text-xl">{project.title}</CardTitle>
             <CardDescription className="text-base">
               {project.description}
             </CardDescription>
@@ -83,9 +66,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </Link>
         <CardContent className="pt-0">
           <div className="flex flex-col sm:flex-row gap-2 mb-3">
-            <span className="text-sm text-muted-foreground flex-1">
-              Click to read
-            </span>
+            <span className="text-sm text-muted-foreground flex-1" />
             <ProjectCardInteractive>
               <div className="flex gap-2">
                 {project.github && (

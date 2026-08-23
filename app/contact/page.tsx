@@ -7,10 +7,10 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-background py-20 px-6">
       <div className="container mx-auto max-w-4xl">
-        <h1 className="font-serif text-5xl text-foreground text-center mb-4">
+        <h1 className="font-serif text-6xl text-foreground mb-4">
           Let&apos;s Connect
         </h1>
-        <p className="text-muted-foreground text-center mb-16 max-w-lg mx-auto">
+        <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground mb-16 max-w-2xl">
           Email works best. I usually respond within a few hours.
         </p>
 
@@ -23,7 +23,7 @@ export default function Contact() {
                 </span>
                 <a
                   href="mailto:mannkanit@gmail.com"
-                  className="font-serif text-lg text-foreground hover:text-primary transition-colors"
+                  className="font-serif text-lg text-foreground hover:text-primary-text transition-colors"
                 >
                   mannkanit@gmail.com
                 </a>
@@ -46,7 +46,7 @@ export default function Contact() {
               <div className="flex gap-6">
                 <a
                   href="mailto:mannkanit@gmail.com"
-                  className="font-mono text-sm text-foreground hover:text-primary transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-px after:bg-primary after:transition-all hover:after:w-full"
+                  className="font-mono text-sm text-foreground hover:text-primary-text transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-px after:bg-primary-text after:transition-all hover:after:w-full"
                 >
                   Email
                 </a>
@@ -54,7 +54,7 @@ export default function Contact() {
                   href="https://www.linkedin.com/in/kanitmann"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-sm text-foreground hover:text-primary transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-px after:bg-primary after:transition-all hover:after:w-full"
+                  className="font-mono text-sm text-foreground hover:text-primary-text transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-px after:bg-primary-text after:transition-all hover:after:w-full"
                 >
                   LinkedIn
                 </a>
@@ -62,7 +62,7 @@ export default function Contact() {
                   href="https://github.com/kanitmann01"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-sm text-foreground hover:text-primary transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-px after:bg-primary after:transition-all hover:after:w-full"
+                  className="font-mono text-sm text-foreground hover:text-primary-text transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-px after:bg-primary-text after:transition-all hover:after:w-full"
                 >
                   GitHub
                 </a>
@@ -74,9 +74,9 @@ export default function Contact() {
         </div>
 
         <div className="mt-20 text-center">
-          <h3 className="font-serif text-2xl text-foreground mb-4">
+          <h2 className="font-serif text-2xl text-foreground mb-4">
             Prefer a Quick Chat?
-          </h3>
+          </h2>
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
             Sometimes a conversation is worth a thousand emails. Feel free to
             reach out directly.
@@ -92,8 +92,7 @@ export default function Contact() {
 
 export const metadata: Metadata = {
   title: "Contact - Kanit Mann",
-  description:
-    "Get in touch with Kanit Mann for projects and collaborations.",
+  description: "Get in touch with Kanit Mann for projects and collaborations.",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact - Kanit Mann",

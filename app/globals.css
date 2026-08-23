@@ -75,6 +75,15 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Theme-aware focus ring for bare <Link>/<a> elements (shadcn Button and
+     form inputs already opt into ring-offset; plain links fall back to the
+     UA outline, which isn't tinted to the brand). Keeps keyboard nav visible
+     without dropping focus rings entirely. */
+  a:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
   /* Full-bleed scrollytelling sections (Wave E.2) use a 100vw breakout;
      clip (not hidden) prevents a horizontal scrollbar without creating a
      scroll container, so position: sticky keeps working. */

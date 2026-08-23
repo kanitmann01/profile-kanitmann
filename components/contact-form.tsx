@@ -76,10 +76,18 @@ export function ContactForm() {
             name="firstName"
             placeholder="John"
             autoComplete="given-name"
+            aria-invalid={errors.firstName ? true : undefined}
+            aria-describedby={errors.firstName ? "firstName-error" : undefined}
             className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
           />
           {errors.firstName && (
-            <p className="text-sm text-destructive">{errors.firstName[0]}</p>
+            <p
+              id="firstName-error"
+              role="alert"
+              className="text-sm text-destructive"
+            >
+              {errors.firstName[0]}
+            </p>
           )}
         </div>
         <div className="space-y-2">
@@ -94,10 +102,18 @@ export function ContactForm() {
             name="lastName"
             placeholder="Doe"
             autoComplete="family-name"
+            aria-invalid={errors.lastName ? true : undefined}
+            aria-describedby={errors.lastName ? "lastName-error" : undefined}
             className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
           />
           {errors.lastName && (
-            <p className="text-sm text-destructive">{errors.lastName[0]}</p>
+            <p
+              id="lastName-error"
+              role="alert"
+              className="text-sm text-destructive"
+            >
+              {errors.lastName[0]}
+            </p>
           )}
         </div>
       </div>
@@ -115,10 +131,14 @@ export function ContactForm() {
           type="email"
           placeholder="your.email@example.com"
           autoComplete="email"
+          aria-invalid={errors.email ? true : undefined}
+          aria-describedby={errors.email ? "email-error" : undefined}
           className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
         />
         {errors.email && (
-          <p className="text-sm text-destructive">{errors.email[0]}</p>
+          <p id="email-error" role="alert" className="text-sm text-destructive">
+            {errors.email[0]}
+          </p>
         )}
       </div>
 
@@ -165,10 +185,18 @@ export function ContactForm() {
           name="message"
           placeholder="Tell me about your project, idea, or how we might work together..."
           rows={4}
+          aria-invalid={errors.message ? true : undefined}
+          aria-describedby={errors.message ? "message-error" : undefined}
           className="w-full border-b border-border bg-transparent py-2 text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-text focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors resize-none"
         />
         {errors.message && (
-          <p className="text-sm text-destructive">{errors.message[0]}</p>
+          <p
+            id="message-error"
+            role="alert"
+            className="text-sm text-destructive"
+          >
+            {errors.message[0]}
+          </p>
         )}
       </div>
 
