@@ -116,3 +116,31 @@ curl -i -X POST http://localhost:3000/api/ask \
 Expect an SSE stream whose `citations` event references the Ericsson chunk and
 whose answer mentions migrating 2,000+ servers to GCP. Requires the `AI`
 binding wired as above (without it, you get the static "coming soon" stub).
+
+## 7. Go-live checklist (feature currently ships dark)
+
+The Ask Kanit entry points are commented out so the feature is unreachable
+until the bindings exist. To flip it live:
+
+1. **`wrangler.jsonc`** — uncomment the `"ai": { "binding": "AI" }` binding.
+2. **Turnstile secret** — `npx wrangler secret put CF_TURNSTILE_SECRET`
+   (server-side validation stops being skipped once this exists).
+3. **Turnstile site key** — set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` in the
+   build environment (CI / Workers Builds), per §4.
+4. **Embeddings** — if `data/projects.ts`, `data/articles.ts`, or
+   `data/experiences.ts` changed since 2026-08-18, regenerate:
+   `CLOUDFLARE_API_TOKEN=... CLOUDFLARE_ACCOUNT_ID=... npm run generate:embeddings`.
+5. **`components/navigation.tsx`** — uncomment the desktop ASK button, the
+   mobile "Ask Kanit" entry, the `useAskPanel` import, and the
+   `const { openAsk } = useAskPanel()` call (all marked `ASK DARK (go-live)`).
+6. **`components/ask-panel-provider.tsx`** — uncomment the ⌘J/Ctrl+J
+   `useEffect` (marked `ASK DARK (go-live)`).
+7. **Tests** — restore the ⌘J expectations in
+   `components/__tests__/ask-panel-provider.test.tsx` ("stays closed on ⌘J…"
+   flips back to asserting the panel opens).
+8. **Verify** — `npm run lint && npm run typecheck && npm test && npm run build`,
+   then the §6 smoke test against a preview deploy.
+
+Until steps 1–3 are done the API serves its static stub, so flipping 5–7 early
+is safe but pointless; until 5–7 are flipped the deployed API is simply an
+unused, rate-limited surface.

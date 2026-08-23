@@ -43,17 +43,15 @@ describe("AskPanelProvider (lazy mount)", () => {
     expect(screen.queryByTestId("lazy-ask-panel")).not.toBeInTheDocument();
   });
 
-  it("mounts and opens the panel on ⌘J", () => {
+  it("stays closed on ⌘J while the feature ships dark", () => {
     render(
       <AskPanelProvider>
         <p>content</p>
       </AskPanelProvider>
     );
+    // ASK DARK (go-live): listener disabled — docs/agent-setup.md §7.
     fireEvent.keyDown(window, { key: "j", metaKey: true });
-    expect(screen.getByTestId("lazy-ask-panel")).toHaveAttribute(
-      "data-open",
-      "true"
-    );
+    expect(screen.queryByTestId("lazy-ask-panel")).not.toBeInTheDocument();
   });
 
   it("mounts and opens via the shared context (nav ASK button path)", () => {
@@ -69,26 +67,13 @@ describe("AskPanelProvider (lazy mount)", () => {
     );
   });
 
-  it("ignores ⌘J while typing in an input", () => {
-    render(
-      <AskPanelProvider>
-        <input aria-label="Search" />
-      </AskPanelProvider>
-    );
-    fireEvent.keyDown(screen.getByLabelText("Search"), {
-      key: "j",
-      metaKey: true,
-    });
-    expect(screen.queryByTestId("lazy-ask-panel")).not.toBeInTheDocument();
-  });
-
   it("closes the panel through onOpenChange", () => {
     render(
       <AskPanelProvider>
-        <p>content</p>
+        <Consumer />
       </AskPanelProvider>
     );
-    fireEvent.keyDown(window, { key: "j", metaKey: true });
+    fireEvent.click(screen.getByRole("button", { name: "open ask" }));
     fireEvent.click(screen.getByRole("button", { name: "close" }));
     expect(screen.getByTestId("lazy-ask-panel")).toHaveAttribute(
       "data-open",

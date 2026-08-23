@@ -11,7 +11,10 @@ import { TapRipple } from "@/components/tap-ripple";
 import { MagneticButton } from "@/components/magnetic-button";
 import { useTactileFeedback } from "@/components/tactile-feedback-provider";
 import { useCommandPalette } from "@/components/command-palette-context";
-import { useAskPanel } from "@/components/ask-panel-context";
+// ASK DARK (go-live): feature ships hidden until Workers AI/Turnstile bindings
+// are configured — restore this import with the entries below. See
+// docs/agent-setup.md §7.
+// import { useAskPanel } from "@/components/ask-panel-context";
 import { useState, useEffect } from "react";
 
 export function Navigation() {
@@ -20,7 +23,8 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { isMuted, toggleMute } = useTactileFeedback();
   const { openPalette } = useCommandPalette();
-  const { openAsk } = useAskPanel();
+  // ASK DARK (go-live): restore with the commented entries below.
+  // const { openAsk } = useAskPanel();
 
   const navItems = [
     { href: "/projects", label: "WORK" },
@@ -89,9 +93,6 @@ export function Navigation() {
             <span className="font-serif text-2xl text-foreground hover:text-primary transition-colors">
               KANIT
             </span>
-            <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full border border-primary/30 font-mono text-[10px] uppercase tracking-wider text-primary">
-              Associate FDE @ Coforge
-            </span>
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
@@ -104,6 +105,8 @@ export function Navigation() {
                 />
               </TapRipple>
             ))}
+            {/* ASK DARK (go-live): desktop entry hidden — restore together
+                with the ⌘J listener and mobile entry. docs/agent-setup.md §7.
             <TapRipple>
               <button
                 type="button"
@@ -114,6 +117,7 @@ export function Navigation() {
                 ASK
               </button>
             </TapRipple>
+            */}
             <button
               onClick={toggleMute}
               className="p-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
@@ -237,6 +241,8 @@ export function Navigation() {
                     </kbd>
                   </MagneticButton>
                 </m.div>
+                {/* ASK DARK (go-live): mobile entry hidden — restore together
+                    with the ⌘J listener and desktop entry. docs/agent-setup.md §7.
                 <m.div
                   key="ask"
                   initial={{ opacity: 0, y: 20 }}
@@ -261,6 +267,7 @@ export function Navigation() {
                     </kbd>
                   </button>
                 </m.div>
+                */}
               </nav>
             </div>
           </m.div>
@@ -283,7 +290,7 @@ function NavLink({
     <Link
       href={href}
       className={cn(
-        "relative font-mono text-xs uppercase tracking-wider transition-colors py-2 active:scale-95",
+        "relative font-mono text-xs uppercase tracking-wider transition-colors py-3 active:scale-95",
         isActive
           ? "text-primary-text"
           : "text-muted-foreground hover:text-foreground"
