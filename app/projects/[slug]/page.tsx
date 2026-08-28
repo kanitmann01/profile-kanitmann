@@ -87,7 +87,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               priority
               fetchPriority="high"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/45" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/55" />
+            <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-background via-background/60 to-transparent" />
           </div>
           <div className="relative z-10 w-full px-6 pb-16 pt-24">
             <div className="mx-auto max-w-[680px]">

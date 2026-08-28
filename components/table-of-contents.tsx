@@ -30,10 +30,14 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
     if (!container) return;
 
     const headingElements = container.querySelectorAll("h2, h3");
+    const seenIds = new Map<string, number>();
     const extractedHeadings: Heading[] = Array.from(headingElements).map(
       (el) => {
-        const id =
+        const baseId =
           el.id || el.textContent?.toLowerCase().replace(/\s+/g, "-") || "";
+        const seenCount = seenIds.get(baseId) ?? 0;
+        seenIds.set(baseId, seenCount + 1);
+        const id = seenCount === 0 ? baseId : `${baseId}-${seenCount}`;
         if (!el.id) el.id = id;
         return {
           id,
@@ -86,9 +90,9 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
         {isExpanded && (
           <nav className="mt-4 p-4 border rounded-lg bg-muted/30">
             <ul className="space-y-2">
-              {headings.map((heading) => (
+              {headings.map((heading, index) => (
                 <li
-                  key={heading.id}
+                  key={`${heading.id}-${index}`}
                   className={heading.level === 3 ? "ml-4" : ""}
                 >
                   <button
@@ -118,9 +122,9 @@ export function TableOfContents({ containerId }: TableOfContentsProps) {
             Table of Contents
           </h3>
           <ul className="space-y-2">
-            {headings.map((heading) => (
+            {headings.map((heading, index) => (
               <li
-                key={heading.id}
+                key={`${heading.id}-${index}`}
                 className={heading.level === 3 ? "ml-4" : ""}
               >
                 <button
