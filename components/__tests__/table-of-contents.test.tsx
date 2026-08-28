@@ -97,4 +97,43 @@ describe("TableOfContents", () => {
 
     document.body.removeChild(container)
   })
+
+  it("deduplicates ids for headings with identical text", () => {
+    const container = document.createElement("div")
+    container.id = "article-content"
+    container.innerHTML = `
+      <h2>Comparison</h2>
+      <h3>Merits</h3>
+      <h3>Merits</h3>
+      <h3>Demerits</h3>
+      <h3>Demerits</h3>
+    `
+    document.body.appendChild(container)
+
+    const { container: renderedContainer } = render(
+      <TableOfContents containerId="article-content" />
+    )
+
+    // Every heading must end up with a unique id in the DOM
+    const assignedIds = Array.from(
+      container.querySelectorAll("h2, h3")
+    ).map((el) => el.id)
+    expect(assignedIds).toEqual([
+      "comparison",
+      "merits",
+      "merits-1",
+      "demerits",
+      "demerits-1",
+    ])
+    expect(new Set(assignedIds).size).toBe(assignedIds.length)
+
+    // The rendered TOC must contain an entry for every heading
+    const tocTexts = Array.from(renderedContainer.querySelectorAll("button")).map(
+      (btn) => btn.textContent
+    )
+    expect(tocTexts.filter((text) => text === "Merits")).toHaveLength(2)
+    expect(tocTexts.filter((text) => text === "Demerits")).toHaveLength(2)
+
+    document.body.removeChild(container)
+  })
 })
