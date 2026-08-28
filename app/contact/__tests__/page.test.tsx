@@ -62,6 +62,6 @@ describe("Contact page", () => {
   it("renders contact info with email and location", () => {
     render(<ContactPage />);
     expect(screen.getByText("mannkanit@gmail.com")).toBeInTheDocument();
-    expect(screen.getByText("Greater Phoenix Area")).toBeInTheDocument();
+    expect(screen.getByText("Princeton, NJ")).toBeInTheDocument();
   });
 });

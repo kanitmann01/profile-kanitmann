@@ -34,7 +34,7 @@ export default function Contact() {
                   Location
                 </span>
                 <span className="font-serif text-lg text-foreground">
-                  Greater Phoenix Area
+                  Princeton, NJ
                 </span>
               </div>
             </div>
